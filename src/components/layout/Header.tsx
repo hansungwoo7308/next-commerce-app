@@ -1,6 +1,7 @@
 import Search from "@/components/Search";
 import Nav from "@/components/layout/Nav";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { styled } from "styled-components";
 export default function Header() {
   return (
@@ -8,9 +9,7 @@ export default function Header() {
       <section>
         {/* <Link href={"/"}>Logo</Link> */}
         <Nav />
-        <div className="center">
-          <Search />
-        </div>
+        <Search />
         <div className="right">
           <Link href={"/cart"}>Cart</Link>
           <Link href={"/signin"}>Sign in</Link>
@@ -20,34 +19,25 @@ export default function Header() {
   );
 }
 const Box = styled.header`
+  /* display: none; */
   font-size: 1rem;
+  height: 50px;
+  background-color: var(--color-navigation-background);
   > section {
-    > * {
-      display: flex;
-      align-items: center;
-      border: 2px solid;
-    }
-    > .center {
-    }
     > .right {
       display: flex;
       gap: 1rem;
+      /* border: 2px solid blue; */
     }
   }
-  a {
-    display: inline-block;
-    /* height: 100%; */
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-  }
+  /* public */
   a,
   button {
+    padding: 0 1rem;
     background-color: #333;
-    padding: 1rem;
   }
-  /* button {
-    background-color: #333;
-    padding: 0.2rem;
-  } */
+  a {
+    display: flex;
+    align-items: center;
+  }
 `;

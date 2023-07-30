@@ -1,58 +1,89 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 export default function Nav() {
   const router = useRouter();
-
+  const [shopSub, setShopSub]: any = useState(false);
+  // const shopSubRef: any = useRef();
+  // useEffect(() => {
+  //   if (shopSubRef.current.style.display) shopSubRef.current.style.display = "";
+  //   else shopSubRef.current.style.display = "block";
+  // }, [shopSub]);
+  useEffect(() => {
+    document.addEventListener("click", () => setShopSub(false));
+  }, []);
   return (
     <Box>
-      <ul className="main-menu">
+      <ul className="main">
         <li className="home">
           <Link href={"/"}>Home</Link>
         </li>
         <li className="shop">
-          <Link href={"/shop"}>Shop</Link>
-          <ul className="sub-menu">
-            <li>
-              <Link href={"/test"}>Test</Link>
-            </li>
-            <li>
-              <Link href={"/test"}>Test</Link>
-            </li>
-            <li>
-              <Link href={"/test"}>Test</Link>
-            </li>
-          </ul>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setShopSub(!shopSub);
+            }}
+          >
+            Shop
+          </button>
+          {shopSub && (
+            <ul className="sub">
+              {/* 고전적인 방식 (className에 active를 추가) */}
+              {/* <ul className={`sub ${shopSub ? "active" : ""}`}> */}
+              {/* main의 item이 여러개 일때, 그 item의 sub를 active or unactive 해야할 경우, sub를 선택할 때, useRef를 사용하자 */}
+              {/* <ul className="sub" ref={shopSubRef}> */}
+              <li>
+                <Link href={"/shop/all"}>All Products</Link>
+              </li>
+              <li>
+                <Link href={"/shop/electronics"}>Electronics</Link>
+              </li>
+              <li>
+                <Link href={"/fashion"}>Fashion</Link>
+              </li>
+              <li>
+                <Link href={"/food"}>Food</Link>
+              </li>
+            </ul>
+          )}
         </li>
       </ul>
     </Box>
   );
 }
 const Box = styled.nav`
+  display: flex;
+  white-space: nowrap;
   /* border: 2px solid; */
-  > .main-menu {
-    /* height: 100%; */
+  > .main {
     display: flex;
     gap: 1rem;
     position: relative;
-    > * {
-      /* border: 2px solid; */
+    > li {
+      display: flex;
       background-color: #333;
     }
     > .shop {
-      > .sub-menu {
-        display: none;
+      > .sub {
+        /* display: none; */
         position: absolute;
         top: 100%;
-        border: 2px solid blue;
         background-color: gray;
       }
-      &:hover > .sub-menu {
+      /* > .sub.active {
         display: block;
-      }
+      } */
+      /* &:hover > .sub {
+        display: block;
+      } */
     }
   }
   /* public */
+  .sub > li > a {
+    padding: 1rem;
+  }
 `;
 
 // pages structure

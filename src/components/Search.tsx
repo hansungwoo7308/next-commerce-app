@@ -28,4 +28,10 @@ export default function Search() {
     </Box>
   );
 }
-const Box = styled.div``;
+const Box = styled.div`
+  display: flex;
+  /* border: 2px solid yellow; */
+  form {
+    display: flex;
+  }
+`;

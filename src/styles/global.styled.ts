@@ -5,16 +5,21 @@ export const GlobalStyled = createGlobalStyle`
     --color-background:#000;
     --color-foreground:#ccc;
     --color-hover:#fff;
-    --color-layout:green;
+    --color-layout:coral;
     --color-button-background:#000;
     --color-button-foreground:#ccc;
     --color-button-background-hover:black;
     --color-button-foreground-hover:coral;
     --color-background-hover:black;
     --color-foreground-hover:coral;
+    /* component colors */
+    --color-navigation-background:#000;
+    --color-page-background:#222;
     /* rem */
     --rem-small:2rem;
     --rem-medium:5rem;
+    /* element sizes */
+    --nav-height:50px;
   }
   * {
     margin: 0;
@@ -26,21 +31,28 @@ export const GlobalStyled = createGlobalStyle`
     background-color:var(--color-background);
     color:var(--color-foreground);
     header {
-      border: 2px solid;
+      /* display:none; */
+      position:fixed;
+      left:0;
+      right:0;
+      top:0;
+      z-index:100;
+      /* border: 2px solid; */
       section {
+        height:100%;
         width: 80%;
         margin: auto;
         display: flex;
         justify-content: space-between;
-        outline: 2px dashed var(--color-layout);
+        /* outline: 2px dashed; */
       }
     }
     main {
-      border: 2px solid;
+      /* border: 2px solid; */
       section {
         width: 80%;
         margin: auto;
-        outline: 2px dashed var(--color-layout);
+        outline: 2px dashed;
       }
     }
   }
@@ -60,8 +72,6 @@ export const GlobalStyled = createGlobalStyle`
     &:hover {
       /* background-color:var(--color-button-background-hover); */
       color:var(--color-button-foreground-hover);
-
-
     }
   }
   img {
