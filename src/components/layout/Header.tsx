@@ -1,9 +1,16 @@
+"use client";
 import Search from "@/components/Search";
 import Nav from "@/components/layout/Nav";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 import { styled } from "styled-components";
+let renderCount = 0;
 export default function Header() {
+  const { auth }: any = useSelector((store) => store);
+  // useEffect(() => {
+  //   if (auth.user) console.log({ user: auth.user });
+  // }, [auth]);
   return (
     <Box>
       <section>
@@ -14,6 +21,7 @@ export default function Header() {
           <Link href={"/cart"}>Cart</Link>
           <Link href={"/auth/signin"}>Sign in</Link>
           <Link href={"/auth/signup"}>Sign up</Link>
+          {auth.user && <h5>Profile</h5>}
         </div>
       </section>
     </Box>

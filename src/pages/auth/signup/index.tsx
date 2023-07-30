@@ -8,6 +8,7 @@ import styled from "styled-components";
 // import logError from "lib/client/log/logError";
 // import logResponse from "lib/client/log/logResponse";
 import { useDispatch } from "react-redux";
+import { postData } from "lib/public/fetchData";
 // import { setLoading, setNotify } from "lib/client/store/notifySlice";
 // import { postData } from "lib/client/utils/fetchData";
 export default function Page() {
@@ -26,17 +27,19 @@ export default function Page() {
   const password = useRef();
   password.current = watch("password");
   const handleSignup = async (data: any) => {
-    console.log("data : ", data);
+    // console.log("data : ", data);
+    console.log({ data });
     try {
       // dispatch(setLoading(true));
-      // const response: any = await postData("authentication/signup", data);
-      // logResponse(response);
+      const response: any = await postData("auth/signup", data);
+      console.log({ response });
       // dispatch(setNotify({ message: "signed up", visible: true }));
       // dispatch(setLoading(false));
       // reset();
       // setFocus("username");
       // router.push('/auth/signin')
     } catch (error: any) {
+      console.log({ error });
       // logError(error);
       // dispatch(setNotify({ message: "failed to sign up", visible: true }));
       // dispatch(setLoading(false));

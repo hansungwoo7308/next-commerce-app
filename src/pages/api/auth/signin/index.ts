@@ -31,15 +31,11 @@ export default async function (req: any, res: any) {
   // `refreshToken=${refreshToken};HttpOnly;SameSite=None`
   res.setHeader("Set-Cookie", [`refreshToken=${refreshToken};path=/`]);
   res.status(200).json({
-    username: foundUser.username,
-    role: foundUser.role,
-    image: foundUser.image,
-    accessToken: accessToken,
-    slicedTokens: {
-      accessToken: accessToken.slice(-5),
-      refreshToken: refreshToken.slice(-5),
-    },
+    user: { ...foundUser._doc, password: null, refreshToken: null },
+    accessToken,
   });
-  console.log(`\x1b[33maccessToken : ${accessToken.slice(-5)}\x1b[0m`);
-  console.log(`\x1b[33mrefreshToken : ${refreshToken.slice(-5)}\x1b[0m`);
+  console.log("\x1b[33m", {
+    accessToken: accessToken.slice(-5),
+    refreshToken: refreshToken.slice(-5),
+  });
 }

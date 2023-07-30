@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { postData } from "lib/public/fetchData";
 import { styled } from "styled-components";
+import { setCredentials } from "lib/client/store/authSlice";
 // import { signIn } from "next-auth/react";
 // import logResponse from "lib/client/log/logResponse";
 // import logError from "lib/client/log/logError";
@@ -38,7 +39,8 @@ export default function FormSignin() {
     try {
       // dispatch(setLoading(true));
       const response = await postData("auth/signin", data);
-      console.log({ response });
+      const { user, accessToken } = response.data;
+      dispatch(setCredentials({ user, accessToken }));
       // const { username, role, image, accessToken } = response.data;
       // logResponse(response);
       // dispatch(
