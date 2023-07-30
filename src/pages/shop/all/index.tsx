@@ -9,7 +9,7 @@ export async function getServerSideProps({ query }: any) {
   return { props: { products } };
 }
 let renderCount = 0;
-export default function index({ products }: any) {
+export default function Page({ products }: any) {
   renderCount++;
   if (!products) return null;
   return (
@@ -20,19 +20,6 @@ export default function index({ products }: any) {
           {/* <Filter /> */}
           {/* <button onClick={handleCheckAll}>{isCheckAll ? "Unselect All" : "Select All"}</button> */}
           {/* <button onClick={handleOpenModal}>Delete</button> */}
-          {/* <ul>
-            {products?.map((product: any) => (
-              // <ProductItem
-              //   key={product._id}
-              //   product={product}
-              //   setProducts={setProducts}
-              //   setCheckedProducts={setCheckedProducts}
-              //   isCheckAll={isCheckAll}
-              // />
-
-              <Product product={product} />
-            ))}
-          </ul> */}
           <Products products={products} />
           {/* <div className="load-more">
               <button
@@ -57,11 +44,6 @@ export default function index({ products }: any) {
   );
 }
 const Main = styled.main`
-  padding-top: var(--nav-height);
-  background-color: var(--color-page-background);
-  section {
-    min-height: calc(100vh - var(--nav-height));
-  }
   .all {
     padding: 1rem;
   }

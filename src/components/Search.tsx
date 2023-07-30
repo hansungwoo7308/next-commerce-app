@@ -33,5 +33,6 @@ const Box = styled.div`
   /* border: 2px solid yellow; */
   form {
     display: flex;
+    gap: 0.5rem;
   }
 `;

@@ -5,7 +5,7 @@ export async function getServerSideProps({ query }: any) {
   // const { products } = response.data;
   return { props: { data: "products" } };
 }
-export default function index() {
+export default function Page() {
   return (
     <Main>
       <section>

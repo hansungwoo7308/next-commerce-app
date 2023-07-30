@@ -2,6 +2,7 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyled = createGlobalStyle`
   :root {
     /* color */
+    --color-primary:green;
     --color-background:#000;
     --color-foreground:#ccc;
     --color-hover:#fff;
@@ -10,6 +11,7 @@ export const GlobalStyled = createGlobalStyle`
     --color-button-foreground:#ccc;
     --color-button-background-hover:black;
     --color-button-foreground-hover:coral;
+    --color-form-background:#111;
     --color-background-hover:black;
     --color-foreground-hover:coral;
     /* component colors */
@@ -37,6 +39,7 @@ export const GlobalStyled = createGlobalStyle`
       right:0;
       top:0;
       z-index:100;
+      padding:10px 0;
       /* border: 2px solid; */
       section {
         height:100%;
@@ -48,9 +51,12 @@ export const GlobalStyled = createGlobalStyle`
       }
     }
     main {
+      padding-top: var(--nav-height);
+      background-color: var(--color-page-background);
       /* border: 2px solid; */
       section {
         width: 80%;
+        min-height: calc(100vh - var(--nav-height));
         margin: auto;
         outline: 2px dashed;
       }
@@ -65,13 +71,12 @@ export const GlobalStyled = createGlobalStyle`
   }
   button {
     border:none;
-    font-size:inherit;
-    background-color:var(--color-button-background);
-    color:var(--color-button-foreground);
+    /* font-size:inherit; */
+    background-color:#222;
+    color:#fff;
     cursor: pointer;
     &:hover {
-      /* background-color:var(--color-button-background-hover); */
-      color:var(--color-button-foreground-hover);
+      background-color:var(--color-primary);
     }
   }
   img {

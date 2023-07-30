@@ -12,7 +12,8 @@ export default function Header() {
         <Search />
         <div className="right">
           <Link href={"/cart"}>Cart</Link>
-          <Link href={"/signin"}>Sign in</Link>
+          <Link href={"/auth/signin"}>Sign in</Link>
+          <Link href={"/auth/signup"}>Sign up</Link>
         </div>
       </section>
     </Box>
@@ -34,7 +35,7 @@ const Box = styled.header`
   a,
   button {
     padding: 0 1rem;
-    background-color: #333;
+    border-radius: 5px;
   }
   a {
     display: flex;

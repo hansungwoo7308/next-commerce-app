@@ -13,7 +13,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
   // const { auth, cart }: any = useSelector((store) => store);
   const checkRef: any = useRef();
   const dispatch = useDispatch();
-  const userLink = (
+  const buttonsByUser = (
     <>
       <Link href={`/commerce/product/${_id}`}>View</Link>
       <button
@@ -64,7 +64,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
       </button>
     </>
   );
-  const adminLink = (
+  const buttonsByAdmin = (
     <>
       <Link href={`/commerce/product/create/${_id}`}>Edit</Link>
       <button
@@ -123,9 +123,9 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
           {inStock > 0 ? <h6>In Stock : {inStock}</h6> : <h6>Out Stock</h6>}
         </div>
         <p>{description}</p>
-        <div className="action-tags">
-          {/* {auth.role === "admin" && adminLink} */}
-          {/* {auth.role === "user" && userLink} */}
+        <div className="buttons">
+          {/* {auth.role === "admin" && buttonsByAdmin} */}
+          {/* {auth.role === "user" && buttonsByUser} */}
         </div>
       </div>
     </Box>
@@ -163,7 +163,7 @@ const Box = styled.li`
       justify-content: space-between;
       align-items: center;
     }
-    > .action-tags {
+    > .buttons {
       height: 3rem;
       > a {
         background-color: lightgray;

@@ -63,7 +63,7 @@ const Box = styled.nav`
     position: relative;
     > li {
       display: flex;
-      background-color: #333;
+      /* background-color: #333; */
     }
     > .shop {
       > .sub {
