@@ -71,6 +71,7 @@ const Box = styled.nav`
         position: absolute;
         top: 100%;
         background-color: gray;
+        margin-top: 10px;
       }
       /* > .sub.active {
         display: block;

@@ -25,9 +25,10 @@ export default async function (req: any, res: any) {
   };
   const accessToken = createAccessToken(payload);
   const refreshToken = createRefreshToken(payload);
-  // out
+  // save
   foundUser.refreshToken = refreshToken;
   await foundUser.save();
+  // out
   // `refreshToken=${refreshToken};HttpOnly;SameSite=None`
   res.setHeader("Set-Cookie", [`refreshToken=${refreshToken};path=/`]);
   res.status(200).json({

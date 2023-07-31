@@ -73,10 +73,11 @@ export const GlobalStyled = createGlobalStyle`
     border:none;
     /* font-size:inherit; */
     background-color:#222;
-    color:#fff;
+    color:#ccc;
     cursor: pointer;
     &:hover {
       background-color:var(--color-primary);
+      color:#fff;
     }
   }
   img {
