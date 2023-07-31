@@ -1,23 +1,36 @@
 // import { addToCart } from "lib/client/store/cartSlice";
-// import { openModal } from "lib/client/store/modalSlice";
+// import { setModal } from "lib/client/store/modalSlice";
 // import { setTimeoutId, setNotify, setVisible, setLoading } from "lib/client/store/notifySlice";
 // import { useSession } from "next-auth/react";
+import { setModal } from "lib/client/store/modalSlice";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 export default function Product({ product, setCheckedProducts, isCheckAll }: any) {
-  console.log({ product });
+  // console.log({ product });
   const { _id, images, title, price, inStock, description } = product;
+  const auth = useSelector((store: any) => store.auth);
   // const { auth, cart }: any = useSelector((store) => store);
   const checkRef: any = useRef();
   const dispatch = useDispatch();
+  const handleCheckBox = (e: any) => {
+    // if (e.target.checked) {
+    //   setCheckedProducts((state: any) => [...state, _id]);
+    // } else {
+    //   setCheckedProducts((state: any) => {
+    //     const filteredProducts = state.filter((productId: any) => productId !== _id);
+    //     return filteredProducts;
+    //   });
+    // }
+  };
   const buttonsByUser = (
     <>
-      <Link href={`/commerce/product/${_id}`}>View</Link>
+      <Link href={`/all/${_id}`}>View</Link>
       <button
         disabled={inStock ? false : true}
+        onClick={() => dispatch(setModal({ active: true, message: "aaa" }))}
         // onClick={() => {
         //   const duplicate = cart.find((v: any) => v._id === product._id);
         //   // console.log("duplicate:", duplicate);
@@ -66,12 +79,12 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
   );
   const buttonsByAdmin = (
     <>
-      <Link href={`/commerce/product/create/${_id}`}>Edit</Link>
+      <Link href={`/all/create/${_id}`}>Edit</Link>
       <button
         className="delete-button"
         // onClick={() => {
         //   dispatch(
-        //     openModal({
+        //     setModal({
         //       type: "DELETE_PRODUCT",
         //       message: "Do you want to delete",
         //       id: _id,
@@ -91,23 +104,13 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
   //   //   checkRef.current.checked = false;
   //   // }
   // }, [isCheckAll]);
-  const handleCheck = (e: any) => {
-    // if (e.target.checked) {
-    //   setCheckedProducts((state: any) => [...state, _id]);
-    // } else {
-    //   setCheckedProducts((state: any) => {
-    //     const filteredProducts = state.filter((productId: any) => productId !== _id);
-    //     return filteredProducts;
-    //   });
-    // }
-  };
+
   return (
     <Box>
       <div className="image">
-        {
-          // auth.role === "admin" &&
-          <input ref={checkRef} className="check" type="checkbox" onChange={handleCheck} />
-        }
+        {auth.role === "admin" && (
+          <input ref={checkRef} className="checkbox" type="checkbox" onChange={handleCheckBox} />
+        )}
         <Image
           src={images[0].url || images[0].secure_url}
           alt={images[0].url}
@@ -125,7 +128,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
         <p>{description}</p>
         <div className="buttons">
           {/* {auth.role === "admin" && buttonsByAdmin} */}
-          {/* {auth.role === "user" && buttonsByUser} */}
+          {auth.user?.role === "user" && buttonsByUser}
         </div>
       </div>
     </Box>
@@ -140,7 +143,7 @@ const Box = styled.li`
   > .image {
     height: 7rem;
     position: relative;
-    .check {
+    .checkbox {
       position: absolute;
       top: 1rem;
       left: 1rem;
@@ -165,17 +168,19 @@ const Box = styled.li`
     }
     > .buttons {
       height: 3rem;
+      a,
+      button {
+        background-color: #ddd;
+        color: #000;
+        &:hover {
+          background-color: var(--color-primary);
+        }
+      }
       > a {
-        background-color: lightgray;
-        color: black;
         width: initial;
         display: flex;
         align-items: center;
         padding: 1rem;
-        :hover {
-          background-color: #000;
-          color: #fff;
-        }
       }
       > button {
         height: 100%;

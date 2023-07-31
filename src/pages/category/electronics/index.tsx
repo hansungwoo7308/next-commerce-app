@@ -17,12 +17,4 @@ export default function Page() {
     </Main>
   );
 }
-const Main = styled.main`
-  padding-top: var(--nav-height);
-  /* border: 2px solid coral; */
-  background-color: var(--color-page-background);
-  section {
-    min-height: calc(100vh - var(--nav-height));
-  }
-  /* display: none; */
-`;
+const Main = styled.main``;

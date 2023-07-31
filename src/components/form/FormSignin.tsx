@@ -41,14 +41,10 @@ export default function FormSignin() {
       const response = await postData("auth/signin", data);
       const { user, accessToken } = response.data;
       dispatch(setCredentials({ user, accessToken }));
-      // const { username, role, image, accessToken } = response.data;
-      // logResponse(response);
-      // dispatch(
-      //   setCredentials({ mode: "general", status: true, username, role, image, accessToken })
-      // );
       // dispatch(setLoading(false));
       // dispatch(setNotify({ status: "success", message: "Login Success", visible: true }));
       // router.push("/auth/profile");
+      router.push("/");
     } catch (error) {
       console.log({ error });
       // logError(error);

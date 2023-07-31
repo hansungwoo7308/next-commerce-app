@@ -19,20 +19,29 @@ export default function Header() {
         <Search />
         <Link href={"/cart"}>Cart</Link>
         {auth.user && (
-          <div className="profile">
+          <div className="account">
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 setDropdown(!dropdown);
               }}
             >
-              Profile
+              Account ({auth.user.role})
             </button>
-            {dropdown && (
+            {/* admin dropdown */}
+            {dropdown && auth.user.role === "admin" && (
               <div className="dropdown">
+                <Link href={"/"}>Account</Link>
                 <Link href={"/"}>menu</Link>
                 <Link href={"/"}>menu</Link>
-                <Link href={"/"}>menu</Link>
+                <button>Sign out</button>
+              </div>
+            )}
+            {/* user dropdown */}
+            {dropdown && auth.user.role === "user" && (
+              <div className="dropdown">
+                <Link href={"/"}>Account</Link>
+                <Link href={"/"}>Order</Link>
                 <button>Sign out</button>
               </div>
             )}
@@ -57,7 +66,7 @@ const Box = styled.header`
     > .auth {
       display: flex;
     }
-    > .profile {
+    > .account {
       display: flex;
       gap: 1rem;
       /* border: 2px solid blue; */

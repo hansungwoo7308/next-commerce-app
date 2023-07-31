@@ -35,16 +35,16 @@ export default function Nav() {
               {/* main의 item이 여러개 일때, 그 item의 sub를 active or unactive 해야할 경우, sub를 선택할 때, useRef를 사용하자 */}
               {/* <ul className="sub" ref={shopSubRef}> */}
               <li>
-                <Link href={"/shop/all"}>All Products</Link>
+                <Link href={"/category/all"}>All Products</Link>
               </li>
               <li>
-                <Link href={"/shop/electronics"}>Electronics</Link>
+                <Link href={"/category/electronics"}>Electronics</Link>
               </li>
               <li>
-                <Link href={"/fashion"}>Fashion</Link>
+                <Link href={"/category/fashion"}>Fashion</Link>
               </li>
               <li>
-                <Link href={"/food"}>Food</Link>
+                <Link href={"/category/food"}>Food</Link>
               </li>
             </ul>
           )}
