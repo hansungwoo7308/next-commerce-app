@@ -96,14 +96,16 @@ const Box = styled.form`
   }
   > button:nth-of-type(1) {
     background-color: lightcoral;
+    color: #fff;
     &:hover {
-      background-color: #000;
+      background-color: var(--color-primary);
     }
   }
   > button:nth-of-type(2) {
     background-color: lightblue;
+    color: #fff;
     &:hover {
-      background-color: #000;
+      background-color: var(--color-primary);
     }
   }
   > button {

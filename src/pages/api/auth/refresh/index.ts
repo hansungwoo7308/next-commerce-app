@@ -49,7 +49,7 @@ export default async function (req: any, res: any) {
   // out
   res.setHeader("Set-Cookie", [`refreshToken=${newRefreshToken};path=/`]);
   res.status(200).json({
-    user: { ...foundUser._doc, password: null, refreshToken: null },
+    user: { ...foundUser._doc, password: null, refreshToken: newRefreshToken.slice(-5) },
     accessToken: newAccessToken,
   });
   console.log("\x1b[33m", {
