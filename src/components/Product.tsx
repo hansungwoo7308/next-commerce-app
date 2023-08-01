@@ -1,7 +1,6 @@
-// import { addToCart } from "lib/client/store/cartSlice";
-// import { setModal } from "lib/client/store/modalSlice";
 // import { setTimeoutId, setNotify, setVisible, setLoading } from "lib/client/store/notifySlice";
 // import { useSession } from "next-auth/react";
+import { addToCart } from "lib/client/store/cartSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +11,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
   // console.log({ product });
   const { _id, images, title, price, inStock, description } = product;
   const auth = useSelector((store: any) => store.auth);
+  const cart = useSelector((store: any) => store.cart);
   // const { auth, cart }: any = useSelector((store) => store);
   const checkRef: any = useRef();
   const dispatch = useDispatch();
@@ -27,51 +27,50 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
   };
   const buttonsByUser = (
     <>
-      <Link href={`/all/${_id}`}>View</Link>
+      <Link href={`/products/${_id}`}>View</Link>
       <button
         disabled={inStock ? false : true}
-        onClick={() => dispatch(setModal({ active: true, message: "aaa" }))}
-        // onClick={() => {
-        //   const duplicate = cart.find((v: any) => v._id === product._id);
-        //   // console.log("duplicate:", duplicate);
-        //   if (duplicate) {
-        //     return dispatch(
-        //       setNotify({
-        //         status: "error",
-        //         message: `duplicated id : ${duplicate._id}`,
-        //         visible: true,
-        //       })
-        //     );
-        //   } else {
-        //     return dispatch(addToCart({ ...product, quantity: 1 }));
-        //   }
-        //   // console.log("product:", product);
-        //   // console.log("cart:", cart);
-        //   // cart.map((v: any) => console.log(v));
-        //   // if (!cart.length) dispatch(addToCart(product));
-        //   // else {
-        //   //   const duplicate = cart.filter((v: any) => v._id === product._id);
-        //   //   if (duplicate) return;
-        //   //   else dispatch(addToCart(product));
-        //   // }
-        //   // dispatch(addToCart(product));
-        //   // console.log("product._id : ", product._id);
-        //   // console.log("cart : ", cart);
-        //   // if (!cart.length) return dispatch(addToCart(product));
-        //   // const test = cart.every((v: any) => v._id !== product._id);
-        //   // const result = cart.filter((v: any) => v._id === product._id);
-        //   // if (result) console.log(result);
-        //   // cart.map((v: any) => {
-        //   //   if (v._id === product._id) {
-        //   //     return dispatch(setNotify());
-        //   //   } else {
-        //   //     console.log("asdkhadsi");
-        //   //     return dispatch(addToCart(product));
-        //   //   }
-        //   // });
-        //   // cart.find((v: any) => console.log("v:", v));
-        //   // console.log(test);
-        // }}
+        // onClick={() => dispatch(setModal({ active: true,type:'', message: "aaa" }))}
+        onClick={() => {
+          const duplicate = cart.find((v: any) => v._id === product._id);
+          // console.log("duplicate:", duplicate);
+          if (duplicate) {
+            console.log("duplicated");
+            // return dispatch(
+            //   setNotify({
+            //     status: "error",
+            //     message: `duplicated id : ${duplicate._id}`,
+            //     visible: true,
+            //   })
+            // );
+          } else {
+            return dispatch(addToCart({ ...product, quantity: 1 }));
+          }
+          // cart.map((v: any) => console.log(v));
+          // if (!cart.length) dispatch(addToCart(product));
+          // else {
+          //   const duplicate = cart.filter((v: any) => v._id === product._id);
+          //   if (duplicate) return;
+          //   else dispatch(addToCart(product));
+          // }
+          // dispatch(addToCart(product));
+          // console.log("product._id : ", product._id);
+          // console.log("cart : ", cart);
+          // if (!cart.length) return dispatch(addToCart(product));
+          // const test = cart.every((v: any) => v._id !== product._id);
+          // const result = cart.filter((v: any) => v._id === product._id);
+          // if (result) console.log(result);
+          // cart.map((v: any) => {
+          //   if (v._id === product._id) {
+          //     return dispatch(setNotify());
+          //   } else {
+          //     console.log("asdkhadsi");
+          //     return dispatch(addToCart(product));
+          //   }
+          // });
+          // cart.find((v: any) => console.log("v:", v));
+          // console.log(test);
+        }}
       >
         Buy
       </button>

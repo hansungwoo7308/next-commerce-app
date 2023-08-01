@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 type Modal = {
-  type?: string; // 액션타입
   active?: boolean; // 모달 활성화, 비활성화
+  type?: string; // 액션타입
   message?: string; // 모달 메세지
   id?: string; // 식별할 아이디
   ids?: string[]; // 식별할 아디디 어레이

@@ -1,6 +1,7 @@
 import Header from "@/components/layout/Header";
 import Loading from "@/components/layout/Loading";
 import Modal from "@/components/layout/Modal";
+import Notify from "@/components/layout/Notify";
 import logResponse from "lib/client/log/logResponse";
 import { setCredentials } from "lib/client/store/authSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
@@ -37,6 +38,7 @@ export default function Layout({ children }: any) {
       {/* {router.pathname === "/auth/signin" ? null : <Header />} */}
       <Loading />
       <Modal />
+      <Notify />
       <Header />
       {children}
     </>

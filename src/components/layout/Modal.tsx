@@ -14,7 +14,8 @@ import styled from "styled-components";
 export default function Modal() {
   const modal = useSelector((store: any) => store.modal);
   const auth = useSelector((store: any) => store.auth);
-  // const { type, id, ids, title, callback } = modal;
+  // get the setting values
+  const { active, type, message, id, ids, callback } = modal;
   const router = useRouter();
   const dispatch = useDispatch();
   const handleConfirm = async (e: any) => {
@@ -129,12 +130,12 @@ export default function Modal() {
   //   </form>
   // );
   // if (!modal.visible) return null;
-
   if (!modal.active) return;
   return (
     <Background onClick={() => dispatch(setModal({ active: false }))}>
       <Box onClick={(e) => e.stopPropagation()}>
-        <h1>{modal.message}</h1>
+        <h1>{type || "test type"}</h1>
+        <h5>{message}</h5>
         <div>
           <button onClick={handleConfirm}>Confirm</button>
           <button onClick={() => dispatch(setModal({ active: false }))}>Close</button>

@@ -1,16 +1,10 @@
 import Search from "@/components/Search";
-import Nav from "@/components/layout/Nav";
+import Nav from "@/components/Nav";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
 import { styled } from "styled-components";
+import Account from "@/components/Account";
 let renderCount = 0;
 export default function Header() {
-  const auth = useSelector((store: any) => store.auth);
-  const [dropdown, setDropdown]: any = useState(false);
-  useEffect(() => {
-    document.addEventListener("click", () => setDropdown(false));
-  }, []);
   return (
     <Box>
       <section>
@@ -18,41 +12,7 @@ export default function Header() {
         <Nav />
         <Search />
         <Link href={"/cart"}>Cart</Link>
-        {auth.user && (
-          <div className="account">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setDropdown(!dropdown);
-              }}
-            >
-              Account ({auth.user.role})
-            </button>
-            {/* admin dropdown */}
-            {dropdown && auth.user.role === "admin" && (
-              <div className="dropdown">
-                <Link href={"/"}>Account</Link>
-                <Link href={"/"}>menu</Link>
-                <Link href={"/"}>menu</Link>
-                <button>Sign out</button>
-              </div>
-            )}
-            {/* user dropdown */}
-            {dropdown && auth.user.role === "user" && (
-              <div className="dropdown">
-                <Link href={"/"}>Account</Link>
-                <Link href={"/"}>Order</Link>
-                <button>Sign out</button>
-              </div>
-            )}
-          </div>
-        )}
-        {!auth.user && (
-          <div className="auth">
-            <Link href={"/auth/signin"}>Sign in</Link>
-            <Link href={"/auth/signup"}>Sign up</Link>
-          </div>
-        )}
+        <Account />
       </section>
     </Box>
   );
@@ -65,32 +25,6 @@ const Box = styled.header`
   > section {
     > .auth {
       display: flex;
-    }
-    > .account {
-      display: flex;
-      gap: 1rem;
-      /* border: 2px solid blue; */
-      > .dropdown {
-        position: absolute;
-        top: 100%;
-        border: 2px solid red;
-        background-color: gray;
-        border: none;
-        /* margin-top: 10px; */
-        > * {
-          border: 2px solid;
-        }
-        > button {
-          /* height: 100%; */
-        }
-        > a,
-        button {
-          padding: 1rem;
-          border: none;
-          background-color: inherit;
-          /* color: inherit; */
-        }
-      }
     }
   }
   /* public */
