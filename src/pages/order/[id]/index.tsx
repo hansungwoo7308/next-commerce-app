@@ -22,19 +22,19 @@ export default function Page() {
         <div>
           <button onClick={() => router.back()}>Go Back</button>
           <div className="order">
-            <div className="shipping">
-              <h1>Shipping</h1>
-              <p>Order Number : {order._id}</p>
-              <p>User Name : {order.orderername}</p>
-              <p>User Address : {order.address}</p>
-              <p>User Mobile : {order.mobile}</p>
+            <h3 className="title">Order Number : {order._id}</h3>
+            <div className="delivery-info">
+              <h3>Delivery Information</h3>
+              {/* <p>Receiver Name : {order.User.username}</p>
+              <p>Receiver Address : {order.address}</p>
+              <p>Receiver Mobile : {order.mobile}</p> */}
               <p>
                 Delivered Status : {order.delivered ? "delivered" : "Not delivered"}
                 {auth.role === "user" && <button>Change to Delivered</button>}
               </p>
             </div>
-            <div className="products">
-              <h1>Products</h1>
+            <div className="product-info">
+              <h3>Product Information</h3>
               {order.cart.map((product: any) => (
                 <div className="product" key={product._id}>
                   <Link href={`/commerce/product/${product._id}`}>
@@ -55,7 +55,7 @@ export default function Page() {
               ))}
             </div>
             <div className="payment">
-              <h1>Payment</h1>
+              <h3>Payment</h3>
               <p>Payment Status : {order.paid ? "Paid" : "Not paid"}</p>
               {!order.paid && auth.user.role === "user" && (
                 <>
@@ -79,26 +79,32 @@ export default function Page() {
 const Main = styled.main`
   > section {
     > div {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      border: 2px solid green;
+      padding: 1rem;
       > button {
-        width: 5rem;
+        padding: 1rem;
+        border-radius: 5px;
       }
       .order {
         display: grid;
         grid-template-areas:
-          "shipping payment"
-          "products payment";
+          "title payment"
+          "delivery-info payment"
+          "product-info payment";
         grid-template-columns: 2fr 1fr;
+        gap: 1rem;
         > * {
           border: 2px solid;
           padding: 1rem;
           /* flex: 1; */
+          border-radius: 5px;
         }
-        .shipping {
+        .title {
+          grid-area: title;
         }
-        .products {
+        .delivery-info {
+        }
+        .product-info {
           /* flex: 1; */
           .product {
             border: 2px solid;

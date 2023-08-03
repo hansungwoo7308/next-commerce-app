@@ -8,7 +8,8 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 export default function Paypal({ order }: any) {
-  const { auth }: any = useSelector((store) => store);
+  // const { auth }: any = useSelector((store) => store);
+  const auth = useSelector((store: any) => store.auth);
   const dispatch = useDispatch();
   const router = useRouter();
   // console.log("order : ", order);
@@ -24,15 +25,15 @@ export default function Paypal({ order }: any) {
           // console.log("onApprove data : ", data);
           // console.log("createOrder order : ", order);
           return actions.order.capture().then((details: any) => {
+            console.log({ details });
             const createOrder = async () => {
               try {
                 const payload = {
                   _id: order._id,
                   paymentId: details.payer.payer_id,
                 };
-                const response = await postData("order", payload, auth.accessToken);
-                // const { order } = response.data;
-                // const {savedOrder}=response.data
+                const response = await postData("pay", payload, auth.accessToken);
+                // const { paidOrder } = response.data;
                 logResponse(response);
                 dispatch(
                   setNotify({

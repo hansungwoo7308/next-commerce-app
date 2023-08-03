@@ -5,14 +5,14 @@ import User from "lib/server/model/User";
 import verifyJWT from "lib/server/verifyJWT";
 connectDB();
 export default async function (req: any, res: any) {
-  console.log("\x1b[32m\n[api/order]");
+  console.log("\x1b[32m\n[api/order]:::[", req.method, "]");
   switch (req.method) {
     case "POST":
-      console.log("POST");
+      // console.log("POST");
       await createOrder(req, res);
       break;
     case "GET":
-      console.log("GET");
+      // console.log("GET");
       await getOrders(req, res);
       break;
     default:
@@ -25,13 +25,13 @@ const createOrder = async (req: any, res: any) => {
     // verify
     const verified: any = await verifyJWT(req, res);
     if (!verified) return res.status(401).json({ message: "Unauthorized" });
-    console.log({ verified });
+    // console.log({ verified });
     // get the order information
     const { address, mobile, cart, total } = req.body;
-    console.log("checking... the stock of all products...");
     // check the product stock
     // 주문가능한지, 재고를 확인해본다.
     // flag 변수 : 재고가 있으면 count, 없으면 no count
+    console.log("checking... the stock of all products...");
     let flagForChecking = 0;
     for (const item of cart) {
       const { _id, quantity }: any = item;
@@ -39,7 +39,7 @@ const createOrder = async (req: any, res: any) => {
       // 재고가 있으면 true, 없으면 false
       if (!checked) flagForChecking++;
     }
-    console.log({ flagForChecking });
+    // console.log({ flagForChecking });
     if (flagForChecking > 0) {
       // 재고가 하나라도 있으면, 에러응답을 준다.
       console.log("\x1b[31mcheckStock error");
@@ -55,8 +55,7 @@ const createOrder = async (req: any, res: any) => {
     // create an order
     // const { details } = req.body;
     const order = await Order.create({
-      // User: verified.id,
-      orderername: verified.username,
+      User: verified.id,
       address,
       mobile,
       cart,
@@ -67,13 +66,7 @@ const createOrder = async (req: any, res: any) => {
       // method: "paypal",
     });
     // out
-    console.log({
-      order: {
-        _id: order._id,
-        orderername: order.orderername,
-        cart: order.cart,
-      },
-    });
+    console.log({ order });
     return res.status(200).json({ order });
   } catch (error: any) {
     console.log("error : ", error);
@@ -99,11 +92,11 @@ const updateProduct = async (payload: any) => {
     foundProduct.inStock -= quantity;
     foundProduct.sold += quantity;
     const savedProduct = await foundProduct.save();
-    console.log("savedProduct : ", {
-      _id: savedProduct._id,
-      title: savedProduct.title,
-      inStock: savedProduct.inStock,
-    });
+    // console.log("savedProduct : ", {
+    //   _id: savedProduct._id,
+    //   title: savedProduct.title,
+    //   inStock: savedProduct.inStock,
+    // });
     return savedProduct;
     // await Product.findOneAndUpdate(
     //   { _id },
