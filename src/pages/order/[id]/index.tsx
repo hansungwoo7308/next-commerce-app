@@ -6,71 +6,71 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 export default function Page() {
-  const orders = useSelector((store: any) => store.orders);
+  const order = useSelector((store: any) => store.order);
   const auth = useSelector((store: any) => store.auth);
   const router = useRouter();
   const { id } = router.query;
+  console.log({ order });
+  // console.log({ id });
   // find the order
-  const order = orders.find((order: any) => order._id === id);
-  console.log("order : ", order);
-  if (!auth.accessToken) return null;
+  // const order = orders.find((order: any) => order._id === id);
+  // console.log("order : ", order);
+  if (!auth.accessToken || !order) return null;
   return (
     <Main>
       <section>
         <div>
           <button onClick={() => router.back()}>Go Back</button>
-          {order && (
-            <div className="order">
-              <div className="shipping">
-                <h1>Shipping</h1>
-                <p>Order Number : {order._id}</p>
-                <p>User Name : {order.User.username}</p>
-                <p>User Address : {order.address}</p>
-                <p>User Mobile : {order.mobile}</p>
-                <p>
-                  Delivered Status : {order.delivered ? "delivered" : "Not delivered"}
-                  {auth.role === "user" && <button>Change to Delivered</button>}
-                </p>
-              </div>
-              <div className="products">
-                <h1>Products</h1>
-                {order.cart.map((product: any) => (
-                  <div className="product" key={product._id}>
-                    <Link href={`/commerce/product/${product._id}`}>
-                      <Image
-                        src={product.images[0].url}
-                        alt={product.images[0].url}
-                        width={300}
-                        height={300}
-                      />
-                    </Link>
-                    <div>
-                      <p>Product Number : {product._id}</p>
-                      <p>
-                        {product.quantity} X ${product.price} = ${product.quantity * product.price}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="payment">
-                <h1>Payment</h1>
-                <p>Payment Status : {order.paid ? "Paid" : "Not paid"}</p>
-                {!order.paid && order.User.role === "user" && (
-                  <>
-                    <p>Total : ${order.total}</p>
-                    <Paypal order={order} />
-                  </>
-                )}
-                {order.paid && (
-                  <>
-                    <p>Payment Method : {order.method}</p>
-                    <p>Payment ID : {order.paymentId}</p>
-                  </>
-                )}
-              </div>
+          <div className="order">
+            <div className="shipping">
+              <h1>Shipping</h1>
+              <p>Order Number : {order._id}</p>
+              <p>User Name : {order.orderername}</p>
+              <p>User Address : {order.address}</p>
+              <p>User Mobile : {order.mobile}</p>
+              <p>
+                Delivered Status : {order.delivered ? "delivered" : "Not delivered"}
+                {auth.role === "user" && <button>Change to Delivered</button>}
+              </p>
             </div>
-          )}
+            <div className="products">
+              <h1>Products</h1>
+              {order.cart.map((product: any) => (
+                <div className="product" key={product._id}>
+                  <Link href={`/commerce/product/${product._id}`}>
+                    <Image
+                      src={product.images[0].url}
+                      alt={product.images[0].url}
+                      width={300}
+                      height={300}
+                    />
+                  </Link>
+                  <div>
+                    <p>Product Number : {product._id}</p>
+                    <p>
+                      {product.quantity} X ${product.price} = ${product.quantity * product.price}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="payment">
+              <h1>Payment</h1>
+              <p>Payment Status : {order.paid ? "Paid" : "Not paid"}</p>
+              {!order.paid && auth.user.role === "user" && (
+                <>
+                  <p>Total : ${order.total}</p>
+                  <Paypal order={order} />
+                </>
+              )}
+              {order.paid && (
+                <>
+                  <p>Payment Method : {order.method}</p>
+                  <p>Payment ID : {order.paymentId}</p>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       </section>
     </Main>

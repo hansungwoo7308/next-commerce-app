@@ -25,6 +25,7 @@ const createOrder = async (req: any, res: any) => {
     // verify
     const verified: any = await verifyJWT(req, res);
     if (!verified) return res.status(401).json({ message: "Unauthorized" });
+    console.log({ verified });
     // get the order information
     const { address, mobile, cart, total } = req.body;
     console.log("checking... the stock of all products...");
@@ -54,7 +55,8 @@ const createOrder = async (req: any, res: any) => {
     // create an order
     // const { details } = req.body;
     const order = await Order.create({
-      User: verified.id,
+      // User: verified.id,
+      orderername: verified.username,
       address,
       mobile,
       cart,
@@ -67,28 +69,12 @@ const createOrder = async (req: any, res: any) => {
     // out
     console.log({
       order: {
-        User: order.User,
         _id: order._id,
+        orderername: order.orderername,
         cart: order.cart,
       },
     });
-    // console.log("order : ", order);
     return res.status(200).json({ order });
-    // const newOrder = new Orders({
-    //   user: result.id,
-    //   address,
-    //   mobile,
-    //   cart,
-    //   total,
-    // });
-    // cart.filter((item: any) => {
-    //   return sold(item._id, item.quantity, item.inStock, item.sold);
-    // });
-    // await newOrder.save();
-    // res.json({
-    //   msg: "Order success! We will contact you to confirm the order.",
-    //   newOrder,
-    // });
   } catch (error: any) {
     console.log("error : ", error);
     return res.status(500).json({ error: error.message });

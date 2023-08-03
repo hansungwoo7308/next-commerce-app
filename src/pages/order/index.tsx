@@ -7,6 +7,7 @@ import { clearCart } from "lib/client/store/cartSlice";
 import { useForm } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
 import { postData } from "lib/public/fetchData";
+import { setOrder } from "lib/client/store/orderSlice";
 // import { PayPalButtons } from "@paypal/react-paypal-js";
 // import { postData } from "lib/client/utils/fetchData";
 // import { addOrder } from "lib/client/store/ordersSlice";
@@ -27,13 +28,13 @@ export default function Page() {
     // try {
     //   dispatch(setLoading(true));
     const response = await postData("order", payload, auth.accessToken);
-    console.log({ data: response.data });
-    //   const { order } = response.data;
-    //   logResponse(response);
-    //   dispatch(addOrder(order));
-    //   dispatch(clearCart());
+    // console.log({ data: response.data });
+    const { order } = response.data;
+    logResponse(response);
+    dispatch(setOrder(order));
+    // dispatch(clearCart());
     //   dispatch(setLoading(false));
-    //   router.push(`/commerce/order/${order._id}`);
+    router.push(`/order/${order._id}`);
     // } catch (error) {
     //   logError(error);
     //   dispatch(setLoading(false));
