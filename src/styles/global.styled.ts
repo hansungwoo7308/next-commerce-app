@@ -44,6 +44,7 @@ export const GlobalStyled = createGlobalStyle`
       section {
         height:100%;
         width: 80%;
+        max-width:1000px;
         margin: auto;
         display: flex;
         justify-content: space-between;
@@ -56,6 +57,7 @@ export const GlobalStyled = createGlobalStyle`
       /* border: 2px solid; */
       section {
         width: 80%;
+        max-width:1000px;
         min-height: calc(100vh - var(--nav-height));
         margin: auto;
         outline: 2px dashed;
@@ -90,6 +92,9 @@ export const GlobalStyled = createGlobalStyle`
   }
   li{
     list-style:none;
+  }
+  p {
+    font-size: 14px;
   }
 
 

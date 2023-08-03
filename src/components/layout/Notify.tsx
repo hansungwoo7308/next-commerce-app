@@ -5,7 +5,6 @@ import styled from "styled-components";
 // import { setTimeoutId, setVisible } from "lib/client/store/notifySlice";
 export default function Notify() {
   const notify = useSelector((store: any) => store.notify);
-  const notifyRef: any = useRef();
   const { active, status, message } = notify;
   const dispatch = useDispatch();
   // useEffect(() => {
@@ -16,40 +15,15 @@ export default function Notify() {
   //   }
   //   // dispatch(setTimeoutId(timeoutId));
   // }, [notify.active]);
-  // if (!notify.active) return;
+  if (!notify.active) return;
   return (
     <>
-      <Box active={active} status={status} ref={notifyRef}>
-        <div onMouseOver={() => clearTimeout(notify.timeoutId)}>
-          {/* <h3>Notification</h3> */}
-          <p>{message || "empty"}</p>
-        </div>
-        <button
-          onClick={() => {
-            notifyRef.current.style.display = "none";
-            dispatch(setNotify({ active: false }));
-            notifyRef.current.style.display = "block";
-          }}
-        >
-          close
-        </button>
+      <Box active={active} status={status}>
+        {/* <div onMouseOver={() => clearTimeout(notify.timeoutId)}>
+        </div> */}
+        <p>{message || "empty"}</p>
+        <button onClick={() => dispatch(setNotify({ active: false }))}>close</button>
       </Box>
-      {/* <Box status={status}>
-        {notify.success && (
-          <>
-            <h1>success</h1>
-            {status === "hidden" && <button onClick={() => setStatus("visible")}>{"<"}</button>}
-            {status === "visible" && <button onClick={() => setStatus("hidden")}>{">"}</button>}
-          </>
-        )}
-        {notify.error && (
-          <>
-            <h1>error</h1>
-            {status === "hidden" && <button onClick={() => setStatus("visible")}>{"<"}</button>}
-            {status === "visible" && <button onClick={() => setStatus("hidden")}>{">"}</button>}
-          </>
-        )}
-      </Box> */}
     </>
   );
 }
@@ -64,14 +38,19 @@ const Box = styled.div<Props>`
   top: 50px;
   margin-top: 1rem;
   background-color: #000;
-  color: green;
-  right: ${({ active }) => (active ? "1rem" : "-20rem")};
-  /* right: 1rem; */
-  border: 2px solid
-    ${({ status }) => (status === "success" ? "green" : status === "error" ? "red" : "black")};
+  right: 1rem;
   border-radius: 10px;
-  transition: all 0.5s;
+  transition: all 1s;
   padding: 1rem;
+  color: ${({ status }) => {
+    if (status === "success") return "green";
+    if (status === "error") return "red";
+  }};
+  border: 2px solid
+    ${({ status }) => {
+      if (status === "success") return "green";
+      if (status === "error") return "red";
+    }};
   > button {
     position: absolute;
     top: 1rem;

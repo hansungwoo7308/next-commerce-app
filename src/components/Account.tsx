@@ -6,11 +6,6 @@ import { styled } from "styled-components";
 export default function Account() {
   const auth = useSelector((store: any) => store.auth);
   const [dropdown, setDropdown]: any = useState(false);
-
-  // test
-  const dispatch = useDispatch();
-  // test end
-
   useEffect(() => {
     document.addEventListener("click", () => setDropdown(false));
   }, []);
@@ -29,9 +24,6 @@ export default function Account() {
         onClick={(e) => {
           e.stopPropagation();
           setDropdown(!dropdown);
-          // test
-          dispatch(setNotify({ active: true, status: "success", message: "testing..." }));
-          // test end
         }}
       >
         Account ({auth.user.role})
@@ -49,7 +41,7 @@ export default function Account() {
       {dropdown && auth.user.role === "user" && (
         <div className="dropdown">
           <Link href={"/"}>Account</Link>
-          <Link href={"/"}>Order</Link>
+          <Link href={"/my/order-list"}>Order List</Link>
           <button>Sign out</button>
         </div>
       )}
@@ -75,6 +67,7 @@ const Box = styled.div`
       padding: 1rem;
       border: none;
       background-color: inherit;
+      text-align: start;
       /* color: inherit; */
     }
   }

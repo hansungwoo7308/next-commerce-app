@@ -2,6 +2,7 @@
 // import { useSession } from "next-auth/react";
 import { addToCart } from "lib/client/store/cartSlice";
 import { setModal } from "lib/client/store/modalSlice";
+import { setNotify } from "lib/client/store/notifySlice";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
@@ -13,7 +14,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
   const auth = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
   // const { auth, cart }: any = useSelector((store) => store);
-  const checkRef: any = useRef();
+  const checkboxRef: any = useRef();
   const dispatch = useDispatch();
   const handleCheckBox = (e: any) => {
     // if (e.target.checked) {
@@ -30,21 +31,12 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
       <Link href={`/products/${_id}`}>View</Link>
       <button
         disabled={inStock ? false : true}
-        // onClick={() => dispatch(setModal({ active: true,type:'', message: "aaa" }))}
         onClick={() => {
           const duplicate = cart.find((v: any) => v._id === product._id);
-          // console.log("duplicate:", duplicate);
           if (duplicate) {
-            console.log("duplicated");
-            // return dispatch(
-            //   setNotify({
-            //     status: "error",
-            //     message: `duplicated id : ${duplicate._id}`,
-            //     visible: true,
-            //   })
-            // );
+            dispatch(setNotify({ active: true, status: "error", message: "Duplicated" }));
           } else {
-            return dispatch(addToCart({ ...product, quantity: 1 }));
+            dispatch(addToCart({ ...product, quantity: 1 }));
           }
           // cart.map((v: any) => console.log(v));
           // if (!cart.length) dispatch(addToCart(product));
@@ -78,7 +70,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
   );
   const buttonsByAdmin = (
     <>
-      <Link href={`/all/create/${_id}`}>Edit</Link>
+      <Link href={`/products/${_id}`}>Edit</Link>
       <button
         className="delete-button"
         // onClick={() => {
@@ -97,18 +89,17 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
   );
   // useEffect(() => {
   //   if (isCheckAll) {
-  //     checkRef.current.checked = true;
+  //     checkboxRef.current.checked = true;
   //   }
   //   // else {
-  //   //   checkRef.current.checked = false;
+  //   //   checkboxRef.current.checked = false;
   //   // }
   // }, [isCheckAll]);
-
   return (
     <Box>
       <div className="image">
         {auth.role === "admin" && (
-          <input ref={checkRef} className="checkbox" type="checkbox" onChange={handleCheckBox} />
+          <input ref={checkboxRef} className="checkbox" type="checkbox" onChange={handleCheckBox} />
         )}
         <Image
           src={images[0].url || images[0].secure_url}
