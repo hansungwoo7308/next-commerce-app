@@ -11,14 +11,14 @@ const orderSchema = new mongoose.Schema(
     address: String,
     mobile: String,
     cart: Array,
-    // payment information
-    total: Number,
-    paymentId: String,
-    method: String,
     delivered: {
       type: Boolean,
       default: false,
     },
+    // payment information
+    total: Number,
+    paymentId: String,
+    method: String,
     paid: {
       type: Boolean,
       default: false,

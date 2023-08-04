@@ -24,7 +24,7 @@ const Box = styled.div`
     width: 50px;
     height: 50px;
     border: 5px solid #ccc;
-    border-top-color: coral;
+    border-top-color: green;
     border-radius: 50%;
     animation: spin 0.5s linear infinite;
     @keyframes spin {

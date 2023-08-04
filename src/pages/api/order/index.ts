@@ -128,21 +128,14 @@ const getOrders = async (req: any, res: any) => {
       "User",
       "-password -refreshToken"
     );
-    // set
+    // out
     const filteredOrders = foundOrders.map((order) => ({
       _id: order._id,
       user: order.user,
       cart: order.cart,
       total: order.total,
     }));
-    console.log("foundOrders.length : ", foundOrders.length);
-    // console.log("foundOrders : ", foundOrders);
-    // console.log("foundOrders : ", {
-    //   _id: foundOrders._id,
-    //   user: foundOrders.user,
-    //   cart: foundOrders.cart,
-    //   total: foundOrders.total,
-    // });
+    // console.log("foundOrders.length : ", foundOrders.length);
     return res.status(200).json({ orders: foundOrders });
   } catch (error: any) {
     console.log("error : ", error);

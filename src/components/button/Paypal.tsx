@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 export default function Paypal({ order }: any) {
-  // const { auth }: any = useSelector((store) => store);
   const auth = useSelector((store: any) => store.auth);
   const dispatch = useDispatch();
   const router = useRouter();

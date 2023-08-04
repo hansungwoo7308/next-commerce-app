@@ -14,6 +14,6 @@ export const store = configureStore({
     modal: modalSlice.reducer,
     cart: cartSlice.reducer,
     order: orderSlice.reducer,
-    oders: ordersSlice.reducer,
+    orders: ordersSlice.reducer,
   },
 });
