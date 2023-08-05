@@ -48,9 +48,11 @@ export default function Order({ order }: any) {
           </li>
         </ul>
       )}
-      <button className="expand-button" onClick={() => setExpanded(!expanded)}>
-        View all the products
-      </button>
+      {order.cart.length >= 2 && (
+        <button className="expand-button" onClick={() => setExpanded(!expanded)}>
+          View all the products
+        </button>
+      )}
     </Box>
   );
 }

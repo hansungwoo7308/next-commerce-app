@@ -50,12 +50,14 @@ export default function CartItem({ item }: any) {
             +
           </button>
         </div>
+        <button className="delete-button" onClick={() => dispatch(deleteItem({ _id }))}>
+          Delete
+        </button>
       </div>
     </Box>
   );
 }
 const Box = styled.li`
-  height: 10rem;
   display: flex;
   border: 2px solid green;
   border-radius: 5px;
@@ -92,7 +94,7 @@ const Box = styled.li`
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    justify-content: space-between;
+    gap: 0.5rem;
     padding: 1rem;
     /* justify-content: flex-end; */
     > small {
@@ -111,6 +113,13 @@ const Box = styled.li`
         }
       }
       /* border: 2px solid red; */
+    }
+    .delete-button {
+      /* background-color: #ea5b5b; */
+      padding: 0.5rem 1rem;
+      &:hover {
+        background-color: #ea5b5b;
+      }
     }
   }
 `;

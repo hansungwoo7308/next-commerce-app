@@ -127,9 +127,12 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
 const Box = styled.li`
   /* width: 10rem; */
   border: 2px solid green;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
+  background-color: #333;
   > .image {
     height: 7rem;
     position: relative;

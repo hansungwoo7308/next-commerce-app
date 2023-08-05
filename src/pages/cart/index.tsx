@@ -54,26 +54,31 @@ export default function Page() {
     // dispatch(addOrder(payload));
     router.push("/order");
   };
+  if (!cart.length) {
+    return (
+      <Main>
+        <section>
+          <div className="cart">
+            <h1>No items</h1>
+          </div>
+        </section>
+      </Main>
+    );
+  }
   return (
     <Main>
       <section>
         <div className="cart">
-          {cart.length ? (
-            <>
-              <h1>Shopping Cart</h1>
-              <ul>
-                {cart.map((item: any) => (
-                  <CartItem key={item._id} item={item} />
-                ))}
-              </ul>
-              <h3>Total : ${cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0)}</h3>
-              <div className="payment">
-                <button onClick={handleOrder}>Order</button>
-              </div>
-            </>
-          ) : (
-            <h1>No items</h1>
-          )}
+          <h1>Shopping Cart</h1>
+          <ul>
+            {cart.map((item: any) => (
+              <CartItem key={item._id} item={item} />
+            ))}
+          </ul>
+          <h3>Total : ${cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0)}</h3>
+          <div className="payment">
+            <button onClick={handleOrder}>Order</button>
+          </div>
         </div>
       </section>
     </Main>

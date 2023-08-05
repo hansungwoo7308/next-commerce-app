@@ -40,7 +40,7 @@ export default function Account() {
       {/* user dropdown */}
       {dropdown && auth.user.role === "user" && (
         <div className="dropdown">
-          <Link href={"/"}>Account</Link>
+          <Link href={"/my/account"}>Account</Link>
           <Link href={"/my/order-list"}>Order List</Link>
           <button>Sign out</button>
         </div>
