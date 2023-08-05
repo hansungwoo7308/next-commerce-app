@@ -1,11 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-const initialState = {
+// type Auth = {
+//   status:boolean,
+//   user:{
+//     username:string,
+//     email:string,
+//     role:string,
+//     image:string
+//   }|null,
+//   accessToken:string|null
+// }
+const initialState: any = {
   status: false,
   user: null,
-  // mode: null,
-  // username: null,
-  // role: null,
-  // image: null,
   accessToken: null,
 };
 export const authSlice = createSlice({
@@ -13,29 +19,25 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setCredentials: (state, action) => {
-      // const { mode, username, role, accessToken, image } = action.payload;
       const { user, accessToken } = action.payload;
-      state.status = true;
+      if (!accessToken) state.status = false;
+      else state.status = true;
       state.user = user;
-      // state.mode = mode;
-      // state.username = username;
-      // state.role = role;
-      // state.image = image;
       state.accessToken = accessToken;
     },
     logOut: (state, action) => {
       state.status = false;
       state.user = null;
-      // state.mode = null;
-      // state.username = null;
-      // state.role = null;
-      // state.image = null;
       state.accessToken = null;
     },
-    // setAuthImage: (state, action) => {
-    //   const { image } = action.payload;
-    //   state.image = image;
-    // },
+    updateUser: (state, action) => {
+      const { user } = action.payload;
+      const { username, email, role, image } = user;
+      if (username) state.user.username = username;
+      if (email) state.user.email = email;
+      if (role) state.user.role = role;
+      if (image) state.user.image = image;
+    },
   },
 });
-export const { setCredentials, logOut, setAuthImage }: any = authSlice.actions;
+export const { setCredentials, logOut, updateUser }: any = authSlice.actions;

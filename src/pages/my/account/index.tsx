@@ -1,18 +1,50 @@
+import logError from "lib/client/log/logError";
+import logResponse from "lib/client/log/logResponse";
+import { setCredentials, updateUser } from "lib/client/store/authSlice";
+import { useGetUserQuery, useUpdateUserMutation } from "lib/client/store/userApiSlice";
+import { getData, patchData } from "lib/public/fetchData";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
 export default function Page() {
   const auth = useSelector((store: any) => store.auth);
-  if (!auth.user) return null;
-  const { username, email, role, image } = auth.user;
   const [usernameEditMode, setUsernameEditMode]: any = useState(false);
   const [newUsername, setNewUsername]: any = useState("");
+  // const { data, isLoading, isSuccess, isError, error }: any = useGetUserQuery();
+  // const [updateUser] = useUpdateUserMutation();
+  const dispatch = useDispatch();
+  if (!auth.user) return null;
+  const { _id, username, email, role, image } = auth.user;
   // const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  useEffect(() => {
-    console.log({ newUsername });
-  }, [newUsername]);
+  // useEffect(() => {
+  //   console.log({ newUsername });
+  // }, [newUsername]);
+  const handleUpdateNewUsername = async () => {
+    try {
+      const payload = { _id, username: newUsername };
+      // updateUser(payload);
+      const response = await patchData("user", payload, auth.accessToken);
+      const { updatedUser } = response.data;
+      logResponse(response);
+      // accessToken을 무효화하여 layout component에 등록된 refreshAuth에 의해서 refreshing한다.
+      // dispatch(setCredentials({ accessToken: null }));
+      dispatch(updateUser({ user: updatedUser }));
+      setUsernameEditMode(false);
+    } catch (error) {
+      logError(error);
+    }
+  };
+  const test = async () => {
+    try {
+      const params = { _id };
+      const response = await getData("user", auth.accessToken, params);
+      logResponse(response);
+    } catch (error) {
+      logError(error);
+    }
+  };
   return (
     <Main>
       <section>
@@ -21,17 +53,19 @@ export default function Page() {
             <Image src={image} alt="profile-image" width={300} height={300} />
             <ul>
               <li className="username">
-                {usernameEditMode ? (
+                {auth.user && usernameEditMode ? (
                   <>
                     <input
                       name="username"
                       type="text"
-                      placeholder={username}
+                      // placeholder={username}
+                      // value={newUsername}
+                      autoComplete="off"
                       onChange={(e) => setNewUsername(e.target.value)}
                     />
                     <div className="buttons">
                       <button onClick={() => setUsernameEditMode(false)}>cancel</button>
-                      <button onClick={() => setUsernameEditMode(false)}>save</button>
+                      <button onClick={handleUpdateNewUsername}>save</button>
                     </div>
                   </>
                 ) : (
@@ -47,6 +81,13 @@ export default function Page() {
             </ul>
           </div>
         </div>
+        <button
+          onClick={() => {
+            test();
+          }}
+        >
+          test
+        </button>
       </section>
     </Main>
   );

@@ -34,9 +34,8 @@ export default function Layout({ children }: any) {
   // auth side effect
   useEffect(() => {
     // accessToken이 없다면, refreshToken으로 모든 토큰을 갱신한다.
-    const { accessToken } = auth;
-    if (!accessToken) refreshAuth();
-  }, []); // refresh credentials
+    if (!auth.accessToken) refreshAuth();
+  }, [auth.accessToken]); // refresh credentials
   // cart side effect
   useEffect(() => {
     const serializedCart: any = localStorage.getItem("cart");
