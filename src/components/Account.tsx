@@ -5,9 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
 export default function Account() {
   const auth = useSelector((store: any) => store.auth);
-  const [dropdown, setDropdown]: any = useState(false);
+  const [toggle, setToggle]: any = useState(false);
+  const handleToggle = (e: any) => {
+    e.stopPropagation();
+    setToggle(!toggle);
+  };
   useEffect(() => {
-    document.addEventListener("click", () => setDropdown(false));
+    document.addEventListener("click", () => setToggle(false));
   }, []);
   if (!auth.user) {
     return (
@@ -20,26 +24,19 @@ export default function Account() {
   }
   return (
     <Box>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setDropdown(!dropdown);
-        }}
-      >
-        Account ({auth.user.role})
-      </button>
-      {/* admin dropdown */}
-      {dropdown && auth.user.role === "admin" && (
-        <div className="dropdown">
+      <button onClick={handleToggle}>Account ({auth.user.role})</button>
+      {/* admin toggle */}
+      {toggle && auth.user.role === "admin" && (
+        <div className="toggle">
           <Link href={"/"}>Account</Link>
           <Link href={"/"}>menu</Link>
           <Link href={"/"}>menu</Link>
           <button>Sign out</button>
         </div>
       )}
-      {/* user dropdown */}
-      {dropdown && auth.user.role === "user" && (
-        <div className="dropdown">
+      {/* user toggle */}
+      {toggle && auth.user.role === "user" && (
+        <div className="toggle">
           <Link href={"/my/account"}>Account</Link>
           <Link href={"/my/order-list"}>Order List</Link>
           <button>Sign out</button>
@@ -51,7 +48,7 @@ export default function Account() {
 const Box = styled.div`
   display: flex;
   gap: 1rem;
-  > .dropdown {
+  > .toggle {
     position: absolute;
     top: 100%;
     border: 2px solid red;

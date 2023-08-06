@@ -30,6 +30,7 @@ export const GlobalStyled = createGlobalStyle`
     scroll-behavior: smooth;
   }
   body {
+    height:100%;
     background-color:var(--color-background);
     color:var(--color-foreground);
     header {

@@ -4,14 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 export default function Nav() {
   const router = useRouter();
-  const [shopSub, setShopSub]: any = useState(false);
-  // const shopSubRef: any = useRef();
-  // useEffect(() => {
-  //   if (shopSubRef.current.style.display) shopSubRef.current.style.display = "";
-  //   else shopSubRef.current.style.display = "block";
-  // }, [shopSub]);
+  const [toggle, setToggle]: any = useState(false);
+  const handleToggle = (e: any) => {
+    e.stopPropagation();
+    setToggle(!toggle);
+  };
   useEffect(() => {
-    document.addEventListener("click", () => setShopSub(false));
+    document.addEventListener("click", () => setToggle(false));
   }, []);
   return (
     <Box>
@@ -20,18 +19,11 @@ export default function Nav() {
           <Link href={"/"}>Home</Link>
         </li>
         <li className="shop">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setShopSub(!shopSub);
-            }}
-          >
-            Shop
-          </button>
-          {shopSub && (
+          <button onClick={handleToggle}>Shop</button>
+          {toggle && (
             <ul className="sub">
               {/* 고전적인 방식 (className에 active를 추가) */}
-              {/* <ul className={`sub ${shopSub ? "active" : ""}`}> */}
+              {/* <ul className={`sub ${toggle ? "active" : ""}`}> */}
               {/* main의 item이 여러개 일때, 그 item의 sub를 active or unactive 해야할 경우, sub를 선택할 때, useRef를 사용하자 */}
               {/* <ul className="sub" ref={shopSubRef}> */}
               <li>

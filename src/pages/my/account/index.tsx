@@ -1,3 +1,4 @@
+import Avatar from "@/components/Avatar";
 import logError from "lib/client/log/logError";
 import logResponse from "lib/client/log/logResponse";
 import { setCredentials, updateUser } from "lib/client/store/authSlice";
@@ -137,10 +138,7 @@ export default function Page() {
       <section>
         <div className="my-account">
           <div className="my-account-info">
-            <div className="image-outer">
-              <Image src={image} alt="profile-image" width={300} height={300} />
-            </div>
-            {/* <Image src={image} alt="profile-image" width={300} height={300} /> */}
+            <Avatar image={image} />
             <ul>
               {content}
               {/* <li className="username">{usernameEditMode ? contentByEditMode : content}</li> */}
@@ -164,13 +162,6 @@ const Main = styled.main`
         justify-content: center;
         gap: 3rem;
         padding: 3rem;
-        > .image-outer {
-          width: 150px;
-          height: 150px;
-          img {
-            border-radius: 50%;
-          }
-        }
         > ul {
           width: 300px;
           display: flex;

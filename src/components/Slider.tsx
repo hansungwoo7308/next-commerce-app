@@ -42,19 +42,19 @@ export default function Slider() {
     carousel.current.style.justifyContent = `flex-start`;
     slider.current.style.transform = `translate(-20%)`;
   };
-  useEffect(() => {
-    const handleMouseEnter = () => {
-      console.log("enter");
-      clearInterval(intervalId);
-    };
-    const handleMouseLeave = () => {
-      console.log("leave");
-      intervalId = setInterval(() => handleClickNextButton(), 5000);
-    };
-    let intervalId = setInterval(() => handleClickNextButton(), 5000);
-    carousel.current.addEventListener("mouseenter", handleMouseEnter);
-    carousel.current.addEventListener("mouseleave", handleMouseLeave);
-  }, []); // set interval and reset interval
+  // useEffect(() => {
+  //   const handleMouseEnter = () => {
+  //     console.log("enter");
+  //     clearInterval(intervalId);
+  //   };
+  //   const handleMouseLeave = () => {
+  //     console.log("leave");
+  //     intervalId = setInterval(() => handleClickNextButton(), 5000);
+  //   };
+  //   let intervalId = setInterval(() => handleClickNextButton(), 5000);
+  //   carousel.current.addEventListener("mouseenter", handleMouseEnter);
+  //   carousel.current.addEventListener("mouseleave", handleMouseLeave);
+  // }, []); // set interval and reset interval
   return (
     <Box className="container">
       <div className="carousel" ref={carousel}>
@@ -100,13 +100,13 @@ const Box = styled.div`
     justify-content: flex-start;
     position: relative;
     overflow: hidden;
+    border: 2px solid green;
     > .slider {
       width: 500%;
       height: 100%;
       display: flex;
       flex-shrink: 0;
       transition: all 0.5s;
-      border: 2px solid green;
       > li {
         /* width: 20%;
         flex-basis: 20%; // N등분하여 20%의 가로길이를 가져간다. */
