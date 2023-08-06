@@ -1,6 +1,5 @@
 import Products from "@/components/Products";
 import { getData } from "lib/public/fetchData";
-import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 export async function getServerSideProps({ query }: any) {
   // console.log({ query });
@@ -48,5 +47,4 @@ const Main = styled.main`
     padding: 1rem;
     border: 2px solid green;
   }
-  /* display: none; */
 `;

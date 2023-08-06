@@ -1,3 +1,4 @@
+import Slider from "@/components/Slider";
 import Head from "next/head";
 import { styled } from "styled-components";
 export default function Home() {
@@ -11,13 +12,20 @@ export default function Home() {
       </Head>
       <Main>
         <section>
-          <h1>Home</h1>
+          <Slider />
         </section>
       </Main>
     </>
   );
 }
 const Main = styled.main`
-  section {
+  > section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > div {
+      width: 300px;
+      height: 300px;
+    }
   }
 `;

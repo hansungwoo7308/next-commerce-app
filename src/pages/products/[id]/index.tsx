@@ -16,7 +16,7 @@ export async function getServerSideProps({ params: { id } }: any) {
   return { props: { product } };
 }
 export default function Page({ product }: any) {
-  console.log({ product });
+  // console.log({ product });
   const { images, title, price, inStock, sold, description, content } = product;
   const [tabIndex, setTabIndex]: any = useState(0);
   const dispatch = useDispatch();
@@ -36,61 +36,67 @@ export default function Page({ product }: any) {
     <Main>
       <section>
         <div className="product">
-          <h1 className="name">Product Page</h1>
-          <div className="images">
-            <div className="selected-image">
-              <Image
-                src={images[tabIndex].url || images[tabIndex].secure_url}
-                alt={images[tabIndex].url || images[tabIndex].secure_url}
-                width={1000}
-                height={1000}
-              />
-            </div>
-            <div className="unselected-images">
-              {images.map((image: any, index: any) => (
+          <div className="product-header">
+            <div className="product-images">
+              <div className="selected-image">
                 <Image
-                  className={`${tabIndex === index && "active"}`}
-                  key={index}
-                  src={image.url || image.secure_url}
-                  alt={image.url || image.secure_url}
-                  width={500}
-                  height={500}
-                  onClick={() => setTabIndex(index)}
+                  src={images[tabIndex].url || images[tabIndex].secure_url}
+                  alt={images[tabIndex].url || images[tabIndex].secure_url}
+                  width={1000}
+                  height={1000}
                 />
-              ))}
+              </div>
+              <div className="unselected-images">
+                {images.map((image: any, index: any) => (
+                  <Image
+                    className={`${tabIndex === index && "active"}`}
+                    key={index}
+                    src={image.url || image.secure_url}
+                    alt={image.url || image.secure_url}
+                    width={500}
+                    height={500}
+                    onClick={() => setTabIndex(index)}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="product-info">
+              <h3>{title}</h3>
+              <h5>${price}</h5>
+              <div className="stock-outer">
+                {inStock && <h5>InStock : {inStock}</h5>}
+                {!inStock && <h5>OutStock</h5>}
+                <h5>Sold : {sold}</h5>
+              </div>
+              <p>{description}</p>
+              <p>{content}</p>
+              <div className="button-outer">
+                <button
+                  onClick={() => {
+                    const duplicate = cart.find((v: any) => v._id === product._id);
+                    // console.log("duplicate:", duplicate);
+                    if (duplicate) {
+                      console.log("duplicated");
+                      dispatch(setNotify({ active: true, status: "error", message: "Duplicated" }));
+                      // dispatch(setNotify({ status: "error", message: duplicate._id, visible: true }));
+                      // const timeout = setTimeout(() => {
+                      //   dispatch(setVisible(false));
+                      // }, 3000);
+                      // dispatch(setTimeoutId(timeout));
+                      return;
+                    } else {
+                      return dispatch(addToCart({ ...product, quantity: 1 }));
+                    }
+                  }}
+                >
+                  Buy
+                </button>
+              </div>
             </div>
           </div>
-          <div className="description">
-            <h3>{title}</h3>
-            <h5>${price}</h5>
-            <div className="stock-outer">
-              {inStock && <h5>InStock : {inStock}</h5>}
-              {!inStock && <h5>OutStock</h5>}
-              <h5>Sold : {sold}</h5>
-            </div>
-            <p>{description}</p>
-            <p>{content}</p>
-            <div className="button-outer">
-              <button
-                onClick={() => {
-                  const duplicate = cart.find((v: any) => v._id === product._id);
-                  // console.log("duplicate:", duplicate);
-                  if (duplicate) {
-                    console.log("duplicated");
-                    dispatch(setNotify({ active: true, status: "error", message: "Duplicated" }));
-                    // dispatch(setNotify({ status: "error", message: duplicate._id, visible: true }));
-                    // const timeout = setTimeout(() => {
-                    //   dispatch(setVisible(false));
-                    // }, 3000);
-                    // dispatch(setTimeoutId(timeout));
-                    return;
-                  } else {
-                    return dispatch(addToCart({ ...product, quantity: 1 }));
-                  }
-                }}
-              >
-                Buy
-              </button>
+          <div className="product-main">
+            <div className="product-detail">
+              <h3>detail...</h3>
             </div>
           </div>
         </div>
@@ -101,55 +107,58 @@ export default function Page({ product }: any) {
 const Main = styled.main`
   > section {
     > .product {
-      display: grid;
-      grid-template-areas:
-        "name name"
-        "images description";
-      grid-template-columns: repeat(2, 1fr);
       border: 2px solid green;
       padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
       > * {
+        border: 2px solid green;
+        border-radius: 10px;
         padding: 1rem;
-        border: 2px solid;
+        background-color: #333;
       }
-      .name {
-        grid-area: name;
-      }
-      .images {
-        grid-area: images;
+      > .product-header {
         display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        .selected-image {
-          height: 20rem;
+        > * {
+          padding: 1rem;
         }
-        .unselected-images {
+        .product-images {
           display: flex;
-          > img {
-            width: 4rem;
+          flex-direction: column;
+          gap: 1rem;
+          .selected-image {
+            /* height: 20rem; */
           }
-          .active {
-            border: 2px solid coral;
+          .unselected-images {
+            display: flex;
+            > img {
+              width: 4rem;
+            }
+            .active {
+              border: 2px solid coral;
+            }
+          }
+        }
+        .product-info {
+          display: flex;
+          flex-direction: column;
+          .stock-outer {
+            display: flex;
+            justify-content: space-between;
+          }
+          .button-outer {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+            /* border: 2px solid red; */
+            button {
+              place-self: end;
+            }
           }
         }
       }
-      .description {
-        grid-area: description;
-        display: flex;
-        flex-direction: column;
-        .stock-outer {
-          display: flex;
-          justify-content: space-between;
-        }
-        .button-outer {
-          flex: 1;
-          display: flex;
-          justify-content: flex-end;
-          /* border: 2px solid red; */
-          button {
-            place-self: end;
-          }
-        }
+      > .product-main {
       }
     }
     img {

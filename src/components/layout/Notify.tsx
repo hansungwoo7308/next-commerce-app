@@ -18,7 +18,7 @@ export default function Notify() {
   if (!notify.active) return;
   return (
     <>
-      <Box active={active} status={status}>
+      <Box status={status}>
         {/* <div onMouseOver={() => clearTimeout(notify.timeoutId)}>
         </div> */}
         <p>{message || "empty"}</p>
@@ -28,7 +28,7 @@ export default function Notify() {
   );
 }
 type Props = {
-  active: boolean;
+  // active: boolean;
   status: "success" | "error" | null;
 };
 const Box = styled.div<Props>`

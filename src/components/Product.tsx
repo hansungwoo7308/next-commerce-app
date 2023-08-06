@@ -75,7 +75,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
           // console.log(test);
         }}
       >
-        Buy
+        Add to cart
       </button>
     </>
   );
@@ -112,13 +112,15 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
         {auth.role === "admin" && (
           <input ref={checkboxRef} className="checkbox" type="checkbox" onChange={handleCheckBox} />
         )}
-        <Image
-          src={images[0].url || images[0].secure_url}
-          alt={images[0].url}
-          width={200}
-          height={200}
-          priority
-        />
+        <Link href={`/products/${_id}`}>
+          <Image
+            src={images[0].url || images[0].secure_url}
+            alt={images[0].url}
+            width={200}
+            height={200}
+            priority
+          />
+        </Link>
       </div>
       <div className="description">
         <h5>{title}</h5>
@@ -141,7 +143,7 @@ const Box = styled.li`
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   overflow: hidden;
   background-color: #333;
   > .image {
@@ -152,46 +154,36 @@ const Box = styled.li`
       top: 1rem;
       left: 1rem;
     }
-    > img {
+    > a > img {
       object-position: 0 20%;
       /* object-position: top; */
     }
   }
   > .description {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     padding: 1rem;
-
     .price {
       color: #d25d5d;
     }
-  }
-  > div {
-    > div {
+    > .buttons {
+      flex: 1;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-    }
-    > .buttons {
-      height: 3rem;
+      /* border: 2px solid red; */
       a,
       button {
+        height: 2rem;
+        place-self: flex-end;
+        /* display: flex;
+        align-items: center; */
+        padding: 0.5rem;
         background-color: #ddd;
         color: #000;
         &:hover {
           background-color: var(--color-primary);
         }
-      }
-      > a {
-        width: initial;
-        display: flex;
-        align-items: center;
-        padding: 1rem;
-      }
-      > button {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        padding: 1rem;
-        padding: 1rem;
       }
       .delete-button {
         background-color: #c15151;
