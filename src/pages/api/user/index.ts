@@ -37,10 +37,14 @@ const updateUser = async (req: any, res: any) => {
     const verified: any = await verifyJWT(req, res);
     if (!verified) return res.status(401).json({ message: "Unauthorized" });
     // update
-    const { _id, username } = req.body;
+    const { _id, username, email, role, image } = req.body;
+    // console.log({ body: req.body });
     const foundUser = await User.findById(_id).exec();
     if (!foundUser) return res.status(404).json({ message: "Not found" });
     if (username) foundUser.username = username;
+    if (email) foundUser.email = email;
+    if (role) foundUser.role = role;
+    if (image) foundUser.image = image;
     const savedUser = await foundUser.save();
     // out
     console.log({ savedUser });

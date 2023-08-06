@@ -5,6 +5,7 @@ import { setModal } from "lib/client/store/modalSlice";
 import { setNotify } from "lib/client/store/notifySlice";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -16,6 +17,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
   // const { auth, cart }: any = useSelector((store) => store);
   const checkboxRef: any = useRef();
   const dispatch = useDispatch();
+  const router = useRouter();
   const handleCheckBox = (e: any) => {
     // if (e.target.checked) {
     //   setCheckedProducts((state: any) => [...state, _id]);
@@ -37,6 +39,15 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
             dispatch(setNotify({ active: true, status: "error", message: "Duplicated" }));
           } else {
             dispatch(addToCart({ ...product, quantity: 1 }));
+            const callback = () => router.push("/cart");
+            dispatch(
+              setModal({
+                active: true,
+                type: "DEFAULT",
+                message: "Do you want to move to cart?",
+                callback,
+              })
+            );
           }
           // cart.map((v: any) => console.log(v));
           // if (!cart.length) dispatch(addToCart(product));

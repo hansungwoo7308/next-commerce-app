@@ -46,6 +46,7 @@ export default function Page({ products }: any) {
 const Main = styled.main`
   .all {
     padding: 1rem;
+    border: 2px solid green;
   }
   /* display: none; */
 `;

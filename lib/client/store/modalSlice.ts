@@ -15,12 +15,21 @@ export const modalSlice = createSlice({
   reducers: {
     setModal: (state, action) => {
       const { active, type, message, id, ids, callback } = action.payload;
-      state.active = active;
-      state.type = type;
-      state.message = message;
-      state.id = id;
-      state.ids = ids;
-      state.callback = callback;
+      if (active) {
+        state.active = true;
+        state.type = type;
+        state.message = message;
+        state.id = id;
+        state.ids = ids;
+        state.callback = callback;
+      } else {
+        state.active = false;
+        state.type = "";
+        state.message = "";
+        state.id = "";
+        state.ids = [];
+        state.callback = null;
+      }
     },
     // closeModal: (state) => {
     //   //   const modal: any = state.find((v: any) => v.name === action.payload.name);

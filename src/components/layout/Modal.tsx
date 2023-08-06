@@ -20,6 +20,15 @@ export default function Modal() {
   const dispatch = useDispatch();
   const handleConfirm = async (e: any) => {
     e.preventDefault();
+    switch (type) {
+      case "DEFAULT":
+        callback();
+        dispatch(setModal({ active: false }));
+        break;
+
+      default:
+        break;
+    }
     // try {
     //   dispatch(setLoading(true));
     //   switch (type) {
