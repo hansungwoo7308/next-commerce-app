@@ -3,7 +3,6 @@ import Image from "next/image";
 import styled from "styled-components";
 export default function Slider() {
   const [direction, setDirection]: any = useState();
-  const [intervalId, setIntervalId]: any = useState();
   const carousel: any = useRef();
   const slider: any = useRef();
   const setSliderDirection = () => {
@@ -43,34 +42,29 @@ export default function Slider() {
     carousel.current.style.justifyContent = `flex-start`;
     slider.current.style.transform = `translate(-20%)`;
   };
-  const handleMouseEnter = () => {
-    // console.log("enter");
-    clearInterval(intervalId);
-  };
-  const handleMouseLeave = () => {
-    // console.log("leave");
-    const intervalId = setInterval(() => handleClickNextButton(), 3000);
-    setIntervalId(intervalId);
-  };
   useEffect(() => {
-    const intervalId = setInterval(() => handleClickNextButton(), 5000);
-    setIntervalId(intervalId);
-  }, []);
+    const handleMouseEnter = () => {
+      console.log("enter");
+      clearInterval(intervalId);
+    };
+    const handleMouseLeave = () => {
+      console.log("leave");
+      intervalId = setInterval(() => handleClickNextButton(), 5000);
+    };
+    let intervalId = setInterval(() => handleClickNextButton(), 5000);
+    carousel.current.addEventListener("mouseenter", handleMouseEnter);
+    carousel.current.addEventListener("mouseleave", handleMouseLeave);
+  }, []); // set interval and reset interval
   return (
     <Box className="container">
-      <div
-        className="carousel"
-        ref={carousel}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
+      <div className="carousel" ref={carousel}>
         <ul className="slider" ref={slider} onTransitionEnd={handleTransitionEnd}>
-          <li>1</li>
+          {/* <li>1</li>
           <li>2</li>
           <li>3</li>
           <li>4</li>
-          <li>5</li>
-          {/* <li>
+          <li>5</li> */}
+          <li>
             <Image src="https://source.unsplash.com/random/?rain" layout="fill" alt="rain" />
           </li>
           <li>
@@ -84,7 +78,7 @@ export default function Slider() {
           </li>
           <li>
             <Image src="https://source.unsplash.com/random/?train" layout="fill" alt="train" />
-          </li> */}
+          </li>
         </ul>
         <div className="controls">
           <div className="arrow prev" onClick={handleClickPrevButton}>
@@ -105,7 +99,7 @@ const Box = styled.div`
     display: flex;
     justify-content: flex-start;
     position: relative;
-    /* overflow: hidden; */
+    overflow: hidden;
     > .slider {
       width: 500%;
       height: 100%;
@@ -122,7 +116,7 @@ const Box = styled.div`
         justify-content: center;
         border: 2px solid;
         position: relative;
-        background-color: #777;
+        /* background-color: #777; */
       }
     }
     > .controls {
