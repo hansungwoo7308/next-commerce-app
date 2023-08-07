@@ -24,7 +24,7 @@ export default function Order({ order }: any) {
                 </Link>
               </div>
               <div className="product-info">
-                <strong>{item.title}</strong>
+                <strong>{item.name}</strong>
               </div>
             </li>
           ))}
@@ -43,7 +43,7 @@ export default function Order({ order }: any) {
               </Link>
             </div>
             <div className="product-info">
-              <strong>{order.cart[0].title}</strong>
+              <strong>{order.cart[0].name}</strong>
             </div>
           </li>
         </ul>

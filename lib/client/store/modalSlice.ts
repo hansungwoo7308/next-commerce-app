@@ -9,10 +9,9 @@ type Modal = {
   action?: Function | null; // 액션
   // onClose?:()=>void;
   // onSubmit?:()=>void;
-  // title?:string;
   // body?:React.ReactElement;
   // footer?:React.ReactElement;
-  // disabled?: boolean;
+  disabled?: boolean;
   actionLabel?: string;
   actionSecondary?: Function | null; // 액션
   actionLabelSecondary?: string;
@@ -24,23 +23,11 @@ export const modalSlice = createSlice({
   initialState,
   reducers: {
     setModal: (state, action) => {
-      const { active, type, message, id, ids, action: userAction } = action.payload;
+      const { active } = action.payload;
       // console.log({ userAction });
-      if (active) {
-        state.active = true;
-        state.type = type;
-        state.message = message;
-        state.id = id;
-        state.ids = ids;
-        state.action = userAction;
-      } else {
-        state.active = false;
-        state.type = "";
-        state.message = "";
-        state.id = "";
-        state.ids = [];
-        state.action = null;
-      }
+      // if (active) return action.payload;
+      // else return {};
+      return active ? action.payload : {};
     },
     // closeModal: (state) => {
     //   //   const modal: any = state.find((v: any) => v.name === action.payload.name);

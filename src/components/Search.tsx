@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { styled } from "styled-components";
+import { useDispatch } from "react-redux";
+import { setModal } from "lib/client/store/modalSlice";
 export default function Search() {
   const [search, setSearch] = useState("");
   const searchRef: any = useRef();
   const router = useRouter();
+  const dispatch = useDispatch();
   useEffect(() => {
     searchRef.current.focus();
   }, []);
@@ -23,7 +26,14 @@ export default function Search() {
           onChange={(e: any) => setSearch(e.target.value)}
           ref={searchRef}
         />
-        <button>Search</button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            dispatch(setModal({ active: true, message: "testing...", actionLabel: "test" }));
+          }}
+        >
+          Search
+        </button>
       </form>
     </Box>
   );

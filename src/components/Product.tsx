@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 export default function Product({ product, setCheckedProducts, isCheckAll }: any) {
   // console.log({ product });
-  const { _id, images, title, price, inStock, description } = product;
+  const { _id, images, name, price, inStock, description } = product;
   const auth = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
   // const { auth, cart }: any = useSelector((store) => store);
@@ -46,6 +46,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
                 active: true,
                 type: "DEFAULT",
                 message: "Do you want to move to cart?",
+                actionLabel: "Move to Cart Page",
                 action,
               })
             );
@@ -124,7 +125,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
         </Link>
       </div>
       <div className="description">
-        <h5>{title}</h5>
+        <h5>{name}</h5>
         <div className="price">
           <h6>${price}</h6>
           {inStock > 0 ? <h6>In Stock : {inStock}</h6> : <h6>Out Stock</h6>}

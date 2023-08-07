@@ -28,14 +28,9 @@ const getProducts = async (req: any, res: any) => {
     console.log(
       products.map((product: any) => ({
         _id: product._id,
-        title: product.title,
+        name: product.name,
       }))
     );
-
-    // console.log(
-    //   "data : ",
-    //   data.map((item: any) => item.title)
-    // );
     return res.status(200).json({ products: products });
     // if (req.query) {
     //   const { productPage, productCount, sort } = req.query;
@@ -44,24 +39,16 @@ const getProducts = async (req: any, res: any) => {
     //   const skip = (page - 1) * limit;
     //   console.log({ page, limit, skip });
     //   const products = await Product.find().skip(skip).limit(limit);
-    //   console.log(
-    //     "products : ",
-    //     products.map((v: any) => ({ title: v.title }))
-    //   );
     //   // const slicedProducts = products.slice(0, Number(`${productCount}`));
     //   // console.log(
     //   //   "slicedProducts : ",
-    //   //   slicedProducts.map((product: any) => product.title)
+    //   //   slicedProducts.map((product: any) => product.name)
     //   // );
-    //   // const productsTitles = products.map((v: any) => ({ title: v.title, inStock: v.inStock }));
+    //   // const productsTitles = products.map((v: any) => ({ name: v.name, inStock: v.inStock }));
     //   // console.log("productsTitles : ", productsTitles);
     //   return res.status(200).json({ products });
     // }
     // const products = await Product.find();
-    // console.log(
-    //   "products : ",
-    //   products.map((v: any) => ({ title: v.title }))
-    // );
     // return res.status(200).json({ products });
   } catch (error) {
     console.log(error);
@@ -74,9 +61,9 @@ const createProduct = async (req: any, res: any) => {
     const verified: any = await verifyJWT(req, res);
     if (verified.role !== "admin") return res.status(403).json({ message: "Forbidden" });
     // create
-    const { title, price, inStock, description, content, category, images } = req.body;
+    const { name, price, inStock, description, content, category, images } = req.body;
     if (
-      !title ||
+      !name ||
       !price ||
       !inStock ||
       !description ||
@@ -86,7 +73,7 @@ const createProduct = async (req: any, res: any) => {
     )
       return res.status(400).json({ message: "Please add all the fields." });
     const newProduct = await Product.create({
-      title: title.toLowerCase(),
+      name: name.toLowerCase(),
       price,
       inStock,
       description,
@@ -130,7 +117,7 @@ class APIfeatures {
     const { category, search } = this.queryString;
     // filter
     if (category && category !== "all") this.products.find({ category: category });
-    if (search) this.products.find({ title: { $regex: search } });
+    if (search) this.products.find({ name: { $regex: search } });
     // out
     return this;
   }

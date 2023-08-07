@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 export default function Nav() {
   const router = useRouter();
+  // console.log({ router });
   const [toggle, setToggle]: any = useState(false);
   const handleToggle = (e: any) => {
     e.stopPropagation();

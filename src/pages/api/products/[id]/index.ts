@@ -23,7 +23,7 @@ const getProduct = async (req: any, res: any) => {
     const product = await Product.findById(id);
     if (!product) return res.status(404).json({ message: "Not found" });
     // out
-    console.log({ "product.title": product.title });
+    console.log({ "product.name": product.name });
     return res.status(200).json({ product });
   } catch (error) {
     console.log(error);
@@ -37,9 +37,9 @@ const updateProduct = async (req: any, res: any) => {
     if (verified.role !== "admin") return res.status(403).json({ message: "Forbidden" });
     // update
     const { id } = req.query;
-    const { title, price, inStock, description, content, category, images } = req.body;
+    const { name, price, inStock, description, content, category, images } = req.body;
     if (
-      !title ||
+      !name ||
       !price ||
       !inStock ||
       !description ||
@@ -51,7 +51,7 @@ const updateProduct = async (req: any, res: any) => {
     const updatedProduct = await Product.findOneAndUpdate(
       { _id: id },
       {
-        title: title.toLowerCase(),
+        name: name.toLowerCase(),
         price,
         inStock,
         description,

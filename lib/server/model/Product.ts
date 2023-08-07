@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 const productSchema = new mongoose.Schema(
   {
-    title: {
+    name: {
       type: String,
       required: true,
-      trim: true,
+      trim: true, // 좌우 공백 제거
     },
     price: {
       type: Number,

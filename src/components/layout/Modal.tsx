@@ -15,7 +15,7 @@ export default function Modal() {
   const auth = useSelector((store: any) => store.auth);
   const modal = useSelector((store: any) => store.modal);
   const loading = useSelector((store: any) => store.loading);
-  const { active, type, message, id, ids, action, actionLabel } = modal;
+  const { active, type, message, id, ids, action, actionLabel, disabled } = modal;
   // const [disabled, setDisabled]: any = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -29,6 +29,7 @@ export default function Modal() {
         dispatch(setModal({ active: false }));
         break;
       default:
+        dispatch(setModal({ active: false }));
         break;
     }
     // try {
@@ -102,12 +103,13 @@ export default function Modal() {
   } = useForm();
   if (!modal.active) return;
   return (
-    <Background onClick={() => dispatch(setModal({ active: false }))}>
+    <Background onClick={handleClose}>
       <Box onClick={(e) => e.stopPropagation()}>
         <div className="header">
           <h3>{type || "test type"}</h3>
         </div>
-        <div className="line" />
+        {/* <div className="line" /> */}
+        <hr />
         <div className="main">
           <p>{message}</p>
         </div>
@@ -117,7 +119,8 @@ export default function Modal() {
             // disabled={loading}
           >
             {/* Confirm */}
-            {actionLabel || "Confirm"}
+            {actionLabel}
+            {/* {actionLabel || "Confirm"} */}
           </button>
           <button onClick={handleClose}>Close</button>
         </div>
@@ -146,17 +149,30 @@ const Background = styled.div`
 const Box = styled.div`
   width: 400px;
   height: 250px;
-  position: absolute;
   background-color: #eee;
   color: green;
-  outline: 5px solid;
+  border: 5px solid green;
+  border-radius: 10px;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  animation: pop 0.3s;
+  @keyframes pop {
+    0% {
+      display: none;
+      opacity: 0;
+      transform: translateY(10rem);
+    }
+    100% {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
   > .header {
   }
-  > .line {
+  > hr {
     border-top: 1px solid green;
   }
   > .main {

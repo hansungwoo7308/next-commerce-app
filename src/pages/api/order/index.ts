@@ -92,11 +92,6 @@ const updateProduct = async (payload: any) => {
     foundProduct.inStock -= quantity;
     foundProduct.sold += quantity;
     const savedProduct = await foundProduct.save();
-    // console.log("savedProduct : ", {
-    //   _id: savedProduct._id,
-    //   title: savedProduct.title,
-    //   inStock: savedProduct.inStock,
-    // });
     return savedProduct;
     // await Product.findOneAndUpdate(
     //   { _id },
