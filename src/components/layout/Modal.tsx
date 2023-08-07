@@ -2,7 +2,7 @@ import logResponse from "lib/client/log/logResponse";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -12,20 +12,22 @@ import styled from "styled-components";
 // import { deleteUser } from "lib/client/store/usersSlice";
 // import { deleteData, getData, postData } from "lib/client/utils/fetchData";
 export default function Modal() {
-  const modal = useSelector((store: any) => store.modal);
   const auth = useSelector((store: any) => store.auth);
-  // get the setting values
-  const { active, type, message, id, ids, callback } = modal;
+  const modal = useSelector((store: any) => store.modal);
+  const loading = useSelector((store: any) => store.loading);
+  const { active, type, message, id, ids, action, actionLabel } = modal;
+  // const [disabled, setDisabled]: any = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
-  const handleConfirm = async (e: any) => {
+  const handleAction = async (e: any) => {
     e.preventDefault();
     switch (type) {
       case "DEFAULT":
-        callback();
+        dispatch(setLoading(true));
+        action();
+        dispatch(setLoading(false));
         dispatch(setModal({ active: false }));
         break;
-
       default:
         break;
     }
@@ -63,6 +65,7 @@ export default function Modal() {
     //   // dispatch(setLoading(false));
     // }
   };
+  const handleClose = () => dispatch(setModal({ active: false }));
   // const handleDeleteUser = async () => {
   //   // delete
   //   const response = await deleteData(`user/${id}`, auth.accessToken);
@@ -97,57 +100,26 @@ export default function Modal() {
     watch,
     formState: { errors },
   } = useForm();
-  // const handleCreatePost = async ({ title, content }: any) => {
-  //   try {
-  //     dispatch(setLoading(true));
-  //     const response = await postData("posts", { title, content }, auth.accessToken);
-  //     logResponse(response);
-  //     dispatch(closeModal());
-  //     dispatch(setLoading(false));
-  //   } catch (error) {
-  //     logError(error);
-  //     dispatch(setLoading(false));
-  //   }
-  // };
-  // const handleDeletePost = async () => {
-  //   const response = await deleteData("posts", auth.accessToken, { _id: id });
-  //   logResponse(response);
-  // };
-  // const form = (
-  //   <form
-  //     onSubmit={handleSubmit((data) => {
-  //       const { title, content } = data;
-  //       handleCreatePost({ title, content });
-  //       dispatch(closeModal());
-  //       // router.reload();
-  //       router.push(router.asPath);
-  //     })}
-  //   >
-  //     <div>
-  //       <input {...register("title", { required: true })} type="text" placeholder="Title" />
-  //       <textarea
-  //         {...register("content", { required: true })}
-  //         cols={30}
-  //         rows={10}
-  //         placeholder="Content"
-  //       ></textarea>
-  //     </div>
-  //     <div>
-  //       <button>Submit</button>
-  //       <button onClick={() => dispatch(closeModal())}>Close</button>
-  //     </div>
-  //   </form>
-  // );
-  // if (!modal.visible) return null;
   if (!modal.active) return;
   return (
     <Background onClick={() => dispatch(setModal({ active: false }))}>
       <Box onClick={(e) => e.stopPropagation()}>
-        <h1>{type || "test type"}</h1>
-        <h5>{message}</h5>
-        <div>
-          <button onClick={handleConfirm}>Confirm</button>
-          <button onClick={() => dispatch(setModal({ active: false }))}>Close</button>
+        <div className="header">
+          <h3>{type || "test type"}</h3>
+        </div>
+        <div className="line" />
+        <div className="main">
+          <p>{message}</p>
+        </div>
+        <div className="footer">
+          <button
+            onClick={handleAction}
+            // disabled={loading}
+          >
+            {/* Confirm */}
+            {actionLabel || "Confirm"}
+          </button>
+          <button onClick={handleClose}>Close</button>
         </div>
       </Box>
     </Background>
@@ -172,18 +144,51 @@ const Background = styled.div`
   }
 `;
 const Box = styled.div`
+  width: 400px;
+  height: 250px;
   position: absolute;
-  background-color: white;
+  background-color: #eee;
+  color: green;
   outline: 5px solid;
-  padding: 2rem;
-  > div {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  > .header {
+  }
+  > .line {
+    border-top: 1px solid green;
+  }
+  > .main {
+    flex: 1;
+  }
+  > .footer {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
-    margin-top: 1rem;
   }
   button {
     padding: 1rem;
-    cursor: pointer;
+    border-radius: 5px;
+    /* &:disabled {
+      background-color: #777;
+      cursor: not-allowed;
+    } */
   }
 `;
+// const handleCreatePost = async ({ title, content }: any) => {
+//   try {
+//     dispatch(setLoading(true));
+//     const response = await postData("posts", { title, content }, auth.accessToken);
+//     logResponse(response);
+//     dispatch(closeModal());
+//     dispatch(setLoading(false));
+//   } catch (error) {
+//     logError(error);
+//     dispatch(setLoading(false));
+//   }
+// };
+// const handleDeletePost = async () => {
+//   const response = await deleteData("posts", auth.accessToken, { _id: id });
+//   logResponse(response);
+// };

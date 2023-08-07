@@ -39,13 +39,14 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
             dispatch(setNotify({ active: true, status: "error", message: "Duplicated" }));
           } else {
             dispatch(addToCart({ ...product, quantity: 1 }));
-            const callback = () => router.push("/cart");
+            // const callback = () => router.push("/cart");
+            const action = () => router.push("/cart");
             dispatch(
               setModal({
                 active: true,
                 type: "DEFAULT",
                 message: "Do you want to move to cart?",
-                callback,
+                action,
               })
             );
           }

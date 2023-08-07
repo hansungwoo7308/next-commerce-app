@@ -8,7 +8,7 @@ export default function Account() {
   const [toggle, setToggle]: any = useState(false);
   const handleToggle = (e: any) => {
     e.stopPropagation();
-    setToggle(!toggle);
+    setToggle((value: boolean) => !value);
   };
   useEffect(() => {
     document.addEventListener("click", () => setToggle(false));
