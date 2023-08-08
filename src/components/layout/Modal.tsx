@@ -192,18 +192,7 @@ const Box = styled.div`
     } */
   }
 `;
-// const handleCreatePost = async ({ title, content }: any) => {
-//   try {
-//     dispatch(setLoading(true));
-//     const response = await postData("posts", { title, content }, auth.accessToken);
-//     logResponse(response);
-//     dispatch(closeModal());
-//     dispatch(setLoading(false));
-//   } catch (error) {
-//     logError(error);
-//     dispatch(setLoading(false));
-//   }
-// };
+
 // const handleDeletePost = async () => {
 //   const response = await deleteData("posts", auth.accessToken, { _id: id });
 //   logResponse(response);

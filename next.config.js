@@ -20,7 +20,13 @@ const nextConfig = {
     //     pathname: "/**",
     //   },
     // ],
-    domains: ["res.cloudinary.com", "source.unsplash.com"],
+    domains: [
+      "res.cloudinary.com",
+
+      "www.usashop.co.kr",
+      "source.unsplash.com",
+      "shop-phinf.pstatic.net",
+    ],
   },
 };
 

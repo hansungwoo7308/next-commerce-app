@@ -8,7 +8,7 @@ import styled from "styled-components";
 // import { openModal } from "lib/client/store/modalSlice";
 // import { getData } from "lib/client/utils/fetchData";
 export default function CartItem({ item }: any) {
-  const { _id, images, name, quantity, inStock, price } = item;
+  const { _id, name, price, description, category, images, seller, stock, quantity } = item;
   const dispatch = useDispatch();
   const handleDecreaseQuantity = () => {
     dispatch(decreaseQuantity({ _id }));
@@ -35,7 +35,7 @@ export default function CartItem({ item }: any) {
           </div>
           <div className="description">
             <p>{name}</p>
-            <small>in stock : {inStock}</small>
+            <small>stock : {stock}</small>
           </div>
         </Link>
       </div>
@@ -46,7 +46,7 @@ export default function CartItem({ item }: any) {
           <button onClick={handleDecreaseQuantity} disabled={quantity === 1}>
             -
           </button>
-          <button onClick={handleIncreaseQuantity} disabled={quantity === inStock}>
+          <button onClick={handleIncreaseQuantity} disabled={quantity === stock}>
             +
           </button>
         </div>

@@ -1,5 +1,5 @@
 import connectDB from "lib/server/config/connectDB";
-import Product from "lib/server/model/Product";
+import Product from "lib/server/models/Product";
 import verifyJWT from "lib/server/verifyJWT";
 connectDB();
 export default async function (req: any, res: any) {
@@ -44,7 +44,7 @@ const getProducts = async (req: any, res: any) => {
     //   //   "slicedProducts : ",
     //   //   slicedProducts.map((product: any) => product.name)
     //   // );
-    //   // const productsTitles = products.map((v: any) => ({ name: v.name, inStock: v.inStock }));
+    //   // const productsTitles = products.map((v: any) => ({ name: v.name, stock: v.stock }));
     //   // console.log("productsTitles : ", productsTitles);
     //   return res.status(200).json({ products });
     // }
@@ -61,25 +61,25 @@ const createProduct = async (req: any, res: any) => {
     const verified: any = await verifyJWT(req, res);
     if (verified.role !== "admin") return res.status(403).json({ message: "Forbidden" });
     // create
-    const { name, price, inStock, description, content, category, images } = req.body;
+    const { name, price, description, category, images, seller, stock } = req.body;
     if (
       !name ||
       !price ||
-      !inStock ||
       !description ||
-      !content ||
       category === "all" ||
-      images.length === 0
+      images.length === 0 ||
+      !seller ||
+      !stock
     )
       return res.status(400).json({ message: "Please add all the fields." });
     const newProduct = await Product.create({
       name: name.toLowerCase(),
       price,
-      inStock,
       description,
-      content,
       category,
       images,
+      seller,
+      stock,
     });
     // out
     console.log("newProduct : ", newProduct);

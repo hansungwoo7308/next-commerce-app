@@ -9,6 +9,7 @@ export async function getServerSideProps({ query }: any) {
 }
 let renderCount = 0;
 export default function Page({ products }: any) {
+  console.log({ products });
   renderCount++;
   if (!products) return null;
   return (

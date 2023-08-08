@@ -21,8 +21,8 @@ export default function Page() {
       const response = await getData(`products/${item._id}`);
       console.log({ data: response.data });
       const { product } = response.data;
-      const { inStock, quantity } = item;
-      if (inStock) newCart.push({ ...product, quantity });
+      const { stock, quantity } = item;
+      if (stock) newCart.push({ ...product, quantity });
     }
     dispatch(reloadCart(newCart));
   };
@@ -32,7 +32,7 @@ export default function Page() {
     setToal(total);
   }, [cart]); // set the tatal
   useEffect(() => {
-    // Up-To-Date Product Data (inStock, ...)
+    // Up-To-Date Product Data (stock, ...)
     // const stringfiedCart: any = localStorage.getItem("cart");
     // if (!stringfiedCart) return;
     // const cart: any = JSON.parse(stringfiedCart);

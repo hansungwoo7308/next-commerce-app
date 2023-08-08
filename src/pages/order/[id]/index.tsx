@@ -10,7 +10,7 @@ export default function Page() {
   const auth = useSelector((store: any) => store.auth);
   const router = useRouter();
   const { id } = router.query;
-  console.log({ order });
+  // console.log({ order });
   // console.log({ id });
   // find the order
   // const order = orders.find((order: any) => order._id === id);

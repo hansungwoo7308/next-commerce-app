@@ -17,7 +17,7 @@ export async function getServerSideProps({ params: { id } }: any) {
 }
 export default function Page({ product }: any) {
   // console.log({ product });
-  const { images, name, price, inStock, sold, description, content } = product;
+  const { name, price, description, category, images, seller, stock } = product;
   const [tabIndex, setTabIndex]: any = useState(0);
   const dispatch = useDispatch();
   const { cart }: any = useSelector((store) => store);
@@ -64,12 +64,12 @@ export default function Page({ product }: any) {
               <h3>{name}</h3>
               <h5>${price}</h5>
               <div className="stock-outer">
-                {inStock && <h5>InStock : {inStock}</h5>}
-                {!inStock && <h5>OutStock</h5>}
-                <h5>Sold : {sold}</h5>
+                {stock && <h5>stock : {stock}</h5>}
+                {!stock && <h5>OutStock</h5>}
+                {/* <h5>Sold : {sold}</h5> */}
               </div>
               <p>{description}</p>
-              <p>{content}</p>
+              {/* <p>{content}</p> */}
               <div className="button-outer">
                 <button
                   onClick={() => {

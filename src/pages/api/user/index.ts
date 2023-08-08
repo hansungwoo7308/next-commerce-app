@@ -1,5 +1,5 @@
 import connectDB from "lib/server/config/connectDB";
-import User from "lib/server/model/User";
+import User from "lib/server/models/User";
 import verifyJWT from "lib/server/verifyJWT";
 connectDB();
 export default async function (req: any, res: any) {

@@ -1,15 +1,17 @@
 import mongoose from "mongoose";
 export default async function connectDB() {
-  // console.log(`\x1b[33m\n[database:${mongoose.connection.name}]\x1b[0m`);
-  if (mongoose.connection.readyState >= 1) return;
+  // if (mongoose.connection.readyState >= 1) {
+  //   console.log(mongoose.connection);
+  //   return console.log("readyState");
+  // }
   const config = {
-    dbName: "test",
+    dbName: "secondary",
     useUnifiedTopology: true,
     useNewUrlParser: true,
   };
   try {
-    // await mongoose.disconnect();
     await mongoose.connect(process.env.MONGODB_URI, config);
+    console.log("connected to secondary DB");
   } catch (error) {
     console.log(error);
   }

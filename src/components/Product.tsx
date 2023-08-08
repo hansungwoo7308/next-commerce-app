@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 export default function Product({ product, setCheckedProducts, isCheckAll }: any) {
   // console.log({ product });
-  const { _id, images, name, price, inStock, description } = product;
+  const { _id, name, price, description, category, images, seller, stock } = product;
   const auth = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
   // const { auth, cart }: any = useSelector((store) => store);
@@ -32,7 +32,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
     <>
       <Link href={`/products/${_id}`}>View</Link>
       <button
-        disabled={inStock ? false : true}
+        disabled={stock ? false : true}
         onClick={() => {
           const duplicate = cart.find((v: any) => v._id === product._id);
           if (duplicate) {
@@ -128,7 +128,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
         <h5>{name}</h5>
         <div className="price">
           <h6>${price}</h6>
-          {inStock > 0 ? <h6>In Stock : {inStock}</h6> : <h6>Out Stock</h6>}
+          {stock > 0 ? <h6>Stock : {stock}</h6> : <h6>Sold Out</h6>}
         </div>
         <p>{description}</p>
         <div className="buttons">
@@ -149,7 +149,7 @@ const Box = styled.li`
   overflow: hidden;
   background-color: #333;
   > .image {
-    height: 7rem;
+    height: 50%;
     position: relative;
     .checkbox {
       position: absolute;
@@ -157,7 +157,7 @@ const Box = styled.li`
       left: 1rem;
     }
     > a > img {
-      object-position: 0 20%;
+      object-position: center;
       /* object-position: top; */
     }
   }
@@ -168,6 +168,8 @@ const Box = styled.li`
     padding: 1rem;
     .price {
       color: #d25d5d;
+      display: flex;
+      justify-content: space-between;
     }
     > .buttons {
       flex: 1;

@@ -1,4 +1,4 @@
-import User from "lib/server/model/User";
+import User from "lib/server/models/User";
 import jwt from "jsonwebtoken";
 import connectDB from "lib/server/config/connectDB";
 import { createAccessToken, createRefreshToken } from "lib/server/createJWT";

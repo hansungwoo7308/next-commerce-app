@@ -1,37 +1,33 @@
 import connectDB from "lib/server/config/connectDB";
-import Order from "lib/server/model/Order";
-import Product from "lib/server/model/Product";
-import User from "lib/server/model/User";
+import Order from "lib/server/models/Order";
+import Product from "lib/server/models/Product";
+import User from "lib/server/models/User";
 import verifyJWT from "lib/server/verifyJWT";
 connectDB();
 export default async function (req: any, res: any) {
   console.log("\x1b[32m\n[api/order]:::[", req.method, "]");
   switch (req.method) {
     case "POST":
-      // console.log("POST");
       await createOrder(req, res);
       break;
     case "GET":
-      // console.log("GET");
       await getOrders(req, res);
       break;
     default:
       break;
   }
 }
-// handler
 const createOrder = async (req: any, res: any) => {
   try {
     // verify
     const verified: any = await verifyJWT(req, res);
     if (!verified) return res.status(401).json({ message: "Unauthorized" });
-    // console.log({ verified });
     // get the order information
     const { address, mobile, cart, total } = req.body;
     // check the product stock
     // 주문가능한지, 재고를 확인해본다.
     // flag 변수 : 재고가 있으면 count, 없으면 no count
-    console.log("checking... the stock of all products...");
+    console.log("checking stock...");
     let flagForChecking = 0;
     for (const item of cart) {
       const { _id, quantity }: any = item;
@@ -45,6 +41,7 @@ const createOrder = async (req: any, res: any) => {
       console.log("\x1b[31mcheckStock error");
       return res.status(400).json({ message: "checkStock error" });
     }
+    console.log("checked");
     // update the product in database
     let updatedProducts = [];
     for (const item of cart) {
@@ -77,7 +74,7 @@ const createOrder = async (req: any, res: any) => {
 const checkStock = async ({ _id, quantity }: any) => {
   try {
     const foundProduct = await Product.findOne({ _id }).exec();
-    if (!foundProduct.inStock || foundProduct.inStock < quantity) return false;
+    if (!foundProduct.stock || foundProduct.stock < quantity) return false;
     return true;
   } catch (error) {
     console.log("checkStock error : ", error);
@@ -89,14 +86,14 @@ const updateProduct = async (payload: any) => {
   const { _id, quantity } = payload;
   try {
     const foundProduct = await Product.findOne({ _id });
-    foundProduct.inStock -= quantity;
-    foundProduct.sold += quantity;
+    foundProduct.stock -= quantity;
+    // foundProduct.sold += quantity;
     const savedProduct = await foundProduct.save();
     return savedProduct;
     // await Product.findOneAndUpdate(
     //   { _id },
     //   {
-    //     inStock: inStock - quantity,
+    //     stock: stock - quantity,
     //     sold: sold + quantity,
     //   }
     // );
@@ -130,6 +127,7 @@ const getOrders = async (req: any, res: any) => {
       cart: order.cart,
       total: order.total,
     }));
+    console.log({ orders: filteredOrders });
     // console.log("foundOrders.length : ", foundOrders.length);
     return res.status(200).json({ orders: foundOrders });
   } catch (error: any) {
