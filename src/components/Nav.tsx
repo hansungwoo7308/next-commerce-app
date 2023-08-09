@@ -5,26 +5,32 @@ import { styled } from "styled-components";
 export default function Nav() {
   const router = useRouter();
   // console.log({ router });
-  const [toggle, setToggle]: any = useState(false);
-  const handleToggle = (e: any) => {
+  const [categoryToggle, setCategoryToggle]: any = useState(false);
+  const [shopToggle, setShopToggle]: any = useState(false);
+  const handleCategoryToggle = (e: any) => {
     e.stopPropagation();
-    setToggle((value: boolean) => !value);
+    setCategoryToggle((value: boolean) => !value);
+  };
+  const handleShopToggle = (e: any) => {
+    e.stopPropagation();
+    setShopToggle((value: boolean) => !value);
   };
   useEffect(() => {
-    document.addEventListener("click", () => setToggle(false));
+    document.addEventListener("click", () => setCategoryToggle(false));
+    document.addEventListener("click", () => setShopToggle(false));
   }, []);
   return (
     <Box>
       <ul className="main">
-        <li className="home">
+        {/* <li className="home">
           <Link href={"/"}>Home</Link>
-        </li>
-        <li className="shop">
-          <button onClick={handleToggle}>Shop</button>
-          {toggle && (
+        </li> */}
+        <li className="category">
+          <button onClick={handleCategoryToggle}>Category</button>
+          {categoryToggle && (
             <ul className="sub">
               {/* 고전적인 방식 (className에 active를 추가) */}
-              {/* <ul className={`sub ${toggle ? "active" : ""}`}> */}
+              {/* <ul className={`sub ${categoryToggle ? "active" : ""}`}> */}
               {/* main의 item이 여러개 일때, 그 item의 sub를 active or unactive 해야할 경우, sub를 선택할 때, useRef를 사용하자 */}
               {/* <ul className="sub" ref={shopSubRef}> */}
               <li>
@@ -38,6 +44,25 @@ export default function Nav() {
               </li>
               <li>
                 <Link href={"/category/food"}>Food</Link>
+              </li>
+            </ul>
+          )}
+        </li>
+        <li className="shop">
+          <button onClick={handleShopToggle}>Shop</button>
+          {shopToggle && (
+            <ul className="sub">
+              <li>
+                <Link href={"/shop/all"}>All Products</Link>
+              </li>
+              <li>
+                <Link href={"/shop/electronics"}>Electronics</Link>
+              </li>
+              <li>
+                <Link href={"/shop/fashion"}>Fashion</Link>
+              </li>
+              <li>
+                <Link href={"/shop/food"}>Food</Link>
               </li>
             </ul>
           )}
@@ -58,7 +83,8 @@ const Box = styled.nav`
       display: flex;
       /* background-color: #333; */
     }
-    > .shop {
+    .category,
+    .shop {
       > .sub {
         /* display: none; */
         position: absolute;

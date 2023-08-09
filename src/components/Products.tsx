@@ -20,12 +20,16 @@ export default function Products({ products }: any) {
 }
 const Box = styled.div`
   padding: 1rem;
-  /* border: 2px solid green; */
   > ul {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  /* border: 2px solid green; */
+  /* > ul {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
     grid-auto-rows: minmax(20rem, auto);
-    /* grid-template-rows: repeat(2, minmax(20rem, 1fr)); */
     gap: 1rem;
-  }
+  } */
 `;

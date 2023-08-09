@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 export default function Avatar({ image }: any) {
   return (
     <Box>
-      <Image src={"/placeholder.jpg"} alt="profile-image" width={300} height={300} />
+      <Image src={"/images/placeholder.jpg"} alt="profile-image" width={300} height={300} />
       {/* <Image src={image||'/placeholder.jpg'} alt="profile-image" width={300} height={300} /> */}
     </Box>
   );

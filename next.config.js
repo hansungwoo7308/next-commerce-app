@@ -26,6 +26,7 @@ const nextConfig = {
       "www.usashop.co.kr",
       "source.unsplash.com",
       "shop-phinf.pstatic.net",
+      "shopping-phinf.pstatic.net",
     ],
   },
 };
