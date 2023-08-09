@@ -1,172 +1,22 @@
 import styled from "styled-components";
-import Image from "next/image";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "lib/client/store/cartSlice";
 import { getData } from "lib/public/fetchData";
-import { setNotify } from "lib/client/store/notifySlice";
+import ProductDetail from "@/components/ProductDetail";
 // import { setNotify, setTimeoutId, setVisible } from "lib/client/store/notifySlice";
-export async function getServerSideProps({ params: { id } }: any) {
-  console.log({ id });
-  const response = await getData(`products/${id}`);
-  // const {
-  //   data: { product },
-  // } = response;
+export async function getServerSideProps({ query }: any) {
+  // params.id === query.id
+  const { id } = query;
+  const response = await getData(`v2/products/${id}`);
   const { product } = response.data;
   return { props: { product } };
 }
 export default function Page({ product }: any) {
   // console.log({ product });
-  const { name, price, description, category, images, seller, stock } = product;
-  const [tabIndex, setTabIndex]: any = useState(0);
-  const dispatch = useDispatch();
-  const { cart }: any = useSelector((store) => store);
-  //   console.log("images : ", images);
-  const handleClick = (index: any) => {
-    // tabIndex으로부터 변경될 사항
-    // setTabIndex(index);
-    // event로부터 변경될 사항
-    //   const image = e.target;
-    //   const images = image.parentNode.childNodes;
-    //   const imagesArray = Array.from(images);
-    //   imagesArray.map((image: any) => (image.style.border = ""));
-    //   image.style.border = "2px solid blue";
-  };
   return (
     <Main>
       <section>
-        <div className="product">
-          <div className="product-header">
-            <div className="product-images">
-              <div className="selected-image">
-                <Image
-                  src={images[tabIndex].url || images[tabIndex].secure_url}
-                  alt={images[tabIndex].url || images[tabIndex].secure_url}
-                  width={1000}
-                  height={1000}
-                />
-              </div>
-              <div className="unselected-images">
-                {images.map((image: any, index: any) => (
-                  <Image
-                    className={`${tabIndex === index && "active"}`}
-                    key={index}
-                    src={image.url || image.secure_url}
-                    alt={image.url || image.secure_url}
-                    width={500}
-                    height={500}
-                    onClick={() => setTabIndex(index)}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="product-info">
-              <h3>{name}</h3>
-              <h5>${price}</h5>
-              <div className="stock-outer">
-                {stock && <h5>stock : {stock}</h5>}
-                {!stock && <h5>OutStock</h5>}
-                {/* <h5>Sold : {sold}</h5> */}
-              </div>
-              <p>{description}</p>
-              {/* <p>{content}</p> */}
-              <div className="button-outer">
-                <button
-                  onClick={() => {
-                    const duplicate = cart.find((v: any) => v._id === product._id);
-                    // console.log("duplicate:", duplicate);
-                    if (duplicate) {
-                      console.log("duplicated");
-                      dispatch(setNotify({ active: true, status: "error", message: "Duplicated" }));
-                      // dispatch(setNotify({ status: "error", message: duplicate._id, visible: true }));
-                      // const timeout = setTimeout(() => {
-                      //   dispatch(setVisible(false));
-                      // }, 3000);
-                      // dispatch(setTimeoutId(timeout));
-                      return;
-                    } else {
-                      return dispatch(addToCart({ ...product, quantity: 1 }));
-                    }
-                  }}
-                >
-                  Buy
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="product-main">
-            <div className="product-detail">
-              <h3>detail...</h3>
-            </div>
-          </div>
-        </div>
+        <ProductDetail product={product} />
       </section>
     </Main>
   );
 }
-const Main = styled.main`
-  > section {
-    > .product {
-      border: 2px solid green;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      > * {
-        border: 2px solid green;
-        border-radius: 10px;
-        padding: 1rem;
-        background-color: #333;
-      }
-      > .product-header {
-        display: flex;
-        > * {
-          padding: 1rem;
-        }
-        .product-images {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          .selected-image {
-            /* height: 20rem; */
-          }
-          .unselected-images {
-            display: flex;
-            > img {
-              width: 4rem;
-            }
-            .active {
-              border: 2px solid coral;
-            }
-          }
-        }
-        .product-info {
-          display: flex;
-          flex-direction: column;
-          .stock-outer {
-            display: flex;
-            justify-content: space-between;
-          }
-          .button-outer {
-            flex: 1;
-            display: flex;
-            justify-content: flex-end;
-            /* border: 2px solid red; */
-            button {
-              place-self: end;
-            }
-          }
-        }
-      }
-      > .product-main {
-      }
-    }
-    img {
-      cursor: pointer;
-    }
-    button {
-      background-color: #777;
-      padding: 1rem;
-    }
-  }
-`;
+const Main = styled.main``;

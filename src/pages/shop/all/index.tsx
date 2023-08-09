@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 export async function getServerSideProps({ query }: any) {
   // console.log({ query });
-  const response = await getData("v2/products", undefined, query);
+  const response = await getData(`v2/products`, undefined, query);
   const { products } = response.data;
   return { props: { products } };
 }
