@@ -1,16 +1,29 @@
+import Pagination from "@/components/Pagination";
 import Products from "@/components/Products";
 import { getData } from "lib/public/fetchData";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 export async function getServerSideProps({ query }: any) {
   // console.log({ query });
+  const { page }: any = query;
   const response = await getData(`v2/products`, undefined, query);
-  const { products } = response.data;
-  return { props: { products } };
+  // const response = await getData(`v2/products?page=${page}`);
+  const { products, pages } = response.data;
+  return { props: { products, pages } };
 }
-let renderCount = 0;
-export default function Page({ products }: any) {
-  renderCount++;
+export default function Page({ products, pages }: any) {
+  const router = useRouter();
+  const [page, setPage]: any = useState(1);
+  const handleChangePage = (page: any) => {
+    setPage(page);
+    router.query.page = page;
+    console.log({ query: router.query });
+    router.push({
+      pathname: router.pathname,
+      query: router.query,
+    });
+  };
   if (!products) return null;
   return (
     <Main>
@@ -39,6 +52,10 @@ export default function Page({ products }: any) {
               </button>
             </div> */}
         </div>
+        <div>
+          <h1>Current Page : {page}</h1>
+          <Pagination pages={pages} onChangePage={handleChangePage} products={products} />
+        </div>
       </section>
     </Main>
   );
@@ -47,6 +64,6 @@ const Main = styled.main`
   .all {
     padding: 1rem;
     border: 2px solid green;
+    display: none;
   }
-  /* display: none; */
 `;
