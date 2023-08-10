@@ -1,12 +1,10 @@
-import Products from "@/components/Products";
 import { styled } from "styled-components";
-export default function Pagination({ pages, onChangePage, products }: any) {
+export default function Pagination({ pages, onChangePage }: any) {
   const totalPages = Array(pages)
     .fill(undefined)
     .map((v, i) => i + 1);
   return (
     <Box>
-      <h1>Pagination</h1>
       <ul>
         {totalPages?.map((page: any) => (
           <li key={page}>
@@ -14,7 +12,6 @@ export default function Pagination({ pages, onChangePage, products }: any) {
           </li>
         ))}
       </ul>
-      <Products products={products} />
     </Box>
   );
 }
@@ -22,7 +19,7 @@ const Box = styled.div`
   > ul {
     display: flex;
     padding: 1rem;
-    border: 2px solid;
+    border: 2px solid green;
     > li {
       padding: 1rem;
       /* border: 2px solid; */

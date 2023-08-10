@@ -16,7 +16,14 @@ export default function Search() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          setSearch("");
+          if (!search) return router.push("/shop/all");
+          router.query.search = search;
+          router.push({
+            pathname: router.pathname,
+            query: router.query,
+          });
+          console.log({ router });
+          // setSearch("");
           // router.push(`/search/${search}`);
         }}
       >
@@ -27,10 +34,10 @@ export default function Search() {
           ref={searchRef}
         />
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            dispatch(setModal({ active: true, message: "testing...", actionLabel: "test" }));
-          }}
+        // onClick={(e) => {
+        //   e.preventDefault();
+        //   dispatch(setModal({ active: true, message: "testing...", actionLabel: "test" }));
+        // }}
         >
           Search
         </button>

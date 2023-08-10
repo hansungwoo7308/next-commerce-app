@@ -53,8 +53,9 @@ export default function Page({ products, pages }: any) {
             </div> */}
         </div>
         <div>
-          <h1>Current Page : {page}</h1>
-          <Pagination pages={pages} onChangePage={handleChangePage} products={products} />
+          {/* <h1>Current Page : {page}</h1> */}
+          <Pagination pages={pages} onChangePage={handleChangePage} />
+          <Products products={products} />
         </div>
       </section>
     </Main>

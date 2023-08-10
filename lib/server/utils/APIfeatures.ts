@@ -9,6 +9,7 @@ export default class APIfeatures {
     // get
     const { search } = this.queryString;
     // find
+    // if (search) this.queryProducts.find({ name: search });
     if (search) this.queryProducts.find({ name: { $regex: search } });
     // out
     return this;
