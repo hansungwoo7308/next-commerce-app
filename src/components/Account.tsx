@@ -28,9 +28,7 @@ export default function Account() {
       {/* admin toggle */}
       {toggle && auth.user.role === "admin" && (
         <div className="toggle">
-          <Link href={"/"}>Account</Link>
-          <Link href={"/"}>menu</Link>
-          <Link href={"/"}>menu</Link>
+          <Link href={"/my/account"}>Account</Link>
           <button>Sign out</button>
         </div>
       )}

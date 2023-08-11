@@ -1,8 +1,10 @@
 // import { setTimeoutId, setNotify, setVisible, setLoading } from "lib/client/store/notifySlice";
 // import { useSession } from "next-auth/react";
+import logResponse from "lib/client/log/logResponse";
 import { addToCart } from "lib/client/store/cartSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import { setNotify } from "lib/client/store/notifySlice";
+import { deleteData } from "lib/public/fetchData";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -29,7 +31,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
     //   });
     // }
   };
-  const buttonsByUser = (
+  const buttonByUser = (
     <button
       disabled={stock ? false : true}
       onClick={() => {
@@ -79,9 +81,29 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
       Add to cart
     </button>
   );
-  const buttonsByAdmin = (
+  const buttonByAdmin = (
     <button
       className="delete-button"
+      onClick={() => {
+        const action = async () => {
+          // delete
+          const response = await deleteData(`v2/products/${_id}`, auth.accessToken);
+          // const { _id } = response.data.deletedProduct;
+          // out
+          logResponse(response);
+          router.push({ pathname: router.pathname });
+          // dispatch(deleteUser({ _id }));
+        };
+        dispatch(
+          setModal({
+            active: true,
+            type: "DEFAULT",
+            message: "Do you want to delete the product?",
+            actionLabel: "Delete",
+            action,
+          })
+        );
+      }}
       // onClick={() => {
       //   dispatch(
       //     setModal({
@@ -131,9 +153,9 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
         </div>
         <div className="right">
           {/* <div className="stock">{stock > 0 ? <h6>Stock ({stock}) </h6> : <h6>Sold Out</h6>}</div> */}
-          {/* {auth.role === "admin" && buttonsByAdmin} */}
           <h3>${price}</h3>
-          {auth.user?.role === "user" && buttonsByUser}
+          {auth.user?.role === "admin" && buttonByAdmin}
+          {auth.user?.role === "user" && buttonByUser}
         </div>
       </div>
     </Box>

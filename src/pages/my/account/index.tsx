@@ -22,29 +22,29 @@ export default function Page() {
   const dataset = [
     {
       id: "username",
-      mode: usernameEditMode,
-      setMode: setUsernameEditMode,
+      editMode: usernameEditMode,
+      setEditMode: setUsernameEditMode,
       newValue: newUsername,
       setNewValue: setNewUsername,
     },
     {
       id: "email",
-      mode: emailEditMode,
-      setMode: setEmailEditMode,
+      editMode: emailEditMode,
+      setEditMode: setEmailEditMode,
       newValue: newEmail,
       setNewValue: setNewEmail,
     },
     {
       id: "role",
-      mode: roleEditMode,
-      setMode: setRoleEditMode,
+      editMode: roleEditMode,
+      setEditMode: setRoleEditMode,
       newValue: newRole,
       setNewValue: setNewRole,
     },
     // {
     //   id: "image",
-    //   mode: imageEditMode,
-    //   setMode: setImageEditMode,
+    //   editMode: imageEditMode,
+    //   setEditMode: setImageEditMode,
     //   newValue: newImage,
     //   setNewValue: setNewImage,
     // },
@@ -56,7 +56,7 @@ export default function Page() {
     try {
       // console.log({ newValueKey, newValue });
       const payload = { _id, [newValueKey]: newValue };
-      // console.log({ payload });
+      console.log({ payload });
       // updateUser(payload);
       const response = await patchData("user", payload, auth.accessToken);
       const { updatedUser } = response.data;
@@ -104,16 +104,47 @@ export default function Page() {
   // );
   const content = dataset.map((data: any) => (
     <li key={data.id}>
-      {data.mode ? (
+      {data.editMode ? (
         <>
-          <input type="text" name={data.id} onChange={(e) => data.setNewValue(e.target.value)} />
-          <div className="buttons">
-            <button onClick={() => data.setMode(false)}>cancel</button>
+          <div className="left">
+            {data.id === "role" ? (
+              <>
+                <div>
+                  <input
+                    type="radio"
+                    name={data.id}
+                    value="admin"
+                    id="admin"
+                    onChange={(e) => data.setNewValue(e.target.value)}
+                  />
+                  <label htmlFor="admin">admin</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    name={data.id}
+                    value="user"
+                    id="user"
+                    onChange={(e) => data.setNewValue(e.target.value)}
+                  />
+                  <label htmlFor="user">user</label>
+                </div>
+              </>
+            ) : (
+              <input
+                type="text"
+                name={data.id}
+                onChange={(e) => data.setNewValue(e.target.value)}
+              />
+            )}
+          </div>
+          <div className="right">
+            <button onClick={() => data.setEditMode(false)}>cancel</button>
             <button
               onClick={() => {
                 console.log({ "data.newValue": data.newValue });
                 handleUpdateNewValue(data.id, data.newValue);
-                data.setMode(false);
+                data.setEditMode(false);
               }}
             >
               save
@@ -126,9 +157,9 @@ export default function Page() {
             {data.id === "username" && username}
             {data.id === "email" && email}
             {data.id === "role" && role}
-            {data.id === "image" && image}
+            {/* {data.id === "image" && image} */}
           </p>
-          <button onClick={() => data.setMode(true)}>edit</button>
+          <button onClick={() => data.setEditMode(true)}>edit</button>
         </>
       )}
     </li>
@@ -174,7 +205,14 @@ const Main = styled.main`
             border: 2px solid;
             padding: 0.5rem;
             border-radius: 3px;
-            .buttons {
+            .left {
+              display: flex;
+              gap: 0.5rem;
+              label {
+                padding: 5px;
+              }
+            }
+            .right {
               display: flex;
               gap: 0.5rem;
             }
