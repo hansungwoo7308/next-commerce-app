@@ -91,7 +91,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
           // const { _id } = response.data.deletedProduct;
           // out
           logResponse(response);
-          router.push({ pathname: router.pathname });
+          router.push({ pathname: router.pathname, query: router.query });
           // dispatch(deleteUser({ _id }));
         };
         dispatch(
