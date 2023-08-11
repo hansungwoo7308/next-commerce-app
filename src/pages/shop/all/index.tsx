@@ -18,11 +18,7 @@ export default function Page({ products, pages }: any) {
   const handleChangePage = (page: any) => {
     setPage(page);
     router.query.page = page;
-    console.log({ query: router.query });
-    router.push({
-      pathname: router.pathname,
-      query: router.query,
-    });
+    router.push({ pathname: router.pathname, query: router.query });
   };
   if (!products) return null;
   return (
@@ -54,7 +50,7 @@ export default function Page({ products, pages }: any) {
         </div>
         <div>
           {/* <h1>Current Page : {page}</h1> */}
-          <Pagination pages={pages} onChangePage={handleChangePage} />
+          <Pagination pages={pages} page={page} onChangePage={handleChangePage} />
           <Products products={products} />
         </div>
       </section>

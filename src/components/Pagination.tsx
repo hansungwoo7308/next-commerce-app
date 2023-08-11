@@ -1,10 +1,26 @@
 import { styled } from "styled-components";
-export default function Pagination({ pages, onChangePage }: any) {
+export default function Pagination({ pages, page, onChangePage }: any) {
   const totalPages = Array(pages)
     .fill(undefined)
     .map((v, i) => i + 1);
   return (
     <Box>
+      <ul className="left">
+        <li>
+          <button onClick={() => onChangePage(1)}>{"<<"}</button>
+        </li>
+        <li>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              if (page === 1) return;
+              onChangePage(page - 1);
+            }}
+          >
+            {"<"}
+          </button>
+        </li>
+      </ul>
       <ul>
         {totalPages?.map((page: any) => (
           <li key={page}>
@@ -12,14 +28,32 @@ export default function Pagination({ pages, onChangePage }: any) {
           </li>
         ))}
       </ul>
+      <ul className="right">
+        <li>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              if (page === pages) return;
+              onChangePage(page + 1);
+            }}
+          >
+            {">"}
+          </button>
+        </li>
+        <li>
+          <button onClick={() => onChangePage(pages)}>{">>"}</button>
+        </li>
+      </ul>
     </Box>
   );
 }
 const Box = styled.div`
+  display: flex;
+  border: 2px solid green;
   > ul {
     display: flex;
     padding: 1rem;
-    border: 2px solid green;
+    border: 2px solid;
     > li {
       padding: 1rem;
       /* border: 2px solid; */
