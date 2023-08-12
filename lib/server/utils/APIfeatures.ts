@@ -20,7 +20,8 @@ export default class APIfeatures {
       const ratingsArray = ratings.split("+").map((v: string) => Number(v));
       // console.log({ ratingsArray });
       ratingsArray.map((value: any) => {
-        this.queryProducts.find().or({ ratings: { $gte: value } });
+        this.queryProducts.find().or({ ratings: value });
+        // this.queryProducts.find().or({ ratings: { $gte: value } });
       });
     }
     if (test) {

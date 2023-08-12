@@ -16,22 +16,86 @@ export default function Filters() {
   const twoRef: any = useRef();
   const oneRef: any = useRef();
   const [ratingsElements, setRatingsElements]: any = useState([]);
-  const handleClick = (e: any) => {
-    const { name, value } = e.target;
-    // query key 에서 중복필드를 검사한다.
-    if (name === "ratings") {
-      for (let key in router.query) {
-        if (key === name) {
-          // 중복필드에 append 한다.
-          router.query = { ...router.query, [name]: router.query[name] + "+" + value };
-          router.push({ pathname: router.pathname, query: router.query });
-          return;
-        }
-      }
-    }
-    router.query = { ...router.query, [name]: value };
-    router.push({ pathname: router.pathname, query: router.query });
+  const [ratingsValues, setRatingsValues]: any = useState([]);
+  const addRatingsValue = (value: any) => {
+    setRatingsValues([...ratingsValues, value]);
   };
+  const removeRatingsValue = (value: any) => {
+    const updatedState = ratingsValues.filter((v: any) => v !== value);
+    setRatingsValues(updatedState);
+  };
+  const handleClick = (e: any) => {
+    // input tag의 key, value
+    const { name, value } = e.target;
+    // console.log({ name, value });
+
+    if (e.target.checked) addRatingsValue(value);
+    else removeRatingsValue(value);
+
+    // ratingsValues 배열에 이미 존재하면, 배열에서 제거
+    // setRatingsValues((prevState: any) => {
+    //   const newState = prevState.filter((v: any) => {
+    //     if (v === value) {
+    //       console.log({ v, value });
+    //       return;
+    //     }
+    //     return v;
+    //   });
+    //   return [...prevState, newState];
+    // });
+    // ratingsValues.map((v: any) => console.log(v));
+    // for (let value of ratingsValues) {
+    //   console.log({ value });
+    // }
+    // console.log({ ratingsValues });
+    // const newState = [...ratingsValues, value];
+    // setRatingsValues((prevState: any) => {
+    //   console.log({ prevState });
+    //   if (prevState === value) return prevState;
+    //   return newState;
+    // });
+    // console.log({ updatedState });
+    // setRatingsValues(updatedState);
+
+    // rating input elements 중에서 체크된 상태에 따라서, 상태변경을 해준다.
+    // ratingsValues.map((ratingsValue: any) => {
+    //   // // 중복필드는 패스한다.
+    //   // if(ratingsValue===name) return
+    //   // // 새
+    //   // return [...ratingsValues,value]
+    // });
+    // ratingsElements.map((element: any) => {
+    //   if (element.checked) {
+    //     setRatingsValues((state: any) => [...state, element.value]);
+    //   }
+    // });
+
+    // query key 에서 중복필드를 검사한다.
+    // if (name === "ratings") {
+    //   for (let key in router.query) {
+    //     if (key === name) {
+    //       // 중복필드에 append 한다.
+    //       router.query = { ...router.query, [name]: router.query[name] + "+" + value };
+    //       router.push({ pathname: router.pathname, query: router.query });
+    //       return;
+    //     }
+    //   }
+    // }
+
+    router.query = { ...router.query, [name]: value };
+    // router.query = { ...router.query, [name]: value };
+    // router.push({ pathname: router.pathname, query: router.query });
+  };
+  useEffect(() => {
+    console.log({ ratingsValues });
+    const test = ratingsValues.reduce((a: any, v: any, i: any) => {
+      if (i === 0) return v;
+      return a + "+" + v;
+    }, "");
+    console.log({ test });
+    router.query = { ...router.query, ratings: test };
+    router.push({ pathname: router.pathname, query: router.query });
+  }, [ratingsValues]);
   useEffect(() => {
     // 관리할 input elements를 셋팅한다.
     setCategoryElements([allRef.current, electronicsRef.current, foodRef.current]);
@@ -48,11 +112,11 @@ export default function Filters() {
     if (!router.query.category) {
       allRef.current.checked = true;
     }
-    // if (!router.query.ratings) {
-    //   ratingsElements.map((elements: any) => {
-    //     elements.checked = false;
-    //   });
-    // }
+    if (!router.query.ratings) {
+      ratingsElements.map((elements: any) => {
+        elements.checked = false;
+      });
+    }
   }, [router.query.category, router.query.ratings]);
   useEffect(() => {
     // element values 중에서 router query parameter 와 일치하면. element 를 체크해준다.
@@ -148,6 +212,8 @@ export default function Filters() {
           </li>
         </ul>
       </div>
+      <h1>RaringsValues : {JSON.stringify(ratingsValues)}</h1>
+
       {/* <div className="ratings">
         <h3>Ratings</h3>
         <ul>
