@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import { json } from "stream/consumers";
 import { styled } from "styled-components";
 export default function Filters() {
   const router = useRouter();
@@ -17,7 +18,17 @@ export default function Filters() {
   const [ratingsElements, setRatingsElements]: any = useState([]);
   const handleClick = (e: any) => {
     const { name, value } = e.target;
-    // router.query[name] = value;
+    // query key 에서 중복필드를 검사한다.
+    if (name === "ratings") {
+      for (let key in router.query) {
+        if (key === name) {
+          // 중복필드에 append 한다.
+          router.query = { ...router.query, [name]: router.query[name] + "+" + value };
+          router.push({ pathname: router.pathname, query: router.query });
+          return;
+        }
+      }
+    }
     router.query = { ...router.query, [name]: value };
     router.push({ pathname: router.pathname, query: router.query });
   };
@@ -31,18 +42,17 @@ export default function Filters() {
       twoRef.current,
       oneRef.current,
     ]);
-    console.log({ router });
   }, []);
   useEffect(() => {
     // router query 가 없으면, 초기화한다.
     if (!router.query.category) {
       allRef.current.checked = true;
     }
-    if (!router.query.ratings) {
-      ratingsElements.map((elements: any) => {
-        elements.checked = false;
-      });
-    }
+    // if (!router.query.ratings) {
+    //   ratingsElements.map((elements: any) => {
+    //     elements.checked = false;
+    //   });
+    // }
   }, [router.query.category, router.query.ratings]);
   useEffect(() => {
     // element values 중에서 router query parameter 와 일치하면. element 를 체크해준다.
@@ -102,6 +112,47 @@ export default function Filters() {
         <ul>
           <li>
             <label>
+              <input ref={fiveRef} type="checkbox" name="ratings" value="5" onClick={handleClick} />
+              <span>*****</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input ref={fourRef} type="checkbox" name="ratings" value="4" onClick={handleClick} />
+              <span>****</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                ref={threeRef}
+                type="checkbox"
+                name="ratings"
+                value="3"
+                onClick={handleClick}
+              />
+              <span>***</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input ref={twoRef} type="checkbox" name="ratings" value="2" onClick={handleClick} />
+              <span>**</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input ref={oneRef} type="checkbox" name="ratings" value="1" onClick={handleClick} />
+              <span>*</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      {/* <div className="ratings">
+        <h3>Ratings</h3>
+        <ul>
+          <li>
+            <label>
               <input ref={fiveRef} type="radio" name="ratings" value="5" onClick={handleClick} />
               <span>*****</span>
             </label>
@@ -131,7 +182,42 @@ export default function Filters() {
             </label>
           </li>
         </ul>
-      </div>
+      </div> */}
+      {/* <div className="test">
+        <h3>Test</h3>
+        <ul>
+          <li>
+            <label>
+              <input type="checkbox" name="test" value="a" onClick={handleClick} />
+              <span>a</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" name="test" value="b" onClick={handleClick} />
+              <span>b</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" name="test" value="c" onClick={handleClick} />
+              <span>c</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" name="test" value="d" onClick={handleClick} />
+              <span>d</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" name="test" value="e" onClick={handleClick} />
+              <span>e</span>
+            </label>
+          </li>
+        </ul>
+      </div> */}
     </Box>
   );
 }

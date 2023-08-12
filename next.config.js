@@ -28,6 +28,7 @@ const nextConfig = {
       "shop-phinf.pstatic.net",
       "shopping-phinf.pstatic.net",
       "www.thecookierookie.com",
+      "imagesvc.meredithcorp.io",
     ],
   },
 };
