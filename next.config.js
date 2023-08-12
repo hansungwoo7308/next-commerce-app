@@ -27,6 +27,7 @@ const nextConfig = {
       "source.unsplash.com",
       "shop-phinf.pstatic.net",
       "shopping-phinf.pstatic.net",
+      "www.thecookierookie.com",
     ],
   },
 };
