@@ -1,3 +1,4 @@
+import Filters from "@/components/Filters";
 import Pagination from "@/components/Pagination";
 import Products from "@/components/Products";
 import { getData } from "lib/public/fetchData";
@@ -50,8 +51,9 @@ export default function Page({ products, pages }: any) {
         </div>
         <div>
           {/* <h1>Current Page : {page}</h1> */}
-          <Pagination pages={pages} page={page} onChangePage={handleChangePage} />
+          <Filters />
           <Products products={products} />
+          <Pagination pages={pages} page={page} onChangePage={handleChangePage} />
         </div>
       </section>
     </Main>

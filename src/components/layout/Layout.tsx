@@ -20,8 +20,7 @@ export default function Layout({ children }: any) {
     try {
       dispatch(setLoading(true));
       const response = await getData("auth/refresh");
-      logResponse(response);
-      // console.log({ response });
+      // logResponse(response);
       const { user, accessToken } = response.data;
       dispatch(setCredentials({ user, accessToken }));
       dispatch(setLoading(false));

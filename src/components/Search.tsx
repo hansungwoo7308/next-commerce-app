@@ -18,10 +18,7 @@ export default function Search() {
           e.preventDefault();
           if (!search) return router.push("/shop/all");
           router.query.search = search;
-          router.push({
-            pathname: router.pathname,
-            query: router.query,
-          });
+          router.push({ pathname: router.pathname, query: router.query });
           console.log({ router });
           // setSearch("");
           // router.push(`/search/${search}`);

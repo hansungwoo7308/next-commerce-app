@@ -20,12 +20,13 @@ export default function Products({ products }: any) {
 }
 const Box = styled.div`
   padding: 1rem;
+  border: 2px solid green;
+  min-height: 70vh;
   > ul {
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
-  /* border: 2px solid green; */
   /* > ul {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
