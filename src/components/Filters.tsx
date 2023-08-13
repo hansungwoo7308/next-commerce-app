@@ -15,8 +15,8 @@ export default function Filters() {
   const threeRef: any = useRef();
   const twoRef: any = useRef();
   const oneRef: any = useRef();
-  const [ratingsElements, setRatingsElements]: any = useState([]);
   const [ratings, setRatings]: any = useState([]);
+  const [ratingsElements, setRatingsElements]: any = useState([]);
   // category handler
   const handleClickCategory = (e: any) => {
     const { name, value } = e.target;
@@ -70,7 +70,7 @@ export default function Filters() {
     //   }
     // }
   };
-  // ratings handler
+  // ratings handlers
   const addRatingsValue = (value: any) => {
     setRatings([...ratings, value]);
   };
@@ -83,6 +83,7 @@ export default function Filters() {
     if (e.target.checked) addRatingsValue(value);
     else removeRatingsValue(value);
   };
+  // ratings effectors
   useEffect(() => {
     // 관리할 input elements를 셋팅한다.
     setCategoryElements([allRef.current, electronicsRef.current, foodRef.current]);
@@ -93,7 +94,7 @@ export default function Filters() {
       twoRef.current,
       oneRef.current,
     ]);
-  }, []);
+  }, []); // elements references 를 localState 에 저장한다.
   useEffect(() => {
     const localStorageRatings = localStorage.getItem("ratings");
     if (!localStorageRatings) return;
@@ -103,47 +104,40 @@ export default function Filters() {
       console.log({ splittedRatings });
       setRatings(splittedRatings);
     }
-  }, []); // 캐싱데이터로 로컬스테이트를 저장한다.
+  }, []); // localStorage 에서 데이터를 가져와서 localState 에 저장한다.
   useEffect(() => {
     console.log({ ratings });
-    // ratings state 없으면 작업종료한다.
+    // no ratings, remove the localStorage.ratings and router.query.ratings
+    // ratings state 가 없으면 localStorage, router.query 에 저장된 데이터를 클리어해준다.
     if (!ratings.length) {
       localStorage.removeItem("ratings");
       delete router.query.ratings;
       router.push({ pathname: router.pathname, query: router.query });
       return;
     }
-    // string 으로 변환한다.
+    // stringify the ratings
     const stringfiedRatings = ratings.reduce((a: any, v: any, i: any) => {
       if (i === 0) return v;
       return a + "+" + v;
     }, "");
-    // localStorage 에 캐싱한다.
+    // set the localStorage and router.query
     localStorage.setItem("ratings", stringfiedRatings);
-    // set the query
     router.query = { ...router.query, ratings: stringfiedRatings };
     // out
     router.push({ pathname: router.pathname, query: router.query });
     ratingsElements.map((element: any) => {
-      console.log({ element });
       ratings.map((value: any) => {
-        console.log({ value });
         if (element.value === value) element.checked = true;
       });
     });
-  }, [ratings]); // ratings 로컬상태를 string 으로 변환하고 캐싱한다.
-
+  }, [ratings]); // localStorage, router.query 에 저장한다. router.push() 로 요청한다.
+  // category effectors
   useEffect(() => {
     // router query 가 없으면, 초기화한다.
     if (!router.query.category) {
       allRef.current.checked = true;
     }
-    // if (!router.query.ratings) {
-    //   ratingsElements.map((elements: any) => {
-    //     elements.checked = false;
-    //   });
-    // }
-  }, [router.query.category, router.query.ratings]);
+  }, [router.query.category]);
   useEffect(() => {
     // element values 중에서 router query parameter 와 일치하면. element 를 체크해준다.
     categoryElements.map((element: any) => {
