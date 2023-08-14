@@ -70,19 +70,6 @@ export default function Filters() {
     //   }
     // }
   };
-  // category effectors
-  useEffect(() => {
-    // router query 가 없으면, 초기화한다.
-    if (!router.query.category) {
-      allRef.current.checked = true;
-    }
-  }, [router.query.category]);
-  useEffect(() => {
-    // element values 중에서 router query parameter 와 일치하면. element 를 체크해준다.
-    categoryElements.map((element: any) => {
-      if (element.value === router.query.category) element.checked = true;
-    });
-  }, [categoryElements]);
   // ratings handlers
   const addRatingsValue = (value: any) => {
     setRatings((state: any) => [...state, value]);
@@ -95,9 +82,8 @@ export default function Filters() {
     if (e.target.checked) addRatingsValue(value);
     else removeRatingsValue(value);
   };
-  // ratings effectors
+  // effectors
   useEffect(() => {
-    // 관리할 input elements를 셋팅한다.
     setCategoryElements([allRef.current, electronicsRef.current, foodRef.current]);
     setRatingsElements([
       fiveRef.current,
@@ -106,8 +92,16 @@ export default function Filters() {
       twoRef.current,
       oneRef.current,
     ]);
-  }, []); // elements ref 를 localState 에 캐싱한다.
+    // 카테고리 쿼리가 없으면, 카테고리 all에 체크한다.
+    if (!router.query.category) allRef.current.checked = true;
+  }, []); // 컴포넌트 스테이트 초기화
   useEffect(() => {
+    categoryElements.map((element: any) => {
+      if (element.value === router.query.category) element.checked = true;
+    });
+  }, [categoryElements]); // categoryElements로부터 쿼리와 일치하는 해당항목에 체크한다.
+  useEffect(() => {
+    // 로컬스토리지에 ratings가 있으면 컴포넌트스테이트에 채운다.
     const localStorageRatings = localStorage.getItem("ratings");
     if (!localStorageRatings) return;
     if (!ratings.length) {
@@ -116,11 +110,10 @@ export default function Filters() {
       console.log({ splittedRatings });
       setRatings(splittedRatings);
     }
-  }, []); // localStorage data 를 state 에 채운다.
+  }, []); // ratings 초기화
   useEffect(() => {
     console.log({ ratings });
-    // no ratings, remove the localStorage.ratings and router.query.ratings
-    // ratings state 가 없으면 localStorage, router.query 에 저장된 데이터를 클리어해준다.
+    // ratings가 없으면 로컬스토리지와 라우터쿼리에 저장된 데이터를 삭제한다.
     if (!ratings.length) {
       localStorage.removeItem("ratings");
       delete router.query.ratings;
@@ -142,7 +135,7 @@ export default function Filters() {
         if (element.value === value) element.checked = true;
       });
     });
-  }, [ratings]); // ratings 를 localStorage 에 캐싱하고, 수정된 query 로 라우팅한다.
+  }, [ratings]); // ratings로부터 로컬스토리지에 캐싱하고, 쿼리를 추가하여 라우팅하고, 해당항목에 체크한다.
   return (
     <Box>
       <div className="filters">

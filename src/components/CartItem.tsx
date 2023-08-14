@@ -1,26 +1,25 @@
-import { decreaseQuantity, deleteItem, increaseQuantity } from "lib/client/store/cartSlice";
-import { setModal } from "lib/client/store/modalSlice";
+import { increaseQuantity, decreaseQuantity, deleteItem } from "lib/client/store/cartSlice";
+import { useDispatch } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
-// import { openModal } from "lib/client/store/modalSlice";
-// import { getData } from "lib/client/utils/fetchData";
+import { setNotify } from "lib/client/store/notifySlice";
 export default function CartItem({ item }: any) {
   const { _id, name, price, description, category, images, seller, stock, quantity } = item;
   const dispatch = useDispatch();
   const handleDecreaseQuantity = () => {
+    // if (quantity <= 0) return console.log("something wrong");
     dispatch(decreaseQuantity({ _id }));
   };
   const handleIncreaseQuantity = () => {
+    // if (quantity > Number(stock)) return console.log("something wrong");
     dispatch(increaseQuantity({ _id }));
   };
-  const handleDeleteItem = () => {
-    dispatch(
-      setModal({ active: true, type: "DELETE_ITEM", message: "Do you want to delete?", id: _id })
-    );
-  };
+  // const handleDeleteItem = () => {
+  //   // dispatch(
+  //   //   setModal({ active: true, type: "DELETE_ITEM", message: "Do you want to delete?", id: _id })
+  //   // );
+  // };
   return (
     <Box>
       <div className="product-description">

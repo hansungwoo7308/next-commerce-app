@@ -1,20 +1,17 @@
 import CartItem from "@/components/CartItem";
-import { reloadCart } from "lib/client/store/cartSlice";
-import { setNotify } from "lib/client/store/notifySlice";
-import { getData } from "lib/public/fetchData";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { reloadCart } from "lib/client/store/cartSlice";
+import { setNotify } from "lib/client/store/notifySlice";
+import { getData } from "lib/public/fetchData";
 import styled from "styled-components";
-// import CartItem from "@/components/commerce/CartItem";
-// import { addOrder } from "lib/client/store/orderSlice";
-// import { getData } from "lib/client/utils/fetchData";
 export default function Page() {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const cart = useSelector((store: any) => store.cart);
   const auth = useSelector((store: any) => store.auth);
   const [total, setToal]: any = useState(0);
-  const dispatch = useDispatch();
-  const router = useRouter();
   const setCart = async () => {
     let newCart: any = [];
     for (const item of cart) {
@@ -26,18 +23,6 @@ export default function Page() {
     }
     dispatch(reloadCart(newCart));
   };
-  useEffect(() => {
-    // 주문금액을 스토어에 저장한다.
-    const total = cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0);
-    setToal(total);
-  }, [cart]); // set the tatal
-  useEffect(() => {
-    // Up-To-Date Product Data (stock, ...)
-    // const stringfiedCart: any = localStorage.getItem("cart");
-    // if (!stringfiedCart) return;
-    // const cart: any = JSON.parse(stringfiedCart);
-    setCart();
-  }, []); // get the up-to-date cart
   const handleOrder = (e: any) => {
     e.preventDefault();
     if (!auth.accessToken) {
@@ -54,6 +39,18 @@ export default function Page() {
     // dispatch(addOrder(payload));
     router.push("/order");
   };
+  useEffect(() => {
+    // 주문금액을 스토어에 저장한다.
+    const total = cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0);
+    setToal(total);
+  }, [cart]); // set the tatal
+  useEffect(() => {
+    // Up-To-Date Product Data (stock, ...)
+    // const stringfiedCart: any = localStorage.getItem("cart");
+    // if (!stringfiedCart) return;
+    // const cart: any = JSON.parse(stringfiedCart);
+    setCart();
+  }, []); // get the up-to-date cart
   if (!cart.length) {
     return (
       <Main>
@@ -75,7 +72,7 @@ export default function Page() {
               <CartItem key={item._id} item={item} />
             ))}
           </ul>
-          <h3>Total : ${cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0)}</h3>
+          <h3>Total : ${total}</h3>
           <div className="payment">
             <button onClick={handleOrder}>Order</button>
           </div>
