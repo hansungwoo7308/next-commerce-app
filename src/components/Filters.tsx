@@ -85,11 +85,10 @@ export default function Filters() {
   }, [categoryElements]);
   // ratings handlers
   const addRatingsValue = (value: any) => {
-    setRatings([...ratings, value]);
+    setRatings((state: any) => [...state, value]);
   };
   const removeRatingsValue = (value: any) => {
-    const updatedState = ratings.filter((v: any) => v !== value);
-    setRatings(updatedState);
+    setRatings((state: any) => state.filter((v: any) => v !== value));
   };
   const handleClickRatings = (e: any) => {
     const { value } = e.target;
@@ -107,7 +106,7 @@ export default function Filters() {
       twoRef.current,
       oneRef.current,
     ]);
-  }, []); // elements references 를 localState 에 저장한다.
+  }, []); // elements ref 를 localState 에 캐싱한다.
   useEffect(() => {
     const localStorageRatings = localStorage.getItem("ratings");
     if (!localStorageRatings) return;
@@ -117,7 +116,7 @@ export default function Filters() {
       console.log({ splittedRatings });
       setRatings(splittedRatings);
     }
-  }, []); // localStorage 에서 데이터를 가져와서 localState 에 저장한다.
+  }, []); // localStorage data 를 state 에 채운다.
   useEffect(() => {
     console.log({ ratings });
     // no ratings, remove the localStorage.ratings and router.query.ratings
@@ -143,7 +142,7 @@ export default function Filters() {
         if (element.value === value) element.checked = true;
       });
     });
-  }, [ratings]); // localStorage, router.query 에 저장한다. router.push() 로 요청한다.
+  }, [ratings]); // ratings 를 localStorage 에 캐싱하고, 수정된 query 로 라우팅한다.
   return (
     <Box>
       <div className="filters">
