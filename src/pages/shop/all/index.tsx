@@ -60,6 +60,9 @@ export default function Page({ products, pages }: any) {
   );
 }
 const Main = styled.main`
+  > section > div {
+    /* border: 2px solid blue; */
+  }
   .all {
     padding: 1rem;
     border: 2px solid green;

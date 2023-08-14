@@ -2,8 +2,14 @@
 const nextConfig = {
   // reactStrictMode: true,
   reactStrictMode: false,
+  // environment variables
   env: {
+    // mongodb
     MONGODB_URI: process.env.MONGODB_URI,
+    // cloudinary (image upload)
+    CLOUDINARY_NAME: "dzktdrw7o",
+    CLOUDINARY_PRESET: "next_commerce_app_upload_preset",
+    CLOUDINARY_API_BASE_URL: "https://api.cloudinary.com/v1_1/dzktdrw7o/upload",
   },
   images: {
     // remotePatterns: [
@@ -31,6 +37,32 @@ const nextConfig = {
       "imagesvc.meredithcorp.io",
     ],
   },
+  // async headers() {
+  //   return [
+  //     {
+  //       // source: "/:path*",
+  //       source: "/api/:path*",
+  //       headers: [
+  //         {
+  //           key: "Access-Control-Allow-Origin",
+  //           value: "*",
+  //         },
+  //         {
+  //           key: "Access-Control-Allow-Methods",
+  //           value: "GET, POST, PUT, DELETE, OPTIONS",
+  //         },
+  //         {
+  //           key: "Access-Control-Allow-Headers",
+  //           value:
+  //             "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+  //         },
+  //         {
+  //           key: "Access-Control-Allow-Credentials",
+  //           value: "true",
+  //         },
+  //       ],
+  //     },
+  //   ];
+  // },
 };
-
 module.exports = nextConfig;

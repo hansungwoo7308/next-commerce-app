@@ -28,14 +28,14 @@ export default function Account() {
       {/* admin toggle */}
       {toggle && auth.user.role === "admin" && (
         <div className="toggle">
-          <Link href={"/my/account"}>Account</Link>
+          <Link href={"/my/profile"}>Profile</Link>
           <button>Sign out</button>
         </div>
       )}
       {/* user toggle */}
       {toggle && auth.user.role === "user" && (
         <div className="toggle">
-          <Link href={"/my/account"}>Account</Link>
+          <Link href={"/my/profile"}>Profile</Link>
           <Link href={"/my/order-list"}>Order List</Link>
           <button>Sign out</button>
         </div>

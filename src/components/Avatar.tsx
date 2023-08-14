@@ -3,14 +3,21 @@ import { styled } from "styled-components";
 export default function Avatar({ image }: any) {
   return (
     <Box>
-      <Image src={"/images/placeholder.jpg"} alt="profile-image" width={300} height={300} />
+      <Image
+        src={image || "/images/placeholder.jpg"}
+        alt="profile-image"
+        width={300}
+        height={300}
+      />
       {/* <Image src={image||'/placeholder.jpg'} alt="profile-image" width={300} height={300} /> */}
     </Box>
   );
 }
 const Box = styled.div`
-  width: 150px;
-  height: 150px;
+  width: 12rem;
+  height: 12rem;
+  border: 5px solid;
+  border-radius: 50%;
   img {
     border-radius: 50%;
   }

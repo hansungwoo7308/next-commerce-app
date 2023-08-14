@@ -8,9 +8,11 @@ export default class APIfeatures {
   filter() {
     // get
     const { search, category, ratings, test } = this.queryString;
-    // find
-    // if (search) this.queryProducts.find({ name: search });
-    if (search) this.queryProducts.find({ name: { $regex: search } });
+    // filter
+    if (search) {
+      // this.queryProducts.find({ name: search });
+      this.queryProducts.find({ name: { $regex: search } });
+    }
     if (category) {
       if (category === "all") return;
       this.queryProducts.find({ category: { $regex: category } });
@@ -24,14 +26,14 @@ export default class APIfeatures {
         // this.queryProducts.find().or({ ratings: { $gte: value } });
       });
     }
-    if (test) {
-      const testArray = test.split("+");
-      console.log({ testArray });
-      // this.queryProducts.find({ name: { $or: testArray } });
-      testArray.map((value: any) => {
-        this.queryProducts.find().or({ name: { $regex: value } });
-      });
-    }
+    // if (test) {
+    //   const testArray = test.split("+");
+    //   console.log({ testArray });
+    //   // this.queryProducts.find({ name: { $or: testArray } });
+    //   testArray.map((value: any) => {
+    //     this.queryProducts.find().or({ name: { $regex: value } });
+    //   });
+    // }
     // if (ratings) this.queryProducts.find({ ratings: { $regex: Number(ratings) } });
     // out
     return this;

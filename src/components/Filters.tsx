@@ -70,6 +70,19 @@ export default function Filters() {
     //   }
     // }
   };
+  // category effectors
+  useEffect(() => {
+    // router query 가 없으면, 초기화한다.
+    if (!router.query.category) {
+      allRef.current.checked = true;
+    }
+  }, [router.query.category]);
+  useEffect(() => {
+    // element values 중에서 router query parameter 와 일치하면. element 를 체크해준다.
+    categoryElements.map((element: any) => {
+      if (element.value === router.query.category) element.checked = true;
+    });
+  }, [categoryElements]);
   // ratings handlers
   const addRatingsValue = (value: any) => {
     setRatings([...ratings, value]);
@@ -131,139 +144,140 @@ export default function Filters() {
       });
     });
   }, [ratings]); // localStorage, router.query 에 저장한다. router.push() 로 요청한다.
-  // category effectors
-  useEffect(() => {
-    // router query 가 없으면, 초기화한다.
-    if (!router.query.category) {
-      allRef.current.checked = true;
-    }
-  }, [router.query.category]);
-  useEffect(() => {
-    // element values 중에서 router query parameter 와 일치하면. element 를 체크해준다.
-    categoryElements.map((element: any) => {
-      if (element.value === router.query.category) element.checked = true;
-    });
-  }, [categoryElements]);
   return (
     <Box>
-      <div className="category">
-        <h3>Category</h3>
-        <ul>
-          <li>
-            <label>
-              <input
-                ref={allRef}
-                type="radio"
-                name="category"
-                value="all"
-                onClick={handleClickCategory}
-                defaultChecked
-              />
-              <span>All</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                ref={electronicsRef}
-                type="radio"
-                name="category"
-                value="electronics"
-                onClick={handleClickCategory}
-              />
-              <span>Electronics</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                ref={foodRef}
-                type="radio"
-                name="category"
-                value="food"
-                onClick={handleClickCategory}
-              />
-              <span>Food</span>
-            </label>
-          </li>
-        </ul>
+      <div className="filters">
+        <div className="category">
+          <h3>Category</h3>
+          <ul>
+            <li>
+              <label>
+                <input
+                  ref={allRef}
+                  type="radio"
+                  name="category"
+                  value="all"
+                  onClick={handleClickCategory}
+                  defaultChecked
+                />
+                <span>All</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input
+                  ref={electronicsRef}
+                  type="radio"
+                  name="category"
+                  value="electronics"
+                  onClick={handleClickCategory}
+                />
+                <span>Electronics</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input
+                  ref={foodRef}
+                  type="radio"
+                  name="category"
+                  value="food"
+                  onClick={handleClickCategory}
+                />
+                <span>Food</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+        <div className="ratings">
+          <h3>Ratings</h3>
+          <ul>
+            <li>
+              <label>
+                <input
+                  ref={fiveRef}
+                  type="checkbox"
+                  name="ratings"
+                  value="5"
+                  onClick={handleClickRatings}
+                />
+                <span>*****</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input
+                  ref={fourRef}
+                  type="checkbox"
+                  name="ratings"
+                  value="4"
+                  onClick={handleClickRatings}
+                />
+                <span>****</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input
+                  ref={threeRef}
+                  type="checkbox"
+                  name="ratings"
+                  value="3"
+                  onClick={handleClickRatings}
+                />
+                <span>***</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input
+                  ref={twoRef}
+                  type="checkbox"
+                  name="ratings"
+                  value="2"
+                  onClick={handleClickRatings}
+                />
+                <span>**</span>
+              </label>
+            </li>
+            <li>
+              <label>
+                <input
+                  ref={oneRef}
+                  type="checkbox"
+                  name="ratings"
+                  value="1"
+                  onClick={handleClickRatings}
+                />
+                <span>*</span>
+              </label>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div className="ratings">
-        <h3>Ratings</h3>
-        <ul>
-          <li>
-            <label>
-              <input
-                ref={fiveRef}
-                type="checkbox"
-                name="ratings"
-                value="5"
-                onClick={handleClickRatings}
-              />
-              <span>*****</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                ref={fourRef}
-                type="checkbox"
-                name="ratings"
-                value="4"
-                onClick={handleClickRatings}
-              />
-              <span>****</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                ref={threeRef}
-                type="checkbox"
-                name="ratings"
-                value="3"
-                onClick={handleClickRatings}
-              />
-              <span>***</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                ref={twoRef}
-                type="checkbox"
-                name="ratings"
-                value="2"
-                onClick={handleClickRatings}
-              />
-              <span>**</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                ref={oneRef}
-                type="checkbox"
-                name="ratings"
-                value="1"
-                onClick={handleClickRatings}
-              />
-              <span>*</span>
-            </label>
-          </li>
-        </ul>
-      </div>
-      <h3>RaringsValues : {JSON.stringify(ratings)}</h3>
+      {/* <h3>RaringsValues : {JSON.stringify(ratings)}</h3> */}
     </Box>
   );
 }
 const Box = styled.div`
-  /* padding: 1rem; */
+  padding: 1rem;
   border: 2px solid green;
-  display: flex;
-  gap: 1rem;
-  > * {
+  > .filters {
+    border: 2px solid;
+    border-radius: 10px;
+    padding: 1rem;
+    background-color: #333;
+    display: flex;
+    gap: 1rem;
+    > div {
+      /* border: 2px solid; */
+      > ul {
+        margin-top: 0.5rem;
+      }
+    }
+  }
+  /* > * {
     border: 2px solid;
     padding: 1rem;
-  }
+  } */
 `;
