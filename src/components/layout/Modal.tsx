@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 // import logError from "lib/client/log/logError";
-// import { deleteItem } from "lib/client/store/cartSlice";
+// import { deleteItemFromCart } from "lib/client/store/cartSlice";
 // import { setLoading, setNotify } from "lib/client/store/notifySlice";
 // import { deleteUser } from "lib/client/store/usersSlice";
 // import { deleteData, getData, postData } from "lib/client/utils/fetchData";
@@ -93,7 +93,7 @@ export default function Modal() {
   //   }
   // };
   // const handleDeleteCartItem = async () => {
-  //   dispatch(deleteItem({ _id: id }));
+  //   dispatch(deleteItemFromCart({ _id: id }));
   // };
   const {
     register,

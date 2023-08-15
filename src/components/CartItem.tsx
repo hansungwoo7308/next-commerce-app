@@ -1,9 +1,10 @@
-import { increaseQuantity, decreaseQuantity, deleteItem } from "lib/client/store/cartSlice";
+import { increaseQuantity, decreaseQuantity, deleteItemFromCart } from "lib/client/store/cartSlice";
 import { useDispatch } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 import { setNotify } from "lib/client/store/notifySlice";
+import { setModal } from "lib/client/store/modalSlice";
 export default function CartItem({ item }: any) {
   const { _id, name, price, description, category, images, seller, stock, quantity } = item;
   const dispatch = useDispatch();
@@ -15,14 +16,21 @@ export default function CartItem({ item }: any) {
     // if (quantity > Number(stock)) return console.log("something wrong");
     dispatch(increaseQuantity({ _id }));
   };
-  // const handleDeleteItem = () => {
-  //   // dispatch(
-  //   //   setModal({ active: true, type: "DELETE_ITEM", message: "Do you want to delete?", id: _id })
-  //   // );
-  // };
+  const handleDeleteItemFromCart = () => {
+    const action = () => dispatch(deleteItemFromCart({ _id }));
+    dispatch(
+      setModal({
+        active: true,
+        type: "DEFAULT",
+        message: "Do you want to delete item from cart?",
+        action,
+        actionLabel: "Delete",
+      })
+    );
+  };
   return (
     <Box>
-      <div className="product-description">
+      <div className="product-info">
         <Link href={`/products/${_id}`}>
           <div className="image">
             <Image
@@ -38,10 +46,10 @@ export default function CartItem({ item }: any) {
           </div>
         </Link>
       </div>
-      <div className="order-option">
+      <div className="options">
         <h5>Order Option</h5>
         <small>quantity : {quantity}</small>
-        <div className="quantity-control-buttons">
+        <div className="buttons">
           <button onClick={handleDecreaseQuantity} disabled={quantity === 1}>
             -
           </button>
@@ -49,7 +57,7 @@ export default function CartItem({ item }: any) {
             +
           </button>
         </div>
-        <button className="delete-button" onClick={() => dispatch(deleteItem({ _id }))}>
+        <button className="delete-button" onClick={handleDeleteItemFromCart}>
           Delete
         </button>
       </div>
@@ -65,7 +73,7 @@ const Box = styled.li`
   > * {
     /* border: 2px solid; */
   }
-  .product-description {
+  .product-info {
     flex: 1;
     padding: 1rem;
     > a {
@@ -88,7 +96,7 @@ const Box = styled.li`
       }
     }
   }
-  .order-option {
+  .options {
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -99,7 +107,7 @@ const Box = styled.li`
     > small {
       color: #5b97ea;
     }
-    .quantity-control-buttons {
+    .buttons {
       display: flex;
       gap: 0.5rem;
       > button {

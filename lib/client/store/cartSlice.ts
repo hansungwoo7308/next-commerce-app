@@ -18,7 +18,7 @@ export const cartSlice = createSlice({
       const { _id } = action.payload;
       state.find((v: any) => v._id === _id).quantity--;
     },
-    deleteItem: (state, action) => {
+    deleteItemFromCart: (state, action) => {
       const { _id } = action.payload;
       const newState = state.filter((v: any) => v._id !== _id);
       localStorage.setItem("cart", JSON.stringify(newState));
@@ -32,5 +32,5 @@ export const {
   clearCart,
   increaseQuantity,
   decreaseQuantity,
-  deleteItem,
+  deleteItemFromCart,
 }: any = cartSlice.actions;

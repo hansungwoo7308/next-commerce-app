@@ -33,7 +33,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
   };
   const buttonByUser = (
     <button
-      disabled={stock ? false : true}
+      disabled={!stock}
       onClick={() => {
         const duplicate = cart.find((v: any) => v._id === product._id);
         if (duplicate) {
