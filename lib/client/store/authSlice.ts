@@ -25,7 +25,7 @@ export const authSlice = createSlice({
       state.user = user;
       state.accessToken = accessToken;
     },
-    logOut: (state, action) => {
+    signout: (state, action) => {
       state.status = false;
       state.user = null;
       state.accessToken = null;
@@ -40,4 +40,4 @@ export const authSlice = createSlice({
     },
   },
 });
-export const { setCredentials, logOut, updateUser }: any = authSlice.actions;
+export const { setCredentials, signout, updateUser }: any = authSlice.actions;

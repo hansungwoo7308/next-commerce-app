@@ -5,7 +5,9 @@ import { useForm } from "react-hook-form";
 import { postData } from "lib/public/fetchData";
 import { styled } from "styled-components";
 import { setCredentials } from "lib/client/store/authSlice";
-// import { signIn } from "next-auth/react";
+import { setLoading } from "lib/client/store/loadingSlice";
+import { toast } from "react-toastify";
+import { signIn, useSession } from "next-auth/react";
 // import logResponse from "lib/client/log/logResponse";
 // import logError from "lib/client/log/logError";
 // import { setCredentials } from "lib/client/store/authSlice";
@@ -14,6 +16,7 @@ import { setCredentials } from "lib/client/store/authSlice";
 export default function FormSignin() {
   const dispatch = useDispatch();
   const router = useRouter();
+  const session: any = useSession();
   const {
     register,
     handleSubmit,
@@ -22,17 +25,24 @@ export default function FormSignin() {
     formState: { errors },
   } = useForm();
   const handleSigninWithNextauth = async (data: any) => {
-    console.log("data: ", data);
+    // console.log("data: ", data);
     try {
-      // // setLoading(true);
-      // const response = await signIn("credentials", { ...data, callbackUrl: "/auth/admin" });
-      // // logResponse(response);
-      // console.log(response);
-      // dispatch(setCredentials({ mode: "nextauth", username: "nextauth", accessToken: "nextauth" }));
-      // // setLoading(false);
-    } catch (error) {
-      // logError(error);
-      // setLoading(false);
+      setLoading(true);
+      const { email, password } = data;
+      const response: any = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        // callbackUrl: "/my/profile",
+      });
+      console.log({ response });
+      setLoading(false);
+      toast.success("Login Success (next-auth)");
+      router.push("/my/profile");
+    } catch (error: any) {
+      console.log({ error });
+      setLoading(false);
+      toast.error(error.message);
     }
   };
   const handleSignin = async (data: any) => {
@@ -44,7 +54,7 @@ export default function FormSignin() {
       // dispatch(setLoading(false));
       // dispatch(setNotify({ status: "success", message: "Login Success", visible: true }));
       // router.push("/auth/profile");
-      router.push("/");
+      router.push("/my/profile");
     } catch (error) {
       console.log({ error });
       // logError(error);
@@ -55,12 +65,26 @@ export default function FormSignin() {
   useEffect(() => {
     setFocus("email");
   }, []);
+  // useEffect(() => {
+  //   if (session.status === "authenticated") {
+  //     // console.log({ session });
+  //     const user = {
+  //       username: session.data.user?.name,
+  //       email: session.data.user?.email,
+  //       image: session.data.user?.image,
+  //       role: session.data.user?.role,
+  //     };
+  //     const credentials = { user, accessToken: "next-auth" };
+  //     dispatch(setCredentials(credentials));
+  //     // router.push("/auth/profile");
+  //   }
+  // }, [session.data]);
   return (
     <Box>
       <h1>Sign In</h1>
       <input {...register("email", { required: true })} type="text" placeholder="email" />
       <input {...register("password", { required: true })} type="password" placeholder="password" />
-      <button onClick={handleSubmit(handleSignin)}>Sign in genernally</button>
+      <button onClick={handleSubmit(handleSignin)}>Sign in</button>
       <button onClick={handleSubmit(handleSigninWithNextauth)}>Sign in with next-auth</button>
     </Box>
   );

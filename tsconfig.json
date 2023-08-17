@@ -22,8 +22,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-    // "lib/server/config/connectDB.ts"
+    "**/*.tsx",
+    "src/pages/api/auth/index.ts" // "lib/server/config/connectDB.ts"
   ],
   "exclude": ["node_modules"]
 }

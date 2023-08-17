@@ -4,11 +4,8 @@ import Link from "next/link";
 import { styled } from "styled-components";
 import Account from "@/components/Account";
 import { useSelector } from "react-redux";
-import { useEffect, useRef } from "react";
 export default function Header() {
   const cart = useSelector((store: any) => store.cart);
-  // const headerRef: any = useRef();
-  // const sectionRef: any = useRef();
   // useEffect(() => {
   //   const observerInstance = new IntersectionObserver((entries, observer) => {
   //     console.log({ entries, observer });
@@ -17,12 +14,8 @@ export default function Header() {
   //   observerInstance.observe(sectionRef.current);
   // }, []);
   return (
-    <Box
-    // ref={headerRef}
-    >
-      <section
-      // ref={sectionRef}
-      >
+    <Box>
+      <section>
         {/* <Link href={"/"}>Logo</Link> */}
         <Nav />
         <Search />

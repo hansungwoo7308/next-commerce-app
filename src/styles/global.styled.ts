@@ -72,9 +72,9 @@ export const GlobalStyled = createGlobalStyle`
       color: var(--color-hover);
     }
   }
-  button {
+  header button,
+  main button {
     border:none;
-    /* font-size:inherit; */
     background-color:#222;
     color:#ccc;
     cursor: pointer;
@@ -89,7 +89,6 @@ export const GlobalStyled = createGlobalStyle`
     object-fit:cover;
   }
   ul{
-
   }
   li{
     list-style:none;
