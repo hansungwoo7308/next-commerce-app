@@ -1,4 +1,4 @@
-import { createAccessToken, createRefreshToken } from "lib/server/createJWT";
+import { createAccessToken, createRefreshToken } from "lib/server/utils/createJWT";
 import User from "lib/server/models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";

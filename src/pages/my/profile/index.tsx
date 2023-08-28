@@ -8,6 +8,7 @@ import { patchData } from "lib/public/fetchData";
 import { uploadImages } from "lib/public/uploadImages";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { styled } from "styled-components";
 export default function Page() {
   const dispatch = useDispatch();
@@ -75,15 +76,14 @@ export default function Page() {
       const response = await patchData("user", payload, auth.accessToken);
       const { updatedUser } = response.data;
       logResponse(response);
-      // console.log({ updatedUser });
       dispatch(updateUser({ user: updatedUser }));
       dispatch(setLoading(false));
-      dispatch(setNotify({ active: true, status: "success", message: "Updated" }));
+      toast.success("Successfully uploaded");
       // router.push({pathname:router.pathname})
     } catch (error) {
       logError(error);
       dispatch(setLoading(false));
-      dispatch(setNotify({ active: true, status: "error", message: "Faild" }));
+      toast.error("Failed uploading");
     }
   };
   const handleChangeImage = (e: any) => {

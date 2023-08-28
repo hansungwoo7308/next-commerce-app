@@ -1,6 +1,6 @@
 import connectDB from "lib/server/config/connectDB";
 import Product from "lib/server/models/Product";
-import verifyJWT from "lib/server/verifyJWT";
+import verifyJWT from "lib/server/utils/verifyJWT";
 connectDB();
 export default async function (req: any, res: any) {
   console.log(`\x1b[32m\n[api/products/${req.query.id}]`);

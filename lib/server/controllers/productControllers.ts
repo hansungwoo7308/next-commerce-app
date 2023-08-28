@@ -1,6 +1,6 @@
 import Product from "lib/server/models/Product";
 import APIfeatures from "lib/server/utils/APIfeatures";
-import verifyJWT from "lib/server/verifyJWT";
+import verifyJWT from "lib/server/utils/verifyJWT";
 export const newProduct = async (req: any, res: any, next: any) => {
   // // verify
   // const verified: any = await verifyJWT(req, res);
