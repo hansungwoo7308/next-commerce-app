@@ -23,7 +23,8 @@ export default function Layout({ children }: any) {
   const refreshAuth = async () => {
     try {
       dispatch(setLoading(true));
-      const response = await getData("auth/refresh");
+      const response = await getData("v2/auth/refresh");
+      // const response = await getData("auth/refresh");
       logResponse(response);
       const { user, accessToken } = response.data;
       dispatch(setCredentials({ user, accessToken }));

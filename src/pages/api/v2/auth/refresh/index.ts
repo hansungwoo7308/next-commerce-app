@@ -8,5 +8,5 @@ router
     console.log(`\x1b[32m\n[api/v2/auth/refresh]`);
     await next();
   })
-  .post(refresh);
+  .get(refresh);
 export default router.handler();

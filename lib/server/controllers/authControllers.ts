@@ -2,7 +2,6 @@ import { createAccessToken, createRefreshToken } from "lib/server/createJWT";
 import User from "lib/server/models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-
 export const signup = async (req: any, res: any) => {
   // get
   const { username, email, password } = req.body;
@@ -33,24 +32,24 @@ export const signin = async (req: any, res: any) => {
   const isPasswordMatched = await bcrypt.compare(password, hashedPassword);
   if (!isPasswordMatched) return res.status(401).json({ message: "Invalid Password" });
   // issue the tokens
-  const payload = {
+  const user = {
     id: foundUser._id,
     username: foundUser.username,
     email: foundUser.email,
     role: foundUser.role,
     image: foundUser.image,
   };
-  const accessToken = createAccessToken(payload);
-  const refreshToken = createRefreshToken(payload);
+  const accessToken = createAccessToken(user);
+  const refreshToken = createRefreshToken(user);
   // save
   foundUser.refreshToken = refreshToken;
   await foundUser.save();
   // out
   res.setHeader("Set-Cookie", [`refreshToken=${refreshToken};path=/`]);
-  res.status(200).json({ accessToken });
+  res.status(200).json({ accessToken, user });
   // log
   console.log("\x1b[33m", {
-    user: foundUser,
+    user: user,
     accessToken: accessToken.slice(-5),
     refreshToken: refreshToken.slice(-5),
   });
@@ -62,7 +61,10 @@ export const refresh = async (req: any, res: any) => {
     return res.status(401).json({ message: "No refreshToken" });
   }
   // find
-  const foundUser = await User.findOne({ refreshToken }).exec();
+  const foundUser = await User.findOne({ refreshToken })
+    // .select("-password -createdAt -updatedAt -refreshToken")
+    .select("_id username email password role image")
+    .exec();
   if (!foundUser) {
     return res.status(401).json({ message: "The foundUser do not exist." });
   }
@@ -76,24 +78,24 @@ export const refresh = async (req: any, res: any) => {
     }
   }
   // issue the new tokens
-  const payload = {
+  const user = {
     id: foundUser._id,
     username: foundUser.username,
     email: foundUser.email,
     role: foundUser.role,
     image: foundUser.image,
   };
-  const newAccessToken = createAccessToken(payload);
-  const newRefreshToken = createRefreshToken(payload);
+  const newAccessToken = createAccessToken(user);
+  const newRefreshToken = createRefreshToken(user);
   // save
   foundUser.refreshToken = newRefreshToken;
   await foundUser.save();
   // out
   res.setHeader("Set-Cookie", [`refreshToken=${newRefreshToken};path=/`]);
-  res.status(200).json({ accessToken: newAccessToken });
+  res.status(200).json({ accessToken: newAccessToken, user });
   // log
   console.log({
-    user: foundUser,
+    user: user,
     accessToken: newAccessToken.slice(-5),
     refreshToken: newRefreshToken.slice(-5),
   });

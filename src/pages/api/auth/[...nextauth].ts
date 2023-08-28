@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 
 // import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 // import clientPromise from "../../../../lib/server/config/mongodb";
-console.log("\x1b[32m\n[api/auth/[...nextauth]]");
+// console.log("\x1b[32m\n[api/auth/[...nextauth]]");
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({

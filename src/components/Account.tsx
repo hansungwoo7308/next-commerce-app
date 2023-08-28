@@ -49,30 +49,32 @@ export default function Account() {
   useEffect(() => {
     document.addEventListener("click", () => setToggle(false));
   }, []);
-  if (!auth.accessToken) {
+  if (auth.accessToken || session.data?.user) {
     return (
       <Box>
-        <Link href={"/auth/signin"}>Sign in</Link>
-        <Link href={"/auth/signup"}>Sign up</Link>
+        <button onClick={handleToggle}>
+          Account ({auth.user?.role}:{session.data?.user ? "nextauth" : "general"})
+        </button>
+        {toggle && auth.user?.role === "admin" && (
+          <div className="toggle">
+            <Link href={"/my/profile"}>Profile</Link>
+            <button onClick={handleSignout}>Sign out</button>
+          </div>
+        )}
+        {toggle && auth.user?.role === "user" && (
+          <div className="toggle">
+            <Link href={"/my/profile"}>Profile</Link>
+            <Link href={"/my/order-list"}>Order List</Link>
+            <button onClick={handleSignout}>Sign out</button>
+          </div>
+        )}
       </Box>
     );
   }
   return (
     <Box>
-      <button onClick={handleToggle}>Account ({auth.user?.role})</button>
-      {toggle && auth.user?.role === "admin" && (
-        <div className="toggle">
-          <Link href={"/my/profile"}>Profile</Link>
-          <button onClick={handleSignout}>Sign out</button>
-        </div>
-      )}
-      {toggle && auth.user?.role === "user" && (
-        <div className="toggle">
-          <Link href={"/my/profile"}>Profile</Link>
-          <Link href={"/my/order-list"}>Order List</Link>
-          <button onClick={handleSignout}>Sign out</button>
-        </div>
-      )}
+      <Link href={"/auth/signin"}>Sign in</Link>
+      <Link href={"/auth/signup"}>Sign up</Link>
     </Box>
   );
 }

@@ -4,7 +4,7 @@ import connectDB from "lib/server/config/connectDB";
 import { createAccessToken, createRefreshToken } from "lib/server/createJWT";
 connectDB();
 export default async function (req: any, res: any) {
-  // console.log("\x1b[32m\n[api/auth/refresh]");
+  console.log("\x1b[32m\n[api/auth/refresh]");
 
   // get the refreshToken
   const { refreshToken } = req.cookies;
