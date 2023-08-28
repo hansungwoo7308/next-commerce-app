@@ -8,7 +8,7 @@ import { styled } from "styled-components";
 export async function getServerSideProps({ query }: any) {
   // console.log({ query });
   const { page }: any = query;
-  const response = await getData(`v2/products`, undefined, query);
+  const response = await getData(`v2/products`, "step", query);
   // const response = await getData(`v2/products?page=${page}`);
   const { products, pages } = response.data;
   return { props: { products, pages } };
