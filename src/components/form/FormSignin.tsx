@@ -8,6 +8,7 @@ import { setCredentials } from "lib/client/store/authSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { toast } from "react-toastify";
 import { signIn, useSession } from "next-auth/react";
+import logError from "lib/client/log/logError";
 // import logResponse from "lib/client/log/logResponse";
 // import logError from "lib/client/log/logError";
 // import { setCredentials } from "lib/client/store/authSlice";
@@ -49,19 +50,20 @@ export default function FormSignin() {
   };
   const handleSignin = async (data: any) => {
     try {
-      // dispatch(setLoading(true));
-      const response = await postData("auth/signin", data);
+      dispatch(setLoading(true));
+      const response = await postData("v2/auth/signin", data);
+      // const response = await postData("auth/signin", data);
       const { user, accessToken } = response.data;
       dispatch(setCredentials({ user, accessToken }));
-      // dispatch(setLoading(false));
+      dispatch(setLoading(false));
+      toast.success("Login Success (general)");
       // dispatch(setNotify({ status: "success", message: "Login Success", visible: true }));
       // router.push("/auth/profile");
       router.push("/my/profile");
-    } catch (error) {
-      console.log({ error });
-      // logError(error);
-      // dispatch(setLoading(false));
-      // dispatch(setNotify({ status: "error", message: "Login Error", visible: true }));
+    } catch (error: any) {
+      logError(error);
+      dispatch(setLoading(false));
+      toast.error(error.message);
     }
   };
   useEffect(() => {

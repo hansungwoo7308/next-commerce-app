@@ -46,9 +46,9 @@ export const signin = async (req: any, res: any) => {
   await foundUser.save();
   // out
   res.setHeader("Set-Cookie", [`refreshToken=${refreshToken};path=/`]);
-  res.status(200).json({ accessToken, user });
+  res.status(200).json({ user, accessToken });
   // log
-  console.log("\x1b[33m", {
+  console.log({
     user: user,
     accessToken: accessToken.slice(-5),
     refreshToken: refreshToken.slice(-5),
@@ -92,7 +92,7 @@ export const refresh = async (req: any, res: any) => {
   await foundUser.save();
   // out
   res.setHeader("Set-Cookie", [`refreshToken=${newRefreshToken};path=/`]);
-  res.status(200).json({ accessToken: newAccessToken, user });
+  res.status(200).json({ user, accessToken: newAccessToken });
   // log
   console.log({
     user: user,
