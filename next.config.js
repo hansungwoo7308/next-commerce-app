@@ -10,6 +10,8 @@ const nextConfig = {
     CLOUDINARY_NAME: "dzktdrw7o",
     CLOUDINARY_PRESET: "next_commerce_app_upload_preset",
     CLOUDINARY_API_BASE_URL: "https://api.cloudinary.com/v1_1/dzktdrw7o/upload",
+    // next-auth
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   },
   images: {
     // remotePatterns: [

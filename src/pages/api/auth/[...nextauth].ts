@@ -4,10 +4,8 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
-
 // import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 // import clientPromise from "../../../../lib/server/config/mongodb";
-// console.log("\x1b[32m\n[api/auth/[...nextauth]]");
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -15,6 +13,7 @@ export const authOptions: NextAuthOptions = {
       id: "credentials",
       credentials: {},
       async authorize(credentials, req) {
+        console.log("\x1b[32m\n[api/auth/[...nextauth]]");
         console.log("\x1b[33m\n<authorize>\x1b[32m");
         await connectDB();
         // get

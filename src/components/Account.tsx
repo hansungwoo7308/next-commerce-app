@@ -11,9 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { styled } from "styled-components";
 export default function Account() {
-  const session = useSession();
   const dispatch = useDispatch();
   const router = useRouter();
+  const session = useSession();
   const auth = useSelector((store: any) => store.auth);
   const [toggle, setToggle]: any = useState(false);
   const handleToggle = (e: any) => {
@@ -24,7 +24,7 @@ export default function Account() {
     e.preventDefault();
     try {
       dispatch(setLoading(true));
-      console.log({ session });
+      // console.log({ session });
       if (session.status === "authenticated") {
         signOut({ redirect: false });
         dispatch(signout());
