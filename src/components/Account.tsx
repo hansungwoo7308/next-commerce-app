@@ -24,8 +24,8 @@ export default function Account() {
     e.preventDefault();
     try {
       console.log({ session });
-      if (session.status === "authenticated") return handleSignoutWithNextAuth();
       dispatch(setLoading(true));
+      if (session.status === "authenticated") return handleSignoutWithNextAuth();
       const response = await getData("v3/auth/signout");
       logResponse(response);
       dispatch(signout());
@@ -40,6 +40,7 @@ export default function Account() {
   };
   const handleSignoutWithNextAuth = () => {
     signOut({ redirect: false });
+    dispatch(setLoading(false));
     toast.success("Signed Out");
     router.push("/auth/signin");
     // signOut({ callbackUrl: "/auth/signin" });

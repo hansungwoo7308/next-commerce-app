@@ -1,12 +1,100 @@
+import { createAccessToken, createRefreshToken } from "lib/server/createJWT";
 import User from "lib/server/models/User";
-export const signupUser = async (req: any, res: any) => {
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
+export const signup = async (req: any, res: any) => {
   // get
   const { username, email, password } = req.body;
+  if (!username || !email || !password) return res.status(400).json({ message: "Missing payload" });
   // find
   const duplicatedUser = await User.findOne({ username }).exec();
   if (duplicatedUser) return res.status(409).json({ message: "Duplicated username" });
   // create
-  const user = await User.create({ username, email, password });
+  const newUser = await User.create({ username, email, password });
+  console.log({ newUser });
   // out
-  res.status(201).json({ user });
+  res.status(201).json({ newUser });
+};
+export const signin = async (req: any, res: any) => {
+  // get
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and Password are required." });
+  }
+  // find
+  const foundUser = await User.findOne({ email }).exec();
+  if (!foundUser) {
+    return res.status(401).json({ message: "Your email was not found" });
+  }
+  // compare
+  const salt = 10; // 이동이 필요(서버 회원가입 핸들러에서 처리)
+  const hashedPassword = await bcrypt.hash(foundUser.password, salt); // 이동이 필요(서버 회원가입 핸들러에서 처리)
+  const isPasswordMatched = await bcrypt.compare(password, hashedPassword);
+  if (!isPasswordMatched) return res.status(401).json({ message: "Invalid Password" });
+  // issue the tokens
+  const payload = {
+    id: foundUser._id,
+    username: foundUser.username,
+    email: foundUser.email,
+    role: foundUser.role,
+    image: foundUser.image,
+  };
+  const accessToken = createAccessToken(payload);
+  const refreshToken = createRefreshToken(payload);
+  // save
+  foundUser.refreshToken = refreshToken;
+  await foundUser.save();
+  // out
+  res.setHeader("Set-Cookie", [`refreshToken=${refreshToken};path=/`]);
+  res.status(200).json({ accessToken });
+  // log
+  console.log("\x1b[33m", {
+    user: foundUser,
+    accessToken: accessToken.slice(-5),
+    refreshToken: refreshToken.slice(-5),
+  });
+};
+export const refresh = async (req: any, res: any) => {
+  // get
+  const { refreshToken } = req.cookies;
+  if (!refreshToken) {
+    return res.status(401).json({ message: "No refreshToken" });
+  }
+  // find
+  const foundUser = await User.findOne({ refreshToken }).exec();
+  if (!foundUser) {
+    return res.status(401).json({ message: "The foundUser do not exist." });
+  }
+  // verify the refreshToken
+  try {
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+  } catch (error) {
+    if (error) {
+      console.log(`\x1b[31mThe refreshToken was expired.\x1b[0m`);
+      return res.status(403).json({ error });
+    }
+  }
+  // issue the new tokens
+  const payload = {
+    id: foundUser._id,
+    username: foundUser.username,
+    email: foundUser.email,
+    role: foundUser.role,
+    image: foundUser.image,
+  };
+  const newAccessToken = createAccessToken(payload);
+  const newRefreshToken = createRefreshToken(payload);
+  // save
+  foundUser.refreshToken = newRefreshToken;
+  await foundUser.save();
+  // out
+  res.setHeader("Set-Cookie", [`refreshToken=${newRefreshToken};path=/`]);
+  res.status(200).json({ accessToken: newAccessToken });
+  // log
+  console.log({
+    user: foundUser,
+    accessToken: newAccessToken.slice(-5),
+    refreshToken: newRefreshToken.slice(-5),
+  });
 };

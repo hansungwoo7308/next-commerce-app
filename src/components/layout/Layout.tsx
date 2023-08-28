@@ -35,27 +35,21 @@ export default function Layout({ children }: any) {
       dispatch(setLoading(false));
     }
   };
-  // auth side effect
+  // set the credentials
+  // general jwt : accessToken(redux store), refreshToken(cookie)
+  // next-auth session token (cookie)
   useEffect(() => {
+    if (session) return; // session 방식으로 구현했다면 리프레시를 패스한다.
     // accessToken이 없다면, refreshToken으로 모든 토큰을 갱신한다.
     if (!auth.accessToken) refreshAuth();
   }, [auth.accessToken]); // refresh credentials
   useEffect(() => {
     if (session.status === "authenticated") {
-      console.log({ session });
-      const user = {
-        username: session.data.user?.name,
-        email: session.data.user?.email,
-        image: session.data.user?.image,
-        role: session.data.user?.role,
-      };
-      const credentials = { user, accessToken: "next-auth" };
+      const credentials = { user: session.data.user, accessToken: "next-auth" };
       dispatch(setCredentials(credentials));
-    } else {
-      dispatch(signout());
     }
   }, [session.status]);
-  // cart side effect
+  // set the cart (localStorage, redux store)
   useEffect(() => {
     const serializedCart: any = localStorage.getItem("cart");
     if (!serializedCart) return;

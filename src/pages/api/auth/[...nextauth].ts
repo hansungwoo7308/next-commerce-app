@@ -3,7 +3,8 @@ import User from "lib/server/models/User";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-const bcrypt = require("bcrypt");
+import bcrypt from "bcrypt";
+
 // import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 // import clientPromise from "../../../../lib/server/config/mongodb";
 console.log("\x1b[32m\n[api/auth/[...nextauth]]");
