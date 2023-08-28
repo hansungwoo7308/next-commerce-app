@@ -33,7 +33,7 @@ export const signin = async (req: any, res: any) => {
   if (!isPasswordMatched) return res.status(401).json({ message: "Invalid Password" });
   // issue the tokens
   const user = {
-    id: foundUser._id,
+    _id: foundUser._id,
     username: foundUser.username,
     email: foundUser.email,
     role: foundUser.role,
@@ -79,7 +79,7 @@ export const refresh = async (req: any, res: any) => {
   }
   // issue the new tokens
   const user = {
-    id: foundUser._id,
+    _id: foundUser._id,
     username: foundUser.username,
     email: foundUser.email,
     role: foundUser.role,

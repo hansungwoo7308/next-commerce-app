@@ -72,8 +72,10 @@ export default function Page() {
       // console.log({ uploadedImage });
       // update
       const payload = { _id, image: uploadedImage[0].secure_url };
-      const updatedUser = await patchData("user", payload, auth.accessToken);
-      console.log({ updatedUser });
+      const response = await patchData("user", payload, auth.accessToken);
+      const { updatedUser } = response.data;
+      logResponse(response);
+      // console.log({ updatedUser });
       dispatch(updateUser({ user: updatedUser }));
       dispatch(setLoading(false));
       dispatch(setNotify({ active: true, status: "success", message: "Updated" }));

@@ -1,6 +1,8 @@
 import axios from "axios";
+import logError from "lib/client/log/logError";
+import logResponse from "lib/client/log/logResponse";
 export const uploadImages = async (images: any) => {
-  console.log("\x1b[33m\n[lib/public/utils/uploadImages]");
+  // console.log("\x1b[33m\n[lib/public/utils/uploadImages]");
   // upload image to cloudinary
   // console.log("images : ", images);
   let uploadedImages = [];
@@ -17,11 +19,13 @@ export const uploadImages = async (images: any) => {
         data: formData,
       });
       // out
+      logResponse(response);
+      // console.log({ public_id, secure_url });
       const { public_id, secure_url } = response.data;
-      console.log({ public_id, secure_url });
       uploadedImages.push({ public_id, secure_url });
     } catch (error) {
-      console.log("uploadImages error : ", error);
+      logError(error);
+      // console.log("uploadImages error : ", error);
     }
   }
   return uploadedImages;
