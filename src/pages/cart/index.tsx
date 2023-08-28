@@ -6,6 +6,7 @@ import { reloadCart } from "lib/client/store/cartSlice";
 import { setNotify } from "lib/client/store/notifySlice";
 import { getData } from "lib/public/fetchData";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 export default function Page() {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -15,11 +16,19 @@ export default function Page() {
   const setCart = async () => {
     let newCart: any = [];
     for (const item of cart) {
-      const response = await getData(`products/${item._id}`);
-      console.log({ data: response.data });
-      const { product } = response.data;
-      const { stock, quantity } = item;
-      if (stock) newCart.push({ ...product, quantity });
+      // console.log({ item });
+
+      try {
+        const response = await getData(`products/${item._id}`);
+        console.log({ data: response.data });
+        const { product } = response.data;
+        if (!product) return toast.error("No product");
+        const { stock, quantity } = item;
+        if (stock) newCart.push({ ...product, quantity });
+      } catch (error: any) {
+        toast.error(error.message);
+        console.log({ error });
+      }
     }
     dispatch(reloadCart(newCart));
   };

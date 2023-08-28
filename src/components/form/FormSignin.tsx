@@ -35,11 +35,12 @@ export default function FormSignin() {
         redirect: false,
         // callbackUrl: "/my/profile",
       });
-      console.log({ response });
+      // console.log({ response });
       setLoading(false);
       toast.success("Login Success (next-auth)");
       const { callbackUrl }: any = router.query;
-      router.push(callbackUrl);
+      if (callbackUrl) return router.push(callbackUrl);
+      // router.push('/my/profile')
     } catch (error: any) {
       console.log({ error });
       setLoading(false);

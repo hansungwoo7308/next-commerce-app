@@ -24,13 +24,12 @@ export default function Layout({ children }: any) {
     try {
       dispatch(setLoading(true));
       const response = await getData("auth/refresh");
-      // logResponse(response);
+      logResponse(response);
       const { user, accessToken } = response.data;
       dispatch(setCredentials({ user, accessToken }));
       dispatch(setLoading(false));
     } catch (error) {
-      console.log({ error });
-      // logError(error);
+      logError(error);
       // router.push("/auth/signin");
       dispatch(setLoading(false));
     }
@@ -39,7 +38,7 @@ export default function Layout({ children }: any) {
   // general jwt : accessToken(redux store), refreshToken(cookie)
   // next-auth session token (cookie)
   useEffect(() => {
-    if (session) return; // session 방식으로 구현했다면 리프레시를 패스한다.
+    if (session.status === "authenticated") return; // session 방식으로 구현했다면 리프레시를 패스한다.
     // accessToken이 없다면, refreshToken으로 모든 토큰을 갱신한다.
     if (!auth.accessToken) refreshAuth();
   }, [auth.accessToken]); // refresh credentials

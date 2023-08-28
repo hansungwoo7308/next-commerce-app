@@ -47,7 +47,7 @@ export default function Page() {
   // user data
   const auth = useSelector((store: any) => store.auth);
   if (!auth.user) return null;
-  const { _id, username, email, role, image } = auth.user;
+  const { _id, username, name, email, role, image } = auth.user;
   // handlers
   const handleUpdateNewValue = async (newValueKey: any, newValue: any) => {
     try {
@@ -123,8 +123,19 @@ export default function Page() {
     </>
   );
   const userInfo = dataset.map((data: any) => {
+    const { id, editMode, setEditMode, newValue, setNewValue } = data;
+    const userInfo = (
+      <li key={id}>
+        <p>
+          {data.id === "username" && (username || name)}
+          {data.id === "email" && email}
+          {data.id === "role" && role}
+        </p>
+        <button onClick={() => setEditMode(true)}>edit</button>
+      </li>
+    );
     const userInfoEditMode = (
-      <>
+      <li key={id}>
         <div className="left">
           {data.id === "role" ? (
             <>
@@ -134,7 +145,7 @@ export default function Page() {
                   name={data.id}
                   value="admin"
                   id="admin"
-                  onChange={(e) => data.setNewValue(e.target.value)}
+                  onChange={(e) => setNewValue(e.target.value)}
                 />
                 <label htmlFor="admin">admin</label>
               </div>
@@ -144,40 +155,30 @@ export default function Page() {
                   name={data.id}
                   value="user"
                   id="user"
-                  onChange={(e) => data.setNewValue(e.target.value)}
+                  onChange={(e) => setNewValue(e.target.value)}
                 />
                 <label htmlFor="user">user</label>
               </div>
             </>
           ) : (
-            <input type="text" name={data.id} onChange={(e) => data.setNewValue(e.target.value)} />
+            <input type="text" name={data.id} onChange={(e) => setNewValue(e.target.value)} />
           )}
         </div>
         <div className="right">
-          <button onClick={() => data.setEditMode(false)}>cancel</button>
+          <button onClick={() => setEditMode(false)}>cancel</button>
           <button
             onClick={() => {
               // console.log({ "data.newValue": data.newValue });
-              handleUpdateNewValue(data.id, data.newValue);
-              data.setEditMode(false);
+              handleUpdateNewValue(id, newValue);
+              setEditMode(false);
             }}
           >
             save
           </button>
         </div>
-      </>
+      </li>
     );
-    const userInfo = (
-      <>
-        <p>
-          {data.id === "username" && username}
-          {data.id === "email" && email}
-          {data.id === "role" && role}
-        </p>
-        <button onClick={() => data.setEditMode(true)}>edit</button>
-      </>
-    );
-    return <li key={data.id}>{data.editMode ? userInfoEditMode : userInfo}</li>;
+    return !editMode ? userInfo : userInfoEditMode;
   });
   return (
     <Main>

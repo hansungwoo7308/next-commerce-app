@@ -15,7 +15,7 @@ export const authOptions: NextAuthOptions = {
       id: "credentials",
       credentials: {},
       async authorize(credentials, req) {
-        console.log("\x1b[33m\n[authorize]\x1b[32m");
+        console.log("\x1b[33m\n<authorize>\x1b[32m");
         await connectDB();
         // get
         const { email, password }: any = credentials;
@@ -46,7 +46,7 @@ export const authOptions: NextAuthOptions = {
     // user : 로그인할 새로운 유저객체
     // client cookie에 token에는 user data를 포함하지 않도록 되어있다.
     async jwt({ token, user }: any) {
-      console.log("\x1b[33m\n[jwt]\x1b[32m");
+      console.log("\x1b[33m\n<jwt>\x1b[32m");
       // console.log({ token, user });
       // if (account) {
       //   token.role = account.role;
@@ -65,7 +65,7 @@ export const authOptions: NextAuthOptions = {
     // session : server에 저장되는 user data account object
     // token : jwt function으로부터 생성된 token
     async session({ session, token }: any) {
-      console.log("\x1b[33m\n[session]\x1b[32m");
+      console.log("\x1b[33m\n<session>\x1b[32m");
       // console.log({ session, token });
       // if (session.user) {
       //   session.user.role = token.role;

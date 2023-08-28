@@ -23,27 +23,28 @@ export default function Account() {
   const handleSignout = async (e: any) => {
     e.preventDefault();
     try {
-      console.log({ session });
       dispatch(setLoading(true));
-      if (session.status === "authenticated") return handleSignoutWithNextAuth();
+      console.log({ session });
+      if (session.status === "authenticated") {
+        signOut({ redirect: false });
+        dispatch(signout());
+        dispatch(setLoading(false));
+        router.push("/auth/signin");
+        // toast.success("Signed Out");
+        // signOut({ callbackUrl: "/auth/signin" });
+        return;
+      }
       const response = await getData("v3/auth/signout");
       logResponse(response);
       dispatch(signout());
       dispatch(setLoading(false));
-      toast.success("Signed Out");
       router.push("/auth/signin");
+      // toast.success("Signed Out");
     } catch (error: any) {
       logError(error);
       dispatch(setLoading(false));
       toast.error(error.message);
     }
-  };
-  const handleSignoutWithNextAuth = () => {
-    signOut({ redirect: false });
-    dispatch(setLoading(false));
-    toast.success("Signed Out");
-    router.push("/auth/signin");
-    // signOut({ callbackUrl: "/auth/signin" });
   };
   useEffect(() => {
     document.addEventListener("click", () => setToggle(false));
