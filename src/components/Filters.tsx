@@ -89,11 +89,14 @@ export default function Filters() {
     });
   }, [categoryElements]); // categoryElements로부터 쿼리와 일치하는 해당항목에 체크한다.
   useEffect(() => {
-    // 로컬스토리지의 레이팅아이템을 가져와서 컴포넌트 스테이트에 채운다.
+    // 캐싱된 데이터로 채운다.
     const localStorageRatings = localStorage.getItem("ratings"); // string
     if (!localStorageRatings) return console.log("No localStorageRatings");
     setRatings(localStorageRatings.split("+"));
-  }, []); // ratings waterfall
+    // 캐싱된 데이터로 조회한다.
+    router.query = { ...router.query, ratings: localStorageRatings };
+    router.push({ pathname: router.pathname, query: router.query });
+  }, [router.asPath]); // waterfall from localStorage, query
   useEffect(() => {
     // 변경된 레이팅을 캐싱한다. 레이팅으로 조회한다. 인풋 엘리먼트를 체크표시한다.
     // exception
@@ -106,7 +109,7 @@ export default function Filters() {
     }
 
     // log
-    console.log({ ratings });
+    // console.log({ ratings });
 
     // cache
     // save to localStorage
@@ -129,7 +132,8 @@ export default function Filters() {
         if (element.value === value) element.checked = true;
       });
     });
-  }, [ratings, router.asPath]); // cache, query, mark as checked
+  }, [ratings]); // cache, query, mark as checked
+  // }, [ratings, router.asPath]); // cache, query, mark as checked
   return (
     <Box>
       <div className="filters">
