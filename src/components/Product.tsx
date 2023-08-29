@@ -2,6 +2,7 @@
 // import { useSession } from "next-auth/react";
 import logResponse from "lib/client/log/logResponse";
 import { addToCart } from "lib/client/store/cartSlice";
+import { addItem, deleteItem } from "lib/client/store/managerSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import { setNotify } from "lib/client/store/notifySlice";
 import { deleteData } from "lib/public/fetchData";
@@ -17,11 +18,12 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
     product;
   const auth = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
-  // const { auth, cart }: any = useSelector((store) => store);
   const checkboxRef: any = useRef();
   const dispatch = useDispatch();
   const router = useRouter();
   const handleCheckBox = (e: any) => {
+    // console.log({ some: e.target.checked });
+    e.target.checked ? dispatch(addItem(_id)) : dispatch(deleteItem(_id));
     // if (e.target.checked) {
     //   setCheckedProducts((state: any) => [...state, _id]);
     // } else {

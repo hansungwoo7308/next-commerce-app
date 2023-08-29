@@ -56,6 +56,7 @@ export const GlobalStyled = createGlobalStyle`
       padding-top: var(--nav-height);
       background-color: var(--color-page-background);
       /* border: 2px solid; */
+      overflow:hidden;
       section {
         width: 80%;
         max-width:1000px;
