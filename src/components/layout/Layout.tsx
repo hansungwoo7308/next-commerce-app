@@ -25,7 +25,7 @@ export default function Layout({ children }: any) {
       dispatch(setLoading(true));
       const response = await getData("v2/auth/refresh");
       // const response = await getData("auth/refresh");
-      logResponse(response);
+      // logResponse(response);
       const { user, accessToken } = response.data;
       dispatch(setCredentials({ user, accessToken }));
       dispatch(setLoading(false));
