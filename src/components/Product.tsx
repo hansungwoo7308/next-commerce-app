@@ -22,16 +22,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
   const dispatch = useDispatch();
   const router = useRouter();
   const handleCheckBox = (e: any) => {
-    // console.log({ some: e.target.checked });
     e.target.checked ? dispatch(addItem(_id)) : dispatch(deleteItem(_id));
-    // if (e.target.checked) {
-    //   setCheckedProducts((state: any) => [...state, _id]);
-    // } else {
-    //   setCheckedProducts((state: any) => {
-    //     const filteredProducts = state.filter((productId: any) => productId !== _id);
-    //     return filteredProducts;
-    //   });
-    // }
   };
   const buttonByUser = (
     <button
@@ -133,7 +124,6 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
         {auth.user?.role === "admin" && (
           <input ref={checkboxRef} className="checkbox" type="checkbox" onChange={handleCheckBox} />
         )}
-
         <Link href={`/products/${_id}`}>
           <Image
             src={images[0].url || images[0].secure_url}

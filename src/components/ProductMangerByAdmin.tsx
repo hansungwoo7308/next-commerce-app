@@ -10,9 +10,12 @@ export default function ProductMangerByAdmin() {
   return (
     <Box toggle={toggle}>
       <div>
-        <h5>Product Manager By Admin</h5>
+        <h5>Product Manager</h5>
         {/* <h5>Product Manager By Admin</h5> */}
         {/* {manager.checked} */}
+        {manager.checkedItems.map((item: any) => (
+          <p>{item.slice(0, 10)}</p>
+        ))}
         <p></p>
       </div>
       <div className="button">
