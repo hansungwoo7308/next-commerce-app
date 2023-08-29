@@ -128,9 +128,10 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
   return (
     <Box>
       <div className="image">
-        {auth.role === "admin" && (
+        {auth.user?.role === "admin" && (
           <input ref={checkboxRef} className="checkbox" type="checkbox" onChange={handleCheckBox} />
         )}
+
         <Link href={`/products/${_id}`}>
           <Image
             src={images[0].url || images[0].secure_url}

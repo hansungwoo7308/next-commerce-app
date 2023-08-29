@@ -31,8 +31,8 @@ export const checkAuth = async (req: any, res: any, next: any) => {
 export const checkRoles = (roles: any) => {
   return async (req: any, res: any, next: any) => {
     console.log("\x1b[32m\n<middleware/checkRoles>");
-    await next();
-    return;
+    // await next();
+    // return;
 
     if (!roles.includes(req.user.role)) {
       throw new Error(`Role (${req.user.role}) is not allowed to access this resource.`);

@@ -17,7 +17,6 @@ export default function Filters() {
   const oneRef: any = useRef();
   const [ratings, setRatings]: any = useState([]);
   const [ratingsElements, setRatingsElements]: any = useState([]);
-  // category handler
   const handleClickCategory = (e: any) => {
     const { name, value } = e.target;
     router.query = { ...router.query, [name]: value };
@@ -33,24 +32,17 @@ export default function Filters() {
     //   });
     //   return [...prevState, newState];
     // });
-    // ratings.map((v: any) => console.log(v));
-    // for (let value of ratings) {
-    //   console.log({ value });
-    // }
-    // console.log({ ratings });
     // const newState = [...ratings, value];
     // setRatings((prevState: any) => {
     //   console.log({ prevState });
     //   if (prevState === value) return prevState;
     //   return newState;
     // });
-    // console.log({ updatedState });
     // setRatings(updatedState);
     // rating input elements 중에서 체크된 상태에 따라서, 상태변경을 해준다.
     // ratings.map((ratingsValue: any) => {
     //   // // 중복필드는 패스한다.
     //   // if(ratingsValue===name) return
-    //   // // 새
     //   // return [...ratings,value]
     // });
     // ratingsElements.map((element: any) => {
@@ -70,19 +62,15 @@ export default function Filters() {
     //   }
     // }
   };
-  // ratings handlers
-  const addRatingsValue = (value: any) => {
-    setRatings((state: any) => [...state, value]);
-  };
-  const removeRatingsValue = (value: any) => {
-    setRatings((state: any) => state.filter((v: any) => v !== value));
-  };
   const handleClickRatings = (e: any) => {
-    const { value } = e.target;
-    if (e.target.checked) addRatingsValue(value);
-    else removeRatingsValue(value);
+    const addRatings = (value: any) => {
+      setRatings((state: any) => [...state, value]);
+    };
+    const removeRatings = (value: any) => {
+      setRatings((state: any) => state.filter((v: any) => v !== value));
+    };
+    e.target.checked ? addRatings(e.target.value) : removeRatings(e.target.value);
   };
-  // effectors
   useEffect(() => {
     setCategoryElements([allRef.current, electronicsRef.current, foodRef.current]);
     setRatingsElements([
@@ -94,25 +82,32 @@ export default function Filters() {
     ]);
     // 카테고리 쿼리가 없으면, 카테고리 all에 체크한다.
     if (!router.query.category) allRef.current.checked = true;
-  }, []); // 컴포넌트 스테이트 초기화
+  }, []); // initialize
+  useEffect(() => {
+    // get the ratings
+    const localStorageRatings = localStorage.getItem("ratings"); // string
+    if (!localStorageRatings) return;
+    // console.log({ localStorageRatings });
+    // console.log({ splittedRatings });
+
+    // set the state for checking ratings
+    const splittedRatings = localStorageRatings.split("+"); // array
+    setRatings(splittedRatings);
+
+    // set the router for querying filtered data
+    router.query = { ...router.query, ratings: localStorageRatings };
+    router.push({ pathname: router.pathname, query: router.query });
+  }, []); // ratings waterfall
   useEffect(() => {
     categoryElements.map((element: any) => {
       if (element.value === router.query.category) element.checked = true;
     });
   }, [categoryElements]); // categoryElements로부터 쿼리와 일치하는 해당항목에 체크한다.
   useEffect(() => {
-    // 로컬스토리지에 ratings가 있으면 컴포넌트스테이트에 채운다.
-    const localStorageRatings = localStorage.getItem("ratings");
-    if (!localStorageRatings) return;
-    if (!ratings.length) {
-      console.log({ localStorageRatings });
-      const splittedRatings = localStorageRatings.split("+");
-      console.log({ splittedRatings });
-      setRatings(splittedRatings);
-    }
-  }, []); // ratings 초기화
-  useEffect(() => {
+    // log
     console.log({ ratings });
+
+    // exception
     // ratings가 없으면 로컬스토리지와 라우터쿼리에 저장된 데이터를 삭제한다.
     if (!ratings.length) {
       localStorage.removeItem("ratings");
@@ -120,22 +115,28 @@ export default function Filters() {
       router.push({ pathname: router.pathname, query: router.query });
       return;
     }
-    // stringify the ratings
+
+    // cache
+    // save to localStorage
+    // stringify the ratings (array > string)
     const stringfiedRatings = ratings.reduce((a: any, v: any, i: any) => {
       if (i === 0) return v;
       return a + "+" + v;
     }, "");
-    // set the localStorage and router.query
+    // set the localStorage
     localStorage.setItem("ratings", stringfiedRatings);
+
+    // query
     router.query = { ...router.query, ratings: stringfiedRatings };
-    // out
     router.push({ pathname: router.pathname, query: router.query });
+
+    // mark as checked
     ratingsElements.map((element: any) => {
       ratings.map((value: any) => {
         if (element.value === value) element.checked = true;
       });
     });
-  }, [ratings]); // ratings로부터 로컬스토리지에 캐싱하고, 쿼리를 추가하여 라우팅하고, 해당항목에 체크한다.
+  }, [ratings]); // cache, query, mark as checked
   return (
     <Box>
       <div className="filters">
