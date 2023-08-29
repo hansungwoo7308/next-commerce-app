@@ -1,29 +1,48 @@
+import logError from "lib/client/log/logError";
+import logResponse from "lib/client/log/logResponse";
+import { setLoading } from "lib/client/store/loadingSlice";
+import { deleteData } from "lib/public/fetchData";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
 export default function ProductMangerByAdmin() {
   const manager = useSelector((store: any) => store.manager);
+  const auth = useSelector((store: any) => store.auth);
   const [toggle, setToggle] = useState(true);
+  const dispatch = useDispatch();
+  const handleClick = async (e: any) => {
+    e.preventDefault();
+    try {
+      dispatch(setLoading(true));
+      const payload = { ids: manager.checkedItems };
+      const response = await deleteData("v2/products", auth.accessToken, payload);
+      logResponse(response);
+      dispatch(setLoading(false));
+    } catch (error) {
+      logError(error);
+      dispatch(setLoading(false));
+    }
+  };
   useEffect(() => {
     console.log({ manager });
   }, [manager]);
   return (
     <Box toggle={toggle}>
-      <div>
-        <h5>Product Manager</h5>
-        {/* <h5>Product Manager By Admin</h5> */}
-        {/* {manager.checked} */}
-        {manager.checkedItems.map((item: any) => (
-          <p>{item.slice(0, 10)}</p>
-        ))}
-        <p></p>
-      </div>
       <div className="button">
         {toggle ? (
           <button onClick={() => setToggle(!toggle)}>{`>`}</button>
         ) : (
           <button onClick={() => setToggle(!toggle)}>{`<`}</button>
         )}
+      </div>
+      <div>
+        <h5>Product Manager</h5>
+        <br />
+        <p>Checked Items</p>
+        {manager.checkedItems.map((item: any) => (
+          <p>{item.slice(0, 10)}</p>
+        ))}
+        <button onClick={handleClick}>Delete these items</button>
       </div>
     </Box>
   );

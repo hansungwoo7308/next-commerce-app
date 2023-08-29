@@ -1,5 +1,7 @@
 import { getSession } from "next-auth/react";
 import { getToken } from "next-auth/jwt";
+import jwt from "jsonwebtoken";
+
 // import cookie from "cookie";
 export const checkAuth = async (req: any, res: any, next: any) => {
   console.log("\x1b[32m\n<middleware/checkAuth>");
@@ -8,7 +10,20 @@ export const checkAuth = async (req: any, res: any, next: any) => {
   // get the accessToken
   const authorization = req.headers.authorization || req.headers.Authorization;
   const accessToken = authorization?.split(" ")[1];
-  console.log({ accessToken });
+  // console.log({ accessToken });
+
+  // verify
+  const verified: any = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+  if (!verified) return res.status(401).json({ message: "Unauthorized" });
+  console.log({ verified });
+
+  // inject the role
+  const { role } = verified;
+  // console.log({ "req.user": req.user });
+  const user = { role };
+  req.user = user;
+  // console.log({ "req.user": req.user });
+
   return await next();
 
   // get the credentials from session and cookies
@@ -31,6 +46,7 @@ export const checkAuth = async (req: any, res: any, next: any) => {
 export const checkRoles = (roles: any) => {
   return async (req: any, res: any, next: any) => {
     console.log("\x1b[32m\n<middleware/checkRoles>");
+    console.log({ "req.user.role": req.user.role });
     // await next();
     // return;
 
