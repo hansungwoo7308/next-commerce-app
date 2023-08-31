@@ -102,13 +102,36 @@ export default function Modal() {
     formState: { errors },
   } = useForm();
   if (!modal.active) return;
+  if (modal.type === "CREATE") {
+    return (
+      <Background onClick={handleClose}>
+        <Box onClick={(e) => e.stopPropagation()}>
+          <div className="header">
+            <h3>{type}</h3>
+          </div>
+          <hr />
+          <div className="main">
+            <p>{message}</p>
+          </div>
+          <div className="footer">
+            <button
+              onClick={handleAction}
+              // disabled={loading}
+            >
+              {actionLabel || "Create"}
+            </button>
+            <button onClick={handleClose}>Close</button>
+          </div>
+        </Box>
+      </Background>
+    );
+  }
   return (
     <Background onClick={handleClose}>
       <Box onClick={(e) => e.stopPropagation()}>
         <div className="header">
           <h3>{type || "test type"}</h3>
         </div>
-        {/* <div className="line" /> */}
         <hr />
         <div className="main">
           <p>{message}</p>
@@ -119,8 +142,8 @@ export default function Modal() {
             // disabled={loading}
           >
             {/* Confirm */}
-            {actionLabel}
-            {/* {actionLabel || "Confirm"} */}
+            {/* {actionLabel} */}
+            {actionLabel || "Confirm"}
           </button>
           <button onClick={handleClose}>Close</button>
         </div>

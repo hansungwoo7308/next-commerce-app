@@ -1,6 +1,7 @@
 import logError from "lib/client/log/logError";
 import logResponse from "lib/client/log/logResponse";
 import { setLoading } from "lib/client/store/loadingSlice";
+import { setModal } from "lib/client/store/modalSlice";
 import { deleteData } from "lib/public/fetchData";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +11,13 @@ export default function ProductMangerByAdmin() {
   const auth = useSelector((store: any) => store.auth);
   const [toggle, setToggle] = useState(true);
   const dispatch = useDispatch();
-  const handleClick = async (e: any) => {
+  const handleClickCreateButton = (e: any) => {
+    e.preventDefault();
+    const action = () => {};
+    const payload = { active: true, type: "CREATE", message: "Let us create a product!", action };
+    dispatch(setModal(payload));
+  };
+  const handleClickDeleteButton = async (e: any) => {
     e.preventDefault();
     try {
       dispatch(setLoading(true));
@@ -28,21 +35,24 @@ export default function ProductMangerByAdmin() {
   }, [manager]);
   return (
     <Box toggle={toggle}>
-      <div className="button">
+      <div className="toggle-button">
         {toggle ? (
           <button onClick={() => setToggle(!toggle)}>{`>`}</button>
         ) : (
           <button onClick={() => setToggle(!toggle)}>{`<`}</button>
         )}
       </div>
-      <div>
+      <div className="content">
         <h5>Product Manager</h5>
         <br />
         <p>Checked Items</p>
         {manager.checkedItems.map((item: any) => (
           <p>{item.slice(0, 10)}</p>
         ))}
-        <button onClick={handleClick}>Delete these items</button>
+        <div className="management-buttons">
+          <button onClick={handleClickDeleteButton}>Delete these products</button>
+          <button onClick={handleClickCreateButton}>Create a product</button>
+        </div>
       </div>
     </Box>
   );
@@ -64,7 +74,7 @@ const Box = styled.div<Props>`
   border-radius: 10px;
   pointer-events: initial;
   display: flex;
-  .button {
+  .toggle-button {
     width: 1.5rem;
     position: absolute;
     top: 0;
@@ -83,6 +93,22 @@ const Box = styled.div<Props>`
       &:hover {
         background-color: var(--color-primary);
         color: #fff;
+      }
+    }
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    > .management-buttons {
+      flex: 1;
+      /* border: 2px solid; */
+      display: flex;
+      flex-direction: column;
+      /* align-items: end; */
+      justify-content: end;
+      gap: 1rem;
+      > button {
+        padding: 0.5rem;
       }
     }
   }

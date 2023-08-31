@@ -1,20 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 type Modal = {
-  active?: boolean; // 모달 활성화, 비활성화
-  type?: string; // 액션타입
-  message?: string; // 모달 메세지
-  id?: string; // 식별할 아이디
-  ids?: string[]; // 식별할 아디디 어레이
+  active?: boolean | null; // 모달 활성화, 비활성화
+  type?: string | null; // 액션타입
+  message?: string | null; // 모달 메세지
+  id?: string | null; // 식별할 아이디
+  ids?: string[] | null; // 식별할 아디디 어레이
   callback?: Function | null; // 액션
   action?: Function | null; // 액션
   // onClose?:()=>void;
   // onSubmit?:()=>void;
   // body?:React.ReactElement;
   // footer?:React.ReactElement;
-  disabled?: boolean;
-  actionLabel?: string;
+  disabled?: boolean | null;
+  actionLabel?: string | null;
   actionSecondary?: Function | null; // 액션
-  actionLabelSecondary?: string;
+  actionLabelSecondary?: string | null;
 };
 // const initialState: Modal[] = [];
 const initialState: Modal = {};
@@ -23,11 +23,24 @@ export const modalSlice = createSlice({
   initialState,
   reducers: {
     setModal: (state, action) => {
-      const { active } = action.payload;
+      const { payload } = action;
+      if (!payload.active) return {};
+      state.active = true;
+      state.type = payload.type;
+      state.message = payload.message;
+      state.id = payload.id;
+      state.ids = payload.ids;
+      state.callback = payload.callback;
+      state.action = payload.action;
+      state.disabled = payload.disabled;
+      state.actionLabel = payload.actionLabel;
+      state.actionSecondary = payload.actionSecondary;
+      state.actionLabelSecondary = payload.actionLabelSecondary;
+
       // console.log({ userAction });
       // if (active) return action.payload;
       // else return {};
-      return active ? action.payload : {};
+      // return active ? action.payload : {};
     },
     // closeModal: (state) => {
     //   //   const modal: any = state.find((v: any) => v.name === action.payload.name);

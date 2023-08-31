@@ -46,6 +46,9 @@ export const getProduct = async (req: any, res: any, next: any) => {
   res.status(200).json({ product });
 };
 export const deleteProduct = async (req: any, res: any) => {
+  console.log(`\x1b[32m\n<deleteProducts>`);
+  return res.status(200).json({ message: "asdasdasd" });
+
   try {
     // verify
     const verified: any = await verifyJWT(req, res);
@@ -63,6 +66,6 @@ export const deleteProduct = async (req: any, res: any) => {
 export const deleteProducts = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<deleteProducts>`);
   const { ids } = req.body;
-
-  res.status(200).json({ message: "kkk" });
+  const deletedProducts = await Product.deleteMany({ _id: { $in: ids } });
+  res.status(200).json({ deletedProducts });
 };

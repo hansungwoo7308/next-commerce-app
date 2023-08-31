@@ -78,8 +78,24 @@ export default class APIfeatures {
     // out
     return this;
   }
+  // paginate() {
+  //   // 요청된 페이지
+  //   const page: number = Number(this.queryString.page) || 1;
+  //   // 페이지 당 아이템
+  //   const limit: number = 3;
+  //   // 쿼리에서 스킵할 아이템
+  //   const skip = (page - 1) * limit;
+  //   // const limit: number = Number(this.queryString.limit) || 3;
+  //   // const skip: number = (page - 1) * limit;
+  //   // console.log({ page, limit, skip });
+  //   // paginate
+  //   this.queryProducts = this.queryProducts.skip(skip).limit(limit);
+  //   // out
+  //   return this;
+  // }
   pagination() {
     // current page (ex : page1, page2, ...)
+
     const page = Number(this.queryString.page) || 1;
     // 가져올 페이지 수
     const limit = 3;
