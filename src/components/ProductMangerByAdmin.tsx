@@ -13,8 +13,7 @@ export default function ProductMangerByAdmin() {
   const dispatch = useDispatch();
   const handleClickCreateButton = (e: any) => {
     e.preventDefault();
-    const action = () => {};
-    const payload = { active: true, type: "CREATE", message: "Let us create a product!", action };
+    const payload = { active: true, type: "CREATE", message: "Let us create a product!" };
     dispatch(setModal(payload));
   };
   const handleClickDeleteButton = async (e: any) => {

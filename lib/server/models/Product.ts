@@ -4,10 +4,10 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       // required: true,
-      enum: {
-        values: ["electronics", "fashion", "food"],
-        message: "Please select correct category",
-      },
+      // enum: {
+      //   values: ["electronics", "fashion", "food"],
+      //   message: "Please select correct category",
+      // },
     },
     name: {
       type: String,

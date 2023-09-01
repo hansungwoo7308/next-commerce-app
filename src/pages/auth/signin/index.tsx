@@ -1,6 +1,6 @@
 import Head from "next/head";
 import styled from "styled-components";
-import FormSignin from "@/components/form/FormSignin";
+import SigninForm from "@/components/form/SigninForm";
 export default function Page() {
   return (
     <>
@@ -9,7 +9,7 @@ export default function Page() {
       </Head>
       <Main>
         <section>
-          <FormSignin />
+          <SigninForm />
         </section>
       </Main>
     </>

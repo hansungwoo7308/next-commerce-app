@@ -26,4 +26,5 @@ router
 // .delete((req: any, res: any) => {
 //   res.status(200).json({ message: "deleteProduct" });
 // })
+
 export default router.handler();

@@ -19,6 +19,7 @@ const Box = styled.div`
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
   /* border: 2px solid purple; */
   > .spiner {
     width: 50px;

@@ -5,16 +5,16 @@ type Modal = {
   message?: string | null; // 모달 메세지
   id?: string | null; // 식별할 아이디
   ids?: string[] | null; // 식별할 아디디 어레이
-  callback?: Function | null; // 액션
-  action?: Function | null; // 액션
+  action1?: Function | null; // 액션
+  action1Label?: string | null;
+  action2?: Function | null; // 액션
+  action2Label?: string | null;
+  disabled?: boolean | null;
+  // callback?: Function | null; // 액션
   // onClose?:()=>void;
   // onSubmit?:()=>void;
   // body?:React.ReactElement;
   // footer?:React.ReactElement;
-  disabled?: boolean | null;
-  actionLabel?: string | null;
-  actionSecondary?: Function | null; // 액션
-  actionLabelSecondary?: string | null;
 };
 // const initialState: Modal[] = [];
 const initialState: Modal = {};
@@ -23,19 +23,30 @@ export const modalSlice = createSlice({
   initialState,
   reducers: {
     setModal: (state, action) => {
-      const { payload } = action;
-      if (!payload.active) return {};
-      state.active = true;
-      state.type = payload.type;
-      state.message = payload.message;
-      state.id = payload.id;
-      state.ids = payload.ids;
-      state.callback = payload.callback;
-      state.action = payload.action;
-      state.disabled = payload.disabled;
-      state.actionLabel = payload.actionLabel;
-      state.actionSecondary = payload.actionSecondary;
-      state.actionLabelSecondary = payload.actionLabelSecondary;
+      const {
+        active,
+        type,
+        message,
+        id,
+        ids,
+        action1,
+        action1Label,
+        action2,
+        action2Label,
+        disabled,
+      } = action.payload;
+      if (!active) return {};
+      if (active) state.active = active;
+      if (type) state.type = type;
+      if (message) state.message = message;
+      if (id) state.id = id;
+      if (ids) state.ids = ids;
+      if (action1) state.action1 = action1;
+      if (action1Label) state.action1Label = action1Label;
+      if (action2) state.action2 = action2;
+      if (action2Label) state.action2Label = action2Label;
+      if (disabled) state.disabled = disabled;
+      // state.callback = callback;
 
       // console.log({ userAction });
       // if (active) return action.payload;

@@ -2,16 +2,13 @@ import Product from "lib/server/models/Product";
 import APIfeatures from "lib/server/utils/APIfeatures";
 import verifyJWT from "lib/server/utils/verifyJWT";
 export const newProduct = async (req: any, res: any, next: any) => {
-  console.log(`\x1b[32m<newProduct>`);
-
-  // // verify
-  // const verified: any = await verifyJWT(req, res);
-  // if (verified.role !== "user") return res.status(403).json({ message: "Forbidden" });
+  console.log(`\x1b[32m\n<newProduct>`);
+  console.log(req.body);
   const product = await Product.create(req.body);
   res.status(200).json({ product });
 };
 export const getProducts = async (req: any, res: any, next: any) => {
-  console.log(`\x1b[32m<getProduct>`);
+  console.log(`\x1b[32m\n<getProducts>`);
   // log
   console.log({ query: req.query });
 
@@ -41,12 +38,14 @@ export const getProducts = async (req: any, res: any, next: any) => {
   res.status(200).json({ products: paginatedProducts, pages: totalPages });
 };
 export const getProduct = async (req: any, res: any, next: any) => {
+  console.log(`\x1b[32m\n<getProduct>`);
+
   const product = await Product.findById(req.query.id);
   if (!product) res.status(404).json({ message: "Not found" });
   res.status(200).json({ product });
 };
 export const deleteProduct = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<deleteProducts>`);
+  console.log(`\x1b[32m\n<deleteProduct>`);
   return res.status(200).json({ message: "asdasdasd" });
 
   try {

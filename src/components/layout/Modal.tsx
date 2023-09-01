@@ -1,9 +1,8 @@
+import ProductCreateForm from "@/components/form/ProductCreateForm";
 import logResponse from "lib/client/log/logResponse";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 // import logError from "lib/client/log/logError";
@@ -12,11 +11,10 @@ import styled from "styled-components";
 // import { deleteUser } from "lib/client/store/usersSlice";
 // import { deleteData, getData, postData } from "lib/client/utils/fetchData";
 export default function Modal() {
+  const loading = useSelector((store: any) => store.loading);
   const auth = useSelector((store: any) => store.auth);
   const modal = useSelector((store: any) => store.modal);
-  const loading = useSelector((store: any) => store.loading);
   const { active, type, message, id, ids, action, actionLabel, disabled } = modal;
-  // const [disabled, setDisabled]: any = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
   const handleAction = async (e: any) => {
@@ -95,33 +93,12 @@ export default function Modal() {
   // const handleDeleteCartItem = async () => {
   //   dispatch(deleteItemFromCart({ _id: id }));
   // };
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-  if (!modal.active) return;
+  if (!modal.active) return null;
   if (modal.type === "CREATE") {
     return (
       <Background onClick={handleClose}>
         <Box onClick={(e) => e.stopPropagation()}>
-          <div className="header">
-            <h3>{type}</h3>
-          </div>
-          <hr />
-          <div className="main">
-            <p>{message}</p>
-          </div>
-          <div className="footer">
-            <button
-              onClick={handleAction}
-              // disabled={loading}
-            >
-              {actionLabel || "Create"}
-            </button>
-            <button onClick={handleClose}>Close</button>
-          </div>
+          <ProductCreateForm />
         </Box>
       </Background>
     );
@@ -157,21 +134,14 @@ const Background = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  /* width: 100%;
-  height: 100%; */
   display: flex;
   justify-content: center;
   align-items: center;
   outline: 5px solid purple;
   background-color: rgba(0, 0, 0, 0.5);
-  :focus {
-    /* border: 3px solid red; */
-    display: none;
-  }
+  z-index: 100;
 `;
 const Box = styled.div`
-  width: 400px;
-  height: 250px;
   background-color: #eee;
   color: green;
   border: 5px solid green;
@@ -193,8 +163,6 @@ const Box = styled.div`
       transform: translateY(0);
     }
   }
-  > .header {
-  }
   > hr {
     border-top: 1px solid green;
   }
@@ -207,8 +175,16 @@ const Box = styled.div`
     gap: 1rem;
   }
   button {
+    border: none;
     padding: 1rem;
     border-radius: 5px;
+    cursor: pointer;
+    background-color: #222;
+    color: #ccc;
+    &:hover {
+      background-color: var(--color-primary);
+      color: #fff;
+    }
     /* &:disabled {
       background-color: #777;
       cursor: not-allowed;

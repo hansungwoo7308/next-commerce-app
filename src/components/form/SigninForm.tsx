@@ -14,7 +14,7 @@ import logError from "lib/client/log/logError";
 // import { setCredentials } from "lib/client/store/authSlice";
 // import { postData } from "lib/client/utils/fetchData";
 // import { setLoading, setNotify } from "lib/client/store/notifySlice";
-export default function FormSignin() {
+export default function SigninForm() {
   const dispatch = useDispatch();
   const router = useRouter();
   const session: any = useSession();
