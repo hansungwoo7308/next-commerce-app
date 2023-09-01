@@ -106,9 +106,9 @@ export default function ProductCreateForm() {
             </label>
           </div>
           <label className="category">
-            <span>Category</span>
+            {/* <span>Category</span> */}
             <select {...register("category", { required: true })} id="category">
-              <option value="all">All Products</option>
+              <option>Select the category</option>
               <option value="electronics">Electronics</option>
               <option value="animal">Animal</option>
               <option value="food">Food</option>
@@ -116,7 +116,7 @@ export default function ProductCreateForm() {
             </select>
           </label>
           <label className="name">
-            <input {...register("name", { required: true })} type="text" placeholder="name" />
+            <input {...register("name", { required: true })} type="text" placeholder="Name" />
           </label>
           <label className="description">
             <textarea
@@ -127,13 +127,13 @@ export default function ProductCreateForm() {
             />
           </label>
           <label className="seller">
-            <input {...register("seller", { required: true })} type="text" placeholder="seller" />
+            <input {...register("seller", { required: true })} type="text" placeholder="Seller" />
           </label>
           <label className="price">
             <input {...register("price", { required: true })} type="number" placeholder="Price" />
           </label>
           <label className="stock">
-            <input {...register("stock", { required: true })} type="number" placeholder="stock" />
+            <input {...register("stock", { required: true })} type="number" placeholder="Stock" />
           </label>
         </div>
         <div className="footer">
@@ -158,38 +158,37 @@ const Box = styled.div`
       gap: 0.5rem;
       .images {
         width: 100%;
-        border: 2px solid;
-        padding: 1rem;
+        border: 2px solid #777;
       }
       .preview-images-outer {
         overflow-x: scroll;
-      }
-      .preview-images {
-        width: fit-content;
-        display: flex;
-        gap: 1rem;
-        padding: 1rem;
-        .thumbnail-image {
-          border: 5px solid coral;
-        }
-        .image {
-          position: relative;
-          width: 10rem;
-          height: 10rem;
-          border: 2px solid;
-          button {
-            width: 2rem;
-            height: 2rem;
-            position: absolute;
-            top: 0.3rem;
-            right: 0.3rem;
-            background-color: #fff;
-            color: #000;
-            border: 2px solid;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .preview-images {
+          width: fit-content;
+          display: flex;
+          gap: 1rem;
+          padding: 1rem;
+          .thumbnail-image {
+            border: 5px solid coral;
+          }
+          .image {
+            position: relative;
+            width: 10rem;
+            height: 10rem;
+            border: 2px solid #777;
+            button {
+              width: 2rem;
+              height: 2rem;
+              position: absolute;
+              top: 0.3rem;
+              right: 0.3rem;
+              background-color: #fff;
+              color: #000;
+              border: 2px solid #777;
+              border-radius: 50%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
           }
         }
       }
@@ -201,14 +200,19 @@ const Box = styled.div`
       justify-content: end;
       gap: 1rem;
       margin-top: 1rem;
-      button {
-        cursor: pointer;
-        background-color: #333;
-        color: #eee;
-        &:hover {
-          background-color: green;
-          color: #fff;
-        }
+    }
+    input,
+    select,
+    textarea {
+      padding: 0.5rem;
+    }
+    button {
+      cursor: pointer;
+      background-color: #333;
+      color: #eee;
+      &:hover {
+        background-color: green;
+        color: #fff;
       }
     }
   }

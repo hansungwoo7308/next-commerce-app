@@ -78,7 +78,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
     <button
       className="delete-button"
       onClick={() => {
-        const action = async () => {
+        const action1 = async () => {
           // delete
           const response = await deleteData(`v2/products/${_id}`, auth.accessToken);
           // const { _id } = response.data.deletedProduct;
@@ -92,8 +92,8 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
             active: true,
             type: "DEFAULT",
             message: "Do you want to delete the product?",
-            actionLabel: "Delete",
-            action,
+            action1Label: "Delete",
+            action1,
           })
         );
       }}

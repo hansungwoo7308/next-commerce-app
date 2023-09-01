@@ -46,21 +46,13 @@ export const getProduct = async (req: any, res: any, next: any) => {
 };
 export const deleteProduct = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<deleteProduct>`);
-  return res.status(200).json({ message: "asdasdasd" });
-
-  try {
-    // verify
-    const verified: any = await verifyJWT(req, res);
-    if (verified.role !== "admin") return res.status(403).json({ message: "Forbidden" });
-    // delete
-    const { id } = req.query;
-    const deletedProduct = await Product.findByIdAndDelete(id, { new: true });
-    // out
-    console.log({ deletedProduct: deletedProduct });
-    return res.status(200).json({ deleteProduct });
-  } catch (error) {
-    return res.status(500).json({ error });
-  }
+  // get
+  const { id } = req.query;
+  // delete
+  const deletedProduct = await Product.findByIdAndDelete(id, { new: true });
+  // out
+  console.log({ deletedProduct: deletedProduct });
+  return res.status(200).json({ deleteProduct });
 };
 export const deleteProducts = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<deleteProducts>`);
