@@ -14,7 +14,7 @@ export default function Modal() {
   const loading = useSelector((store: any) => store.loading);
   const auth = useSelector((store: any) => store.auth);
   const modal = useSelector((store: any) => store.modal);
-  const { active, type, message, id, ids, action, actionLabel, disabled } = modal;
+  const { active, type, message, id, ids, action1, actionLabel, disabled } = modal;
   const router = useRouter();
   const dispatch = useDispatch();
   const handleAction = async (e: any) => {
@@ -22,7 +22,7 @@ export default function Modal() {
     switch (type) {
       case "DEFAULT":
         dispatch(setLoading(true));
-        action();
+        action1();
         dispatch(setLoading(false));
         dispatch(setModal({ active: false }));
         break;

@@ -91,7 +91,7 @@ export default function Filters() {
   useEffect(() => {
     // 캐싱된 데이터로 채운다.
     const localStorageRatings = localStorage.getItem("ratings"); // string
-    if (!localStorageRatings) return console.log("No localStorageRatings");
+    if (!localStorageRatings) return;
     setRatings(localStorageRatings.split("+"));
     // 캐싱된 데이터로 조회한다.
     router.query = { ...router.query, ratings: localStorageRatings };

@@ -18,7 +18,6 @@ router
   .post(uploadImagesToCloudinary)
   .post(newProduct)
   .delete(deleteProducts);
-
 export const config: PageConfig = {
   api: {
     bodyParser: false,
@@ -26,8 +25,3 @@ export const config: PageConfig = {
   },
 };
 export default router.handler();
-// .use(uploadImagesToServer, async (req: any, res: any, next: any) => {
-//   console.log(`\n<uploadImagesToServer>`);
-//   console.log({ files: req.files, body: req.body });
-//   await next();
-// })

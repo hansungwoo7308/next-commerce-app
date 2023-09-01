@@ -25,18 +25,6 @@ export const uploadImagesToServer = async (req: any, res: any, next: any) => {
   // out
   await next();
 };
-// const storage = multer.diskStorage({
-//   destination: function (req, file, callback) {
-//     callback(null, "public/uploads");
-//   },
-//   filename: function (req, file, callback) {
-//     callback(null, new Date().toISOString() + "-" + file.originalname);
-//   },
-// });
-// export const uploadImagesToServer: any = multer({ storage }).any();
-// export const uploadImagesToServer: any = multer({ storage }).array("images");
-// export const uploadImagesToServer: any = multer({ dest: "public/uploads" }).array("images");
-
 // upload middleware (cloudinary)
 export const uploadImagesToCloudinary = async (req: any, res: any, next: any) => {
   console.log(`\x1b[32m\n<uploadImagesToCloudinary>`);
@@ -71,7 +59,6 @@ export const uploadImagesToCloudinary = async (req: any, res: any, next: any) =>
   console.log({ promiseAllResult: result });
   // add images to body
   req.body.images = result.map((item: any) => ({ url: item.url, secure_url: item.secure_url }));
-  // console.log({ body: req.body });
-  // return res.status(200).json({ message: "ccc" });
+  // out
   await next();
 };
