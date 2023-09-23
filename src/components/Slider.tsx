@@ -35,11 +35,11 @@ export default function Slider() {
     }
   };
   const handleClickLeft = () => {
-    if (slideIndex <= 0) {
+    if (slideIndex === 0 && direction === "left") {
       return;
     }
-    setDirection("left");
     setSlideIndex((prev: any) => prev - 1);
+    setDirection("left");
 
     // if (direction === 'right' || direction===null ) {
     //   // slider.current.append(slider.current.firstElementChild);
@@ -107,13 +107,18 @@ export default function Slider() {
           onTransitionEnd={() => {
             // console.log({ slideIndex });
             // slider 조정(reconcilll...)
-            if (slideIndex === 4) {
+            if (slideIndex === 4 && direction === "right") {
               slider.current.style.transition = "none";
               slider.current.style.transform = "translateX(0)";
               slider.current.prepend(slider.current.lastElementChild);
               setSlideIndex(0);
-
               // setSlideIndex(-1);
+            }
+            if (slideIndex === 0 && direction === "left" && direction !== null) {
+              slider.current.style.transition = "none";
+              slider.current.style.transform = `translateX(-${20 * 4}%)`;
+              slider.current.append(slider.current.firstElementChild);
+              setSlideIndex(4);
             }
           }}
           style={
