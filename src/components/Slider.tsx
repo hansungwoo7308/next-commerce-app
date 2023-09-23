@@ -45,7 +45,7 @@ export default function Slider() {
     setSlideIndex((prev: any) => prev + 1);
   };
   useEffect(() => {
-    console.log({ slideIndex });
+    // console.log({ slideIndex });
     // 변경된 인덱스에 의해서 애니메이션
     slider.current.style.transition = "all 1s";
     slider.current.style.transform = `translate(-${(100 / data.length) * slideIndex}%)`;
@@ -85,8 +85,8 @@ export default function Slider() {
         >
           {data.map((v: any, index: any) => (
             <li className="item" ref={item}>
-              {/* <Image src={`/images/${v}`} layout="fill" alt="alt" /> */}
-              {index}
+              <Image src={`/images/${v}`} layout="fill" alt="alt" />
+              {/* {index} */}
             </li>
           ))}
           {/* <li>
@@ -121,7 +121,7 @@ const Box = styled.div`
   /* height: calc(100vh - 100px); */
   padding: 1rem;
   > .carousel {
-    width: 300px;
+    /* width: 300px; */
     height: 250px;
     margin: auto;
     /* width: 100%;
@@ -129,8 +129,8 @@ const Box = styled.div`
     display: flex;
     justify-content: flex-start;
     position: relative;
-    border: 5px solid green;
-    /* overflow: hidden; */
+    /* border: 5px solid green; */
+    overflow: hidden;
     > .slider {
       /* width: 500%; */
       height: 100%;
@@ -139,7 +139,7 @@ const Box = styled.div`
       /* 디폴트 값은 1이고 flex속성은 flexible한 배치를 갖기 때문에, 부모기준에 맟추어 가로나 세로사이즈가 유동적으로 된다. */
       flex-shrink: 0;
       transition: all 1s;
-      border: 2px solid coral;
+      /* border: 2px solid coral; */
       > li {
         flex: 1;
         display: flex;
@@ -148,7 +148,7 @@ const Box = styled.div`
         position: relative;
       }
       .item {
-        border: 2px solid;
+        /* border: 2px solid; */
       }
     }
     > .controls {

@@ -13,13 +13,13 @@ export default function Home() {
       <Main>
         <section id="hero">
           <Slider />
-          {/* <div className="card-layout">
+          <div className="card-layout">
             <div className="card">card</div>
             <div className="card">card</div>
             <div className="card">card</div>
             <div className="card">card</div>
             <div className="card">card</div>
-          </div> */}
+          </div>
         </section>
         <section></section>
         <section></section>
@@ -31,14 +31,14 @@ export default function Home() {
 const Main = styled.main`
   .card-layout {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(5rem, 19rem));
+    grid-template-columns: repeat(auto-fit, minmax(auto, 10rem));
     justify-content: center;
     gap: 1rem;
     background-color: #333;
     padding: 1rem;
 
     .card {
-      min-width: 15rem;
+      /* min-width: 15rem; */
       height: 20rem;
       background-color: #fff;
       color: #000;
