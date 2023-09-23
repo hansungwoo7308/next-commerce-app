@@ -10,6 +10,7 @@ export default function Header() {
   );
 }
 const Box = styled.header`
+  /* display: none; */
   > section {
     > .auth {
       display: flex;

@@ -1,4 +1,3 @@
-import Carousel from "@/components/Carousel";
 import Slider from "@/components/Slider";
 import Head from "next/head";
 import { styled } from "styled-components";
@@ -14,7 +13,13 @@ export default function Home() {
       <Main>
         <section id="hero">
           <Slider />
-          {/* <Carousel /> */}
+          {/* <div className="card-layout">
+            <div className="card">card</div>
+            <div className="card">card</div>
+            <div className="card">card</div>
+            <div className="card">card</div>
+            <div className="card">card</div>
+          </div> */}
         </section>
         <section></section>
         <section></section>
@@ -23,4 +28,20 @@ export default function Home() {
     </>
   );
 }
-const Main = styled.main``;
+const Main = styled.main`
+  .card-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(5rem, 19rem));
+    justify-content: center;
+    gap: 1rem;
+    background-color: #333;
+    padding: 1rem;
+
+    .card {
+      min-width: 15rem;
+      height: 20rem;
+      background-color: #fff;
+      color: #000;
+    }
+  }
+`;

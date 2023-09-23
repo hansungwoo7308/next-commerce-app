@@ -55,7 +55,7 @@ export const GlobalStyled = createGlobalStyle`
     }
   }
   main {
-    background-color: var(--color-page-background);
+    /* background-color: var(--color-page-background); */
     /* border: 2px solid; */
     overflow:hidden;
     section {

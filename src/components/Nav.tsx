@@ -5,7 +5,6 @@ import { styled } from "styled-components";
 // import { Squeeze as Hamburger } from "hamburger-react";
 import { IoIosArrowForward, IoIosMenu } from "react-icons/io";
 import Account from "@/components/Account";
-
 export default function Nav() {
   const [isVisible, setIsVisible]: any = useState(false);
   // console.log({ router });
@@ -73,8 +72,8 @@ export default function Nav() {
           <div className="nav-side-content">
             <ul className="nav-side-menu">
               <li className="nav-side-item">
-                <Link href={"/#"}>
-                  <div>Item 1</div>
+                <Link href={"/shop/all"}>
+                  <div>All Products</div>
                   <IoIosArrowForward />
                 </Link>
               </li>

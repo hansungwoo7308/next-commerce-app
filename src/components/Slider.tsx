@@ -35,17 +35,17 @@ export default function Slider() {
     }
   };
   const handleClickLeft = () => {
-    if (direction === "left" && slideIndex === 0) return;
+    if (direction === "left" && slideIndex <= 0) return;
     setDirection("left");
     setSlideIndex((prev: any) => prev - 1);
   };
   const handleClickRight = () => {
-    if (direction === "right" && slideIndex === data.length - 1) return;
+    if (direction === "right" && slideIndex >= data.length - 1) return;
     setDirection("right");
     setSlideIndex((prev: any) => prev + 1);
   };
   useEffect(() => {
-    // console.log({ slideIndex });
+    console.log({ slideIndex });
     // 변경된 인덱스에 의해서 애니메이션
     slider.current.style.transition = "all 1s";
     slider.current.style.transform = `translate(-${(100 / data.length) * slideIndex}%)`;
@@ -83,10 +83,10 @@ export default function Slider() {
           onTransitionEnd={handleTransitionEnd}
           style={{ width: `${100 * data.length}%` }}
         >
-          {data.map((v: any) => (
+          {data.map((v: any, index: any) => (
             <li className="item" ref={item}>
-              <Image src={`/images/${v}`} layout="fill" alt="alt" />
-              {/* {v} */}
+              {/* <Image src={`/images/${v}`} layout="fill" alt="alt" /> */}
+              {index}
             </li>
           ))}
           {/* <li>
@@ -118,11 +118,11 @@ export default function Slider() {
   );
 }
 const Box = styled.div`
-  height: calc(100vh - 100px);
-  padding: 5rem;
+  /* height: calc(100vh - 100px); */
+  padding: 1rem;
   > .carousel {
     width: 300px;
-    height: 300px;
+    height: 250px;
     margin: auto;
     /* width: 100%;
     height: 100%; */
