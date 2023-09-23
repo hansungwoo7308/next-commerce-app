@@ -2,18 +2,26 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-const data = ["slide-01.jpg", "slide-02.jpg"];
+const data = [
+  "slide-01.jpg",
+  "slide-02.jpg",
+  "slide-01.jpg",
+  "slide-02.jpg",
+  "slide-01.jpg",
+  "slide-02.jpg",
+];
 export default function Slider() {
   const [direction, setDirection]: any = useState(null);
   const [slideIndex, setSlideIndex]: any = useState(0);
   const carousel: any = useRef();
   const slider: any = useRef();
+  const item: any = useRef();
   const handleTransitionEnd = () => {
     // slider reconciliation
     // 스타일조정 : 애니메이션 무효화, 위치조정
     // 돔조정 : 이전과 이후의 페이지의 자연스러운 연결성을 위한 돔조정
     // 인덱스조정 : 슬라이드 인덱스조정
-    if (slideIndex >= 4 && direction === "right" && direction !== null) {
+    if (slideIndex >= data.length - 1 && direction === "right" && direction !== null) {
       slider.current.style.transition = "none";
       slider.current.style.transform = "translateX(0)";
       slider.current.prepend(slider.current.lastElementChild);
@@ -21,9 +29,9 @@ export default function Slider() {
     }
     if (slideIndex <= 0 && direction === "left" && direction !== null) {
       slider.current.style.transition = "none";
-      slider.current.style.transform = `translateX(-${20 * 4}%)`;
+      slider.current.style.transform = `translateX(-${(100 / data.length) * (data.length - 1)}%)`;
       slider.current.append(slider.current.firstElementChild);
-      setSlideIndex(4); // 마지막으로 이동 (인덱스를 마지막으로 변경하고 다시 트랙킹하도록한다.)
+      setSlideIndex(data.length - 1); // 마지막으로 이동 (인덱스를 마지막으로 변경하고 다시 트랙킹하도록한다.)
     }
   };
   const handleClickLeft = () => {
@@ -32,7 +40,7 @@ export default function Slider() {
     setSlideIndex((prev: any) => prev - 1);
   };
   const handleClickRight = () => {
-    if (direction === "right" && slideIndex === 4) return;
+    if (direction === "right" && slideIndex === data.length - 1) return;
     setDirection("right");
     setSlideIndex((prev: any) => prev + 1);
   };
@@ -40,7 +48,8 @@ export default function Slider() {
     // console.log({ slideIndex });
     // 변경된 인덱스에 의해서 애니메이션
     slider.current.style.transition = "all 1s";
-    slider.current.style.transform = `translate(-${20 * slideIndex}%)`;
+    slider.current.style.transform = `translate(-${(100 / data.length) * slideIndex}%)`;
+    // slider.current.style.transform = `translate(-${item.current.style.width * slideIndex}%)`;
   }, [slideIndex]);
   // useEffect(() => {
   //   console.log({ currentSlideIndex: slideIndex });
@@ -68,11 +77,16 @@ export default function Slider() {
   return (
     <Box className="container">
       <div className="carousel" ref={carousel}>
-        <ul className="slider" ref={slider} onTransitionEnd={handleTransitionEnd}>
-          {[1, 2, 3, 4, 5].map((v: any) => (
-            <li className="item">
-              {/* <Image src={`/images/${v}`} layout="fill" alt="alt" /> */}
-              {v}
+        <ul
+          className="slider"
+          ref={slider}
+          onTransitionEnd={handleTransitionEnd}
+          style={{ width: `${100 * data.length}%` }}
+        >
+          {data.map((v: any) => (
+            <li className="item" ref={item}>
+              <Image src={`/images/${v}`} layout="fill" alt="alt" />
+              {/* {v} */}
             </li>
           ))}
           {/* <li>
@@ -118,7 +132,7 @@ const Box = styled.div`
     border: 5px solid green;
     /* overflow: hidden; */
     > .slider {
-      width: 500%;
+      /* width: 500%; */
       height: 100%;
       display: flex;
       /* children element가 축소되는 것을 방지 */
