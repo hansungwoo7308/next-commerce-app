@@ -4,62 +4,40 @@ import styled from "styled-components";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 const data = ["slide-01.jpg", "slide-02.jpg"];
 export default function Slider() {
-  const [slideIndex, setSlideIndex]: any = useState(0);
   const [direction, setDirection]: any = useState(null);
+  const [slideIndex, setSlideIndex]: any = useState(0);
   const carousel: any = useRef();
   const slider: any = useRef();
   const handleTransitionEnd = () => {
-    // slider 조정(reconcilll...)
+    // slider reconciliation
+    // 스타일조정 : 애니메이션 무효화, 위치조정
+    // 돔조정 : 이전과 이후의 페이지의 자연스러운 연결성을 위한 돔조정
+    // 인덱스조정 : 슬라이드 인덱스조정
     if (slideIndex >= 4 && direction === "right" && direction !== null) {
       slider.current.style.transition = "none";
       slider.current.style.transform = "translateX(0)";
       slider.current.prepend(slider.current.lastElementChild);
-      setSlideIndex(0); // 처음으로 이동
+      setSlideIndex(0); // 처음으로 이동 (인덱스를 처음으로 변경하고 다시 트랙킹하도록한다.)
     }
     if (slideIndex <= 0 && direction === "left" && direction !== null) {
       slider.current.style.transition = "none";
       slider.current.style.transform = `translateX(-${20 * 4}%)`;
       slider.current.append(slider.current.firstElementChild);
-      setSlideIndex(4); // 마지막으로 이동
+      setSlideIndex(4); // 마지막으로 이동 (인덱스를 마지막으로 변경하고 다시 트랙킹하도록한다.)
     }
   };
   const handleClickLeft = () => {
-    if (slideIndex === 0 && direction === "left") {
-      return;
-    }
-    setSlideIndex((prev: any) => prev - 1);
+    if (direction === "left" && slideIndex === 0) return;
     setDirection("left");
-
-    // if (direction === 'right' || direction===null ) {
-    //   // slider.current.append(slider.current.firstElementChild);
-    // }
-    // 역방향
-    // carousel.current.style.justifyContent = `flex-end`;
-    // slider.current.style.transform = `translate(20%)`;
+    setSlideIndex((prev: any) => prev - 1);
   };
   const handleClickRight = () => {
-    if (slideIndex === 4 && direction === "right") {
-      return;
-    }
-    setSlideIndex((prev: any) => prev + 1);
+    if (direction === "right" && slideIndex === 4) return;
     setDirection("right");
+    setSlideIndex((prev: any) => prev + 1);
   };
   useEffect(() => {
-    console.log({ slideIndex });
-    // 마지막 슬라이드에 왔을때,
-    // 5 1 2 3 4
-    // 0 1 2 3 4
-
-    // if (slideIndex === -1) {
-    //   slider.current.append(slider.current.firstElementChild);
-    // }
-
-    // slider.current.style.transition = "none";
-    // slider.current.prepend(slider.current.lastElementChild);
-    // slider.current.style.transform = `translateX(0%)`;
-    // carousel.current.style.justifyContent = `flex-start`;
-    // slider.current.style.transform = `translateX(${20 * 4}%)`;
-
+    // console.log({ slideIndex });
     // 변경된 인덱스에 의해서 애니메이션
     slider.current.style.transition = "all 1s";
     slider.current.style.transform = `translate(-${20 * slideIndex}%)`;
