@@ -8,30 +8,19 @@ export default function Slider() {
   const [direction, setDirection]: any = useState(null);
   const carousel: any = useRef();
   const slider: any = useRef();
-  // const setSliderDirection = () => {
-  //   // left
-  //   if (direction === -1) {
-  //     slider.current.append(slider.current.firstElementChild);
-  //   }
-  //   // right
-  //   if (direction === 1) {
-  //     slider.current.prepend(slider.current.lastElementChild);
-  //   }
-  // };
-  // const setSliderPosition = () => {
-  //   slider.current.style.transition = `none`;
-  //   slider.current.style.transform = `translate(0)`;
-  //   setTimeout(() => {
-  //     slider.current.style.transition = `all 3s`;
-  //   });
-  // };
   const handleTransitionEnd = () => {
-    // setSliderDirection();
-    // setSliderPosition();
-    // slider.current.style.transition = "none";
-    // slider.current.style.transform = "translateX(0)";
-    // slider.current.style.transition = "all 3s";
-    if (direction === "left") {
+    // slider 조정(reconcilll...)
+    if (slideIndex >= 4 && direction === "right" && direction !== null) {
+      slider.current.style.transition = "none";
+      slider.current.style.transform = "translateX(0)";
+      slider.current.prepend(slider.current.lastElementChild);
+      setSlideIndex(0); // 처음으로 이동
+    }
+    if (slideIndex <= 0 && direction === "left" && direction !== null) {
+      slider.current.style.transition = "none";
+      slider.current.style.transform = `translateX(-${20 * 4}%)`;
+      slider.current.append(slider.current.firstElementChild);
+      setSlideIndex(4); // 마지막으로 이동
     }
   };
   const handleClickLeft = () => {
@@ -101,32 +90,7 @@ export default function Slider() {
   return (
     <Box className="container">
       <div className="carousel" ref={carousel}>
-        <ul
-          className="slider"
-          ref={slider}
-          onTransitionEnd={() => {
-            // console.log({ slideIndex });
-            // slider 조정(reconcilll...)
-            if (slideIndex === 4 && direction === "right") {
-              slider.current.style.transition = "none";
-              slider.current.style.transform = "translateX(0)";
-              slider.current.prepend(slider.current.lastElementChild);
-              setSlideIndex(0);
-              // setSlideIndex(-1);
-            }
-            if (slideIndex === 0 && direction === "left" && direction !== null) {
-              slider.current.style.transition = "none";
-              slider.current.style.transform = `translateX(-${20 * 4}%)`;
-              slider.current.append(slider.current.firstElementChild);
-              setSlideIndex(4);
-            }
-          }}
-          style={
-            {
-              // width: `${100 * data.length}%`,
-            }
-          }
-        >
+        <ul className="slider" ref={slider} onTransitionEnd={handleTransitionEnd}>
           {[1, 2, 3, 4, 5].map((v: any) => (
             <li className="item">
               {/* <Image src={`/images/${v}`} layout="fill" alt="alt" /> */}
