@@ -1,47 +1,90 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import styled from "styled-components";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+const data = ["slide-01.jpg", "slide-02.jpg"];
 export default function Slider() {
-  const [direction, setDirection]: any = useState();
+  const [slideIndex, setSlideIndex]: any = useState(0);
+  const [direction, setDirection]: any = useState(null);
   const carousel: any = useRef();
   const slider: any = useRef();
-  const setSliderDirection = () => {
-    if (direction === -1) {
-      slider.current.append(slider.current.firstElementChild);
-    }
-    if (direction === 1) {
-      slider.current.prepend(slider.current.lastElementChild);
-    }
-  };
-  const setSliderPosition = () => {
-    slider.current.style.transition = `none`;
-    slider.current.style.transform = `translate(0)`;
-    setTimeout(() => {
-      slider.current.style.transition = `all 0.5s`;
-    });
-  };
+  // const setSliderDirection = () => {
+  //   // left
+  //   if (direction === -1) {
+  //     slider.current.append(slider.current.firstElementChild);
+  //   }
+  //   // right
+  //   if (direction === 1) {
+  //     slider.current.prepend(slider.current.lastElementChild);
+  //   }
+  // };
+  // const setSliderPosition = () => {
+  //   slider.current.style.transition = `none`;
+  //   slider.current.style.transform = `translate(0)`;
+  //   setTimeout(() => {
+  //     slider.current.style.transition = `all 3s`;
+  //   });
+  // };
   const handleTransitionEnd = () => {
-    setSliderDirection();
-    setSliderPosition();
-  };
-  const handleClickPrevButton = () => {
-    if (direction === -1 || direction === undefined) {
-      slider.current.append(slider.current.firstElementChild);
-      setDirection(1);
+    // setSliderDirection();
+    // setSliderPosition();
+    // slider.current.style.transition = "none";
+    // slider.current.style.transform = "translateX(0)";
+    // slider.current.style.transition = "all 3s";
+    if (direction === "left") {
     }
-    setDirection(1);
-    carousel.current.style.justifyContent = `flex-end`;
-    slider.current.style.transform = `translate(20%)`;
   };
-  const handleClickNextButton = () => {
-    if (direction === 1) {
-      slider.current.prepend(slider.current.lastElementChild);
-      setDirection(-1);
+  const handleClickLeft = () => {
+    if (slideIndex <= 0) {
+      return;
     }
-    setDirection(-1);
-    carousel.current.style.justifyContent = `flex-start`;
-    slider.current.style.transform = `translate(-20%)`;
+    setDirection("left");
+    setSlideIndex((prev: any) => prev - 1);
+
+    // if (direction === 'right' || direction===null ) {
+    //   // slider.current.append(slider.current.firstElementChild);
+    // }
+    // 역방향
+    // carousel.current.style.justifyContent = `flex-end`;
+    // slider.current.style.transform = `translate(20%)`;
   };
+  const handleClickRight = () => {
+    if (slideIndex === 4 && direction === "right") {
+      return;
+    }
+    setSlideIndex((prev: any) => prev + 1);
+    setDirection("right");
+  };
+  useEffect(() => {
+    console.log({ slideIndex });
+    // 마지막 슬라이드에 왔을때,
+    // 5 1 2 3 4
+    // 0 1 2 3 4
+
+    // if (slideIndex === -1) {
+    //   slider.current.append(slider.current.firstElementChild);
+    // }
+
+    // slider.current.style.transition = "none";
+    // slider.current.prepend(slider.current.lastElementChild);
+    // slider.current.style.transform = `translateX(0%)`;
+    // carousel.current.style.justifyContent = `flex-start`;
+    // slider.current.style.transform = `translateX(${20 * 4}%)`;
+
+    // 변경된 인덱스에 의해서 애니메이션
+    slider.current.style.transition = "all 1s";
+    slider.current.style.transform = `translate(-${20 * slideIndex}%)`;
+  }, [slideIndex]);
+  // useEffect(() => {
+  //   console.log({ currentSlideIndex: slideIndex });
+  //   // if (slideIndex === 4 && direction === "right") {
+  //   //   slider.current.style.transition = "none";
+  //   //   slider.current.style.transform = "translateX(0)";
+  //   //   slider.current.prepend(slider.current.lastElementChild);
+
+  //   //   // slider.current.prepend(slider.current.lastElementChild);
+  //   // }
+  // }, [slideIndex]);
   // useEffect(() => {
   //   const handleMouseEnter = () => {
   //     console.log("enter");
@@ -49,26 +92,47 @@ export default function Slider() {
   //   };
   //   const handleMouseLeave = () => {
   //     console.log("leave");
-  //     intervalId = setInterval(() => handleClickNextButton(), 5000);
+  //     intervalId = setInterval(() => handleClickRight(), 5000);
   //   };
-  //   let intervalId = setInterval(() => handleClickNextButton(), 5000);
+  //   let intervalId = setInterval(() => handleClickRight(), 5000);
   //   carousel.current.addEventListener("mouseenter", handleMouseEnter);
   //   carousel.current.addEventListener("mouseleave", handleMouseLeave);
   // }, []); // set interval and reset interval
   return (
     <Box className="container">
       <div className="carousel" ref={carousel}>
-        <ul className="slider" ref={slider} onTransitionEnd={handleTransitionEnd}>
-          {/* <li>1</li>
-          <li>2</li>
-          <li>3</li>
-          <li>4</li>
-          <li>5</li> */}
-          <li>
-            <Image src="https://source.unsplash.com/random/?rain" layout="fill" alt="rain" />
+        <ul
+          className="slider"
+          ref={slider}
+          onTransitionEnd={() => {
+            // console.log({ slideIndex });
+            // slider 조정(reconcilll...)
+            if (slideIndex === 4) {
+              slider.current.style.transition = "none";
+              slider.current.style.transform = "translateX(0)";
+              slider.current.prepend(slider.current.lastElementChild);
+              setSlideIndex(0);
+
+              // setSlideIndex(-1);
+            }
+          }}
+          style={
+            {
+              // width: `${100 * data.length}%`,
+            }
+          }
+        >
+          {[1, 2, 3, 4, 5].map((v: any) => (
+            <li className="item">
+              {/* <Image src={`/images/${v}`} layout="fill" alt="alt" /> */}
+              {v}
+            </li>
+          ))}
+          {/* <li>
+            <Image src="/images/slide-01.jpg" layout="fill" alt="rain" />
           </li>
           <li>
-            <Image src="https://source.unsplash.com/random/?coffee" layout="fill" alt="coffee" />
+            <Image src="/images/slide-02.jpg" layout="fill" alt="coffee" />
           </li>
           <li>
             <Image src="https://source.unsplash.com/random/?river" layout="fill" alt="river" />
@@ -78,14 +142,14 @@ export default function Slider() {
           </li>
           <li>
             <Image src="https://source.unsplash.com/random/?train" layout="fill" alt="train" />
-          </li>
+          </li> */}
         </ul>
         <div className="controls">
-          <div className="arrow prev" onClick={handleClickPrevButton}>
-            <h1>Left</h1>
+          <div className="arrow prev" onClick={handleClickLeft}>
+            <IoIosArrowBack />
           </div>
-          <div className="arrow next" onClick={handleClickNextButton}>
-            <h1>Right</h1>
+          <div className="arrow next" onClick={handleClickRight}>
+            <IoIosArrowForward />
           </div>
         </div>
       </div>
@@ -93,30 +157,37 @@ export default function Slider() {
   );
 }
 const Box = styled.div`
+  height: calc(100vh - 100px);
+  padding: 5rem;
   > .carousel {
-    width: 100%;
-    height: 100%;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    /* width: 100%;
+    height: 100%; */
     display: flex;
     justify-content: flex-start;
     position: relative;
-    overflow: hidden;
-    border: 2px solid green;
+    border: 5px solid green;
+    /* overflow: hidden; */
     > .slider {
       width: 500%;
       height: 100%;
       display: flex;
+      /* children element가 축소되는 것을 방지 */
+      /* 디폴트 값은 1이고 flex속성은 flexible한 배치를 갖기 때문에, 부모기준에 맟추어 가로나 세로사이즈가 유동적으로 된다. */
       flex-shrink: 0;
-      transition: all 0.5s;
+      transition: all 1s;
+      border: 2px solid coral;
       > li {
-        /* width: 20%;
-        flex-basis: 20%; // N등분하여 20%의 가로길이를 가져간다. */
-        display: flex;
         flex: 1;
+        display: flex;
         align-items: center;
         justify-content: center;
-        border: 2px solid;
         position: relative;
-        /* background-color: #777; */
+      }
+      .item {
+        border: 2px solid;
       }
     }
     > .controls {

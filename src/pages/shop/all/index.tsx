@@ -2,6 +2,7 @@ import Filters from "@/components/Filters";
 import Pagination from "@/components/Pagination";
 import ProductMangerByAdmin from "@/components/ProductMangerByAdmin";
 import Products from "@/components/Products";
+import Search from "@/components/Search";
 import { getData } from "lib/public/fetchData";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -18,7 +19,7 @@ export async function getServerSideProps({ query }: any) {
 export default function Page({ products, pages }: any) {
   const router = useRouter();
   const [page, setPage]: any = useState(1);
-  // const [checked,setChecked]:any=useState([])
+  // const [checked,setChecked]:any=useState([])ㄴ
   const auth = useSelector((store: any) => store.auth);
   const handleChangePage = (page: any) => {
     setPage(page);
@@ -33,6 +34,7 @@ export default function Page({ products, pages }: any) {
         <div></div>
       </section>
       <section>
+        <Search />
         <div className="all">
           {/* <Filter /> */}
           {/* <button onClick={handleCheckAll}>{isCheckAll ? "Unselect All" : "Select All"}</button> */}
@@ -63,7 +65,6 @@ export default function Page({ products, pages }: any) {
           <Pagination pages={pages} page={page} onChangePage={handleChangePage} />
         </div>
       </section>
-      <section></section>
     </Main>
   );
 }

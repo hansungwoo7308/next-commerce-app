@@ -30,43 +30,46 @@ export const GlobalStyled = createGlobalStyle`
     scroll-behavior: smooth;
   }
   body {
+    max-width:100vw;
     height:100%;
     background-color:var(--color-background);
     color:var(--color-foreground);
-    header {
-      /* display:none; */
-      position:fixed;
-      left:0;
-      right:0;
-      top:0;
-      z-index:100;
-      padding:10px 0;
-      /* border: 2px solid; */
-      section {
-        height:100%;
-        width: 80%;
-        max-width:1000px;
-        margin: auto;
-        display: flex;
-        justify-content: space-between;
-        /* outline: 2px dashed; */
-      }
-    }
-    main {
-      padding-top: var(--nav-height);
-      background-color: var(--color-page-background);
-      /* border: 2px solid; */
-      overflow:hidden;
-      section {
-        width: 80%;
-        max-width:1000px;
-        min-height: calc(100vh - var(--nav-height));
-        margin: auto;
-        outline: 2px dashed;
+  }
+  header {
+    position:fixed;
+    left:0;
+    right:0;
+    top:0;
+    z-index:100;
+    /* font-size: 1rem; */
+    /* background-color: rgba(0,0,0,0.5); */
+    backdrop-filter: blur(3px);
+    /* border: 2px solid; */
+    section {
+      /* width: 80%; */
+      /* max-width:1000px; */
+      margin: auto;
+      outline: 2px dashed;
+      nav{
       }
     }
   }
+  main {
+    background-color: var(--color-page-background);
+    /* border: 2px solid; */
+    overflow:hidden;
+    section {
+      width: 80%;
+      max-width:1000px;
+      min-height:100vh;
+      padding-top:100px;
+      /* min-height: calc(100vh - var(--nav-height)); */
+      margin: auto;
+      outline: 2px dashed;
+    }
+  }
   a {
+    height:100%;
     text-decoration:none;
     color:inherit;
     &:hover {
@@ -76,12 +79,12 @@ export const GlobalStyled = createGlobalStyle`
   header button,
   main button {
     border:none;
-    background-color:#222;
-    color:#ccc;
     cursor: pointer;
+    background-color:inherit;
+    color:inherit;
     &:hover {
-      background-color:var(--color-primary);
-      color:#fff;
+      /* background-color:var(--color-primary); */
+      /* color:#fff; */
     }
   }
   img {

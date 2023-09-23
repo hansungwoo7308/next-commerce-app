@@ -35,14 +35,13 @@ export default function Layout({ children }: any) {
       dispatch(setLoading(false));
     }
   };
+
   // set the credentials
   // general jwt : accessToken(redux store), refreshToken(cookie)
   // next-auth session token (cookie)
   useEffect(() => {
     if (session.status === "authenticated") return console.log("session"); // session 방식으로 구현했다면 리프레시를 패스한다.
-    // accessToken이 없다면, refreshToken으로 모든 토큰을 갱신한다.
-    // console.log("general");
-    if (!auth.accessToken) refreshAuth();
+    if (!auth.accessToken) refreshAuth(); // accessToken이 없다면, refreshToken으로 모든 토큰을 갱신한다.
   }, [auth.accessToken]); // refresh credentials
   useEffect(() => {
     if (session.status === "authenticated") {
@@ -50,6 +49,7 @@ export default function Layout({ children }: any) {
       dispatch(setCredentials(credentials));
     }
   }, [session.status]);
+
   // set the cart (localStorage, redux store)
   useEffect(() => {
     const serializedCart: any = localStorage.getItem("cart");
@@ -66,6 +66,7 @@ export default function Layout({ children }: any) {
     const stringfiedCart = JSON.stringify(cart);
     localStorage.setItem("cart", stringfiedCart);
   }, [cart]); // if cart is changed, cache
+
   return (
     <>
       {/* {router.pathname === "/auth/signin" ? null : <Header />} */}

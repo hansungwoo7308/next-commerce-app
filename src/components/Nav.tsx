@@ -2,55 +2,103 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
+// import { Squeeze as Hamburger } from "hamburger-react";
+import { IoIosArrowForward, IoIosMenu } from "react-icons/io";
+import Account from "@/components/Account";
+
 export default function Nav() {
-  const router = useRouter();
+  const [isVisible, setIsVisible]: any = useState(false);
   // console.log({ router });
-  const [categoryToggle, setCategoryToggle]: any = useState(false);
-  const [shopToggle, setShopToggle]: any = useState(false);
-  const handleCategoryToggle = (e: any) => {
+  // const [categoryToggle, setCategoryToggle]: any = useState(false);
+  // const [shopToggle, setShopToggle]: any = useState(false);
+  // const handleCategoryToggle = (e: any) => {
+  //   e.stopPropagation();
+  //   setCategoryToggle((value: boolean) => !value);
+  // };
+  const handleToggle = (e: any) => {
     e.stopPropagation();
-    setCategoryToggle((value: boolean) => !value);
+    setIsVisible((value: boolean) => !value);
+    // setShopToggle((value: boolean) => !value);
   };
-  const handleShopToggle = (e: any) => {
-    e.stopPropagation();
-    setShopToggle((value: boolean) => !value);
-  };
-  useEffect(() => {
-    document.addEventListener("click", () => setCategoryToggle(false));
-    document.addEventListener("click", () => setShopToggle(false));
-  }, []);
+  // useEffect(() => {
+  //   const handleClose = () => setIsVisible(false);
+  //   window.addEventListener("click", handleClose);
+  //   return () => window.removeEventListener("click", handleClose);
+  //   // window.addEventListener("click", () => setCategoryToggle(false));
+  //   // window.addEventListener("click", () => setShopToggle(false));
+  // }, []);
   return (
     <Box>
-      <ul className="main">
-        {/* <li className="home">
-          <Link href={"/"}>Home</Link>
-        </li> */}
-        <li className="category">
-          <button onClick={handleCategoryToggle}>Category</button>
-          {categoryToggle && (
-            <ul className="sub">
-              {/* 고전적인 방식 (className에 active를 추가) */}
-              {/* <ul className={`sub ${categoryToggle ? "active" : ""}`}> */}
-              {/* main의 item이 여러개 일때, 그 item의 sub를 active or unactive 해야할 경우, sub를 선택할 때, useRef를 사용하자 */}
-              {/* <ul className="sub" ref={shopSubRef}> */}
-              <li>
-                <Link href={"/category/all"}>All Products</Link>
+      <div id="nav-belt-outer">
+        <div id="nav-belt">
+          <div id="nav-left">
+            <div id="nav-logo">
+              <Link href={"/"}>Logo</Link>
+            </div>
+          </div>
+          <div id="nav-center"></div>
+          <div id="nav-right">
+            <Account />
+            {/* <div id="nav-tools">
+            <div id="nav-account"></div>
+            <div id="nav-orders"></div>
+            <div id="nav-cart">
+              <span id="nav-cart-count"></span>
+              <span id="nav-cart-icon"></span>
+            </div>
+          </div> */}
+          </div>
+        </div>
+      </div>
+      <div id="nav-main-outer">
+        <div id="nav-main">
+          <div id="nav-left">
+            <button id="nav-hamburger" onClick={() => setIsVisible(true)}>
+              <IoIosMenu />
+              <div>All</div>
+            </button>
+          </div>
+          <div id="nav-center"></div>
+          <div id="nav-right"></div>
+        </div>
+      </div>
+      <div
+        className={`nav-side-outer ${isVisible ? "visible" : ""}`}
+        onClick={() => setIsVisible(false)}
+      >
+        <div
+          className={`nav-side ${isVisible ? "visible" : ""}`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="nav-side-content">
+            <ul className="nav-side-menu">
+              <li className="nav-side-item">
+                <Link href={"/#"}>
+                  <div>Item 1</div>
+                  <IoIosArrowForward />
+                </Link>
               </li>
-              <li>
-                <Link href={"/category/electronics"}>Electronics</Link>
+              <li className="nav-side-item">
+                <Link href={"/#"}>
+                  <div>Item 1</div>
+                  <IoIosArrowForward />
+                </Link>
               </li>
-              <li>
-                <Link href={"/category/fashion"}>Fashion</Link>
-              </li>
-              <li>
-                <Link href={"/category/food"}>Food</Link>
+              <li className="nav-side-item">
+                <Link href={"/#"}>
+                  <div>Item 1</div>
+                  <IoIosArrowForward />
+                </Link>
               </li>
             </ul>
-          )}
-        </li>
-        <li className="shop">
-          <button onClick={handleShopToggle}>Shop</button>
-          {shopToggle && (
+          </div>
+        </div>
+      </div>
+      {/* <ul className="main">
+      </ul> */}
+      {/* <Link href={"/shop/all"}>Shop</Link> */}
+      {/* <button onClick={handleToggle}>Shop</button> */}
+      {/* {isVisible && (
             <ul className="sub">
               <li>
                 <Link href={"/shop/all"}>All Products</Link>
@@ -65,54 +113,152 @@ export default function Nav() {
                 <Link href={"/shop/food"}>Food</Link>
               </li>
             </ul>
-          )}
-        </li>
-      </ul>
+          )} */}
+      {/* <li className="shop">
+        </li> */}
     </Box>
   );
 }
 const Box = styled.nav`
-  display: flex;
-  white-space: nowrap;
-  /* border: 2px solid; */
-  > .main {
+  /* search, cart, order... */
+  #nav-belt-outer {
+    background-color: rgba(19, 25, 33, 0.7);
+  }
+  #nav-belt {
+    width: 80%;
+    max-width: 1000px;
+    height: 60px;
+    margin: auto;
     display: flex;
-    gap: 1rem;
-    position: relative;
-    > li {
-      display: flex;
-      /* background-color: #333; */
-    }
-    .category,
-    .shop {
-      > .sub {
-        /* display: none; */
-        position: absolute;
-        top: 100%;
-        background-color: gray;
-        margin-top: 10px;
+    justify-content: space-between;
+    align-items: center;
+    #nav-left {
+      /* outline: 2px solid red; */
+      #nav-logo {
+        height: 100%;
       }
-      /* > .sub.active {
-        display: block;
-      } */
-      /* &:hover > .sub {
-        display: block;
-      } */
+    }
+    #nav-center {
+      background-color: black;
+      flex: 0.5;
+    }
+    #nav-right {
+    }
+    a {
+      padding: 1rem;
     }
   }
+
+  /* main navigation */
+  #nav-main-outer {
+    background-color: rgb(35, 47, 62, 0.7);
+  }
+  #nav-main {
+    width: 80%;
+    max-width: 1000px;
+    height: 40px;
+    margin: auto;
+    /* border: 2px solid coral; */
+    #nav-left {
+      height: 100%;
+      display: flex;
+      gap: 1rem;
+      #nav-hamburger {
+        height: 100%;
+        /* outline: 2px solid red; */
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0 1rem;
+      }
+    }
+    a {
+      padding: 0.5rem;
+    }
+  }
+
+  /* side navigation */
+  .nav-side-outer {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    visibility: hidden;
+    transition: visibility 0.2s;
+
+    &.visible {
+      visibility: visible;
+    }
+    a {
+      justify-content: space-between;
+      &:hover {
+        color: initial;
+      }
+    }
+  }
+  .nav-side {
+    width: 300px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: #fff;
+    color: #000;
+    padding: 3rem 0;
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+    &.visible {
+      transform: translateX(0%);
+    }
+    .nav-side-item {
+      /* outline: 2px solid; */
+      a {
+        padding: 1rem;
+      }
+      svg {
+        color: #777;
+      }
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        a svg {
+          color: #000;
+        }
+      }
+    }
+  }
+
   /* public */
-  .sub > li > a {
-    padding: 1rem;
+  a {
+    display: flex;
+    align-items: center;
   }
 `;
-
-// pages structure
-// 종합적인 쇼핑몰이라면, 대분류에서 먼저 사용자가 보고 제품을 찾아갈 수 있게 한다.
-// home > collections > clothes (extensive internal linking)
-// collections
-// all products
-// shop all
-// category
-
-// 특정한 주제가 있는 쇼핑몰이라면 (신발, 의류, 화장품)
-// brands
+// <li className="category" style={{ display: "none" }}>
+// <button onClick={handleCategoryToggle}>Category</button>
+// {categoryToggle && (
+//   <ul
+//     className="sub"
+//     // 고전적인 방식 (className에 active를 추가)
+//     // {/* <ul className={`sub ${categoryToggle ? "active" : ""}`}> */}
+//     // {/* main의 item이 여러개 일때, 그 item의 sub를 active or unactive 해야할 경우, sub를 선택할 때, useRef를 사용하자 */}
+//     // {/* <ul className="sub" ref={shopSubRef}> */}
+//   >
+//     <li>
+//       <Link href={"/category/all"}>All Products</Link>
+//     </li>
+//     <li>
+//       <Link href={"/category/electronics"}>Electronics</Link>
+//     </li>
+//     <li>
+//       <Link href={"/category/fashion"}>Fashion</Link>
+//     </li>
+//     <li>
+//       <Link href={"/category/food"}>Food</Link>
+//     </li>
+//   </ul>
+// )}
+// </li>

@@ -15,6 +15,8 @@ export default function Account() {
   const router = useRouter();
   const session = useSession();
   const auth = useSelector((store: any) => store.auth);
+  const cart = useSelector((store: any) => store.cart);
+
   const [toggle, setToggle]: any = useState(false);
   const handleToggle = (e: any) => {
     e.stopPropagation();
@@ -52,6 +54,7 @@ export default function Account() {
   if (auth.accessToken || session.data?.user) {
     return (
       <Box>
+        <Link href={"/cart"}>Cart ({cart.length})</Link>
         <button onClick={handleToggle}>
           Account ({auth.user?.role}:{session.data?.user ? "nextauth" : "general"})
         </button>
@@ -73,6 +76,7 @@ export default function Account() {
   }
   return (
     <Box>
+      <Link href={"/cart"}>Cart ({cart.length})</Link>
       <Link href={"/auth/signin"}>Sign in</Link>
       <Link href={"/auth/signup"}>Sign up</Link>
     </Box>

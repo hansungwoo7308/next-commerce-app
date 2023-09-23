@@ -1,3 +1,4 @@
+import Carousel from "@/components/Carousel";
 import Slider from "@/components/Slider";
 import Head from "next/head";
 import { styled } from "styled-components";
@@ -11,21 +12,15 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main>
-        <section>
+        <section id="hero">
           <Slider />
+          {/* <Carousel /> */}
         </section>
+        <section></section>
+        <section></section>
+        <section></section>
       </Main>
     </>
   );
 }
-const Main = styled.main`
-  > section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    > div {
-      width: 300px;
-      height: 300px;
-    }
-  }
-`;
+const Main = styled.main``;
