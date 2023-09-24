@@ -9,9 +9,16 @@ import { deleteData } from "lib/public/fetchData";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { IoStar } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+let ratingsData: any = [];
+for (let i = 0; i < 5; i++) {
+  let icons = [];
+  for (let j = 0; j <= i; j++) icons.push(<IoStar />);
+  ratingsData.push({ icons });
+}
 export default function Product({ product, setCheckedProducts, isCheckAll }: any) {
   // console.log({ product });
   const { _id, category, name, description, seller, price, stock, ratings, images, reviews } =
@@ -147,6 +154,11 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
         <div className="right">
           {/* <div className="stock">{stock > 0 ? <h6>Stock ({stock}) </h6> : <h6>Sold Out</h6>}</div> */}
           <h3>${price}</h3>
+          <div>
+            {ratingsData.map(
+              (v: any) => v.icons.length === ratings && <>{v.icons.map((icon: any) => icon)}</>
+            )}
+          </div>
           {auth.user?.role === "admin" && buttonByAdmin}
           {auth.user?.role === "user" && buttonByUser}
         </div>
@@ -163,6 +175,7 @@ const Box = styled.li`
   overflow: hidden;
   background-color: #333;
   > .image {
+    width: 10rem;
     height: 10rem;
     position: relative;
     .checkbox {
@@ -190,6 +203,7 @@ const Box = styled.li`
       }
     }
     > .right {
+      min-width: 5rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;

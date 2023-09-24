@@ -21,7 +21,7 @@ export default function Pagination({ pages, page, onChangePage }: any) {
           </button>
         </li>
       </ul>
-      <ul>
+      <ul className="center">
         {totalPages?.map((page: any) => (
           <li key={page}>
             <button onClick={() => onChangePage(page)}>{page}</button>
@@ -53,23 +53,40 @@ const Box = styled.div`
   margin-bottom: 2rem;
   display: flex;
   justify-content: center;
-  border: 1px solid;
-  border-radius: 20px;
+  /* border: 1px solid; */
+  border-radius: 10px;
   background-color: #333;
   /* padding: 1rem; */
   > ul {
     display: flex;
     /* padding: 1rem; */
-    /* border: 2px solid; */
     > li {
-      padding: 0.5rem;
-      /* border: 2px solid; */
+      /* padding: 0.5rem; */
+      /* border: 1px solid; */
       > button {
-        width: 30px;
-        height: 30px;
-        border: 2px solid;
-        border-radius: 50%;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* border: 1px solid red; */
+        &:hover {
+          color: #fff;
+        }
       }
     }
+  }
+  .center {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+  }
+  .left {
+    /* border-right: 1px solid; */
+    border: 1px solid;
+    border-radius: 10px 0 0 10px;
+  }
+  .right {
+    border: 1px solid;
+    border-radius: 0 10px 10px 0;
   }
 `;

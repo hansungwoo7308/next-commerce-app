@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { json } from "stream/consumers";
 import { styled } from "styled-components";
+import { IoStar } from "react-icons/io5";
 export default function Filters() {
   const router = useRouter();
   // category
@@ -10,13 +10,40 @@ export default function Filters() {
   const foodRef: any = useRef();
   const [categoryElements, setCategoryElements]: any = useState([]);
   // ratings
-  const fiveRef: any = useRef();
-  const fourRef: any = useRef();
-  const threeRef: any = useRef();
-  const twoRef: any = useRef();
-  const oneRef: any = useRef();
+  const ratings5StarRef: any = useRef();
+  const ratings4StarRef: any = useRef();
+  const ratings3StarRef: any = useRef();
+  const ratings2StarRef: any = useRef();
+  const ratings1StarRef: any = useRef();
   const [ratings, setRatings]: any = useState([]);
   const [ratingsElements, setRatingsElements]: any = useState([]);
+  const ratingsDataset = [
+    {
+      ratings5StarRef,
+      value: 5,
+      icons: [<IoStar />, <IoStar />, <IoStar />, <IoStar />, <IoStar />],
+    },
+    {
+      ratings5StarRef,
+      value: 4,
+      icons: [<IoStar />, <IoStar />, <IoStar />, <IoStar />],
+    },
+    {
+      ratings5StarRef,
+      value: 3,
+      icons: [<IoStar />, <IoStar />, <IoStar />],
+    },
+    {
+      ratings5StarRef,
+      value: 2,
+      icons: [<IoStar />, <IoStar />],
+    },
+    {
+      ratings5StarRef,
+      value: 1,
+      icons: [<IoStar />],
+    },
+  ];
   const handleClickCategory = (e: any) => {
     const { name, value } = e.target;
     router.query = { ...router.query, [name]: value };
@@ -74,11 +101,11 @@ export default function Filters() {
   useEffect(() => {
     setCategoryElements([allRef.current, electronicsRef.current, foodRef.current]);
     setRatingsElements([
-      fiveRef.current,
-      fourRef.current,
-      threeRef.current,
-      twoRef.current,
-      oneRef.current,
+      ratings5StarRef.current,
+      ratings4StarRef.current,
+      ratings3StarRef.current,
+      ratings2StarRef.current,
+      ratings1StarRef.current,
     ]);
     // 카테고리 쿼리가 없으면, 카테고리 all에 체크한다.
     if (!router.query.category) allRef.current.checked = true;
@@ -129,7 +156,7 @@ export default function Filters() {
     // mark as checked
     ratingsElements.map((element: any) => {
       ratings.map((value: any) => {
-        if (element.value === value) element.checked = true;
+        if (element?.value === value) element.checked = true;
       });
     });
   }, [ratings]); // cache, query, mark as checked
@@ -137,7 +164,7 @@ export default function Filters() {
   return (
     <Box className="filters">
       <div className="category">
-        <h3>Category</h3>
+        <h4>Category</h4>
         <ul>
           <li>
             <label>
@@ -179,68 +206,21 @@ export default function Filters() {
         </ul>
       </div>
       <div className="ratings">
-        <h3>Ratings</h3>
+        <h4>Customer Reviews</h4>
         <ul>
-          <li>
-            <label>
-              <input
-                ref={fiveRef}
-                type="checkbox"
-                name="ratings"
-                value="5"
-                onClick={handleClickRatings}
-              />
-              <span>*****</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                ref={fourRef}
-                type="checkbox"
-                name="ratings"
-                value="4"
-                onClick={handleClickRatings}
-              />
-              <span>****</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                ref={threeRef}
-                type="checkbox"
-                name="ratings"
-                value="3"
-                onClick={handleClickRatings}
-              />
-              <span>***</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                ref={twoRef}
-                type="checkbox"
-                name="ratings"
-                value="2"
-                onClick={handleClickRatings}
-              />
-              <span>**</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                ref={oneRef}
-                type="checkbox"
-                name="ratings"
-                value="1"
-                onClick={handleClickRatings}
-              />
-              <span>*</span>
-            </label>
-          </li>
+          {ratingsDataset.map((rating: any) => (
+            <li>
+              <label>
+                <input
+                  type="checkbox"
+                  name="ratings"
+                  value={rating.value}
+                  onClick={handleClickRatings}
+                />
+                {rating.icons.map((icon: any) => icon)}
+              </label>
+            </li>
+          ))}
         </ul>
       </div>
       {/* <h3>RaringsValues : {JSON.stringify(ratings)}</h3> */}

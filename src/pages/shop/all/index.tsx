@@ -17,16 +17,20 @@ export async function getServerSideProps({ query }: any) {
   // const response = await getData(`v2/products?page=${page}`);
 }
 export default function Page({ products, pages }: any) {
-  console.log({ products, pages });
+  // console.log({ products, pages });
   const router = useRouter();
   const [page, setPage]: any = useState(1);
-  // const [checked,setChecked]:any=useState([])ㄴ
+  // const [checked,setChecked]:any=useState([])
   const auth = useSelector((store: any) => store.auth);
   const handleChangePage = (page: any) => {
     setPage(page);
     router.query.page = page;
     router.push({ pathname: router.pathname, query: router.query });
   };
+  useEffect(() => {}, []);
+  useEffect(() => {
+    // console.log({ page });
+  }, [page]);
   if (!products) return null;
   return (
     <Main>

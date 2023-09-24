@@ -30,7 +30,7 @@ export default function Layout({ children }: any) {
       dispatch(setCredentials({ user, accessToken }));
       dispatch(setLoading(false));
     } catch (error) {
-      logError(error);
+      // logError(error);
       // router.push("/auth/signin");
       dispatch(setLoading(false));
     }
