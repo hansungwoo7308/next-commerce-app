@@ -85,7 +85,7 @@ export default function Filters() {
     setCategoryElements([allRef.current, electronicsRef.current, foodRef.current]);
 
     const ratingsElements: any = Array.from(document.querySelectorAll(".ratings-filter .ratings"));
-    console.log({ ratingsElements });
+    // console.log({ ratingsElements });
     setRatingsElements(ratingsElements);
 
     // 카테고리 쿼리가 없으면, 카테고리 all에 체크한다.

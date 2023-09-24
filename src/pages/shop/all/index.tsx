@@ -27,10 +27,7 @@ export default function Page({ products, pages }: any) {
     router.query.page = page;
     router.push({ pathname: router.pathname, query: router.query });
   };
-  useEffect(() => {}, []);
-  useEffect(() => {
-    // console.log({ page });
-  }, [page]);
+
   if (!products) return null;
   return (
     <Main>
