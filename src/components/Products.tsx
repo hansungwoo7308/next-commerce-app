@@ -19,9 +19,8 @@ export default function Products({ products }: any) {
   );
 }
 const Box = styled.div`
-  padding: 1rem;
-  border: 2px solid green;
   min-height: 500px;
+  /* border: 2px solid green; */
   > ul {
     display: flex;
     flex-direction: column;

@@ -59,7 +59,7 @@ export const GlobalStyled = createGlobalStyle`
     /* border: 2px solid; */
     overflow:hidden;
     section {
-      width: 80%;
+      /* width: 80%; */
       max-width:1000px;
       min-height:100vh;
       padding-top:100px;

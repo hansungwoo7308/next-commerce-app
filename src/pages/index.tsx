@@ -1,7 +1,19 @@
 import Slider from "@/components/Slider";
+import { getData } from "lib/public/fetchData";
 import Head from "next/head";
+import Image from "next/image";
 import { styled } from "styled-components";
-export default function Home() {
+// export async function getServerSideProps({ query }: any) {
+//   const response = await getData(`v2/products`, query);
+//   const { products, pages } = response.data;
+//   return { props: { products, pages } };
+//   // console.log({ query });
+//   // const { page }: any = query;
+//   // const response = await getData(`v2/products?page=${page}`);
+// }
+export default function Home({ products, pages }: any) {
+  // console.log({ products, pages });
+  // if (!products) return null;
   return (
     <>
       <Head>
@@ -20,6 +32,14 @@ export default function Home() {
             <div className="card">card</div>
             <div className="card">card</div>
           </div>
+          {/* <ul className="card-layout">
+            {products.map((product: any) => (
+              <li className="card">
+                <Image src={product.images[0].url} alt="alt" width={300} height={300} />
+                <h1>{product.name}</h1>
+              </li>
+            ))}
+          </ul> */}
         </section>
         <section></section>
         <section></section>

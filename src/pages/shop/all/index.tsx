@@ -9,14 +9,15 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 export async function getServerSideProps({ query }: any) {
-  // console.log({ query });
-  const { page }: any = query;
-  const response = await getData(`v2/products`, "step", query);
-  // const response = await getData(`v2/products?page=${page}`);
+  const response = await getData(`v2/products`, query);
   const { products, pages } = response.data;
   return { props: { products, pages } };
+  // console.log({ query });
+  // const { page }: any = query;
+  // const response = await getData(`v2/products?page=${page}`);
 }
 export default function Page({ products, pages }: any) {
+  console.log({ products, pages });
   const router = useRouter();
   const [page, setPage]: any = useState(1);
   // const [checked,setChecked]:any=useState([])ㄴ
@@ -29,14 +30,13 @@ export default function Page({ products, pages }: any) {
   if (!products) return null;
   return (
     <Main>
-      {auth.user?.role === "admin" && <ProductMangerByAdmin />}
-      <section className="product-manager-by-admin">
+      {/* {auth.user?.role === "admin" && <ProductMangerByAdmin />} */}
+      {/* <section className="product-manager-by-admin">
         <div></div>
-      </section>
+      </section> */}
       <section>
-        <Search />
+        {/* <Search /> */}
         <div className="all">
-          {/* <Filter /> */}
           {/* <button onClick={handleCheckAll}>{isCheckAll ? "Unselect All" : "Select All"}</button> */}
           {/* <button onClick={handlesetModal}>Delete</button> */}
           {/* <Products products={products} /> */}
@@ -58,17 +58,39 @@ export default function Page({ products, pages }: any) {
               </button>
             </div> */}
         </div>
-        <div>
-          {/* <h1>Current Page : {page}</h1> */}
-          <Filters />
-          <Products products={products} />
-          <Pagination pages={pages} page={page} onChangePage={handleChangePage} />
+        <div className="product-outer">
+          <div className="left">
+            <Filters />
+          </div>
+          <div className="right">
+            <Products products={products} />
+            <Pagination pages={pages} page={page} onChangePage={handleChangePage} />
+          </div>
         </div>
       </section>
+      <section></section>
     </Main>
   );
 }
 const Main = styled.main`
+  .product-outer {
+    height: 100%;
+    display: flex;
+    > .left {
+      padding: 1rem;
+      min-width: 200px;
+    }
+    > .right {
+      min-height: calc(100vh - 100px);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+      /* border: 2px solid; */
+      padding: 1rem;
+    }
+  }
   .product-manager-by-admin {
     /* border: 2px solid blue; */
     max-width: 100%;
@@ -83,12 +105,6 @@ const Main = styled.main`
       height: 100vh;
       max-width: 1000px;
       position: relative;
-      /* border: 2px solid coral; */
     }
-  }
-  .all {
-    padding: 1rem;
-    border: 2px solid green;
-    display: none;
   }
 `;

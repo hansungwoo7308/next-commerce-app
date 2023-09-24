@@ -48,16 +48,21 @@ export default function Pagination({ pages, page, onChangePage }: any) {
   );
 }
 const Box = styled.div`
+  width: fit-content;
+  place-self: center;
+  margin-bottom: 2rem;
   display: flex;
   justify-content: center;
-  border: 2px solid green;
+  border: 1px solid;
+  border-radius: 20px;
+  background-color: #333;
   /* padding: 1rem; */
   > ul {
     display: flex;
     /* padding: 1rem; */
     /* border: 2px solid; */
     > li {
-      padding: 1rem;
+      padding: 0.5rem;
       /* border: 2px solid; */
       > button {
         width: 30px;

@@ -135,115 +135,113 @@ export default function Filters() {
   }, [ratings]); // cache, query, mark as checked
   // }, [ratings, router.asPath]); // cache, query, mark as checked
   return (
-    <Box>
-      <div className="filters">
-        <div className="category">
-          <h3>Category</h3>
-          <ul>
-            <li>
-              <label>
-                <input
-                  ref={allRef}
-                  type="radio"
-                  name="category"
-                  value="all"
-                  onClick={handleClickCategory}
-                  defaultChecked
-                />
-                <span>All</span>
-              </label>
-            </li>
-            <li>
-              <label>
-                <input
-                  ref={electronicsRef}
-                  type="radio"
-                  name="category"
-                  value="electronics"
-                  onClick={handleClickCategory}
-                />
-                <span>Electronics</span>
-              </label>
-            </li>
-            <li>
-              <label>
-                <input
-                  ref={foodRef}
-                  type="radio"
-                  name="category"
-                  value="food"
-                  onClick={handleClickCategory}
-                />
-                <span>Food</span>
-              </label>
-            </li>
-          </ul>
-        </div>
-        <div className="ratings">
-          <h3>Ratings</h3>
-          <ul>
-            <li>
-              <label>
-                <input
-                  ref={fiveRef}
-                  type="checkbox"
-                  name="ratings"
-                  value="5"
-                  onClick={handleClickRatings}
-                />
-                <span>*****</span>
-              </label>
-            </li>
-            <li>
-              <label>
-                <input
-                  ref={fourRef}
-                  type="checkbox"
-                  name="ratings"
-                  value="4"
-                  onClick={handleClickRatings}
-                />
-                <span>****</span>
-              </label>
-            </li>
-            <li>
-              <label>
-                <input
-                  ref={threeRef}
-                  type="checkbox"
-                  name="ratings"
-                  value="3"
-                  onClick={handleClickRatings}
-                />
-                <span>***</span>
-              </label>
-            </li>
-            <li>
-              <label>
-                <input
-                  ref={twoRef}
-                  type="checkbox"
-                  name="ratings"
-                  value="2"
-                  onClick={handleClickRatings}
-                />
-                <span>**</span>
-              </label>
-            </li>
-            <li>
-              <label>
-                <input
-                  ref={oneRef}
-                  type="checkbox"
-                  name="ratings"
-                  value="1"
-                  onClick={handleClickRatings}
-                />
-                <span>*</span>
-              </label>
-            </li>
-          </ul>
-        </div>
+    <Box className="filters">
+      <div className="category">
+        <h3>Category</h3>
+        <ul>
+          <li>
+            <label>
+              <input
+                ref={allRef}
+                type="radio"
+                name="category"
+                value="all"
+                onClick={handleClickCategory}
+                defaultChecked
+              />
+              <span>All</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                ref={electronicsRef}
+                type="radio"
+                name="category"
+                value="electronics"
+                onClick={handleClickCategory}
+              />
+              <span>Electronics</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                ref={foodRef}
+                type="radio"
+                name="category"
+                value="food"
+                onClick={handleClickCategory}
+              />
+              <span>Food</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      <div className="ratings">
+        <h3>Ratings</h3>
+        <ul>
+          <li>
+            <label>
+              <input
+                ref={fiveRef}
+                type="checkbox"
+                name="ratings"
+                value="5"
+                onClick={handleClickRatings}
+              />
+              <span>*****</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                ref={fourRef}
+                type="checkbox"
+                name="ratings"
+                value="4"
+                onClick={handleClickRatings}
+              />
+              <span>****</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                ref={threeRef}
+                type="checkbox"
+                name="ratings"
+                value="3"
+                onClick={handleClickRatings}
+              />
+              <span>***</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                ref={twoRef}
+                type="checkbox"
+                name="ratings"
+                value="2"
+                onClick={handleClickRatings}
+              />
+              <span>**</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                ref={oneRef}
+                type="checkbox"
+                name="ratings"
+                value="1"
+                onClick={handleClickRatings}
+              />
+              <span>*</span>
+            </label>
+          </li>
+        </ul>
       </div>
       {/* <h3>RaringsValues : {JSON.stringify(ratings)}</h3> */}
     </Box>
@@ -251,23 +249,17 @@ export default function Filters() {
 }
 const Box = styled.div`
   padding: 1rem;
-  border: 2px solid green;
-  > .filters {
-    border: 2px solid;
-    border-radius: 10px;
-    padding: 1rem;
-    background-color: #333;
-    display: flex;
-    gap: 1rem;
-    > div {
-      /* border: 2px solid; */
-      > ul {
-        margin-top: 0.5rem;
-      }
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: #333;
+  > div {
+    /* border: 2px solid; */
+    > ul {
+      margin-top: 0.5rem;
     }
   }
-  /* > * {
-    border: 2px solid;
-    padding: 1rem;
-  } */
 `;

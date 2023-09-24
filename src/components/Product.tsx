@@ -155,7 +155,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
   );
 }
 const Box = styled.li`
-  border: 2px solid green;
+  border: 1px solid;
   border-radius: 10px;
   display: flex;
   /* flex-direction: column; */
@@ -193,7 +193,7 @@ const Box = styled.li`
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border-left: 2px solid green;
+      border-left: 1px solid;
       padding-left: 1rem;
       .stock {
         color: #d25d5d;
