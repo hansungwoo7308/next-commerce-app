@@ -112,17 +112,10 @@ export default function Filters() {
     // router.push({ pathname: router.pathname, query: router.query });
   }, [router.asPath]); // waterfall from localStorage, query
 
+  // save the ratings to localStorage
+  // route by query
   useEffect(() => {
-    console.log({ ratings });
-    // 변경된 레이팅을 캐싱한다. 레이팅으로 조회한다. 인풋 엘리먼트를 체크표시한다.
-    // exception
-    // ratings가 없으면 로컬스토리지와 라우터쿼리에 저장된 데이터를 삭제한다.
-    // if (!ratings.length) {
-    //   localStorage.removeItem("ratings");
-    //   delete router.query.ratings;
-    //   router.push({ pathname: router.pathname, query: router.query });
-    //   return;
-    // }
+    // console.log({ ratings });
 
     // cache
     // stringify the ratings (array > string)
@@ -138,6 +131,7 @@ export default function Filters() {
     router.push({ pathname: router.pathname, query: router.query });
   }, [ratings]); // cache, query, mark as checked
 
+  // check the ratings elements
   useEffect(() => {
     // mark as checked
     // ratings.map((v: any) => {
@@ -154,7 +148,7 @@ export default function Filters() {
     //     else element.checked = false;
     //   });
     // });
-    console.log({ ratingsElements });
+    // console.log({ ratingsElements });
     if (!ratings.length) {
       ratingsElements.map((element: any) => {
         element.checked = false;
