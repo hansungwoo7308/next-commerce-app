@@ -2,6 +2,13 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 import { IoStar } from "react-icons/io5";
+// set the dataset with ratings icons
+let ratingsData: any = [];
+for (let i = 0; i < 5; i++) {
+  let icons = [];
+  for (let j = 0; j <= i; j++) icons.push(<IoStar color="#C7511F" />);
+  ratingsData.push({ icons });
+}
 export default function Filters() {
   const router = useRouter();
   // category
@@ -10,43 +17,12 @@ export default function Filters() {
   const foodRef: any = useRef();
   const [categoryElements, setCategoryElements]: any = useState([]);
   // ratings
-  const ratings5StarRef: any = useRef();
-  const ratings4StarRef: any = useRef();
-  const ratings3StarRef: any = useRef();
-  const ratings2StarRef: any = useRef();
-  const ratings1StarRef: any = useRef();
   const [ratings, setRatings]: any = useState([]);
   const [ratingsElements, setRatingsElements]: any = useState([]);
-  const ratingsDataset = [
-    {
-      ratings5StarRef,
-      value: 5,
-      icons: [<IoStar />, <IoStar />, <IoStar />, <IoStar />, <IoStar />],
-    },
-    {
-      ratings5StarRef,
-      value: 4,
-      icons: [<IoStar />, <IoStar />, <IoStar />, <IoStar />],
-    },
-    {
-      ratings5StarRef,
-      value: 3,
-      icons: [<IoStar />, <IoStar />, <IoStar />],
-    },
-    {
-      ratings5StarRef,
-      value: 2,
-      icons: [<IoStar />, <IoStar />],
-    },
-    {
-      ratings5StarRef,
-      value: 1,
-      icons: [<IoStar />],
-    },
-  ];
   const handleClickCategory = (e: any) => {
     const { name, value } = e.target;
     router.query = { ...router.query, [name]: value };
+    console.log({ router });
     router.push({ pathname: router.pathname, query: router.query });
     // ratings 배열에 이미 존재하면, 배열에서 제거
     // setRatings((prevState: any) => {
@@ -98,69 +74,103 @@ export default function Filters() {
     };
     e.target.checked ? addRatings(e.target.value) : removeRatings(e.target.value);
   };
+
+  // origin data : localStorage
+  // 로컬스토리지를 기준으로 데이터가 스토리지에 존재하면 스테이트를 채운다.
+  // 스테이트가 변경시, 로컬스테이트를 업데이트한다.
+  // 스테이크가 변경시, 쿼리를 추가하여 라우팅한다.
+
+  // initialize
   useEffect(() => {
     setCategoryElements([allRef.current, electronicsRef.current, foodRef.current]);
-    setRatingsElements([
-      ratings5StarRef.current,
-      ratings4StarRef.current,
-      ratings3StarRef.current,
-      ratings2StarRef.current,
-      ratings1StarRef.current,
-    ]);
+
+    const ratingsElements: any = Array.from(document.querySelectorAll(".ratings-filter .ratings"));
+    console.log({ ratingsElements });
+    setRatingsElements(ratingsElements);
+
     // 카테고리 쿼리가 없으면, 카테고리 all에 체크한다.
     if (!router.query.category) allRef.current.checked = true;
-  }, []); // initialize
+  }, []);
+
+  // 초기에 실행, category input check하면 실행
   useEffect(() => {
+    // categoryElements로부터 쿼리와 일치하는 해당항목에 체크한다.
     categoryElements.map((element: any) => {
       if (element.value === router.query.category) element.checked = true;
     });
-  }, [categoryElements]); // categoryElements로부터 쿼리와 일치하는 해당항목에 체크한다.
+  }, [categoryElements]);
+
   useEffect(() => {
     // 캐싱된 데이터로 채운다.
-    const localStorageRatings = localStorage.getItem("ratings"); // string
+    const localStorageRatings = localStorage.getItem("ratings");
     if (!localStorageRatings) return;
-    setRatings(localStorageRatings.split("+"));
-    // 캐싱된 데이터로 조회한다.
-    router.query = { ...router.query, ratings: localStorageRatings };
-    router.push({ pathname: router.pathname, query: router.query });
+    const ratingsToReload = localStorageRatings.split("+");
+    setRatings(ratingsToReload);
+
+    // // 캐싱된 데이터로 조회한다.
+    // router.query = { ...router.query, ratings: localStorageRatings };
+    // router.push({ pathname: router.pathname, query: router.query });
   }, [router.asPath]); // waterfall from localStorage, query
+
   useEffect(() => {
+    console.log({ ratings });
     // 변경된 레이팅을 캐싱한다. 레이팅으로 조회한다. 인풋 엘리먼트를 체크표시한다.
     // exception
     // ratings가 없으면 로컬스토리지와 라우터쿼리에 저장된 데이터를 삭제한다.
-    if (!ratings.length) {
-      localStorage.removeItem("ratings");
-      delete router.query.ratings;
-      router.push({ pathname: router.pathname, query: router.query });
-      return;
-    }
-
-    // log
-    // console.log({ ratings });
+    // if (!ratings.length) {
+    //   localStorage.removeItem("ratings");
+    //   delete router.query.ratings;
+    //   router.push({ pathname: router.pathname, query: router.query });
+    //   return;
+    // }
 
     // cache
-    // save to localStorage
     // stringify the ratings (array > string)
     const stringfiedRatings = ratings.reduce((a: any, v: any, i: any) => {
       if (i === 0) return v;
       return a + "+" + v;
     }, "");
-    // set the localStorage
     localStorage.setItem("ratings", stringfiedRatings);
     // console.log({ stringfiedRatings });
 
     // query
     router.query = { ...router.query, ratings: stringfiedRatings };
     router.push({ pathname: router.pathname, query: router.query });
+  }, [ratings]); // cache, query, mark as checked
 
+  useEffect(() => {
     // mark as checked
+    // ratings.map((v: any) => {
+    //   ratingsElements.map((v2: any) => {
+    //     console.log({ v2 });
+    //     // if(v2.)
+    //   });
+    // });
+    // ratingsElements.map((element: any) => {
+    //   console.log({ element });
+    //   ratings.map((value: any) => {
+    //     console.log({ value });
+    //     if (element?.value === value) element.checked = true;
+    //     else element.checked = false;
+    //   });
+    // });
+    console.log({ ratingsElements });
+    if (!ratings.length) {
+      ratingsElements.map((element: any) => {
+        element.checked = false;
+      });
+      return;
+    }
     ratingsElements.map((element: any) => {
+      // console.log({ element });
       ratings.map((value: any) => {
+        // console.log({ value });
         if (element?.value === value) element.checked = true;
+        // else element.checked = false;
       });
     });
-  }, [ratings]); // cache, query, mark as checked
-  // }, [ratings, router.asPath]); // cache, query, mark as checked
+  }, [ratings]);
+
   return (
     <Box className="filters">
       <div className="category">
@@ -205,16 +215,17 @@ export default function Filters() {
           </li>
         </ul>
       </div>
-      <div className="ratings">
+      <div className="ratings-filter">
         <h4>Customer Reviews</h4>
         <ul>
-          {ratingsDataset.map((rating: any) => (
+          {ratingsData.map((rating: any) => (
             <li>
               <label>
                 <input
+                  className="ratings"
                   type="checkbox"
                   name="ratings"
-                  value={rating.value}
+                  value={rating.icons.length}
                   onClick={handleClickRatings}
                 />
                 {rating.icons.map((icon: any) => icon)}
@@ -223,6 +234,13 @@ export default function Filters() {
           ))}
         </ul>
       </div>
+      <button className="clear-button" onClick={() => setRatings([])}>
+        Clear ratings
+        <br />
+        (localStorage)
+        <br />
+        (localState:component)
+      </button>
       {/* <h3>RaringsValues : {JSON.stringify(ratings)}</h3> */}
     </Box>
   );
@@ -240,6 +258,11 @@ const Box = styled.div`
     /* border: 2px solid; */
     > ul {
       margin-top: 0.5rem;
+    }
+  }
+  .clear-button {
+    &:hover {
+      color: #fff;
     }
   }
 `;

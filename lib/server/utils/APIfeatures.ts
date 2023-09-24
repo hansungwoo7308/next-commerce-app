@@ -10,11 +10,13 @@ export default class APIfeatures {
     const { search, category, ratings, test } = this.queryString;
     // filter
     if (search) {
-      // this.queryProducts.find({ name: search });
       this.queryProducts.find({ name: { $regex: search } });
     }
-    if (category) {
-      if (category === "all") return;
+    if (category && category !== "all") {
+      // if (category === "all") {
+      //   console.log({ category });
+      //   return this;
+      // }
       this.queryProducts.find({ category: { $regex: category } });
     }
     if (ratings) {

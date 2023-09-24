@@ -13,10 +13,10 @@ import { useEffect, useRef, useState } from "react";
 import { IoStar } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-let ratingsData: any = [];
+let ratingsData: any[] = [];
 for (let i = 0; i < 5; i++) {
   let icons = [];
-  for (let j = 0; j <= i; j++) icons.push(<IoStar />);
+  for (let j = 0; j <= i; j++) icons.push(<IoStar color="#C7511F" />);
   ratingsData.push({ icons });
 }
 export default function Product({ product, setCheckedProducts, isCheckAll }: any) {
@@ -146,18 +146,22 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
           <div className="top">
             <h3>{name}</h3>
           </div>
-          <div className="down">
-            <h5>ratings : {ratings}</h5>
-            <p>{description.substring(0, 150)}</p>
+          <div className="middle">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde similique ex sed at
+            adipisci nostrum? Obcaecati illo minima corporis maiores dolores ut, magnam accusamus
+            dicta natus eum, soluta nisi laborum?
           </div>
         </div>
         <div className="right">
           {/* <div className="stock">{stock > 0 ? <h6>Stock ({stock}) </h6> : <h6>Sold Out</h6>}</div> */}
-          <h3>${price}</h3>
-          <div>
-            {ratingsData.map(
-              (v: any) => v.icons.length === ratings && <>{v.icons.map((icon: any) => icon)}</>
-            )}
+          <h3 className="price">${price}</h3>
+          <div className="ratings">
+            <small>{ratings ? ratings + ".0" : "No reviews"}</small>
+            <small>
+              {ratingsData.map(
+                (v: any) => v.icons.length === ratings && <>{v.icons.map((icon: any) => icon)}</>
+              )}
+            </small>
           </div>
           {auth.user?.role === "admin" && buttonByAdmin}
           {auth.user?.role === "user" && buttonByUser}
@@ -203,12 +207,21 @@ const Box = styled.li`
       }
     }
     > .right {
-      min-width: 5rem;
+      min-width: 7rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       border-left: 1px solid;
       padding-left: 1rem;
+      .price {
+        text-align: end;
+      }
+      .ratings {
+        place-self: flex-end;
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+      }
       .stock {
         color: #d25d5d;
       }
