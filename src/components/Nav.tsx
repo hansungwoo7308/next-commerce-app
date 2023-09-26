@@ -72,7 +72,7 @@ export default function Nav() {
           <div className="nav-side-content">
             <ul className="nav-side-menu">
               <li className="nav-side-item">
-                <Link href={"/shop/all"}>
+                <Link href={"/shop/all"} onClick={() => setIsVisible(false)}>
                   <div>All Products</div>
                   <IoIosArrowForward />
                 </Link>
