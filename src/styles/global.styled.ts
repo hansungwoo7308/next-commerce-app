@@ -100,6 +100,13 @@ export const GlobalStyled = createGlobalStyle`
   p {
     font-size: 14px;
   }
+  hr {
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    /* border-bottom-width: 1px; */
+    border-bottom: 1px solid #bbbfbf;
+  }
 
 
 `;
