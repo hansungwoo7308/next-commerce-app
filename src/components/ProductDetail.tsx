@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "lib/client/store/cartSlice";
 import { setNotify } from "lib/client/store/notifySlice";
 import { styled } from "styled-components";
+import Stars from "@/components/Stars";
+import ImageViewer from "@/components/ImageViewer";
 export default function ProductDetail({ product }: any) {
   const dispatch = useDispatch();
 
@@ -34,33 +36,20 @@ export default function ProductDetail({ product }: any) {
       <div className="product-detail">
         <div className="top widget">
           <div className="left">
-            <div className="selected-image">
-              <Image
-                src={images[tabIndex].url || images[tabIndex].secure_url}
-                alt={images[tabIndex].url || images[tabIndex].secure_url}
-                width={1000}
-                height={1000}
-              />
-            </div>
-            <div className="unselected-images">
-              {images.map((image: any, index: any) => (
-                <Image
-                  className={`${index === tabIndex ? "active" : ""}`}
-                  key={index}
-                  src={image.url || image.secure_url}
-                  alt={image.url || image.secure_url}
-                  width={500}
-                  height={500}
-                  onMouseEnter={() => setTabIndex(index)}
-                  // onClick={() => setTabIndex(index)}
-                />
-              ))}
-            </div>
+            <ImageViewer images={images} />
           </div>
           <div className="right">
-            <div className="product-name-and-price">
-              <h3>{name}</h3>
-              <p>price : ${price}</p>
+            <div className="product-titles">
+              <div className="product-name-and-price">
+                <h1>{name}</h1>
+                <p>price : ${price}</p>
+              </div>
+              <div className="ratings-and-reviews">
+                <div className="ratings">
+                  <span>{ratings + ".0"}</span>
+                  <Stars number={ratings} />
+                </div>
+              </div>
             </div>
             <hr />
             <div className="description">
@@ -173,24 +162,6 @@ const Box = styled.div`
         /* border: 1px solid; */
       }
       > .left {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        .selected-image {
-          width: 25rem;
-          height: 25rem;
-        }
-        .unselected-images {
-          display: flex;
-          gap: 0.5rem;
-          > img {
-            width: 3rem;
-            height: 3rem;
-          }
-          .active {
-            outline: 2px solid black;
-          }
-        }
       }
       > .right {
         flex: 1;
@@ -201,10 +172,17 @@ const Box = styled.div`
         > * {
           /* border: 2px dashed; */
         }
-        > .product-name-and-price {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
+        > .product-titles {
+          > .product-name-and-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+          }
+          > .ratings-and-reviews {
+            > .ratings {
+              display: flex;
+            }
+          }
         }
         > .description {
           .stock-outer {
@@ -289,5 +267,12 @@ const Box = styled.div`
   button {
     background-color: #777;
     padding: 1rem;
+  }
+  hr {
+    border-top-width: 0px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    /* border-bottom-width: 1px; */
+    border-bottom: 1px solid #bbbfbf;
   }
 `;
