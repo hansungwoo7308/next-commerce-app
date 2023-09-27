@@ -3,6 +3,7 @@ import Carousel from "@/components/Carousel";
 import ProductReviewImageSlider from "@/components/ProductReviewImageSlider";
 import Stars from "@/components/Stars";
 import { styled } from "styled-components";
+const data: any = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 export default function ProductDetail({ product }: any) {
   const { ratings } = product;
@@ -40,7 +41,7 @@ export default function ProductDetail({ product }: any) {
           <div className="right">
             <div className="reviews-with-images">
               <h1>Reviews with images</h1>
-              <ProductReviewImageSlider />
+              <ProductReviewImageSlider data={data} displayCount={3} />
             </div>
             <hr />
             <div className="reviews">

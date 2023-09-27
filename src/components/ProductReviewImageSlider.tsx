@@ -3,27 +3,12 @@ import Image from "next/image";
 import styled from "styled-components";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
-// const data = [
-//   "slide-01.jpg",
-//   "slide-02.jpg",
-//   "slide-01.jpg",
-//   "slide-02.jpg",
-//   "slide-01.jpg",
-//   "slide-02.jpg",
-// ];
-
-const data = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
-let groupedData: any = [];
-for (let i = 0; i < data.length; i += 3) {
-  groupedData.push(data.slice(i, i + 3));
-}
-console.log({ groupedData });
-
 interface Props {
   data: [];
+  displayCount: number;
 }
 
-export default function ProductReviewImageSlider() {
+export default function ProductReviewImageSlider({ data, displayCount }: Props) {
   const [direction, setDirection]: any = useState(null);
   const [slideIndex, setSlideIndex]: any = useState(0);
   const carousel: any = useRef();
@@ -68,6 +53,27 @@ export default function ProductReviewImageSlider() {
     // slider.current.style.transform = `translate(-${item.current.style.width * slideIndex}%)`;
   }, [slideIndex]);
 
+  // extended feature : group the images
+  const [groupedData, setGroupedData]: any = useState([]);
+  const makeGroupedArray = () => {
+    for (let i = 0; i < data.length; i += displayCount) {
+      // groupedData.push(data.slice(i, i + 3));
+      setGroupedData((state: any) => [...state, data.slice(i, i + displayCount)]);
+    }
+  };
+  // const makeGroupedArray = () => {
+  //   for (let i = 0; i < data.length; i += 3) {
+  //     // groupedData.push(data.slice(i, i + 3));
+  //     setGroupedData((state: any) => [...state, data.slice(i, i + 3)]);
+  //   }
+  // };
+  useEffect(() => {
+    makeGroupedArray();
+  }, []);
+  // useEffect(() => {
+  //   console.log({ groupedData });
+  // }, [groupedData]);
+
   return (
     <Box className="container">
       <div className="carousel" ref={carousel}>
@@ -79,11 +85,12 @@ export default function ProductReviewImageSlider() {
         >
           {groupedData.map((v: any) => (
             <li className="item" ref={item}>
-              {/* <Image src={`/images/${v}`} layout="fill" alt="alt" /> */}
-              {/* {v} */}
               <ul>
                 {v.map((vv: any) => (
-                  <li>{vv}</li>
+                  <li>
+                    {/* <Image src={`/images/${v}`} layout="fill" alt="alt" /> */}
+                    {vv}
+                  </li>
                 ))}
               </ul>
             </li>
