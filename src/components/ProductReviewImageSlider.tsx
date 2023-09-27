@@ -9,6 +9,7 @@ interface Props {
 }
 
 export default function ProductReviewImageSlider({ data, displayCount }: Props) {
+  // make the carousel
   const [direction, setDirection]: any = useState(null);
   const [slideIndex, setSlideIndex]: any = useState(0);
   const carousel: any = useRef();
@@ -48,12 +49,12 @@ export default function ProductReviewImageSlider({ data, displayCount }: Props) 
   useEffect(() => {
     // console.log({ slideIndex });
     // 변경된 인덱스에 의해서 애니메이션
-    slider.current.style.transition = "all 1s";
+    slider.current.style.transition = "transform 1s";
     slider.current.style.transform = `translate(-${(100 / groupedData.length) * slideIndex}%)`;
     // slider.current.style.transform = `translate(-${item.current.style.width * slideIndex}%)`;
   }, [slideIndex]);
 
-  // extended feature : group the images
+  // group the images by displayCount
   const [groupedData, setGroupedData]: any = useState([]);
   const makeGroupedArray = () => {
     for (let i = 0; i < data.length; i += displayCount) {
@@ -61,18 +62,10 @@ export default function ProductReviewImageSlider({ data, displayCount }: Props) 
       setGroupedData((state: any) => [...state, data.slice(i, i + displayCount)]);
     }
   };
-  // const makeGroupedArray = () => {
-  //   for (let i = 0; i < data.length; i += 3) {
-  //     // groupedData.push(data.slice(i, i + 3));
-  //     setGroupedData((state: any) => [...state, data.slice(i, i + 3)]);
-  //   }
-  // };
+
   useEffect(() => {
     makeGroupedArray();
   }, []);
-  // useEffect(() => {
-  //   console.log({ groupedData });
-  // }, [groupedData]);
 
   return (
     <Box className="container">
@@ -83,13 +76,13 @@ export default function ProductReviewImageSlider({ data, displayCount }: Props) 
           onTransitionEnd={handleTransitionEnd}
           style={{ width: `${100 * groupedData.length}%` }}
         >
-          {groupedData.map((v: any) => (
+          {groupedData.map((v1: any) => (
             <li className="item" ref={item}>
               <ul>
-                {v.map((vv: any) => (
+                {v1.map((v2: any) => (
                   <li>
                     {/* <Image src={`/images/${v}`} layout="fill" alt="alt" /> */}
-                    {vv}
+                    {v2}
                   </li>
                 ))}
               </ul>
@@ -108,6 +101,7 @@ export default function ProductReviewImageSlider({ data, displayCount }: Props) 
     </Box>
   );
 }
+
 const Box = styled.div`
   /* height: calc(100vh - 100px); */
   padding: 1rem;
@@ -118,8 +112,8 @@ const Box = styled.div`
     display: flex;
     justify-content: flex-start;
     position: relative;
-    border: 5px solid green;
-    /* overflow: hidden; */
+    /* border: 5px solid green; */
+    overflow: hidden;
     > .slider {
       /* width: 500%; */
       height: 100%;
@@ -127,8 +121,8 @@ const Box = styled.div`
       /* children element가 축소되는 것을 방지 */
       /* 디폴트 값은 1이고 flex속성은 flexible한 배치를 갖기 때문에, 부모기준에 맟추어 가로나 세로사이즈가 유동적으로 된다. */
       flex-shrink: 0;
-      transition: all 1s;
-      border: 2px solid coral;
+      transition: transform 1s;
+      /* border: 2px solid coral; */
       > li {
         flex: 1;
         display: flex;
