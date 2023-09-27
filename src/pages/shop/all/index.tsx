@@ -1,7 +1,7 @@
-import Filters from "@/components/Filters";
-import Pagination from "@/components/Pagination";
+import Filters from "@/components/product/Filters";
+import Pagination from "@/components/product/Pagination";
 import ProductMangerByAdmin from "@/components/ProductMangerByAdmin";
-import Products from "@/components/Products";
+import Products from "@/components/product/Products";
 import Search from "@/components/Search";
 import { getData } from "lib/public/fetchData";
 import { useRouter } from "next/router";

@@ -2,7 +2,6 @@
 const nextConfig = {
   // reactStrictMode: true,
   reactStrictMode: false,
-  // environment variables
   env: {
     // mongodb
     MONGODB_URI: process.env.MONGODB_URI,

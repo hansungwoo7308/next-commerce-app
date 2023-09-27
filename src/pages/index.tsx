@@ -1,4 +1,4 @@
-import Slider from "@/components/Slider";
+import Slider from "@/components/performance/Slider";
 import { getData } from "lib/public/fetchData";
 import Head from "next/head";
 import Image from "next/image";

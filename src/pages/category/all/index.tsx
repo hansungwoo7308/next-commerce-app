@@ -1,9 +1,9 @@
-import Products from "@/components/Products";
+import Products from "@/components/product/Products";
 import { getData } from "lib/public/fetchData";
 import { styled } from "styled-components";
 export async function getServerSideProps({ query }: any) {
   // console.log({ query });
-  const response = await getData("products", undefined, query);
+  const response = await getData("products", query);
   const { products } = response.data;
   return { props: { products } };
 }

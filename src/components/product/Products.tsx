@@ -1,4 +1,4 @@
-import Product from "@/components/Product";
+import Product from "@/components/product/Product";
 import { styled } from "styled-components";
 export default function Products({ products }: any) {
   return (

@@ -1,5 +1,5 @@
-// import ProductDetailWidget from "@/components/ProductDetailWidget";
-import ProductReviewImageSlider from "@/components/ProductReviewImageSlider";
+import ProductDetailWidget from "@/components/product/ProductDetailWidget";
+import ProductReviewImageSlider from "@/components/product/ProductReviewImageSlider";
 import Stars from "@/components/Stars";
 import { styled } from "styled-components";
 
@@ -8,10 +8,12 @@ const data: any = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 export default function ProductDetail({ product }: any) {
   const { ratings } = product;
 
+  console.log({ product });
+
   return (
     <Box>
       <div className="product-detail">
-        {/* <ProductDetailWidget product={product} /> */}
+        <ProductDetailWidget product={product} />
         {/* <div className="middle">
           <div className="product-description">
             <h1>Product Description</h1>
@@ -36,6 +38,10 @@ export default function ProductDetail({ product }: any) {
             <div className="reviews-ratings">
               <p>{ratings ? ratings + ".0" : ratings}</p>
               <Stars number={ratings} />
+            </div>
+            <div className="write-a-review">
+              <h3>Do you want to review this product?</h3>
+              <button>Write a review</button>
             </div>
           </div>
           <div className="right">
@@ -80,6 +86,9 @@ const Box = styled.div`
       > .left {
         flex: 0.3;
         border: 1px solid;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
         > .reviews-ratings {
           display: flex;
           align-items: center;

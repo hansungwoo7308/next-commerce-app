@@ -1,6 +1,6 @@
-import ImageViewer from "@/components/ImageViewer";
+import ImageViewer from "@/components/product/ImageViewer";
 import Stars from "@/components/Stars";
-import Option from "@/components/Option";
+import Option from "@/components/product/Option";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { setNotify } from "lib/client/store/notifySlice";
