@@ -1,4 +1,7 @@
-import ProductDetailWidget from "@/components/ProductDetailWidget";
+// import ProductDetailWidget from "@/components/ProductDetailWidget";
+import Carousel from "@/components/Carousel";
+import ProductReviewImageSlider from "@/components/ProductReviewImageSlider";
+import Stars from "@/components/Stars";
 import { styled } from "styled-components";
 
 export default function ProductDetail({ product }: any) {
@@ -28,12 +31,22 @@ export default function ProductDetail({ product }: any) {
         </div> */}
         <div className="bottom">
           <div className="left">
-            <div className="reviews">
-              <small>{ratings ? ratings + ".0" : ratings}</small>
+            <h1>Customer Reviews</h1>
+            <div className="reviews-ratings">
+              <p>{ratings ? ratings + ".0" : ratings}</p>
+              <Stars number={ratings} />
             </div>
           </div>
           <div className="right">
-            <h1>Customers frequently viewed</h1>
+            <div className="reviews-with-images">
+              <h1>Reviews with images</h1>
+              <ProductReviewImageSlider />
+            </div>
+            <hr />
+            <div className="reviews">
+              <h1>Reviews</h1>
+            </div>
+            {/* <h1>Customers frequently viewed</h1> */}
           </div>
         </div>
       </div>
@@ -63,16 +76,20 @@ const Box = styled.div`
         border: 1px solid;
         padding: 1rem;
       }
-
       > .left {
         flex: 0.3;
-        > .reviews {
-          padding: 1rem;
-          border: 1px solid;
+        border: 1px solid;
+        > .reviews-ratings {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
         }
       }
       > .right {
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
       }
     }
   }
