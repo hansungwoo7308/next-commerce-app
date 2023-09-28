@@ -1,8 +1,8 @@
 import Filters from "@/components/product/Filters";
 import Pagination from "@/components/product/Pagination";
-import ProductMangerByAdmin from "@/components/ProductMangerByAdmin";
+import ProductMangerByAdmin from "@/components/product/ProductMangerByAdmin";
 import Products from "@/components/product/Products";
-import Search from "@/components/Search";
+import Search from "@/components/layout/Search";
 import { getData } from "lib/public/fetchData";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";

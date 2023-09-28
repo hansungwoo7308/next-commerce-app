@@ -51,12 +51,28 @@ export const deleteProduct = async (req: any, res: any) => {
   // delete
   const deletedProduct = await Product.findByIdAndDelete(id, { new: true });
   // out
-  console.log({ deletedProduct: deletedProduct });
-  return res.status(200).json({ deleteProduct });
+  console.log({ deletedProduct });
+  return res.status(200).json({ deletedProduct });
 };
 export const deleteProducts = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<deleteProducts>`);
   const { ids } = req.body;
   const deletedProducts = await Product.deleteMany({ _id: { $in: ids } });
   res.status(200).json({ deletedProducts });
+};
+export const updateProduct = async (req: any, res: any) => {
+  console.log(`\x1b[32m\n<updateProduct>`);
+  // get
+  const { id } = req.query;
+  const { review } = req.body;
+  console.log({ review });
+  // update
+  const updatedProduct = await Product.findByIdAndUpdate(
+    id,
+    { $push: { reviews: review } },
+    { new: true }
+  );
+  // out
+  console.log({ updatedProduct });
+  return res.status(200).json({ updatedProduct });
 };

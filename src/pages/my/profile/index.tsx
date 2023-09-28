@@ -1,4 +1,5 @@
-import Avatar from "@/components/Avatar";
+// import Avatar from "@/components/Avatar";
+import Avatar from "@/components/auth/Avatar";
 import logError from "lib/client/log/logError";
 import logResponse from "lib/client/log/logResponse";
 import { updateUser } from "lib/client/store/authSlice";

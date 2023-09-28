@@ -1,4 +1,4 @@
-import Order from "@/components/Order";
+import Order from "@/components/order/Order";
 import { styled } from "styled-components";
 export default function Orders({ orders }: any) {
   return (

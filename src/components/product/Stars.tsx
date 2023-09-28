@@ -13,7 +13,14 @@ interface Props {
 export default function Stars({ number }: Props) {
   // depending on number property, make the star icons
   const stars = starIcons.map(
-    (v: any) => v.icons.length === number && <>{v.icons.map((icon: any) => icon)}</>
+    (v: any) =>
+      v.icons.length === number && (
+        <>
+          {v.icons.map((icon: any, index: any) => (
+            <span key={index}>{icon}</span>
+          ))}
+        </>
+      )
   );
   return <Box>{stars}</Box>;
 }

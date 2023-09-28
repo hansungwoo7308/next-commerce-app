@@ -1,19 +1,19 @@
 import ProductDetailWidget from "@/components/product/ProductDetailWidget";
 import ProductReviewImageSlider from "@/components/product/ProductReviewImageSlider";
-import Stars from "@/components/Stars";
+import Stars from "@/components/product/Stars";
 import { styled } from "styled-components";
 
 const data: any = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 export default function ProductDetail({ product }: any) {
-  const { ratings } = product;
+  const { ratings, reviews } = product;
 
   console.log({ product });
 
   return (
     <Box>
       <div className="product-detail">
-        <ProductDetailWidget product={product} />
+        {/* <ProductDetailWidget product={product} /> */}
         {/* <div className="middle">
           <div className="product-description">
             <h1>Product Description</h1>
@@ -38,6 +38,7 @@ export default function ProductDetail({ product }: any) {
             <div className="reviews-ratings">
               <p>{ratings ? ratings + ".0" : ratings}</p>
               <Stars number={ratings} />
+              <p>{"( " + reviews.length + " )"}</p>
             </div>
             <div className="write-a-review">
               <h3>Do you want to review this product?</h3>
@@ -52,6 +53,12 @@ export default function ProductDetail({ product }: any) {
             <hr />
             <div className="reviews">
               <h1>Reviews</h1>
+              {reviews.map((review: any) => (
+                <div className="review">
+                  <h4>review id : {review._id}</h4>
+                  <p>{review.comment}</p>
+                </div>
+              ))}
             </div>
             {/* <h1>Customers frequently viewed</h1> */}
           </div>
@@ -100,6 +107,13 @@ const Box = styled.div`
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        > .reviews {
+          > .review {
+            border: 1px solid;
+            border-radius: 5px;
+            padding: 1rem;
+          }
+        }
       }
     }
   }

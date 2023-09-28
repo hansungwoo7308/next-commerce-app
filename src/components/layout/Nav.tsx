@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 // import { Squeeze as Hamburger } from "hamburger-react";
 import { IoIosArrowForward, IoIosMenu } from "react-icons/io";
-import Account from "@/components/Account";
+import Account from "@/components/auth/Account";
 export default function Nav() {
   const [isVisible, setIsVisible]: any = useState(false);
   // console.log({ router });

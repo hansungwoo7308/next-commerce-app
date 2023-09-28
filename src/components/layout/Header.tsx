@@ -1,4 +1,4 @@
-import Nav from "@/components/Nav";
+import Nav from "@/components/layout/Nav";
 import { styled } from "styled-components";
 export default function Header() {
   return (

@@ -1,5 +1,5 @@
 import ImageViewer from "@/components/product/ImageViewer";
-import Stars from "@/components/Stars";
+import Stars from "@/components/product/Stars";
 import Option from "@/components/product/Option";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -105,6 +105,7 @@ const Box = styled.div`
         > .ratings-and-reviews {
           > .ratings {
             display: flex;
+            gap: 0.5rem;
           }
         }
       }
