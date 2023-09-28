@@ -3,7 +3,7 @@ import { createRouter } from "next-connect";
 import {
   deleteProduct,
   getProduct,
-  updateProduct,
+  updateProductReview,
 } from "lib/server/controllers/productControllers";
 import { checkRoles, checkAuth } from "lib/server/middleware/auth";
 connectDB();
@@ -16,7 +16,7 @@ router
   .get(getProduct)
   // protected routes
   .use(checkAuth, checkRoles(["user", "admin"]))
-  .patch(updateProduct)
+  .patch(updateProductReview)
   .use(checkAuth, checkRoles(["admin"]))
   .delete(deleteProduct);
 

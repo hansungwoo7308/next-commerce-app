@@ -2,13 +2,16 @@ import ProductDetailWidget from "@/components/product/ProductDetailWidget";
 import ProductReviewImageSlider from "@/components/product/ProductReviewImageSlider";
 import Stars from "@/components/product/Stars";
 import { styled } from "styled-components";
+import { FaCircleUser } from "react-icons/fa6";
+import { setModal } from "lib/client/store/modalSlice";
+import { useDispatch } from "react-redux";
 
 const data: any = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
 export default function ProductDetail({ product }: any) {
   const { ratings, reviews } = product;
-
   console.log({ product });
+  const dispatch = useDispatch();
 
   return (
     <Box>
@@ -33,7 +36,7 @@ export default function ProductDetail({ product }: any) {
           </div>
         </div> */}
         <div className="bottom">
-          <div className="left">
+          <div className="bottom-left">
             <h1>Customer Reviews</h1>
             <div className="reviews-ratings">
               <p>{ratings ? ratings + ".0" : ratings}</p>
@@ -42,10 +45,10 @@ export default function ProductDetail({ product }: any) {
             </div>
             <div className="write-a-review">
               <h3>Do you want to review this product?</h3>
-              <button>Write a review</button>
+              <button onClick={() => dispatch(setModal({ active: true }))}>Write a review</button>
             </div>
           </div>
-          <div className="right">
+          <div className="bottom-right">
             <div className="reviews-with-images">
               <h1>Reviews with images</h1>
               <ProductReviewImageSlider data={data} displayCount={3} />
@@ -55,8 +58,21 @@ export default function ProductDetail({ product }: any) {
               <h1>Reviews</h1>
               {reviews.map((review: any) => (
                 <div className="review">
-                  <h4>review id : {review._id}</h4>
-                  <p>{review.comment}</p>
+                  <div className="review-top">
+                    <div className="user-profile">
+                      <FaCircleUser />
+                      <p>Username</p>
+                    </div>
+                    <div className="review-ratings">
+                      <Stars number={review.rating} />
+                    </div>
+                  </div>
+                  <div className="review-middle">
+                    <div className="comment">
+                      <h4>review id : {review._id}</h4>
+                      <p>{review.comment}</p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -81,7 +97,6 @@ const Box = styled.div`
       padding: 1rem;
       background-color: #333;
     }
-
     > .middle {
     }
     > .bottom {
@@ -90,7 +105,7 @@ const Box = styled.div`
         border: 1px solid;
         padding: 1rem;
       }
-      > .left {
+      > .bottom-left {
         flex: 0.3;
         border: 1px solid;
         display: flex;
@@ -102,7 +117,7 @@ const Box = styled.div`
           gap: 0.5rem;
         }
       }
-      > .right {
+      > .bottom-right {
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -112,6 +127,19 @@ const Box = styled.div`
             border: 1px solid;
             border-radius: 5px;
             padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            > .review-top {
+              display: flex;
+              flex-direction: column;
+              gap: 0.5rem;
+              > .user-profile {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+              }
+            }
           }
         }
       }

@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "upload": "git add . && git commit -m 'update' && git push"
+    "update": "git add . && git commit -m 'update' && git push"
   },
   "dependencies": {
     "@next/font": "13.4.12",

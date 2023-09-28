@@ -60,7 +60,7 @@ export const deleteProducts = async (req: any, res: any) => {
   const deletedProducts = await Product.deleteMany({ _id: { $in: ids } });
   res.status(200).json({ deletedProducts });
 };
-export const updateProduct = async (req: any, res: any) => {
+export const updateProductReview = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<updateProduct>`);
   // get
   const { id } = req.query;
