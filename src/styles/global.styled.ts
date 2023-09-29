@@ -107,6 +107,7 @@ export const GlobalStyled = createGlobalStyle`
     /* border-bottom-width: 1px; */
     border-bottom: 1px solid #bbbfbf;
   }
-
-
+  input, textarea {
+    padding: .5rem;
+  }
 `;

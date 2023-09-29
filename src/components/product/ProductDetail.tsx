@@ -4,7 +4,8 @@ import Stars from "@/components/product/Stars";
 import { styled } from "styled-components";
 import { FaCircleUser } from "react-icons/fa6";
 import { setModal } from "lib/client/store/modalSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { postData } from "lib/public/fetchData";
 
 const data: any = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
@@ -12,6 +13,14 @@ export default function ProductDetail({ product }: any) {
   const { ratings, reviews } = product;
   console.log({ product });
   const dispatch = useDispatch();
+  const { accessToken } = useSelector((store: any) => store.auth);
+
+  const handleClickWriteReview = () => {
+    // const modalAction = async () => {
+    //   // update the product's reviews property
+    // };
+    dispatch(setModal({ active: true, type: "CREATE_PRODUCT_REVIEW", id: product._id }));
+  };
 
   return (
     <Box>
@@ -45,7 +54,7 @@ export default function ProductDetail({ product }: any) {
             </div>
             <div className="write-a-review">
               <h3>Do you want to review this product?</h3>
-              <button onClick={() => dispatch(setModal({ active: true }))}>Write a review</button>
+              <button onClick={handleClickWriteReview}>Write a review</button>
             </div>
           </div>
           <div className="bottom-right">

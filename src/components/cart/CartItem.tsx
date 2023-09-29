@@ -17,14 +17,14 @@ export default function CartItem({ item }: any) {
     dispatch(increaseQuantity({ _id }));
   };
   const handleDeleteItemFromCart = () => {
-    const action1 = () => dispatch(deleteItemFromCart({ _id }));
+    const modalAction = () => dispatch(deleteItemFromCart({ _id }));
     dispatch(
       setModal({
         active: true,
         type: "DEFAULT",
         message: "Do you want to delete item from cart?",
-        action1,
-        action1Label: "Delete",
+        modalAction,
+        modalActionLabel: "Delete",
       })
     );
   };

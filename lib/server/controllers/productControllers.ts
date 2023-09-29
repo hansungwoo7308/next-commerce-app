@@ -61,7 +61,7 @@ export const deleteProducts = async (req: any, res: any) => {
   res.status(200).json({ deletedProducts });
 };
 export const updateProductReview = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<updateProduct>`);
+  console.log(`\x1b[32m\n<updateProductReview>`);
   // get
   const { id } = req.query;
   const { review } = req.body;

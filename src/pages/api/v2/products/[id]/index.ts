@@ -5,7 +5,7 @@ import {
   getProduct,
   updateProductReview,
 } from "lib/server/controllers/productControllers";
-import { checkRoles, checkAuth } from "lib/server/middleware/auth";
+import { checkRoles, checkAuth } from "lib/server/middlewares/authMiddlewares";
 connectDB();
 const router = createRouter();
 router
@@ -15,8 +15,8 @@ router
   })
   .get(getProduct)
   // protected routes
-  .use(checkAuth, checkRoles(["user", "admin"]))
-  .patch(updateProductReview)
+  // .use(checkAuth, checkRoles(["user", "admin"]))
+  // .patch(updateProductReview)
   .use(checkAuth, checkRoles(["admin"]))
   .delete(deleteProduct);
 

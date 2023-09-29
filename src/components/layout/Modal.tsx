@@ -1,8 +1,12 @@
-import ProductCreateForm from "@/components/form/ProductCreateForm";
+import ProductCreateForm from "@/components/form/CreateProductForm";
+import CreateProductReviewForm from "@/components/form/CreateProductReviewForm";
 import logResponse from "lib/client/log/logResponse";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { setModal } from "lib/client/store/modalSlice";
+import { postData } from "lib/public/fetchData";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 // import logError from "lib/client/log/logError";
@@ -11,10 +15,8 @@ import styled from "styled-components";
 // import { deleteUser } from "lib/client/store/usersSlice";
 // import { deleteData, getData, postData } from "lib/client/utils/fetchData";
 export default function Modal() {
-  const loading = useSelector((store: any) => store.loading);
-  const auth = useSelector((store: any) => store.auth);
   const modal = useSelector((store: any) => store.modal);
-  const { active, type, message, id, ids, action1, actionLabel, disabled } = modal;
+  const { active, type, message, id, ids, modalAction, actionLabel, disabled } = modal;
   const router = useRouter();
   const dispatch = useDispatch();
   const handleAction = async (e: any) => {
@@ -22,7 +24,7 @@ export default function Modal() {
     switch (type) {
       case "DEFAULT":
         dispatch(setLoading(true));
-        action1();
+        modalAction();
         dispatch(setLoading(false));
         dispatch(setModal({ active: false }));
         break;
@@ -65,40 +67,22 @@ export default function Modal() {
     // }
   };
   const handleClose = () => dispatch(setModal({ active: false }));
-  // const handleDeleteUser = async () => {
-  //   // delete
-  //   const response = await deleteData(`user/${id}`, auth.accessToken);
-  //   const { _id } = response.data.deletedUser;
-  //   // out
-  //   logResponse(response);
-  //   dispatch(deleteUser({ _id }));
-  // };
-  // const handleDeleteProduct = async () => {
-  //   // delete
-  //   const response = await deleteData(`product/${id}`, auth.accessToken);
-  //   // const { _id } = response.data.deletedProduct;
-  //   // out
-  //   logResponse(response);
-  //   // dispatch(deleteUser({ _id }));
-  // };
-  // const handleDeleteProducts = async () => {
-  //   try {
-  //     const response = await deleteData("product", auth.accessToken, { ids });
-  //     const { deletedProducts } = response.data;
-  //     logResponse(response);
-  //   } catch (error) {
-  //     logError(error);
-  //   }
-  // };
-  // const handleDeleteCartItem = async () => {
-  //   dispatch(deleteItemFromCart({ _id: id }));
-  // };
+
   if (!modal.active) return null;
   if (modal.type === "CREATE") {
     return (
       <Background onClick={handleClose}>
         <Box onClick={(e) => e.stopPropagation()}>
           <ProductCreateForm />
+        </Box>
+      </Background>
+    );
+  }
+  if (modal.type === "CREATE_PRODUCT_REVIEW") {
+    return (
+      <Background onClick={handleClose}>
+        <Box onClick={(e) => e.stopPropagation()}>
+          <CreateProductReviewForm />
         </Box>
       </Background>
     );
@@ -128,6 +112,7 @@ export default function Modal() {
     </Background>
   );
 }
+
 const Background = styled.div`
   position: fixed;
   top: 0;
@@ -150,7 +135,7 @@ const Box = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  animation: pop 0.3s;
+  /* animation: pop 0.3s;
   @keyframes pop {
     0% {
       display: none;
@@ -161,6 +146,25 @@ const Box = styled.div`
       display: block;
       opacity: 1;
       transform: translateY(0);
+    }
+  } */
+  > .CREATE_PRODUCT_REVIEW {
+    /* border: 3px solid coral; */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    > .middle {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      input {
+        width: 100%;
+      }
+    }
+    > .bottom {
+      display: flex;
+      justify-content: end;
+      gap: 0.5rem;
     }
   }
   > hr {
@@ -191,8 +195,31 @@ const Box = styled.div`
     } */
   }
 `;
-
-// const handleDeletePost = async () => {
-//   const response = await deleteData("posts", auth.accessToken, { _id: id });
+// const handleDeleteUser = async () => {
+//   // delete
+//   const response = await deleteData(`user/${id}`, auth.accessToken);
+//   const { _id } = response.data.deletedUser;
+//   // out
 //   logResponse(response);
+//   dispatch(deleteUser({ _id }));
+// };
+// const handleDeleteProduct = async () => {
+//   // delete
+//   const response = await deleteData(`product/${id}`, auth.accessToken);
+//   // const { _id } = response.data.deletedProduct;
+//   // out
+//   logResponse(response);
+//   // dispatch(deleteUser({ _id }));
+// };
+// const handleDeleteProducts = async () => {
+//   try {
+//     const response = await deleteData("product", auth.accessToken, { ids });
+//     const { deletedProducts } = response.data;
+//     logResponse(response);
+//   } catch (error) {
+//     logError(error);
+//   }
+// };
+// const handleDeleteCartItem = async () => {
+//   dispatch(deleteItemFromCart({ _id: id }));
 // };

@@ -5,10 +5,10 @@ type Modal = {
   message?: string | null; // 모달 메세지
   id?: string | null; // 식별할 아이디
   ids?: string[] | null; // 식별할 아디디 어레이
-  action1?: Function | null; // 액션
-  action1Label?: string | null;
-  action2?: Function | null; // 액션
-  action2Label?: string | null;
+  modalAction?: Function | null; // 액션
+  modalActionLabel?: string | null;
+  modalAction2?: Function | null; // 액션
+  modalAction2Label?: string | null;
   disabled?: boolean | null;
   // callback?: Function | null; // 액션
   // onClose?:()=>void;
@@ -17,7 +17,10 @@ type Modal = {
   // footer?:React.ReactElement;
 };
 // const initialState: Modal[] = [];
-const initialState: Modal = {};
+const initialState: Modal = {
+  active: true,
+  type: "CREATE_PRODUCT_REVIEW",
+};
 export const modalSlice = createSlice({
   name: "modal",
   initialState,
@@ -29,10 +32,10 @@ export const modalSlice = createSlice({
         message,
         id,
         ids,
-        action1,
-        action1Label,
-        action2,
-        action2Label,
+        modalAction,
+        modalActionLabel,
+        modalAction2,
+        modalAction2Label,
         disabled,
       } = action.payload;
       if (!active) return {};
@@ -41,10 +44,10 @@ export const modalSlice = createSlice({
       if (message) state.message = message;
       if (id) state.id = id;
       if (ids) state.ids = ids;
-      if (action1) state.action1 = action1;
-      if (action1Label) state.action1Label = action1Label;
-      if (action2) state.action2 = action2;
-      if (action2Label) state.action2Label = action2Label;
+      if (modalAction) state.modalAction = modalAction;
+      if (modalActionLabel) state.modalActionLabel = modalActionLabel;
+      if (modalAction2) state.modalAction2 = modalAction2;
+      if (modalAction2Label) state.modalAction2Label = modalAction2Label;
       if (disabled) state.disabled = disabled;
       // state.callback = callback;
 
