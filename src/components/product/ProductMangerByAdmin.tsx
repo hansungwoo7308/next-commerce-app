@@ -11,12 +11,12 @@ export default function ProductMangerByAdmin() {
   const auth = useSelector((store: any) => store.auth);
   const [toggle, setToggle] = useState(true);
   const dispatch = useDispatch();
-  const handleClickCreateButton = (e: any) => {
+  const handleCreateButton = (e: any) => {
     e.preventDefault();
     const payload = { active: true, type: "CREATE", message: "Let us create a product!" };
     dispatch(setModal(payload));
   };
-  const handleClickDeleteButton = async (e: any) => {
+  const handleDeleteButton = async (e: any) => {
     e.preventDefault();
     try {
       dispatch(setLoading(true));
@@ -49,8 +49,8 @@ export default function ProductMangerByAdmin() {
           <p>{item.slice(0, 10)}</p>
         ))}
         <div className="management-buttons">
-          <button onClick={handleClickDeleteButton}>Delete these products</button>
-          <button onClick={handleClickCreateButton}>Create a product</button>
+          <button onClick={handleDeleteButton}>Delete these products</button>
+          <button onClick={handleCreateButton}>Create a product</button>
         </div>
       </div>
     </Box>

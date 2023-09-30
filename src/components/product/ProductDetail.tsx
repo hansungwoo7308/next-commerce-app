@@ -15,7 +15,7 @@ export default function ProductDetail({ product }: any) {
   const dispatch = useDispatch();
   const { accessToken } = useSelector((store: any) => store.auth);
 
-  const handleClickWriteReview = () => {
+  const handleWriteReview = () => {
     // const modalAction = async () => {
     //   // update the product's reviews property
     // };
@@ -54,7 +54,7 @@ export default function ProductDetail({ product }: any) {
             </div>
             <div className="write-a-review">
               <h3>Do you want to review this product?</h3>
-              <button onClick={handleClickWriteReview}>Write a review</button>
+              <button onClick={handleWriteReview}>Write a review</button>
             </div>
           </div>
           <div className="bottom-right">

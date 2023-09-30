@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
+import ProductManger from "@/components/product/ProductManger";
 export async function getServerSideProps({ query }: any) {
   const response = await getData(`v2/products`, query);
   const { products, pages } = response.data;
@@ -62,6 +63,7 @@ export default function Page({ products, pages }: any) {
         <div className="product-outer">
           <div className="left">
             <Filters />
+            <ProductManger />
           </div>
           <div className="right">
             <Products products={products} />
@@ -80,6 +82,9 @@ const Main = styled.main`
     > .left {
       padding: 1rem;
       min-width: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
     > .right {
       min-height: calc(100vh - 100px);

@@ -19,7 +19,7 @@ export default function CreateProductReviewForm() {
     formState: { errors },
   } = useForm();
 
-  const handleClickCreateProductReview = async (data: any) => {
+  const handleCreateProductReview = async (data: any) => {
     // console.log({ ...data, User: auth.user._id });
     const review = {
       ...data,
@@ -67,7 +67,7 @@ export default function CreateProductReviewForm() {
       </div>
       <div className="bottom">
         <button
-          onClick={handleSubmit(handleClickCreateProductReview)}
+          onClick={handleSubmit(handleCreateProductReview)}
           // onClick={handleAction}
           // disabled={loading}
         >

@@ -50,7 +50,7 @@ export default function ProductCreateForm() {
       toast.error(error.message);
     }
   };
-  const handleClickDeleteButton = (e: any, index: any) => {
+  const handleDeleteButton = (e: any, index: any) => {
     e.preventDefault();
     const filteredImages = images.filter((v: any, i: any) => i !== index);
     setImages(filteredImages);
@@ -69,7 +69,7 @@ export default function ProductCreateForm() {
     setImages(changedImages);
     // const newImages = Array.from(e.target.files);
   };
-  const handleClickCloseButton = (e: any) => {
+  const handleCloseButton = (e: any) => {
     e.preventDefault();
     dispatch(setModal({ active: false }));
   };
@@ -96,7 +96,7 @@ export default function ProductCreateForm() {
                       width={100}
                       height={100}
                     />
-                    <button onClick={(e: any) => handleClickDeleteButton(e, index)}>x</button>
+                    <button onClick={(e: any) => handleDeleteButton(e, index)}>x</button>
                   </div>
                 ))}
               </div>
@@ -143,7 +143,7 @@ export default function ProductCreateForm() {
           >
             Create
           </button>
-          <button onClick={handleClickCloseButton}>Close</button>
+          <button onClick={handleCloseButton}>Close</button>
         </div>
       </form>
     </Box>

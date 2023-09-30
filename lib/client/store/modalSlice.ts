@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-type Modal = {
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+interface ModalState {
   active?: boolean | null; // 모달 활성화, 비활성화
   type?: string | null; // 액션타입
   message?: string | null; // 모달 메세지
@@ -15,9 +15,9 @@ type Modal = {
   // onSubmit?:()=>void;
   // body?:React.ReactElement;
   // footer?:React.ReactElement;
-};
-// const initialState: Modal[] = [];
-const initialState: Modal = {
+}
+interface ModalAction extends ModalState {}
+const initialState: ModalState = {
   active: false,
   type: "CREATE_PRODUCT_REVIEW",
 };
@@ -25,7 +25,7 @@ export const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    setModal: (state, action) => {
+    setModal: (state, action: PayloadAction<ModalAction>) => {
       const {
         active,
         type,

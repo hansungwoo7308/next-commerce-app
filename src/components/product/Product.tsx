@@ -41,14 +41,14 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
         } else {
           dispatch(addToCart({ ...product, quantity: 1 }));
           // const callback = () => router.push("/cart");
-          const action = () => router.push("/cart");
+          const modalAction = () => router.push("/cart");
           dispatch(
             setModal({
               active: true,
               type: "DEFAULT",
               message: "Do you want to move to cart?",
-              actionLabel: "Move to Cart Page",
-              action,
+              modalActionLabel: "Move to Cart Page",
+              modalAction,
             })
           );
         }
