@@ -5,7 +5,7 @@ import styled from "styled-components";
 export default function ProductManger() {
   const dispatch = useDispatch();
   const handleCreateProduct = () => {
-    dispatch(setModal({ active: true }));
+    dispatch(setModal({ active: true, type: "CREATE_PRODUCT" }));
   };
 
   return (

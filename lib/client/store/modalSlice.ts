@@ -16,7 +16,10 @@ interface ModalState {
   // body?:React.ReactElement;
   // footer?:React.ReactElement;
 }
-interface ModalAction extends ModalState {}
+interface ModalAction extends ModalState {
+  // required properties
+  active: boolean | null; // 모달 활성화, 비활성화
+}
 const initialState: ModalState = {
   active: false,
   type: "CREATE_PRODUCT_REVIEW",

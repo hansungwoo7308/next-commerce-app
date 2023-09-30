@@ -1,3 +1,4 @@
+import CreateProductForm from "@/components/form/CreateProductForm";
 import ProductCreateForm from "@/components/form/CreateProductForm";
 import CreateProductReviewForm from "@/components/form/CreateProductReviewForm";
 import logResponse from "lib/client/log/logResponse";
@@ -83,6 +84,15 @@ export default function Modal() {
       <Background onClick={handleClose}>
         <Box onClick={(e) => e.stopPropagation()}>
           <CreateProductReviewForm />
+        </Box>
+      </Background>
+    );
+  }
+  if (modal.type === "CREATE_PRODUCT") {
+    return (
+      <Background onClick={handleClose}>
+        <Box onClick={(e) => e.stopPropagation()}>
+          <CreateProductForm />
         </Box>
       </Background>
     );
