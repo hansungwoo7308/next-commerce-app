@@ -63,8 +63,8 @@ export default function ProductDetail({ product }: any) {
               <ProductReviewImageSlider data={data} displayCount={3} />
             </div>
             <hr />
+            <h1>Reviews</h1>
             <ul className="reviews">
-              <h1>Reviews</h1>
               {reviews.map((review: any) => (
                 <li className="review" key={review._id}>
                   <div className="review-top">
@@ -132,6 +132,9 @@ const Box = styled.div`
         flex-direction: column;
         gap: 1rem;
         > .reviews {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
           > .review {
             border: 1px solid;
             border-radius: 5px;

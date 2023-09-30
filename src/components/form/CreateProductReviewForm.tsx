@@ -27,7 +27,8 @@ export default function CreateProductReviewForm() {
     };
     const response = await postData(`v2/products/${id}/review`, { review }, auth.accessToken);
     console.log({ response });
-    router.push({ pathname: router.pathname });
+    router.push({ pathname: router.asPath });
+    // console.log(first)
   };
   const handleClose = () => dispatch(setModal({ active: false }));
 
