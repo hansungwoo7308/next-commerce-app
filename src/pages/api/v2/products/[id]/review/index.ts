@@ -1,6 +1,6 @@
 import connectDB from "lib/server/config/connectDB";
 import { createRouter } from "next-connect";
-import { updateProductReview } from "lib/server/controllers/productControllers";
+import { createProductReview } from "lib/server/controllers/productControllers";
 import { checkRoles, checkAuth } from "lib/server/middlewares/authMiddlewares";
 connectDB();
 const router = createRouter();
@@ -12,7 +12,7 @@ router
   // .get(getProduct)
   // protected routes
   .use(checkAuth, checkRoles(["user", "admin"]))
-  .post(updateProductReview);
+  .post(createProductReview);
 // .use(checkAuth, checkRoles(["admin"]))
 // .delete(deleteProduct);
 

@@ -30,13 +30,13 @@ export default function Nav() {
     <Box>
       <div id="nav-belt-outer">
         <div id="nav-belt">
-          <div id="nav-left">
+          <div id="nav-belt-left">
             <div id="nav-logo">
               <Link href={"/"}>Logo</Link>
             </div>
           </div>
-          <div id="nav-center"></div>
-          <div id="nav-right">
+          <div id="nav-belt-center"></div>
+          <div id="nav-belt-right">
             <Account />
             {/* <div id="nav-tools">
             <div id="nav-account"></div>
@@ -51,14 +51,14 @@ export default function Nav() {
       </div>
       <div id="nav-main-outer">
         <div id="nav-main">
-          <div id="nav-left">
+          <div id="nav-main-left">
             <button id="nav-hamburger" onClick={() => setIsVisible(true)}>
               <IoIosMenu />
               <div>All</div>
             </button>
           </div>
-          <div id="nav-center"></div>
-          <div id="nav-right"></div>
+          <div id="nav-main-center"></div>
+          <div id="nav-main-right"></div>
         </div>
       </div>
       <div
@@ -131,17 +131,18 @@ const Box = styled.nav`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    #nav-left {
+    #nav-belt-left {
       /* outline: 2px solid red; */
       #nav-logo {
         height: 100%;
       }
     }
-    #nav-center {
+    #nav-belt-center {
       background-color: black;
       flex: 0.5;
     }
-    #nav-right {
+    #nav-belt-right {
+      /* border: 2px solid red; */
     }
     a {
       padding: 1rem;
@@ -158,7 +159,7 @@ const Box = styled.nav`
     height: 40px;
     margin: auto;
     /* border: 2px solid coral; */
-    #nav-left {
+    #nav-main-left {
       height: 100%;
       display: flex;
       gap: 1rem;

@@ -1,5 +1,6 @@
 import { setModal } from "lib/client/store/modalSlice";
 import { postData } from "lib/public/fetchData";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +11,7 @@ export default function CreateProductReviewForm() {
   const modal = useSelector((store: any) => store.modal);
   const { active, type, message, id, ids, modalAction, actionLabel, disabled } = modal;
   const dispatch = useDispatch();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -23,8 +25,9 @@ export default function CreateProductReviewForm() {
       ...data,
       User: auth.user._id,
     };
-    const response = await postData(`v2/products/[${id}]/review`, review, auth.accessToken);
+    const response = await postData(`v2/products/${id}/review`, { review }, auth.accessToken);
     console.log({ response });
+    router.push({ pathname: router.pathname });
   };
   const handleClose = () => dispatch(setModal({ active: false }));
 

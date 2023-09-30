@@ -51,26 +51,38 @@ export default function Account() {
   useEffect(() => {
     document.addEventListener("click", () => setToggle(false));
   }, []);
+
   if (auth.accessToken || session.data?.user) {
     return (
       <Box>
         <Link href={"/cart"}>Cart ({cart.length})</Link>
-        <button onClick={handleToggle}>
-          Account ({auth.user?.role}:{session.data?.user ? "nextauth" : "general"})
-        </button>
-        {toggle && auth.user?.role === "admin" && (
-          <div className="toggle">
-            <Link href={"/my/profile"}>Profile</Link>
-            <button onClick={handleSignout}>Sign out</button>
+        <div className="account">
+          <div className="toggle-button">
+            <a onClick={handleToggle}>
+              Account ({auth.user?.role}:{session.data?.user ? "nextauth" : "general"})
+            </a>
           </div>
-        )}
-        {toggle && auth.user?.role === "user" && (
-          <div className="toggle">
-            <Link href={"/my/profile"}>Profile</Link>
-            <Link href={"/my/order-list"}>Order List</Link>
-            <button onClick={handleSignout}>Sign out</button>
+          <div className="toggle-menu">
+            {toggle && (
+              <>
+                <div className="toggle-menu-arrow"></div>
+                {auth.user?.role === "admin" && (
+                  <>
+                    <Link href={"/my/profile"}>Profile</Link>
+                    <button onClick={handleSignout}>Sign out</button>
+                  </>
+                )}
+                {auth.user?.role === "user" && (
+                  <>
+                    <Link href={"/my/profile"}>Profile</Link>
+                    <Link href={"/my/order-list"}>Order List</Link>
+                    <button onClick={handleSignout}>Sign out</button>
+                  </>
+                )}
+              </>
+            )}
           </div>
-        )}
+        </div>
       </Box>
     );
   }
@@ -82,27 +94,41 @@ export default function Account() {
     </Box>
   );
 }
+
 const Box = styled.div`
   display: flex;
   gap: 1rem;
-  > .toggle {
-    position: absolute;
-    top: 100%;
-    border: 2px solid red;
-    background-color: gray;
-    border: none;
-    /* margin-top: 10px; */
-    > * {
-      border: 2px solid red;
+  /* border: 2px solid yellow; */
+  > .account {
+    position: relative;
+    > .toggle-button {
     }
-    > a,
-    button {
-      width: 100%;
-      padding: 1rem;
-      border: none;
-      background-color: inherit;
-      text-align: start;
-      /* color: inherit; */
+    > .toggle-menu {
+      position: absolute;
+      top: 100%;
+      margin-top: 1rem;
+      /* border: 2px solid green; */
+      background-color: gray;
+
+      > .toggle-menu-arrow {
+        width: 0.7rem;
+        height: 0.7rem;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%) rotate(45deg);
+        background-color: gray;
+        pointer-events: none;
+      }
+
+      > a,
+      button {
+        width: 100%;
+        padding: 1rem;
+        background-color: inherit;
+        text-align: start;
+        /* color: inherit; */
+      }
     }
   }
 `;

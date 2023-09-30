@@ -63,10 +63,10 @@ export default function ProductDetail({ product }: any) {
               <ProductReviewImageSlider data={data} displayCount={3} />
             </div>
             <hr />
-            <div className="reviews">
+            <ul className="reviews">
               <h1>Reviews</h1>
               {reviews.map((review: any) => (
-                <div className="review">
+                <li className="review" key={review._id}>
                   <div className="review-top">
                     <div className="user-profile">
                       <FaCircleUser />
@@ -82,9 +82,9 @@ export default function ProductDetail({ product }: any) {
                       <p>{review.comment}</p>
                     </div>
                   </div>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
             {/* <h1>Customers frequently viewed</h1> */}
           </div>
         </div>

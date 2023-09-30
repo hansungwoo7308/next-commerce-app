@@ -73,6 +73,7 @@ export const GlobalStyled = createGlobalStyle`
     text-decoration:none;
     color:inherit;
     &:hover {
+      cursor: pointer;
       color: var(--color-hover);
     }
   }
@@ -84,7 +85,7 @@ export const GlobalStyled = createGlobalStyle`
     color:inherit;
     &:hover {
       /* background-color:var(--color-primary); */
-      /* color:#fff; */
+      color:#fff;
     }
   }
   img {

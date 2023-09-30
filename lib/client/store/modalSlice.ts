@@ -18,7 +18,7 @@ type Modal = {
 };
 // const initialState: Modal[] = [];
 const initialState: Modal = {
-  active: true,
+  active: false,
   type: "CREATE_PRODUCT_REVIEW",
 };
 export const modalSlice = createSlice({
