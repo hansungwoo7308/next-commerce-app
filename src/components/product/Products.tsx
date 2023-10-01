@@ -1,18 +1,19 @@
 import Product from "@/components/product/Product";
+import { useState } from "react";
 import { styled } from "styled-components";
 export default function Products({ products }: any) {
+  const [selectedProductIds, setSelectedProductIds] = useState([]);
+  // console.log({ selectedProductIds });
   return (
     <Box>
       <ul>
         {products?.map((product: any) => (
-          <Product key={product._id} product={product} />
-          // <ProductItem
-          //   key={product._id}
-          //   product={product}
-          //   setProducts={setProducts}
-          //   setCheckedProducts={setCheckedProducts}
-          //   isCheckAll={isCheckAll}
-          // />
+          <Product
+            key={product._id}
+            product={product}
+            selectedProductIds={selectedProductIds}
+            setSelectedProductIds={setSelectedProductIds}
+          />
         ))}
       </ul>
     </Box>

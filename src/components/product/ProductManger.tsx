@@ -11,7 +11,10 @@ export default function ProductManger() {
   return (
     <Box>
       <button onClick={handleCreateProduct}>Create a product</button>
-      <p>Select all and Unselect all, and then delete items</p>
+      <hr />
+      <button>Select All</button>
+      <button>Unselect All</button>
+      <button>Delete the selected products</button>
     </Box>
   );
 }

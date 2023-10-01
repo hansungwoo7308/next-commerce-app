@@ -1,5 +1,6 @@
 // import { setTimeoutId, setNotify, setVisible, setLoading } from "lib/client/store/notifySlice";
 // import { useSession } from "next-auth/react";
+import Stars from "@/components/product/Stars";
 import logResponse from "lib/client/log/logResponse";
 import { addToCart } from "lib/client/store/cartSlice";
 import { addItem, deleteItem } from "lib/client/store/managerSlice";
@@ -10,26 +11,29 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import { IoStar } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-let ratingsData: any[] = [];
-for (let i = 0; i < 5; i++) {
-  let icons = [];
-  for (let j = 0; j <= i; j++) icons.push(<IoStar color="#C7511F" />);
-  ratingsData.push({ icons });
-}
-export default function Product({ product, setCheckedProducts, isCheckAll }: any) {
+
+export default function Product({ product, selectedProductIds, setSelectedProductIds }: any) {
   // console.log({ product });
   const { _id, category, name, description, seller, price, stock, ratings, images, reviews } =
     product;
   const auth = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
-  const checkboxRef: any = useRef();
+  const checkRef: any = useRef();
   const dispatch = useDispatch();
   const router = useRouter();
-  const handleCheckBox = (e: any) => {
-    e.target.checked ? dispatch(addItem(_id)) : dispatch(deleteItem(_id));
+
+  const handleSelect = (e: any) => {
+    // e.target.checked ? dispatch(addItem(_id)) : dispatch(deleteItem(_id));
+    e.target.checked
+      ? setSelectedProductIds((state: any) => [...state, _id])
+      : setSelectedProductIds((state: any) => {
+          const filteredProductIds = state.filter(
+            (selectedProductId: any) => selectedProductId !== _id
+          );
+          return filteredProductIds;
+        });
   };
   const buttonByUser = (
     <button
@@ -117,19 +121,19 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
       Delete
     </button>
   );
-  // useEffect(() => {
-  //   if (isCheckAll) {
-  //     checkboxRef.current.checked = true;
-  //   }
-  //   // else {
-  //   //   checkboxRef.current.checked = false;
-  //   // }
-  // }, [isCheckAll]);
+  useEffect(() => {
+    if (!checkRef.current) return;
+    if (!selectedProductIds.length) checkRef.current.checked = false;
+    selectedProductIds.map((selectedProductId: any) => {
+      if (selectedProductId === _id) checkRef.current.checked = true;
+    });
+  }, [selectedProductIds]);
+
   return (
     <Box>
       <div className="image">
         {auth.user?.role === "admin" && (
-          <input ref={checkboxRef} className="checkbox" type="checkbox" onChange={handleCheckBox} />
+          <input ref={checkRef} className="checkbox" type="checkbox" onChange={handleSelect} />
         )}
         <Link href={`/products/${_id}`}>
           <Image
@@ -158,9 +162,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
           <div className="ratings">
             <small>{ratings ? ratings + ".0" : "No reviews"}</small>
             <small>
-              {ratingsData.map(
-                (v: any) => v.icons.length === ratings && <>{v.icons.map((icon: any) => icon)}</>
-              )}
+              <Stars number={ratings} />
             </small>
           </div>
           {auth.user?.role === "admin" && buttonByAdmin}
@@ -170,6 +172,7 @@ export default function Product({ product, setCheckedProducts, isCheckAll }: any
     </Box>
   );
 }
+
 const Box = styled.li`
   border: 1px solid;
   border-radius: 10px;

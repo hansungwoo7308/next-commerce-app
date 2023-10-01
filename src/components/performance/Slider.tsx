@@ -52,6 +52,9 @@ export default function Slider() {
     // slider.current.style.transform = `translate(-${item.current.style.width * slideIndex}%)`;
   }, [slideIndex]);
   // useEffect(() => {
+  //   setInterval(handleClickRight, 5000);
+  // }, []);
+  // useEffect(() => {
   //   console.log({ currentSlideIndex: slideIndex });
   //   // if (slideIndex === 4 && direction === "right") {
   //   //   slider.current.style.transition = "none";
@@ -74,6 +77,7 @@ export default function Slider() {
   //   carousel.current.addEventListener("mouseenter", handleMouseEnter);
   //   carousel.current.addEventListener("mouseleave", handleMouseLeave);
   // }, []); // set interval and reset interval
+
   return (
     <Box className="container">
       <div className="carousel" ref={carousel}>

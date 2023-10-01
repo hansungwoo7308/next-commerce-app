@@ -1,5 +1,6 @@
 import { IoStar } from "react-icons/io5";
 import styled from "styled-components";
+
 // create the star icons with rating 1 to 5
 // 2중 배열을 만드려고 한다.
 let starIconsArrays: any[] = [];
@@ -10,9 +11,11 @@ for (let i = 0; i < 5; i++) {
   starIconsArrays.push(starIcons);
 }
 // console.log({ starIconsArrays });
+
 interface Props {
   number?: number;
 }
+
 export default function Stars({ number }: Props) {
   // depending on number property, make the star icons
   return (
