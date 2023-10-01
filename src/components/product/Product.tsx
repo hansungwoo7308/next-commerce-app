@@ -3,7 +3,7 @@
 import Stars from "@/components/product/Stars";
 import logResponse from "lib/client/log/logResponse";
 import { addToCart } from "lib/client/store/cartSlice";
-import { addItem, deleteItem } from "lib/client/store/managerSlice";
+import { addProductId, deleteProductId } from "lib/client/store/productManagerSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import { setNotify } from "lib/client/store/notifySlice";
 import { deleteData } from "lib/public/fetchData";
@@ -14,27 +14,44 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-export default function Product({ product, selectedProductIds, setSelectedProductIds }: any) {
+export default function Product({ product }: any) {
   // console.log({ product });
   const { _id, category, name, description, seller, price, stock, ratings, images, reviews } =
     product;
   const auth = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
+  const { selectedProductIds } = useSelector((store: any) => store.productManager);
+
   const checkRef: any = useRef();
   const dispatch = useDispatch();
   const router = useRouter();
 
   const handleSelect = (e: any) => {
     // e.target.checked ? dispatch(addItem(_id)) : dispatch(deleteItem(_id));
-    e.target.checked
-      ? setSelectedProductIds((state: any) => [...state, _id])
-      : setSelectedProductIds((state: any) => {
-          const filteredProductIds = state.filter(
-            (selectedProductId: any) => selectedProductId !== _id
-          );
-          return filteredProductIds;
-        });
+    if (e.target.checked) {
+      dispatch(addProductId(_id));
+      // const newState = [...selectedProductIds, _id];
+      // dispatch(setSelectedProductIds(newState));
+    } else {
+      dispatch(deleteProductId(_id));
+      // const newState = selectedProductIds.filter(
+      //   (selectedProductId: any) => selectedProductId !== _id
+      // );
+      // dispatch(selectedProductIds(newState));
+    }
   };
+
+  // const handleSelect = (e: any) => {
+  //   // e.target.checked ? dispatch(addItem(_id)) : dispatch(deleteItem(_id));
+  //   e.target.checked
+  //     ? setSelectedProductIds((state: any) => [...state, _id])
+  //     : setSelectedProductIds((state: any) => {
+  //         const filteredProductIds = state.filter(
+  //           (selectedProductId: any) => selectedProductId !== _id
+  //         );
+  //         return filteredProductIds;
+  //       });
+  // };
   const buttonByUser = (
     <button
       disabled={!stock}
@@ -121,12 +138,16 @@ export default function Product({ product, selectedProductIds, setSelectedProduc
       Delete
     </button>
   );
+  // useEffect(() => {
+  //   if (!checkRef.current) return;
+  //   if (!selectedProductIds.length) checkRef.current.checked = false;
+  //   selectedProductIds.map((selectedProductId: any) => {
+  //     if (selectedProductId === _id) checkRef.current.checked = true;
+  //   });
+  // }, [selectedProductIds]);
+
   useEffect(() => {
-    if (!checkRef.current) return;
-    if (!selectedProductIds.length) checkRef.current.checked = false;
-    selectedProductIds.map((selectedProductId: any) => {
-      if (selectedProductId === _id) checkRef.current.checked = true;
-    });
+    console.log({ selectedProductIds });
   }, [selectedProductIds]);
 
   return (

@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { authSlice } from "lib/client/store/authSlice";
 import { cartSlice } from "lib/client/store/cartSlice";
 import { loadingSlice } from "lib/client/store/loadingSlice";
-import { managerSlice } from "lib/client/store/managerSlice";
+import { productManagerSlice } from "lib/client/store/productManagerSlice";
 import { modalSlice } from "lib/client/store/modalSlice";
 import { notifySlice } from "lib/client/store/notifySlice";
 import { orderSlice } from "lib/client/store/orderSlice";
@@ -17,7 +17,7 @@ export const store = configureStore({
     cart: cartSlice.reducer,
     order: orderSlice.reducer,
     orders: ordersSlice.reducer,
-    manager: managerSlice.reducer,
+    productManager: productManagerSlice.reducer,
     [userApiSlice.reducerPath]: userApiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(userApiSlice.middleware),

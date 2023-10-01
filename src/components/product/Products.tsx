@@ -2,7 +2,7 @@ import Product from "@/components/product/Product";
 import { useState } from "react";
 import { styled } from "styled-components";
 export default function Products({ products }: any) {
-  const [selectedProductIds, setSelectedProductIds] = useState([]);
+  // const [selectedProductIds, setSelectedProductIds] = useState([]);
   // console.log({ selectedProductIds });
   return (
     <Box>
@@ -11,8 +11,8 @@ export default function Products({ products }: any) {
           <Product
             key={product._id}
             product={product}
-            selectedProductIds={selectedProductIds}
-            setSelectedProductIds={setSelectedProductIds}
+            // selectedProductIds={selectedProductIds}
+            // setSelectedProductIds={setSelectedProductIds}
           />
         ))}
       </ul>

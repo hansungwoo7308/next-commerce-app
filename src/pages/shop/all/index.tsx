@@ -63,7 +63,7 @@ export default function Page({ products, pages }: any) {
         <div className="product-outer">
           <div className="left">
             <Filters />
-            <ProductManger />
+            <ProductManger products={products} />
           </div>
           <div className="right">
             <Products products={products} />

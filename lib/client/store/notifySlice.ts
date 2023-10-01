@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-type notify = {
+interface notify {
   active?: boolean;
   status?: "success" | "error" | null;
   message?: string | null;
@@ -7,7 +7,7 @@ type notify = {
   // timeoutId?: number | null;
   // count?: any;
   // messages: string[];
-};
+}
 const initialState: notify = {
   active: false,
   status: null,
