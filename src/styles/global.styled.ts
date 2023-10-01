@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 export const GlobalStyled = createGlobalStyle`
+  /* init */
   :root {
     /* color */
     --color-primary:green;
@@ -29,6 +30,8 @@ export const GlobalStyled = createGlobalStyle`
     box-sizing: border-box;
     scroll-behavior: smooth;
   }
+
+  /* layout */
   body {
     max-width:100vw;
     height:100%;
@@ -68,6 +71,8 @@ export const GlobalStyled = createGlobalStyle`
       outline: 2px dashed;
     }
   }
+
+  /* elements */
   a {
     height:100%;
     text-decoration:none;
@@ -88,6 +93,22 @@ export const GlobalStyled = createGlobalStyle`
       color:#fff;
     }
   }
+  html body .delete{
+    background-color: #c15151;
+    color: #fff;
+      &:hover {
+        background-color: #000;
+        color: #fff;
+      }
+  }
+  html body .cancel {
+    background-color: green;
+    color: #fff;
+      &:hover {
+        background-color: #000;
+        color: #fff;
+      }
+    }
   img {
     width: 100%;
     height: 100%;

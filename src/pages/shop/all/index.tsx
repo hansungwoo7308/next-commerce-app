@@ -1,6 +1,5 @@
 import Filters from "@/components/product/Filters";
 import Pagination from "@/components/product/Pagination";
-import ProductMangerByAdmin from "@/components/product/ProductMangerByAdmin";
 import Products from "@/components/product/Products";
 import Search from "@/components/layout/Search";
 import { getData } from "lib/public/fetchData";
@@ -9,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import ProductManger from "@/components/product/ProductManger";
+
 export async function getServerSideProps({ query }: any) {
   const response = await getData(`v2/products`, query);
   const { products, pages } = response.data;
@@ -17,12 +17,12 @@ export async function getServerSideProps({ query }: any) {
   // const { page }: any = query;
   // const response = await getData(`v2/products?page=${page}`);
 }
+
 export default function Page({ products, pages }: any) {
   // console.log({ products, pages });
   const router = useRouter();
   const [page, setPage]: any = useState(1);
-  // const [checked,setChecked]:any=useState([])
-  const auth = useSelector((store: any) => store.auth);
+
   const handleChangePage = (page: any) => {
     setPage(page);
     router.query.page = page;
@@ -32,10 +32,6 @@ export default function Page({ products, pages }: any) {
   if (!products) return null;
   return (
     <Main>
-      {/* {auth.user?.role === "admin" && <ProductMangerByAdmin />} */}
-      {/* <section className="product-manager-by-admin">
-        <div></div>
-      </section> */}
       <section>
         {/* <Search /> */}
         <div className="all">
@@ -75,6 +71,7 @@ export default function Page({ products, pages }: any) {
     </Main>
   );
 }
+
 const Main = styled.main`
   .product-outer {
     height: 100%;

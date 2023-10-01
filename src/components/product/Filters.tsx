@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 import { IoStar } from "react-icons/io5";
+
 // set the dataset with ratings icons
 let ratingsData: any = [];
 for (let i = 0; i < 5; i++) {
@@ -9,6 +10,7 @@ for (let i = 0; i < 5; i++) {
   for (let j = 0; j <= i; j++) icons.push(<IoStar color="#C7511F" />);
   ratingsData.push({ icons });
 }
+
 export default function Filters() {
   const router = useRouter();
   // category
@@ -19,6 +21,7 @@ export default function Filters() {
   // ratings
   const [ratings, setRatings]: any = useState([]);
   const [ratingsElements, setRatingsElements]: any = useState([]);
+
   const handleClickCategory = (e: any) => {
     const { name, value } = e.target;
     router.query = { ...router.query, [name]: value };

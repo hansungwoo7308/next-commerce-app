@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface ProductManagerState {
   selectedProductIds?: any[];
 }
-const initialState: ProductManagerState = {};
+const initialState: ProductManagerState = { selectedProductIds: [] };
 export const productManagerSlice = createSlice({
   name: "productManager",
   initialState,

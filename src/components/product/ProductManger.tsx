@@ -1,4 +1,4 @@
-import { addProductId, setSelectedProductIds } from "lib/client/store/productManagerSlice";
+import { setSelectedProductIds } from "lib/client/store/productManagerSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -8,15 +8,15 @@ export default function ProductManger({ products }: any) {
   const { selectedProductIds } = useSelector((store: any) => store.productManager);
 
   const dispatch = useDispatch();
-  const handleCreateProduct = () => {
-    dispatch(setModal({ active: true, type: "CREATE_PRODUCT" }));
-  };
   const handleSelectAll = () => {
     const productIds = products.map((product: any) => product._id);
     dispatch(setSelectedProductIds(productIds));
   };
   const handleUnselectAll = () => {
     dispatch(setSelectedProductIds([]));
+  };
+  const handleCreateProduct = () => {
+    dispatch(setModal({ active: true, type: "CREATE_PRODUCT" }));
   };
   const handleDeleteProducts = () => {
     dispatch(setModal({ active: true, type: "DELETE_PRODUCTS", ids: selectedProductIds }));
@@ -29,13 +29,18 @@ export default function ProductManger({ products }: any) {
   return (
     <Box className="product-manager">
       <h4>Product Manager</h4>
-
       <hr />
       <button onClick={handleSelectAll}>Select All</button>
       <button onClick={handleUnselectAll}>Unselect All</button>
       <hr />
       <button onClick={handleCreateProduct}>Create a product</button>
-      <button onClick={handleDeleteProducts}>Delete the products</button>
+      <button
+        className="delete"
+        onClick={handleDeleteProducts}
+        disabled={selectedProductIds.length === 0}
+      >
+        Delete the products
+      </button>
     </Box>
   );
 }
@@ -53,5 +58,12 @@ const Box = styled.div`
   background-color: #333;
   > hr {
     place-self: stretch;
+  }
+  > .delete {
+    padding: 0.5rem;
+    border-radius: 3px;
+    &:disabled {
+      cursor: not-allowed;
+    }
   }
 `;

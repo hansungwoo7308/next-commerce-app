@@ -91,24 +91,15 @@ export default function Product({ product }: any) {
   );
   const buttonByAdmin = (
     <button
-      className="delete-button"
+      className="delete"
       onClick={() => dispatch(setModal({ active: true, type: "DELETE_PRODUCT", id: _id }))}
-      // onClick={() => {
-      //   dispatch(
-      //     setModal({
-      //       type: "DELETE_PRODUCT",
-      //       message: "Do you want to delete",
-      //       id: _id,
-      //     })
-      //   );
-      // }}
     >
       Delete
     </button>
   );
   useEffect(() => {
     if (!checkRef.current) return;
-    if (!selectedProductIds?.length) checkRef.current.checked = false;
+    if (!selectedProductIds.length) checkRef.current.checked = false;
     selectedProductIds.map((selectedProductId: any) => {
       if (selectedProductId === _id) checkRef.current.checked = true;
     });
@@ -215,15 +206,7 @@ const Box = styled.li`
       }
       button {
         padding: 0.5rem;
-        background-color: #ddd;
-        color: #000;
         border-radius: 3px;
-        &:hover {
-          background-color: var(--color-primary);
-        }
-      }
-      .delete-button {
-        background-color: #c15151;
       }
     }
   }

@@ -53,8 +53,8 @@ export default function Modal() {
             <p>Do you want to delete this product?</p>
           </div>
           <div className="bottom">
-            <button>Cancel</button>
             <button
+              className="delete"
               onClick={async () => {
                 const response = await deleteData(`v2/products/${id}`, null, accessToken);
                 logResponse(response);
@@ -62,6 +62,9 @@ export default function Modal() {
               }}
             >
               Delete
+            </button>
+            <button className="cancel" onClick={handleClose}>
+              Cancel
             </button>
           </div>
         </Box>
@@ -79,8 +82,8 @@ export default function Modal() {
             <p>Do you want to delete these products?</p>
           </div>
           <div className="bottom">
-            <button>Cancel</button>
             <button
+              className="delete"
               onClick={async () => {
                 const response = await deleteData(`v2/products/${id}`, ids, accessToken);
                 logResponse(response);
@@ -88,6 +91,9 @@ export default function Modal() {
               }}
             >
               Delete
+            </button>
+            <button className="cancel" onClick={handleClose}>
+              Cancel
             </button>
           </div>
         </Box>
@@ -180,10 +186,10 @@ const Box = styled.div`
   > .main {
     flex: 1;
   }
-  > .footer {
+  > .bottom {
     display: flex;
     justify-content: flex-end;
-    gap: 1rem;
+    gap: 0.5rem;
   }
   button {
     border: none;
