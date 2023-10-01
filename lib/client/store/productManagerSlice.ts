@@ -2,10 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface ProductManagerState {
   selectedProductIds?: any[];
 }
-interface Props {
-  selectedProductIds?: any[];
-}
-const initialState: any = { selectedProductIds: [] };
+const initialState: ProductManagerState = {};
 export const productManagerSlice = createSlice({
   name: "productManager",
   initialState,
@@ -15,10 +12,9 @@ export const productManagerSlice = createSlice({
       state.selectedProductIds = productIds;
     },
     addProductId: (state, action) => {
-      // state.selectedProductIds?.push(action.payload);
-      // if (state.selectedProductIds)
       const productId = action.payload;
-      state.selectedProductIds = [...state.selectedProductIds, productId];
+      state.selectedProductIds?.push(productId);
+      // state.selectedProductIds = [...state.selectedProductIds, productId];
     },
     deleteProductId: (state, action) => {
       const productId = action.payload;

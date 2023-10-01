@@ -49,7 +49,7 @@ export const patchData = async (url: string, payload: any, token: string) => {
   });
   return response;
 };
-export const deleteData = async (url: string, token: string, payload?: any) => {
+export const deleteData = async (url: string, payload: any, token: string) => {
   const response = await axios({
     method: "delete",
     url: `${baseUrl}/api/${url}`,

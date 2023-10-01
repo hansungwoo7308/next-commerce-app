@@ -1,12 +1,10 @@
 // import { setTimeoutId, setNotify, setVisible, setLoading } from "lib/client/store/notifySlice";
 // import { useSession } from "next-auth/react";
 import Stars from "@/components/product/Stars";
-import logResponse from "lib/client/log/logResponse";
 import { addToCart } from "lib/client/store/cartSlice";
 import { addProductId, deleteProductId } from "lib/client/store/productManagerSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import { setNotify } from "lib/client/store/notifySlice";
-import { deleteData } from "lib/public/fetchData";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -27,18 +25,7 @@ export default function Product({ product }: any) {
   const router = useRouter();
 
   const handleSelect = (e: any) => {
-    // e.target.checked ? dispatch(addItem(_id)) : dispatch(deleteItem(_id));
-    if (e.target.checked) {
-      dispatch(addProductId(_id));
-      // const newState = [...selectedProductIds, _id];
-      // dispatch(setSelectedProductIds(newState));
-    } else {
-      dispatch(deleteProductId(_id));
-      // const newState = selectedProductIds.filter(
-      //   (selectedProductId: any) => selectedProductId !== _id
-      // );
-      // dispatch(selectedProductIds(newState));
-    }
+    e.target.checked ? dispatch(addProductId(_id)) : dispatch(deleteProductId(_id));
   };
 
   // const handleSelect = (e: any) => {
@@ -105,26 +92,7 @@ export default function Product({ product }: any) {
   const buttonByAdmin = (
     <button
       className="delete-button"
-      onClick={() => {
-        const modalAction = async () => {
-          // delete
-          const response = await deleteData(`v2/products/${_id}`, auth.accessToken);
-          // const { _id } = response.data.deletedProduct;
-          // out
-          logResponse(response);
-          router.push({ pathname: router.pathname, query: router.query });
-          // dispatch(deleteUser({ _id }));
-        };
-        dispatch(
-          setModal({
-            active: true,
-            type: "DEFAULT",
-            message: "Do you want to delete the product?",
-            modalActionLabel: "Delete",
-            modalAction,
-          })
-        );
-      }}
+      onClick={() => dispatch(setModal({ active: true, type: "DELETE_PRODUCT", id: _id }))}
       // onClick={() => {
       //   dispatch(
       //     setModal({
@@ -138,16 +106,12 @@ export default function Product({ product }: any) {
       Delete
     </button>
   );
-  // useEffect(() => {
-  //   if (!checkRef.current) return;
-  //   if (!selectedProductIds.length) checkRef.current.checked = false;
-  //   selectedProductIds.map((selectedProductId: any) => {
-  //     if (selectedProductId === _id) checkRef.current.checked = true;
-  //   });
-  // }, [selectedProductIds]);
-
   useEffect(() => {
-    console.log({ selectedProductIds });
+    if (!checkRef.current) return;
+    if (!selectedProductIds?.length) checkRef.current.checked = false;
+    selectedProductIds.map((selectedProductId: any) => {
+      if (selectedProductId === _id) checkRef.current.checked = true;
+    });
   }, [selectedProductIds]);
 
   return (

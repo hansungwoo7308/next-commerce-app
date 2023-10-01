@@ -1,9 +1,12 @@
 import { addProductId, setSelectedProductIds } from "lib/client/store/productManagerSlice";
 import { setModal } from "lib/client/store/modalSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { useEffect } from "react";
 
 export default function ProductManger({ products }: any) {
+  const { selectedProductIds } = useSelector((store: any) => store.productManager);
+
   const dispatch = useDispatch();
   const handleCreateProduct = () => {
     dispatch(setModal({ active: true, type: "CREATE_PRODUCT" }));
@@ -15,27 +18,40 @@ export default function ProductManger({ products }: any) {
   const handleUnselectAll = () => {
     dispatch(setSelectedProductIds([]));
   };
+  const handleDeleteProducts = () => {
+    dispatch(setModal({ active: true, type: "DELETE_PRODUCTS", ids: selectedProductIds }));
+  };
+
+  // useEffect(() => {
+  //   console.log({ selectedProductIds });
+  // }, [selectedProductIds]);
 
   return (
-    <Box>
-      <button onClick={handleCreateProduct}>Create a product</button>
+    <Box className="product-manager">
+      <h4>Product Manager</h4>
+
       <hr />
       <button onClick={handleSelectAll}>Select All</button>
       <button onClick={handleUnselectAll}>Unselect All</button>
-      <button>Delete the selected products</button>
+      <hr />
+      <button onClick={handleCreateProduct}>Create a product</button>
+      <button onClick={handleDeleteProducts}>Delete the products</button>
     </Box>
   );
 }
 
 const Box = styled.div`
-  width: 12rem;
-
+  min-width: 12rem;
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 1rem;
   border: 1px solid;
   border-radius: 10px;
   padding: 1rem;
   background-color: #333;
+  > hr {
+    place-self: stretch;
+  }
 `;

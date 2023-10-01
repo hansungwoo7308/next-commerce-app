@@ -1,10 +1,9 @@
 import CreateProductForm from "@/components/form/CreateProductForm";
-import ProductCreateForm from "@/components/form/CreateProductForm";
 import CreateProductReviewForm from "@/components/form/CreateProductReviewForm";
 import logResponse from "lib/client/log/logResponse";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { setModal } from "lib/client/store/modalSlice";
-import { postData } from "lib/public/fetchData";
+import { deleteData, postData } from "lib/public/fetchData";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -16,79 +15,16 @@ import styled from "styled-components";
 // import { deleteUser } from "lib/client/store/usersSlice";
 // import { deleteData, getData, postData } from "lib/client/utils/fetchData";
 export default function Modal() {
-  const modal = useSelector((store: any) => store.modal);
-  const { active, type, message, id, ids, modalAction, actionLabel, disabled } = modal;
+  const { accessToken } = useSelector((store: any) => store.auth);
+  const { active, type, message, id, ids, modalAction, actionLabel, disabled } = useSelector(
+    (store: any) => store.modal
+  );
   const router = useRouter();
   const dispatch = useDispatch();
-  const handleAction = async (e: any) => {
-    e.preventDefault();
-    switch (type) {
-      case "DEFAULT":
-        dispatch(setLoading(true));
-        modalAction();
-        dispatch(setLoading(false));
-        dispatch(setModal({ active: false }));
-        break;
-      default:
-        dispatch(setModal({ active: false }));
-        break;
-    }
-    // try {
-    //   dispatch(setLoading(true));
-    //   switch (type) {
-    //     // case "DELETE_USER":
-    //     //   handleDeleteUser();
-    //     //   break;
-    //     // case "DELETE_PRODUCT":
-    //     //   handleDeleteProduct();
-    //     //   break;
-    //     // case "DELETE_PRODUCTS":
-    //     //   handleDeleteProducts();
-    //     //   break;
-    //     // case "DELETE_CART_ITEM":
-    //     //   handleDeleteCartItem();
-    //     //   break;
-    //     // case "DELETE_POST":
-    //     //   handleDeletePost();
-    //     //   break;
-    //     // case "DELETE_TODO_LIST_ITEM":
-    //     //   callback(); // sync callback function
-    //     //   break;
-    //     default:
-    //       break;
-    //   }
-    //   // dispatch(closeModal());
-    //   dispatch(setLoading(false));
-    //   // router.push({ pathname: router.pathname });
-    //   // router.reload();
-    //   // router.push(router.asPath);
-    // } catch (error) {
-    //   // logError(error);
-    //   // dispatch(setLoading(false));
-    // }
-  };
   const handleClose = () => dispatch(setModal({ active: false }));
 
-  if (!modal.active) return null;
-  if (modal.type === "CREATE") {
-    return (
-      <Background onClick={handleClose}>
-        <Box onClick={(e) => e.stopPropagation()}>
-          <ProductCreateForm />
-        </Box>
-      </Background>
-    );
-  }
-  if (modal.type === "CREATE_PRODUCT_REVIEW") {
-    return (
-      <Background onClick={handleClose}>
-        <Box onClick={(e) => e.stopPropagation()}>
-          <CreateProductReviewForm />
-        </Box>
-      </Background>
-    );
-  }
-  if (modal.type === "CREATE_PRODUCT") {
+  if (!active) return null;
+  if (type === "CREATE_PRODUCT") {
     return (
       <Background onClick={handleClose}>
         <Box onClick={(e) => e.stopPropagation()}>
@@ -97,30 +33,91 @@ export default function Modal() {
       </Background>
     );
   }
-  return (
-    <Background onClick={handleClose}>
-      <Box onClick={(e) => e.stopPropagation()}>
-        <div className="header">
-          <h3>{type || "test type"}</h3>
-        </div>
-        <hr />
-        <div className="main">
-          <p>{message}</p>
-        </div>
-        <div className="footer">
-          <button
-            onClick={handleAction}
-            // disabled={loading}
-          >
-            {/* Confirm */}
-            {/* {actionLabel} */}
-            {actionLabel || "Confirm"}
-          </button>
-          <button onClick={handleClose}>Close</button>
-        </div>
-      </Box>
-    </Background>
-  );
+  if (type === "CREATE_PRODUCT_REVIEW") {
+    return (
+      <Background onClick={handleClose}>
+        <Box onClick={(e) => e.stopPropagation()}>
+          <CreateProductReviewForm />
+        </Box>
+      </Background>
+    );
+  }
+  if (type === "DELETE_PRODUCT") {
+    return (
+      <Background onClick={handleClose}>
+        <Box onClick={(e) => e.stopPropagation()}>
+          <div className="top">
+            <h1>DELETE_PRODUCT</h1>
+          </div>
+          <div className="middle">
+            <p>Do you want to delete this product?</p>
+          </div>
+          <div className="bottom">
+            <button>Cancel</button>
+            <button
+              onClick={async () => {
+                const response = await deleteData(`v2/products/${id}`, null, accessToken);
+                logResponse(response);
+                router.push({ pathname: router.asPath });
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </Box>
+      </Background>
+    );
+  }
+  if (type === "DELETE_PRODUCTS") {
+    return (
+      <Background onClick={handleClose}>
+        <Box onClick={(e) => e.stopPropagation()}>
+          <div className="top">
+            <h1>DELETE_PRODUCTS</h1>
+          </div>
+          <div className="middle">
+            <p>Do you want to delete these products?</p>
+          </div>
+          <div className="bottom">
+            <button>Cancel</button>
+            <button
+              onClick={async () => {
+                const response = await deleteData(`v2/products/${id}`, ids, accessToken);
+                logResponse(response);
+                router.push({ pathname: router.asPath });
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </Box>
+      </Background>
+    );
+  }
+  // return (
+  //   <Background onClick={handleClose}>
+  //     <Box onClick={(e) => e.stopPropagation()}>
+  //       <div className="header">
+  //         <h3>{type || "test type"}</h3>
+  //       </div>
+  //       <hr />
+  //       <div className="main">
+  //         <p>{message}</p>
+  //       </div>
+  //       <div className="footer">
+  //         <button
+  //           onClick={handleAction}
+  //           // disabled={loading}
+  //         >
+  //           {/* Confirm */}
+  //           {/* {actionLabel} */}
+  //           {actionLabel || "Confirm"}
+  //         </button>
+  //         <button onClick={handleClose}>Close</button>
+  //       </div>
+  //     </Box>
+  //   </Background>
+  // );
 }
 
 const Background = styled.div`

@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Image from "next/image";
 import axios from "axios";
+
 export default function CreateProductForm() {
   // store (external)
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export default function CreateProductForm() {
   const router = useRouter();
   const { register, handleSubmit, watch, setValue, getValues, reset, formState, control } =
     useForm();
+
   const submit = async (data: any) => {
     console.log("data : ", data);
     // check validation
@@ -76,6 +78,7 @@ export default function CreateProductForm() {
   useEffect(() => {
     console.log({ images });
   }, [images]);
+
   return (
     <Box>
       <div className="top">
