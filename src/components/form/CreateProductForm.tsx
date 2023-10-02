@@ -36,7 +36,7 @@ export default function CreateProductForm() {
       dispatch(setLoading(true));
       const response = await axios({
         method: "POST",
-        url: "http://localhost:3000/api/v2/products",
+        url: "http://localhost:3000/api/v2/products/multipart",
         headers: {
           Authorization: `Bearer ${auth.accessToken}`,
           "Content-Type": "multipart/form-data",
@@ -46,8 +46,10 @@ export default function CreateProductForm() {
       logResponse(response);
       dispatch(setLoading(false));
       toast.success("The creation was completed");
-      router.push("/category/all");
+      router.push("/shop/all");
+      // router.push("/category/all");
     } catch (error: any) {
+      dispatch(setLoading(false));
       console.log({ error });
       toast.error(error.message);
     }

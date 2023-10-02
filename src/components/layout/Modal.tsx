@@ -58,7 +58,7 @@ export default function Modal() {
               onClick={async () => {
                 const response = await deleteData(`v2/products/${id}`, null, accessToken);
                 logResponse(response);
-                router.push({ pathname: router.asPath });
+                router.push({ pathname: router.pathname });
               }}
             >
               Delete

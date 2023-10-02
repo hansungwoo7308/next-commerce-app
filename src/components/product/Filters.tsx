@@ -1,15 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
-import { IoStar } from "react-icons/io5";
-
-// set the dataset with ratings icons
-let ratingsData: any = [];
-for (let i = 0; i < 5; i++) {
-  let icons = [];
-  for (let j = 0; j <= i; j++) icons.push(<IoStar color="#C7511F" />);
-  ratingsData.push({ icons });
-}
+import Stars from "@/components/product/Stars";
 
 export default function Filters() {
   const router = useRouter();
@@ -215,8 +207,23 @@ export default function Filters() {
       <div className="ratings-filter">
         <h4>Customer Reviews</h4>
         <ul>
-          {ratingsData.map((rating: any) => (
-            <li>
+          {[1, 2, 3, 4, 5]
+            .sort((a, b) => b - a)
+            .map((rating: any) => (
+              <li key={rating} className="rating">
+                <label>
+                  <input
+                    type="checkbox"
+                    name="rating"
+                    value={rating}
+                    onClick={handleClickRatings}
+                  />
+                  <Stars number={rating} />
+                </label>
+              </li>
+            ))}
+          {/* {ratingsData.map((rating: any,index:any) => (
+            <li key={index+1}>
               <label>
                 <input
                   className="ratings"
@@ -228,7 +235,7 @@ export default function Filters() {
                 {rating.icons.map((icon: any) => icon)}
               </label>
             </li>
-          ))}
+          ))} */}
         </ul>
       </div>
       <button className="clear-button" onClick={() => setRatings([])}>
@@ -242,6 +249,7 @@ export default function Filters() {
     </Box>
   );
 }
+
 const Box = styled.div`
   padding: 1rem;
   display: flex;
@@ -260,6 +268,12 @@ const Box = styled.div`
   .clear-button {
     &:hover {
       color: #fff;
+    }
+  }
+  .rating {
+    > label {
+      display: flex;
+      gap: 0.5rem;
     }
   }
 `;
