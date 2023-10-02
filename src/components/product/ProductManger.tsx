@@ -33,9 +33,11 @@ export default function ProductManger({ products }: any) {
       <button onClick={handleSelectAll}>Select All</button>
       <button onClick={handleUnselectAll}>Unselect All</button>
       <hr />
-      <button onClick={handleCreateProduct}>Create a product</button>
+      <button className="create-button" onClick={handleCreateProduct}>
+        Create a product
+      </button>
       <button
-        className="delete"
+        className="delete-button"
         onClick={handleDeleteProducts}
         disabled={selectedProductIds.length === 0}
       >
@@ -50,20 +52,15 @@ const Box = styled.div`
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 1rem;
   border: 1px solid;
   border-radius: 10px;
   padding: 1rem;
   background-color: #333;
+  > h4 {
+    text-align: center;
+  }
   > hr {
     place-self: stretch;
-  }
-  > .delete {
-    padding: 0.5rem;
-    border-radius: 3px;
-    &:disabled {
-      cursor: not-allowed;
-    }
   }
 `;

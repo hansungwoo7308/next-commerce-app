@@ -21,8 +21,8 @@ interface ModalAction extends ModalState {
   active: boolean | null; // 모달 활성화, 비활성화
 }
 const initialState: ModalState = {
-  active: false,
-  type: "CREATE_PRODUCT_REVIEW",
+  active: true,
+  type: "CREATE_PRODUCT",
 };
 export const modalSlice = createSlice({
   name: "modal",

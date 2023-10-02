@@ -54,7 +54,7 @@ export default function Modal() {
           </div>
           <div className="bottom">
             <button
-              className="delete"
+              className="delete-button"
               onClick={async () => {
                 const response = await deleteData(`v2/products/${id}`, null, accessToken);
                 logResponse(response);
@@ -63,7 +63,7 @@ export default function Modal() {
             >
               Delete
             </button>
-            <button className="cancel" onClick={handleClose}>
+            <button className="cancel-button" onClick={handleClose}>
               Cancel
             </button>
           </div>
@@ -83,7 +83,7 @@ export default function Modal() {
           </div>
           <div className="bottom">
             <button
-              className="delete"
+              className="delete-button"
               onClick={async () => {
                 const response = await deleteData(`v2/products/${id}`, ids, accessToken);
                 logResponse(response);
@@ -92,7 +92,7 @@ export default function Modal() {
             >
               Delete
             </button>
-            <button className="cancel" onClick={handleClose}>
+            <button className="cancel-button" onClick={handleClose}>
               Cancel
             </button>
           </div>
@@ -141,8 +141,8 @@ const Background = styled.div`
 `;
 const Box = styled.div`
   background-color: #eee;
-  color: green;
-  border: 5px solid green;
+  color: #000;
+  border: 5px solid #00aaff;
   border-radius: 10px;
   padding: 1rem;
   display: flex;
@@ -180,32 +180,24 @@ const Box = styled.div`
       gap: 0.5rem;
     }
   }
-  > hr {
-    border-top: 1px solid green;
+  > .top {
+    > hr {
+      border-top: 1px solid;
+    }
   }
-  > .main {
+  > .middle {
     flex: 1;
   }
   > .bottom {
     display: flex;
     justify-content: flex-end;
     gap: 0.5rem;
-  }
-  button {
-    border: none;
-    padding: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #222;
-    color: #ccc;
-    &:hover {
-      background-color: var(--color-primary);
-      color: #fff;
+    > .delete-button,
+    > .cancel-button,
+    > .close-button {
+      padding: 1rem;
+      border-radius: 5px;
     }
-    /* &:disabled {
-      background-color: #777;
-      cursor: not-allowed;
-    } */
   }
 `;
 // const handleDeleteUser = async () => {

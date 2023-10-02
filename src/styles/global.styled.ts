@@ -82,33 +82,65 @@ export const GlobalStyled = createGlobalStyle`
       color: var(--color-hover);
     }
   }
-  header button,
-  main button {
-    border:none;
+  html button {
     cursor: pointer;
+    border:none;
+    padding: 0.5rem;
     background-color:inherit;
     color:inherit;
     &:hover {
-      /* background-color:var(--color-primary); */
+      background-color:#000;
       color:#fff;
     }
   }
-  html body .delete{
+  html body .general-button {
+    padding: 0.5rem;
+    border-radius: 3px;
+    background-color: #333;
+    color: #ddd;
+    &:hover {
+      background-color: #000;
+      color: #fff;
+    }
+  }
+  html body .create-button{
+    padding: 0.5rem;
+    border-radius: 3px;
+    background-color: #00aaff;
+    color: #fff;
+    &:hover {
+      background-color: #000;
+      color: #fff;
+    }
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+  html body .delete-button{
+    padding: 0.5rem;
+    border-radius: 3px;
     background-color: #c15151;
     color: #fff;
-      &:hover {
-        background-color: #000;
-        color: #fff;
-      }
-  }
-  html body .cancel {
-    background-color: green;
-    color: #fff;
-      &:hover {
-        background-color: #000;
-        color: #fff;
-      }
+    &:hover {
+      background-color: #000;
+      color: #fff;
     }
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+  html body .cancel-button,
+  html body .close-button {
+    padding: 0.5rem;
+    border-radius: 3px;
+    background-color: #333;
+    color: #ddd;
+    &:hover {
+      background-color: #000;
+      color: #fff;
+    }
+  }
+  
   img {
     width: 100%;
     height: 100%;

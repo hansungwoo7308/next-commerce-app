@@ -53,9 +53,10 @@ const Box = styled.div`
   margin-bottom: 2rem;
   display: flex;
   justify-content: center;
-  /* border: 1px solid; */
+  border: 1px solid;
   border-radius: 10px;
   background-color: #333;
+  overflow: hidden;
   /* padding: 1rem; */
   > ul {
     display: flex;
@@ -77,16 +78,18 @@ const Box = styled.div`
     }
   }
   .center {
-    border-top: 1px solid;
-    border-bottom: 1px solid;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    /* border-top: 1px solid;
+    border-bottom: 1px solid; */
   }
   .left {
     /* border-right: 1px solid; */
-    border: 1px solid;
-    border-radius: 10px 0 0 10px;
+    /* border: 1px solid;
+    border-radius: 10px 0 0 10px; */
   }
   .right {
-    border: 1px solid;
-    border-radius: 0 10px 10px 0;
+    /* border: 1px solid;
+    border-radius: 0 10px 10px 0; */
   }
 `;

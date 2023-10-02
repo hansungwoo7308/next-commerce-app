@@ -91,7 +91,7 @@ export default function Product({ product }: any) {
   );
   const buttonByAdmin = (
     <button
-      className="delete"
+      className="delete-button"
       onClick={() => dispatch(setModal({ active: true, type: "DELETE_PRODUCT", id: _id }))}
     >
       Delete

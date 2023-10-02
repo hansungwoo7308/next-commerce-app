@@ -75,18 +75,18 @@ export default function CreateProductForm() {
     e.preventDefault();
     dispatch(setModal({ active: false }));
   };
-  useEffect(() => {
-    console.log({ images });
-  }, [images]);
+  // useEffect(() => {
+  //   console.log({ images });
+  // }, [images]);
 
   return (
     <Box>
       <div className="top">
         <h3>Create_Product_Form</h3>
+        <hr />
       </div>
-      <hr />
-      <br />
-      <div className="main">
+      {/* <br /> */}
+      <div className="middle">
         <div className="images">
           <div className="preview-images-outer">
             <div className="preview-images">
@@ -138,21 +138,27 @@ export default function CreateProductForm() {
           <input {...register("stock", { required: true })} type="number" placeholder="Stock" />
         </label>
       </div>
-      <div className="footer">
+      <div className="bottom">
         <button
+          className="create-button"
           onClick={handleSubmit(submit)}
           // disabled={loading}
         >
           Create
         </button>
-        <button onClick={handleCloseButton}>Close</button>
+        <button className="close-button" onClick={handleCloseButton}>
+          Close
+        </button>
       </div>
     </Box>
   );
 }
 const Box = styled.form`
   width: 400px;
-  .main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  > .middle {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -192,27 +198,20 @@ const Box = styled.form`
         }
       }
     }
-    .image-uploader {
+    input,
+    select,
+    textarea {
+      padding: 0.5rem;
     }
   }
-  .footer {
+  > .bottom {
     display: flex;
     justify-content: end;
-    gap: 1rem;
+    gap: 0.5rem;
     margin-top: 1rem;
-  }
-  input,
-  select,
-  textarea {
-    padding: 0.5rem;
-  }
-  button {
-    cursor: pointer;
-    background-color: #333;
-    color: #eee;
-    &:hover {
-      background-color: green;
-      color: #fff;
+    > button {
+      border-radius: 5px;
+      padding: 1rem;
     }
   }
 `;
