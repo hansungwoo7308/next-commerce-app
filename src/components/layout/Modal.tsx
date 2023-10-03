@@ -4,6 +4,7 @@ import logResponse from "lib/client/log/logResponse";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import { deleteData, postData } from "lib/public/fetchData";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -16,7 +17,7 @@ import styled from "styled-components";
 // import { deleteData, getData, postData } from "lib/client/utils/fetchData";
 export default function Modal() {
   const { accessToken } = useSelector((store: any) => store.auth);
-  const { active, type, message, id, ids, modalAction, actionLabel, disabled } = useSelector(
+  const { active, type, message, id, ids, modalAction, actionLabel, disabled, src } = useSelector(
     (store: any) => store.modal
   );
   const router = useRouter();
@@ -24,10 +25,19 @@ export default function Modal() {
   const handleClose = () => dispatch(setModal({ active: false }));
 
   if (!active) return null;
+  if (type === "VIEW_IMAGE") {
+    return (
+      <Background onClick={handleClose}>
+        <Box style={{ minWidth: "500px" }} onClick={(e) => e.stopPropagation()}>
+          <Image src={src} alt="alt" width={500} height={500} />
+        </Box>
+      </Background>
+    );
+  }
   if (type === "CREATE_PRODUCT") {
     return (
       <Background onClick={handleClose}>
-        <Box onClick={(e) => e.stopPropagation()}>
+        <Box style={{ borderColor: "#00aaff" }} onClick={(e) => e.stopPropagation()}>
           <CreateProductForm />
         </Box>
       </Background>
@@ -36,7 +46,7 @@ export default function Modal() {
   if (type === "CREATE_PRODUCT_REVIEW") {
     return (
       <Background onClick={handleClose}>
-        <Box onClick={(e) => e.stopPropagation()}>
+        <Box style={{ borderColor: "#00aaff" }} onClick={(e) => e.stopPropagation()}>
           <CreateProductReviewForm />
         </Box>
       </Background>
@@ -142,7 +152,7 @@ const Background = styled.div`
 const Box = styled.div`
   background-color: #eee;
   color: #000;
-  border: 5px solid #00aaff;
+  border: 5px solid;
   border-radius: 10px;
   padding: 1rem;
   display: flex;
@@ -198,6 +208,9 @@ const Box = styled.div`
       padding: 1rem;
       border-radius: 5px;
     }
+  }
+  > .modal-image {
+    min-width: 500px;
   }
 `;
 // const handleDeleteUser = async () => {

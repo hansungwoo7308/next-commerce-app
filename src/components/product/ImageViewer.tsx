@@ -1,5 +1,7 @@
+import { setModal } from "lib/client/store/modalSlice";
 import Image from "next/image";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 interface Props {
@@ -9,6 +11,7 @@ interface Props {
 export default function ImageViewer({ images }: Props) {
   // set the image index
   const [tabIndex, setTabIndex]: any = useState(0);
+  const dispatch = useDispatch();
 
   return (
     <Box>
@@ -18,6 +21,15 @@ export default function ImageViewer({ images }: Props) {
           alt={images[tabIndex].url || images[tabIndex].secure_url}
           width={1000}
           height={1000}
+          onClick={() =>
+            dispatch(
+              setModal({
+                active: true,
+                type: "VIEW_IMAGE",
+                src: images[tabIndex].url || images[tabIndex].secure_url,
+              })
+            )
+          }
         />
       </div>
       <div className="unselected-images">
@@ -31,6 +43,15 @@ export default function ImageViewer({ images }: Props) {
             height={500}
             onMouseEnter={() => setTabIndex(index)}
             // onClick={() => setTabIndex(index)}
+            onClick={() =>
+              dispatch(
+                setModal({
+                  active: true,
+                  type: "VIEW_IMAGE",
+                  src: image.url || image.secure_url,
+                })
+              )
+            }
           />
         ))}
       </div>
