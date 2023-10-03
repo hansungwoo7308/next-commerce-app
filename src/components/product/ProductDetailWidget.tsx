@@ -31,8 +31,16 @@ export default function ProductDetailWidget({ product }: Props) {
             </div>
             <div className="ratings-and-reviews">
               <div className="ratings">
-                <span>{ratings + ".0"}</span>
-                <Stars number={ratings} />
+                {ratings === 0 ? (
+                  <div>
+                    <h5>No reviews</h5>
+                  </div>
+                ) : (
+                  <div>
+                    <span>{ratings + ".0"}</span>
+                    <Stars number={ratings} />
+                  </div>
+                )}
               </div>
             </div>
           </div>
