@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useRef } from "react";
+import SlickSlider from "@/components/performance/SlickSlider";
 
 // export async function getServerSideProps({ query }: any) {
 //   const response = await getData(`v2/products`, query);
@@ -28,10 +29,14 @@ const data = [
 ];
 
 const nextImages = [
-  <Image src="/images/slide-01.jpg" width={1000} height={1000} alt="alt" />,
-  <Image src="/images/slide-02.jpg" width={1000} height={1000} alt="alt" />,
-  <Image src="/images/slide-01.jpg" width={1000} height={1000} alt="alt" />,
-  <Image src="/images/slide-02.jpg" width={1000} height={1000} alt="alt" />,
+  "/images/slide-01.jpg",
+  "/images/slide-02.jpg",
+  "/images/slide-01.jpg",
+  "/images/slide-02.jpg",
+  // <Image src="/images/slide-01.jpg" width={1000} height={1000} alt="alt" />,
+  // <Image src="/images/slide-02.jpg" width={1000} height={1000} alt="alt" />,
+  // <Image src="/images/slide-01.jpg" width={1000} height={1000} alt="alt" />,
+  // <Image src="/images/slide-02.jpg" width={1000} height={1000} alt="alt" />,
 ];
 
 export default function Home({ products, pages }: any) {
@@ -56,9 +61,9 @@ export default function Home({ products, pages }: any) {
               arrows={false}
               dots={true}
               speed={1000}
-              autoplay={true}
-              autoplaySpeed={5000}
-              pauseOnHover={true}
+              // autoplay={true}
+              // autoplaySpeed={5000}
+              // pauseOnHover={true}
             >
               {/* {nextImages.map((image: any) => image)} */}
               <img src="/images/slide-01.jpg" alt="alt" />
@@ -75,6 +80,7 @@ export default function Home({ products, pages }: any) {
               </button>
             </div>
           </div>
+          <SlickSlider imageUrls={nextImages} />
 
           {/* <div className="card-layout">
             <div className="card">card</div>
@@ -102,10 +108,11 @@ export default function Home({ products, pages }: any) {
 const Main = styled.main`
   .hero {
     .slider {
-      height: 300px;
+      height: 200px;
       position: relative;
       .slick-slider {
-        height: 300px;
+        height: 100%;
+        /* height: 300px; */
         position: relative;
         overflow: hidden;
         .slick-dots {
@@ -138,7 +145,7 @@ const Main = styled.main`
       }
       img {
         width: 100%;
-        height: 300px;
+        height: 200px;
       }
       button:hover {
         background-color: initial;
