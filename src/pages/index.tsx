@@ -27,6 +27,13 @@ const data = [
   "slide-02.jpg",
 ];
 
+const nextImages = [
+  <Image src="/images/slide-01.jpg" width={1000} height={1000} alt="alt" />,
+  <Image src="/images/slide-02.jpg" width={1000} height={1000} alt="alt" />,
+  <Image src="/images/slide-01.jpg" width={1000} height={1000} alt="alt" />,
+  <Image src="/images/slide-02.jpg" width={1000} height={1000} alt="alt" />,
+];
+
 export default function Home({ products, pages }: any) {
   // console.log({ products, pages });
   // if (!products) return null;
@@ -44,25 +51,26 @@ export default function Home({ products, pages }: any) {
       <Main>
         <section className="hero">
           <div className="slider">
-            <Slider dots={true} arrows={false} ref={sliderRef}>
-              <Image src="/images/slide-01.jpg" width={1000} height={1000} alt="alt" />
-              <Image src="/images/slide-02.jpg" width={1000} height={1000} alt="alt" />
-              <Image src="/images/slide-01.jpg" width={1000} height={1000} alt="alt" />
-              <Image src="/images/slide-02.jpg" width={1000} height={1000} alt="alt" />
-              {/* <div className="slide"></div>
-              <div className="slide"></div>
-              <div className="slide">
-                <Image src="/images/slide-01.jpg" width={1000} height={1000} alt="alt" />
-              </div>
-              <div className="slide">
-                <Image src="/images/slide-02.jpg" width={1000} height={1000} alt="alt" />
-              </div> */}
+            <Slider
+              ref={sliderRef}
+              arrows={false}
+              dots={true}
+              speed={1000}
+              autoplay={true}
+              autoplaySpeed={5000}
+              pauseOnHover={true}
+            >
+              {/* {nextImages.map((image: any) => image)} */}
+              <img src="/images/slide-01.jpg" alt="alt" />
+              <img src="/images/slide-02.jpg" alt="alt" />
+              <img src="/images/slide-01.jpg" alt="alt" />
+              <img src="/images/slide-02.jpg" alt="alt" />
             </Slider>
             <div className="controller">
-              <button className="prev arrow" onClick={() => sliderRef.current?.slickPrev()}>
+              <button className="prev arrow" onClick={() => sliderRef.current.slickPrev()}>
                 <IoIosArrowBack size={20} color="#fff" />
               </button>
-              <button className="next arrow" onClick={() => sliderRef.current?.slickNext()}>
+              <button className="next arrow" onClick={() => sliderRef.current.slickNext()}>
                 <IoIosArrowForward size={20} color="#fff" />
               </button>
             </div>
@@ -96,26 +104,22 @@ const Main = styled.main`
     .slider {
       height: 300px;
       position: relative;
-      border: 2px solid orange;
       .slick-slider {
         height: 300px;
         position: relative;
         overflow: hidden;
-        /* display: flex;
-        align-items: center; */
-        .slick-slide {
-          /* width: 100%;
-          height: 100%; */
-          /* width: 100px; */
-        }
         .slick-dots {
           position: absolute;
           bottom: 1rem;
         }
       }
       .controller {
-        .arrow:hover svg {
-          color: #000;
+        .arrow {
+          height: 100%;
+          &:hover {
+            color: #000;
+            background-color: rgba(0, 0, 0, 0.5);
+          }
         }
         .prev {
           width: 5rem;
