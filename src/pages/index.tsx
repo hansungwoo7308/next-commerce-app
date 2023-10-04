@@ -1,8 +1,14 @@
-import Slider from "@/components/performance/Slider";
 import { getData } from "lib/public/fetchData";
 import Head from "next/head";
 import Image from "next/image";
 import { styled } from "styled-components";
+import Slider from "react-slick";
+// Import css files
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { useRef } from "react";
+
 // export async function getServerSideProps({ query }: any) {
 //   const response = await getData(`v2/products`, query);
 //   const { products, pages } = response.data;
@@ -11,9 +17,22 @@ import { styled } from "styled-components";
 //   // const { page }: any = query;
 //   // const response = await getData(`v2/products?page=${page}`);
 // }
+
+const data = [
+  "slide-01.jpg",
+  "slide-02.jpg",
+  "slide-01.jpg",
+  "slide-02.jpg",
+  "slide-01.jpg",
+  "slide-02.jpg",
+];
+
 export default function Home({ products, pages }: any) {
   // console.log({ products, pages });
   // if (!products) return null;
+
+  const sliderRef: any = useRef();
+
   return (
     <>
       <Head>
@@ -23,15 +42,39 @@ export default function Home({ products, pages }: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main>
-        <section id="hero">
-          <Slider />
-          <div className="card-layout">
-            <div className="card">card</div>
-            <div className="card">card</div>
-            <div className="card">card</div>
-            <div className="card">card</div>
-            <div className="card">card</div>
+        <section className="hero">
+          <div className="slider">
+            <Slider dots={true} arrows={false} ref={sliderRef}>
+              <Image src="/images/slide-01.jpg" width={1000} height={1000} alt="alt" />
+              <Image src="/images/slide-02.jpg" width={1000} height={1000} alt="alt" />
+              <Image src="/images/slide-01.jpg" width={1000} height={1000} alt="alt" />
+              <Image src="/images/slide-02.jpg" width={1000} height={1000} alt="alt" />
+              {/* <div className="slide"></div>
+              <div className="slide"></div>
+              <div className="slide">
+                <Image src="/images/slide-01.jpg" width={1000} height={1000} alt="alt" />
+              </div>
+              <div className="slide">
+                <Image src="/images/slide-02.jpg" width={1000} height={1000} alt="alt" />
+              </div> */}
+            </Slider>
+            <div className="controller">
+              <button className="prev arrow" onClick={() => sliderRef.current?.slickPrev()}>
+                <IoIosArrowBack size={20} color="#fff" />
+              </button>
+              <button className="next arrow" onClick={() => sliderRef.current?.slickNext()}>
+                <IoIosArrowForward size={20} color="#fff" />
+              </button>
+            </div>
           </div>
+
+          {/* <div className="card-layout">
+            <div className="card">card</div>
+            <div className="card">card</div>
+            <div className="card">card</div>
+            <div className="card">card</div>
+            <div className="card">card</div>
+          </div> */}
           {/* <ul className="card-layout">
             {products.map((product: any) => (
               <li className="card">
@@ -49,6 +92,55 @@ export default function Home({ products, pages }: any) {
   );
 }
 const Main = styled.main`
+  .hero {
+    .slider {
+      height: 300px;
+      position: relative;
+      border: 2px solid orange;
+      .slick-slider {
+        height: 300px;
+        position: relative;
+        overflow: hidden;
+        /* display: flex;
+        align-items: center; */
+        .slick-slide {
+          /* width: 100%;
+          height: 100%; */
+          /* width: 100px; */
+        }
+        .slick-dots {
+          position: absolute;
+          bottom: 1rem;
+        }
+      }
+      .controller {
+        .arrow:hover svg {
+          color: #000;
+        }
+        .prev {
+          width: 5rem;
+          position: absolute;
+          top: 50%;
+          left: 0;
+          transform: translateY(-50%);
+        }
+        .next {
+          width: 5rem;
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translateY(-50%);
+        }
+      }
+      img {
+        width: 100%;
+        height: 300px;
+      }
+      button:hover {
+        background-color: initial;
+      }
+    }
+  }
   .card-layout {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(auto, 10rem));

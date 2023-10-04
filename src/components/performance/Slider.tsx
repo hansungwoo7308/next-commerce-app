@@ -16,25 +16,14 @@ export default function Slider() {
   const carousel: any = useRef();
   const slider: any = useRef();
   const item: any = useRef();
-  const handleTransitionEnd = () => {
-    // slider reconciliation
-    // 스타일조정 : 애니메이션 무효화, 위치조정
-    // 돔조정 : 이전과 이후의 페이지의 자연스러운 연결성을 위한 돔조정
-    // 인덱스조정 : 슬라이드 인덱스조정
-    if (slideIndex >= data.length - 1 && direction === "right" && direction !== null) {
-      slider.current.style.transition = "none";
-      slider.current.style.transform = "translateX(0)";
-      slider.current.prepend(slider.current.lastElementChild);
-      setSlideIndex(0); // 처음으로 이동 (인덱스를 처음으로 변경하고 다시 트랙킹하도록한다.)
-    }
-    if (slideIndex <= 0 && direction === "left" && direction !== null) {
-      slider.current.style.transition = "none";
-      slider.current.style.transform = `translateX(-${(100 / data.length) * (data.length - 1)}%)`;
-      slider.current.append(slider.current.firstElementChild);
-      setSlideIndex(data.length - 1); // 마지막으로 이동 (인덱스를 마지막으로 변경하고 다시 트랙킹하도록한다.)
-    }
-  };
+
+  // step 1
   const handleClickLeft = () => {
+    // if (direction === null) {
+    //   // slider.current.append(slider.current.firstElementChild);
+    //   setSlideIndex(data.length - 1);
+    //   return;
+    // }
     if (direction === "left" && slideIndex <= 0) return;
     setDirection("left");
     setSlideIndex((prev: any) => prev - 1);
@@ -44,26 +33,30 @@ export default function Slider() {
     setDirection("right");
     setSlideIndex((prev: any) => prev + 1);
   };
-  useEffect(() => {
-    // console.log({ slideIndex });
+
+  // step 2
+  const moveSlider = () => {
     // 변경된 인덱스에 의해서 애니메이션
     slider.current.style.transition = "all 1s";
     slider.current.style.transform = `translate(-${(100 / data.length) * slideIndex}%)`;
     // slider.current.style.transform = `translate(-${item.current.style.width * slideIndex}%)`;
+  };
+  useEffect(() => {
+    console.log({ slideIndex });
+    // if (slideIndex === -1) {
+    //   // slider.current.style.transition = "none";
+    //   // slider.current.style.transform = `translateX(-${(100 / data.length) * (data.length - 1)}%)`;
+    //   slider.current.append(slider.current.firstElementChild);
+    //   setSlideIndex(data.length - 1);
+
+    //   return;
+    // }
+    moveSlider();
   }, [slideIndex]);
   // useEffect(() => {
   //   setInterval(handleClickRight, 5000);
   // }, []);
-  // useEffect(() => {
-  //   console.log({ currentSlideIndex: slideIndex });
-  //   // if (slideIndex === 4 && direction === "right") {
-  //   //   slider.current.style.transition = "none";
-  //   //   slider.current.style.transform = "translateX(0)";
-  //   //   slider.current.prepend(slider.current.lastElementChild);
 
-  //   //   // slider.current.prepend(slider.current.lastElementChild);
-  //   // }
-  // }, [slideIndex]);
   // useEffect(() => {
   //   const handleMouseEnter = () => {
   //     console.log("enter");
@@ -78,6 +71,30 @@ export default function Slider() {
   //   carousel.current.addEventListener("mouseleave", handleMouseLeave);
   // }, []); // set interval and reset interval
 
+  // step 3
+  const handleTransitionEnd = () => {
+    // slider reconciliation
+    // 스타일조정 : 애니메이션 무효화, 위치조정
+    // 돔조정 : 이전과 이후의 페이지의 자연스러운 연결성을 위한 돔조정
+    // 인덱스조정 : 슬라이드 인덱스조정
+
+    // 오른쪽 마지막 슬라이드가 되면,
+    if (slideIndex >= data.length - 1 && direction === "right") {
+      slider.current.style.transition = "none";
+      slider.current.style.transform = "translateX(0)";
+      slider.current.prepend(slider.current.lastElementChild);
+      setSlideIndex(0); // 처음으로 이동 (인덱스를 처음으로 변경하고 다시 트랙킹하도록한다.)
+      return;
+    }
+    if (slideIndex <= 0 && direction === "left") {
+      slider.current.style.transition = "none";
+      slider.current.style.transform = `translateX(-${(100 / data.length) * (data.length - 1)}%)`;
+      slider.current.append(slider.current.firstElementChild);
+      setSlideIndex(data.length - 1); // 마지막으로 이동 (인덱스를 마지막으로 변경하고 다시 트랙킹하도록한다.)
+      return;
+    }
+  };
+
   return (
     <Box className="container">
       <div className="carousel" ref={carousel}>
@@ -89,8 +106,8 @@ export default function Slider() {
         >
           {data.map((v: any, index: any) => (
             <li className="item" ref={item}>
-              <Image src={`/images/${v}`} layout="fill" alt="alt" />
-              {/* {index} */}
+              {/* <Image src={`/images/${v}`} layout="fill" alt="alt" /> */}
+              {index}
             </li>
           ))}
           {/* <li>
@@ -125,7 +142,7 @@ const Box = styled.div`
   /* height: calc(100vh - 100px); */
   padding: 1rem;
   > .carousel {
-    /* width: 300px; */
+    width: 300px;
     height: 250px;
     margin: auto;
     /* width: 100%;
@@ -133,8 +150,8 @@ const Box = styled.div`
     display: flex;
     justify-content: flex-start;
     position: relative;
-    /* border: 5px solid green; */
-    overflow: hidden;
+    border: 5px solid green;
+    /* overflow: hidden; */
     > .slider {
       /* width: 500%; */
       height: 100%;
@@ -143,7 +160,7 @@ const Box = styled.div`
       /* 디폴트 값은 1이고 flex속성은 flexible한 배치를 갖기 때문에, 부모기준에 맟추어 가로나 세로사이즈가 유동적으로 된다. */
       flex-shrink: 0;
       transition: all 1s;
-      /* border: 2px solid coral; */
+      border: 2px solid coral;
       > li {
         flex: 1;
         display: flex;

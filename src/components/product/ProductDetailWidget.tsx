@@ -18,125 +18,122 @@ export default function ProductDetailWidget({ product }: Props) {
   const cart = useSelector((store: any) => store.cart);
 
   return (
-    <Box>
-      <div className="top widget">
-        <div className="left">
-          <ImageViewer images={images} />
+    <Box className="widget">
+      <div className="left">
+        <ImageViewer images={images} />
+      </div>
+      <div className="right">
+        <div className="product-titles">
+          <div className="product-name-and-price">
+            <h1>{name}</h1>
+            <p>price : ${price}</p>
+          </div>
+          <div className="ratings-and-reviews">
+            <div className="ratings">
+              {ratings === 0 ? (
+                <div>
+                  <h5>No reviews</h5>
+                </div>
+              ) : (
+                <div>
+                  <span>{ratings + ".0"}</span>
+                  <Stars number={ratings} />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
-        <div className="right">
-          <div className="product-titles">
-            <div className="product-name-and-price">
-              <h1>{name}</h1>
-              <p>price : ${price}</p>
-            </div>
-            <div className="ratings-and-reviews">
-              <div className="ratings">
-                {ratings === 0 ? (
-                  <div>
-                    <h5>No reviews</h5>
-                  </div>
-                ) : (
-                  <div>
-                    <span>{ratings + ".0"}</span>
-                    <Stars number={ratings} />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-          <hr />
-          <div className="description">
-            <p>category : {category}</p>
-            <p>seller : {seller}</p>
-            <p>stock : {stock ? "in stock" : "out stock"}</p>
-          </div>
-          <div className="delivery">
-            <p>Delivery : Free Shipping (CJ 대한통운)</p>
-            <small>제주,도서지역 추가 3,000원 / 도서산간지역 추가배송비 발생됩니다</small>
-          </div>
-          <hr />
-          <div className="option-outer">
-            <Option />
-          </div>
-          <div className="bottom-outer ">
-            <strong>총 상품금액 :</strong>
-            <button
-              onClick={() => {
-                const duplicate = cart.find((v: any) => v._id === product._id);
-                // console.log("duplicate:", duplicate);
-                if (duplicate) {
-                  console.log("duplicated");
-                  dispatch(setNotify({ active: true, status: "error", message: "Duplicated" }));
-                  // dispatch(setNotify({ status: "error", message: duplicate._id, visible: true }));
-                  // const timeout = setTimeout(() => {
-                  //   dispatch(setVisible(false));
-                  // }, 3000);
-                  // dispatch(setTimeoutId(timeout));
-                  return;
-                } else {
-                  return dispatch(addToCart({ ...product, quantity: 1 }));
-                }
-              }}
-            >
-              Buy
-            </button>
-          </div>
+        <hr />
+        <div className="description">
+          <p>category : {category}</p>
+          <p>seller : {seller}</p>
+          <p>stock : {stock ? "in stock" : "out stock"}</p>
+        </div>
+        <div className="delivery">
+          <p>Delivery : Free Shipping (CJ 대한통운)</p>
+          <small>제주,도서지역 추가 3,000원 / 도서산간지역 추가배송비 발생됩니다</small>
+        </div>
+        <hr />
+        <div className="option-outer">
+          <Option />
+        </div>
+        <div className="bottom-outer ">
+          <strong>총 상품금액 :</strong>
+          <button
+            onClick={() => {
+              const duplicate = cart.find((v: any) => v._id === product._id);
+              // console.log("duplicate:", duplicate);
+              if (duplicate) {
+                console.log("duplicated");
+                dispatch(setNotify({ active: true, status: "error", message: "Duplicated" }));
+                // dispatch(setNotify({ status: "error", message: duplicate._id, visible: true }));
+                // const timeout = setTimeout(() => {
+                //   dispatch(setVisible(false));
+                // }, 3000);
+                // dispatch(setTimeoutId(timeout));
+                return;
+              } else {
+                return dispatch(addToCart({ ...product, quantity: 1 }));
+              }
+            }}
+          >
+            Buy
+          </button>
         </div>
       </div>
     </Box>
   );
 }
 const Box = styled.div`
-  > .top {
+  display: flex;
+
+  > * {
+    padding: 1rem;
+    /* border: 1px solid; */
+  }
+  > .left {
+  }
+  > .right {
+    flex: 1;
     display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    /* border: 2px solid red; */
     > * {
-      padding: 1rem;
-      /* border: 1px solid; */
+      /* border: 2px dashed; */
     }
-    > .left {
+    > .product-titles {
+      > .product-name-and-price {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+      }
+      > .ratings-and-reviews {
+        > .ratings {
+          display: flex;
+          gap: 0.5rem;
+        }
+      }
     }
-    > .right {
+    > .description {
+      .stock-outer {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+    > .option-outer {
+    }
+    > .bottom-outer {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      /* border: 2px solid red; */
-      > * {
-        /* border: 2px dashed; */
-      }
-      > .product-titles {
-        > .product-name-and-price {
-          display: flex;
-          justify-content: space-between;
-          align-items: end;
-        }
-        > .ratings-and-reviews {
-          > .ratings {
-            display: flex;
-            gap: 0.5rem;
-          }
-        }
-      }
-      > .description {
-        .stock-outer {
-          display: flex;
-          justify-content: space-between;
-        }
-      }
-      > .option-outer {
-      }
-      > .bottom-outer {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        /* justify-content: end; */
-        justify-content: space-between;
-        button {
-          align-self: end;
-          &:hover {
-            background-color: #fff;
-            color: #000;
-          }
+      /* justify-content: end; */
+      justify-content: space-between;
+      button {
+        align-self: end;
+        &:hover {
+          background-color: #fff;
+          color: #000;
         }
       }
     }

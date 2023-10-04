@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { setModal } from "lib/client/store/modalSlice";
+import { useDispatch } from "react-redux";
 
 interface Props {
   data: [];
@@ -12,32 +14,19 @@ export default function ProductReviewImageSlider({ data, displayCount }: Props) 
   // make the carousel
   const [direction, setDirection]: any = useState(null);
   const [slideIndex, setSlideIndex]: any = useState(0);
-  const carousel: any = useRef();
-  const slider: any = useRef();
-  const item: any = useRef();
+  const carouselRef: any = useRef();
+  const sliderRef: any = useRef();
+  const groupRef: any = useRef();
+  const dispatch = useDispatch();
 
-  const handleTransitionEnd = () => {
-    // slider reconciliation
-    // 스타일조정 : 애니메이션 무효화, 위치조정
-    // 돔조정 : 이전과 이후의 페이지의 자연스러운 연결성을 위한 돔조정
-    // 인덱스조정 : 슬라이드 인덱스조정
-    if (slideIndex >= groupedData.length - 1 && direction === "right" && direction !== null) {
-      slider.current.style.transition = "none";
-      slider.current.style.transform = "translateX(0)";
-      slider.current.prepend(slider.current.lastElementChild);
-      setSlideIndex(0); // 처음으로 이동 (인덱스를 처음으로 변경하고 다시 트랙킹하도록한다.)
-    }
-    if (slideIndex <= 0 && direction === "left" && direction !== null) {
-      slider.current.style.transition = "none";
-      slider.current.style.transform = `translateX(-${
-        (100 / groupedData.length) * (groupedData.length - 1)
-      }%)`;
-      slider.current.append(slider.current.firstElementChild);
-      setSlideIndex(groupedData.length - 1); // 마지막으로 이동 (인덱스를 마지막으로 변경하고 다시 트랙킹하도록한다.)
-    }
-  };
+  // step 1
   const handleClickLeft = () => {
-    if (direction === "left" && slideIndex <= 0) return;
+    if (direction === null && slideIndex === 0) {
+      setDirection("left");
+      setSlideIndex(groupedData.length - 1);
+      return;
+    }
+    if (direction === "left" && slideIndex <= -1) return;
     setDirection("left");
     setSlideIndex((prev: any) => prev - 1);
   };
@@ -46,13 +35,50 @@ export default function ProductReviewImageSlider({ data, displayCount }: Props) 
     setDirection("right");
     setSlideIndex((prev: any) => prev + 1);
   };
-  useEffect(() => {
-    // console.log({ slideIndex });
+
+  // step 2
+  const moveSlider = () => {
     // 변경된 인덱스에 의해서 애니메이션
-    slider.current.style.transition = "transform 1s";
-    slider.current.style.transform = `translate(-${(100 / groupedData.length) * slideIndex}%)`;
-    // slider.current.style.transform = `translate(-${item.current.style.width * slideIndex}%)`;
+    sliderRef.current.style.transition = "transform 1s";
+    sliderRef.current.style.transform = `translate(-${(100 / groupedData.length) * slideIndex}%)`;
+    // sliderRef.current.style.transform = `translate(-${item.current.style.width * slideIndex}%)`;
+  };
+  useEffect(() => {
+    console.log({ slideIndex });
+    // if (slideIndex <= -1 && direction === "left") {
+    //   console.log({ slider: sliderRef.current });
+
+    //   sliderRef.current.append(sliderRef.current.firstElementChild);
+    //   sliderRef.current.style.transform = `translateX(-${
+    //     (100 / groupedData.length) * (groupedData.length - 1)
+    //   }%)`;
+    //   setSlideIndex(groupedData.length - 1); // 마지막으로 이동 (인덱스를 마지막으로 변경하고 다시 트랙킹하도록한다.)
+    //   return;
+    // }
+    moveSlider();
   }, [slideIndex]);
+
+  // step 3
+  const handleTransitionEnd = () => {
+    // sliderRef reconciliation
+    // 스타일조정 : 애니메이션 무효화, 위치조정
+    // 돔조정 : 이전과 이후의 페이지의 자연스러운 연결성을 위한 돔조정
+    // 인덱스조정 : 슬라이드 인덱스조정
+    if (slideIndex >= groupedData.length - 1 && direction === "right") {
+      sliderRef.current.style.transition = "none";
+      sliderRef.current.style.transform = "translateX(0)";
+      sliderRef.current.prepend(sliderRef.current.lastElementChild);
+      setSlideIndex(0); // 처음으로 이동 (인덱스를 처음으로 변경하고 다시 트랙킹하도록한다.)
+    }
+    if (slideIndex <= 0 && direction === "left") {
+      sliderRef.current.style.transition = "none";
+      sliderRef.current.style.transform = `translateX(-${
+        (100 / groupedData.length) * (groupedData.length - 1)
+      }%)`;
+      sliderRef.current.append(sliderRef.current.firstElementChild);
+      setSlideIndex(groupedData.length - 1); // 마지막으로 이동 (인덱스를 마지막으로 변경하고 다시 트랙킹하도록한다.)
+    }
+  };
 
   // group the images by displayCount
   const [groupedData, setGroupedData]: any = useState([]);
@@ -67,22 +93,31 @@ export default function ProductReviewImageSlider({ data, displayCount }: Props) 
     makeGroupedArray();
   }, []);
 
+  // console.log({ groupedData });
+  // console.log({ test: groupRef.current?.style.width });
+
   return (
     <Box className="container">
-      <div className="carousel" ref={carousel}>
+      <div className="carousel" ref={carouselRef}>
         <ul
           className="slider"
-          ref={slider}
+          ref={sliderRef}
           onTransitionEnd={handleTransitionEnd}
           style={{ width: `${100 * groupedData.length}%` }}
         >
-          {groupedData.map((v1: any) => (
-            <li className="item" ref={item}>
+          {groupedData.map((group: any) => (
+            <li className="group" ref={groupRef}>
               <ul>
-                {v1.map((v2: any) => (
-                  <li>
+                {group.map((image: any) => (
+                  <li
+                    className="image-outer"
+                    // style={{ flex: `${groupRef.current?.style.width / 3}` }}
+                    onClick={() =>
+                      dispatch(setModal({ active: true, type: "VIEW_IMAGE", src: image.url }))
+                    }
+                  >
                     {/* <Image src={`/images/${v}`} layout="fill" alt="alt" /> */}
-                    {v2}
+                    <Image src={image.url} width={300} height={300} alt="alt" />
                   </li>
                 ))}
               </ul>
@@ -123,12 +158,14 @@ const Box = styled.div`
       flex-shrink: 0;
       transition: transform 1s;
       /* border: 2px solid coral; */
-      > li {
+      > .group {
+        /* width: 100%; */
         flex: 1;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
+        border: 1px solid red;
         > ul {
           /* flex:1; */
           width: 100%;
@@ -138,12 +175,14 @@ const Box = styled.div`
           padding: 1rem;
           > li {
             flex: 1;
+            /* width: 10rem; */
+            flex-shrink: 0;
             border: 1px solid;
           }
         }
-      }
-      .item {
-        /* border: 2px solid; */
+        .image-outer {
+          cursor: pointer;
+        }
       }
     }
     > .controls {
