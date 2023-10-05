@@ -3,13 +3,13 @@ import { Provider } from "react-redux";
 import { store } from "lib/client/store/store";
 import Layout from "@/components/layout/Layout";
 import { GlobalStyled } from "@/styles/global.styled";
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+// import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { SessionProvider } from "next-auth/react";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <SessionProvider session={pageProps.session}>
-        <PayPalScriptProvider
+        {/* <PayPalScriptProvider
           options={{
             clientId:
               // "Ab2uPl_Wo2-UDJ569Byt3xFloItf-fgdla5iQwfryndLbQFASTbwSr23GUJXj7B9lyybjL44iKADN1ZH",
@@ -19,11 +19,11 @@ export default function App({ Component, pageProps }: AppProps) {
             currency: "USD",
           }}
         >
-          <Layout>
-            <GlobalStyled />
-            <Component {...pageProps} />
-          </Layout>
-        </PayPalScriptProvider>
+        </PayPalScriptProvider> */}
+        <Layout>
+          <GlobalStyled />
+          <Component {...pageProps} />
+        </Layout>
       </SessionProvider>
     </Provider>
   );

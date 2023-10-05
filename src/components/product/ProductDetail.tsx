@@ -7,6 +7,7 @@ import { setModal } from "lib/client/store/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { postData } from "lib/public/fetchData";
 import Image from "next/image";
+import SlickSlider from "@/components/performance/SlickSlider";
 
 const data: any = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
@@ -66,8 +67,12 @@ export default function ProductDetail({ product }: any) {
         <div className="bottom-right">
           <div className="reviews-with-images">
             <h1>Reviews with images</h1>
-            <ProductReviewImageSlider data={product.images} displayCount={3} />
-            {/* <ProductReviewImageSlider data={data} displayCount={3} /> */}
+            {/* <ProductReviewImageSlider data={product.images} displayCount={3} /> */}
+            <SlickSlider
+              imageUrls={product.images.map((image: any) => image.url)}
+              multipleItemNumber={3}
+              actionType="VIEW_IMAGE"
+            />
           </div>
           <hr />
           <h1>Reviews</h1>
@@ -107,10 +112,6 @@ const Box = styled.div`
   /* border: 2px solid green; */
 
   /* public */
-  button {
-    background-color: #777;
-    padding: 1rem;
-  }
   pre {
     white-space: pre-wrap;
   }
@@ -140,7 +141,7 @@ const Box = styled.div`
       padding: 1rem;
     }
     > .bottom-left {
-      flex: 0.3;
+      width: 30%;
       display: flex;
       flex-direction: column;
       gap: 1rem;
@@ -151,7 +152,7 @@ const Box = styled.div`
       }
     }
     > .bottom-right {
-      flex: 1;
+      width: 70%;
       display: flex;
       flex-direction: column;
       gap: 1rem;
@@ -179,5 +180,9 @@ const Box = styled.div`
         }
       }
     }
+  }
+  .slick-track {
+    display: flex;
+    gap: 1rem;
   }
 `;

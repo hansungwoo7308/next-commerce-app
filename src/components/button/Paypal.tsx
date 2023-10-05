@@ -1,4 +1,4 @@
-import { PayPalButtons } from "@paypal/react-paypal-js";
+// import { PayPalButtons } from "@paypal/react-paypal-js";
 import logError from "lib/client/log/logError";
 import logResponse from "lib/client/log/logResponse";
 import { clearCart } from "lib/client/store/cartSlice";
@@ -14,7 +14,7 @@ export default function Paypal({ order }: any) {
   // console.log("order : ", order);
   return (
     <Box>
-      <PayPalButtons
+      {/* <PayPalButtons
         createOrder={(data, actions) => {
           return actions.order.create({
             purchase_units: [{ amount: { value: order.total } }],
@@ -61,7 +61,7 @@ export default function Paypal({ order }: any) {
             // const paylaod = { ...cart, details };
           });
         }}
-      />
+      /> */}
     </Box>
   );
 }

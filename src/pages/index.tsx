@@ -1,14 +1,7 @@
 import { getData } from "lib/public/fetchData";
 import Head from "next/head";
-import Image from "next/image";
-import { styled } from "styled-components";
-import Slider from "react-slick";
-// Import css files
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useRef } from "react";
 import SlickSlider from "@/components/performance/SlickSlider";
+import { styled } from "styled-components";
 
 // export async function getServerSideProps({ query }: any) {
 //   const response = await getData(`v2/products`, query);
@@ -20,30 +13,17 @@ import SlickSlider from "@/components/performance/SlickSlider";
 // }
 
 const data = [
-  "slide-01.jpg",
-  "slide-02.jpg",
-  "slide-01.jpg",
-  "slide-02.jpg",
-  "slide-01.jpg",
-  "slide-02.jpg",
-];
-
-const nextImages = [
   "/images/slide-01.jpg",
   "/images/slide-02.jpg",
   "/images/slide-01.jpg",
   "/images/slide-02.jpg",
-  // <Image src="/images/slide-01.jpg" width={1000} height={1000} alt="alt" />,
-  // <Image src="/images/slide-02.jpg" width={1000} height={1000} alt="alt" />,
-  // <Image src="/images/slide-01.jpg" width={1000} height={1000} alt="alt" />,
-  // <Image src="/images/slide-02.jpg" width={1000} height={1000} alt="alt" />,
+  "/images/slide-01.jpg",
+  "/images/slide-02.jpg",
 ];
 
 export default function Home({ products, pages }: any) {
   // console.log({ products, pages });
   // if (!products) return null;
-
-  const sliderRef: any = useRef();
 
   return (
     <>
@@ -55,32 +35,7 @@ export default function Home({ products, pages }: any) {
       </Head>
       <Main>
         <section className="hero">
-          <div className="slider">
-            <Slider
-              ref={sliderRef}
-              arrows={false}
-              dots={true}
-              speed={1000}
-              // autoplay={true}
-              // autoplaySpeed={5000}
-              // pauseOnHover={true}
-            >
-              {/* {nextImages.map((image: any) => image)} */}
-              <img src="/images/slide-01.jpg" alt="alt" />
-              <img src="/images/slide-02.jpg" alt="alt" />
-              <img src="/images/slide-01.jpg" alt="alt" />
-              <img src="/images/slide-02.jpg" alt="alt" />
-            </Slider>
-            <div className="controller">
-              <button className="prev arrow" onClick={() => sliderRef.current.slickPrev()}>
-                <IoIosArrowBack size={20} color="#fff" />
-              </button>
-              <button className="next arrow" onClick={() => sliderRef.current.slickNext()}>
-                <IoIosArrowForward size={20} color="#fff" />
-              </button>
-            </div>
-          </div>
-          <SlickSlider imageUrls={nextImages} />
+          <SlickSlider imageUrls={data} />
 
           {/* <div className="card-layout">
             <div className="card">card</div>
@@ -107,50 +62,6 @@ export default function Home({ products, pages }: any) {
 }
 const Main = styled.main`
   .hero {
-    .slider {
-      height: 200px;
-      position: relative;
-      .slick-slider {
-        height: 100%;
-        /* height: 300px; */
-        position: relative;
-        overflow: hidden;
-        .slick-dots {
-          position: absolute;
-          bottom: 1rem;
-        }
-      }
-      .controller {
-        .arrow {
-          height: 100%;
-          &:hover {
-            color: #000;
-            background-color: rgba(0, 0, 0, 0.5);
-          }
-        }
-        .prev {
-          width: 5rem;
-          position: absolute;
-          top: 50%;
-          left: 0;
-          transform: translateY(-50%);
-        }
-        .next {
-          width: 5rem;
-          position: absolute;
-          top: 50%;
-          right: 0;
-          transform: translateY(-50%);
-        }
-      }
-      img {
-        width: 100%;
-        height: 200px;
-      }
-      button:hover {
-        background-color: initial;
-      }
-    }
   }
   .card-layout {
     display: grid;
