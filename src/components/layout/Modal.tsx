@@ -52,6 +52,36 @@ export default function Modal() {
       </Background>
     );
   }
+  if (type === "DELETE_ITEMS") {
+    return (
+      <Background onClick={handleClose}>
+        <Box onClick={(e) => e.stopPropagation()}>
+          <div className="top">
+            <h1>DELETE_ITEMS</h1>
+          </div>
+          <div className="middle">
+            <p>Do you want to delete this items?</p>
+          </div>
+          <div className="bottom">
+            <button
+              className="delete-button"
+              onClick={async () => {
+                console.log("testing...");
+                // const response = await deleteData(`v2/products/${id}`, null, accessToken);
+                // logResponse(response);
+                // router.push({ pathname: router.pathname });
+              }}
+            >
+              Delete
+            </button>
+            <button className="cancel-button" onClick={handleClose}>
+              Cancel
+            </button>
+          </div>
+        </Box>
+      </Background>
+    );
+  }
   if (type === "DELETE_PRODUCT") {
     return (
       <Background onClick={handleClose}>

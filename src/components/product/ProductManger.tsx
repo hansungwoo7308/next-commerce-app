@@ -39,7 +39,7 @@ export default function ProductManger({ products }: any) {
       <button
         className="delete-button"
         onClick={handleDeleteProducts}
-        disabled={selectedProductIds.length === 0}
+        disabled={selectedProductIds?.length === 0}
       >
         Delete the products
       </button>

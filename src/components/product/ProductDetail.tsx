@@ -9,6 +9,7 @@ import { postData } from "lib/public/fetchData";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { styled } from "styled-components";
+import ProductMangerFixed from "@/components/product/ProductMangerFixed";
 
 export default function ProductDetail({ product }: any) {
   const { ratings, reviews } = product;
@@ -78,6 +79,7 @@ export default function ProductDetail({ product }: any) {
           {/* <h1>Customers frequently viewed</h1> */}
         </div>
       </div>
+      <ProductMangerFixed />
     </Box>
   );
 }

@@ -98,8 +98,9 @@ export default function Product({ product }: any) {
     </button>
   );
   useEffect(() => {
-    if (!checkRef.current) return;
-    if (!selectedProductIds.length) checkRef.current.checked = false;
+    if (!selectedProductIds) return;
+    // if (!checkRef.current) return;
+    if (selectedProductIds.length === 0) checkRef.current.checked = false;
     selectedProductIds.map((selectedProductId: any) => {
       if (selectedProductId === _id) checkRef.current.checked = true;
     });

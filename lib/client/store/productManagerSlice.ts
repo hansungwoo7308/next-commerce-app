@@ -1,28 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
-interface ProductManagerState {
+
+interface InitialState {
+  ids?: string[] | null;
   selectedProductIds?: any[] | null;
   selectedProductReviewIds?: any[] | null;
-  ids?: string[] | null;
 }
-const initialState: ProductManagerState = {};
+
+const initialState: InitialState = {
+  ids: [],
+  selectedProductIds: [],
+  selectedProductReviewIds: [],
+};
+
 export const productManagerSlice = createSlice({
   name: "productManager",
   initialState,
   reducers: {
+    // ids methods
+    setIds: (state, action) => {
+      state.ids = action.payload;
+    },
     addId: (state, action) => {
-      state.ids?.push(action.payload.id);
+      state.ids?.push(action.payload);
     },
     removeId: (state, action) => {
-      state.ids = state.ids?.filter((id) => id !== action.payload.id);
+      state.ids = state.ids?.filter((id) => id !== action.payload);
     },
-    // setSelectedIds: (state, action) => {
-    //   const ids = action.payload;
-    //   state.selectedProductIds = ids;
-    // },
-    // setSelectedProductIds: (state, action) => {
-    //   const productIds = action.payload;
-    //   state.selectedProductIds = productIds;
-    // },
+
+    // product ids methods
+    setSelectedProductIds: (state, action) => {
+      const productIds = action.payload;
+      state.selectedProductIds = productIds;
+    },
     addProductId: (state, action) => {
       const productId = action.payload;
       state.selectedProductIds?.push(productId);
@@ -37,4 +46,15 @@ export const productManagerSlice = createSlice({
     },
   },
 });
-export const { addId, removeId, addProductId, deleteProductId }: any = productManagerSlice.actions;
+
+export const {
+  // ids actions
+  setIds,
+  addId,
+  removeId,
+
+  // product ids actions
+  setSelectedProductIds,
+  addProductId,
+  deleteProductId,
+}: any = productManagerSlice.actions;
