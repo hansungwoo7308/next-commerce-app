@@ -36,17 +36,19 @@ export default function SlickSlider({ imageUrls, multipleItemNumber, actionType 
           arrows={false}
           dots={true}
           speed={1000}
-          // autoplay={true}
-          // autoplaySpeed={5000}
-          // pauseOnHover={true}
+          infinite={true}
           slidesToShow={multipleItemNumber}
           slidesToScroll={multipleItemNumber}
         >
           {imageUrls.map((imageUrl: any) => (
-            // <img src={imageUrl} alt={imageUrl} />
+            // <img
+            //   key={imageUrl}
+            //   onClick={(e) => handleClickImage(imageUrl)}
+            //   src={imageUrl}
+            //   alt={imageUrl}
+            // />
             <Image
               key={imageUrl}
-              className="image"
               src={imageUrl}
               alt="alt"
               width={300}
@@ -78,17 +80,15 @@ export default function SlickSlider({ imageUrls, multipleItemNumber, actionType 
         // pauseOnHover={true}
         // slidesToShow={multipleItemNumber ? multipleItemNumber:null}
         // slidesToScroll={multipleItemNumber ? multipleItemNumber:null}
-        // {...test}
       >
         {imageUrls.map((imageUrl: any) => (
           // <img src={imageUrl} alt={imageUrl} />
           <Image
             key={imageUrl}
-            className="image"
             src={imageUrl}
             alt="alt"
-            width={300}
-            height={300}
+            width={1000}
+            height={1000}
             onClick={(e) => handleClickImage(imageUrl)}
           />
         ))}
@@ -108,11 +108,16 @@ export default function SlickSlider({ imageUrls, multipleItemNumber, actionType 
 const Box = styled.div`
   height: 200px;
   position: relative;
-
-  .image {
-    border: 1px solid red;
+  /* public */
+  img {
+    width: 100%;
+    height: 200px;
+    cursor: pointer;
   }
-
+  button:hover {
+    background-color: initial;
+  }
+  /* children */
   .slick-slider {
     height: 100%;
     position: relative;
@@ -120,6 +125,10 @@ const Box = styled.div`
     .slick-dots {
       position: absolute;
       bottom: 1rem;
+      pointer-events: none;
+      li {
+        pointer-events: auto;
+      }
     }
   }
   .controller {
@@ -144,12 +153,5 @@ const Box = styled.div`
       right: 0;
       transform: translateY(-50%);
     }
-  }
-  img {
-    width: 100%;
-    height: 200px;
-  }
-  button:hover {
-    background-color: initial;
   }
 `;

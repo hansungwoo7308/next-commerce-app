@@ -1,26 +1,22 @@
 import ProductDetailWidget from "@/components/product/ProductDetailWidget";
 import ProductReviewImageSlider from "@/components/product/ProductReviewImageSlider";
 import Stars from "@/components/product/Stars";
-import { styled } from "styled-components";
+import SlickSlider from "@/components/performance/SlickSlider";
+import ProductReviews from "@/components/product/ProductReviews";
 import { FaCircleUser } from "react-icons/fa6";
 import { setModal } from "lib/client/store/modalSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { postData } from "lib/public/fetchData";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
-import SlickSlider from "@/components/performance/SlickSlider";
-
-const data: any = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+import { styled } from "styled-components";
 
 export default function ProductDetail({ product }: any) {
   const { ratings, reviews } = product;
-  console.log({ product });
+  console.log({ reviews });
   const dispatch = useDispatch();
-  const { accessToken } = useSelector((store: any) => store.auth);
+  const { user } = useSelector((store: any) => store.auth);
 
   const handleWriteReview = () => {
-    // const modalAction = async () => {
-    //   // update the product's reviews property
-    // };
     dispatch(setModal({ active: true, type: "CREATE_PRODUCT_REVIEW", id: product._id }));
   };
 
@@ -59,44 +55,26 @@ export default function ProductDetail({ product }: any) {
               <p>No reviews</p>
             )}
           </div>
-          <div className="write-a-review">
-            <h3>Do you want to review this product?</h3>
-            <button onClick={handleWriteReview}>Write a review</button>
-          </div>
+          <hr />
+          {user && (
+            <div className="write-a-review">
+              <h3>Do you want to review this product?</h3>
+              <button onClick={handleWriteReview}>Write a review</button>
+            </div>
+          )}
         </div>
         <div className="bottom-right">
-          <div className="reviews-with-images">
+          {/* <div className="reviews-with-images">
             <h1>Reviews with images</h1>
-            {/* <ProductReviewImageSlider data={product.images} displayCount={3} /> */}
             <SlickSlider
               imageUrls={product.images.map((image: any) => image.url)}
               multipleItemNumber={3}
               actionType="VIEW_IMAGE"
             />
-          </div>
+          </div> */}
           <hr />
           <h1>Reviews</h1>
-          <ul className="reviews">
-            {reviews.map((review: any) => (
-              <li className="review" key={review._id}>
-                <div className="review-top">
-                  <div className="user-profile">
-                    <FaCircleUser />
-                    <p>Username</p>
-                  </div>
-                  <div className="review-ratings">
-                    <Stars number={review.rating} />
-                  </div>
-                </div>
-                <div className="review-middle">
-                  <div className="comment">
-                    <h4>review id : {review._id}</h4>
-                    <p>{review.comment}</p>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <ProductReviews reviews={reviews} />
           {/* <h1>Customers frequently viewed</h1> */}
         </div>
       </div>
@@ -156,33 +134,13 @@ const Box = styled.div`
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      > .reviews {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        > .review {
-          border: 1px solid;
-          border-radius: 5px;
-          padding: 1rem;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          > .review-top {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            > .user-profile {
-              display: flex;
-              align-items: center;
-              gap: 0.5rem;
-            }
-          }
-        }
-      }
     }
   }
   .slick-track {
-    display: flex;
-    gap: 1rem;
+    /* display: flex;
+    gap: 1rem; */
+    .slick-slide {
+      padding: 0 0.5rem;
+    }
   }
 `;
