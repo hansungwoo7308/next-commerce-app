@@ -1,25 +1,30 @@
 import { setModal } from "lib/client/store/modalSlice";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 export default function ProductMangerFixed({ products }: any) {
+  // state (external)
   const { ids } = useSelector((store: any) => store.productManager);
-  const dispatch = useDispatch();
 
+  // state > document object model
+  const mangerRef: any = useRef(null);
+  useEffect(() => {
+    if (ids.length === 0) mangerRef.current.style.left = "-12rem";
+    else mangerRef.current.style.left = "1rem";
+  }, [ids]);
+
+  // client action
+  const dispatch = useDispatch();
   const handleDeleteItems = () => {
     dispatch(setModal({ active: true, type: "DELETE_ITEMS", ids }));
   };
 
-  if (ids.length === 0) return null;
   return (
-    <Box className="product-manager">
+    <Box className="product-manager" ref={mangerRef}>
       <h4>Product Manager</h4>
       <hr />
-      <button
-        className="delete-button"
-        onClick={handleDeleteItems}
-        // disabled={selectedProductIds?.length === 0}
-      >
+      <button className="delete-button" onClick={handleDeleteItems} disabled={ids?.length === 0}>
         Delete the selected items
       </button>
     </Box>
@@ -34,11 +39,13 @@ const Box = styled.div`
   background-color: #333;
   position: fixed;
   top: 50%;
-  left: 1rem;
+  transition: all 0.5s;
+
   /* children */
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
   > h4 {
     text-align: center;
   }
