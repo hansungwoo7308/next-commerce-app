@@ -1,19 +1,26 @@
 import Stars from "@/components/product/Stars";
-import { addId, removeId } from "lib/client/store/productManagerSlice";
+import {
+  addProductReviewId,
+  removeProductReviewId,
+  setSelectedProductId,
+} from "lib/client/store/productManagerSlice";
 import { useEffect, useRef, useState } from "react";
 import { FaCircleUser } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 interface Props {
+  product: any;
   review?: any;
 }
 
-export default function ProductReview({ review }: Props) {
+export default function ProductReview({ product, review }: Props) {
   const { user } = useSelector((store: any) => store.auth);
   const checkboxRef: any = useRef(null);
   const [isCheck, setIsCheck]: any = useState();
-  const { ids } = useSelector((store: any) => store.productManager);
+  const { selectedProductId, selectedProductReviewIds } = useSelector(
+    (store: any) => store.productManager
+  );
 
   const dispatch = useDispatch();
 
@@ -22,15 +29,15 @@ export default function ProductReview({ review }: Props) {
     console.log({ isCheck });
     if (isCheck) {
       checkboxRef.current.classList.add("active");
-      dispatch(addId(review._id));
+      dispatch(addProductReviewId(review._id));
     } else {
       checkboxRef.current.classList.remove("active");
-      dispatch(removeId(review._id));
+      dispatch(removeProductReviewId(review._id));
     }
   }, [isCheck]);
 
   return (
-    <Box className="review" key={review._id}>
+    <Box className="review">
       <div className="review-left">
         <div className="review-user">
           <FaCircleUser />

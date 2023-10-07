@@ -20,6 +20,9 @@ export default function Modal() {
   const { active, type, message, id, ids, modalAction, actionLabel, disabled, src } = useSelector(
     (store: any) => store.modal
   );
+  const { selectedProductId, selectedProductReviewIds } = useSelector(
+    (store: any) => store.productManager
+  );
   const router = useRouter();
   const dispatch = useDispatch();
   const handleClose = () => dispatch(setModal({ active: false }));
@@ -66,10 +69,15 @@ export default function Modal() {
             <button
               className="delete-button"
               onClick={async () => {
-                console.log("testing...");
-                console.log({ ids });
-                // const response = await deleteData(`v2/products/${id}`, null, accessToken);
-                // logResponse(response);
+                // console.log({ selectedProductId, selectedProductReviewIds });
+
+                const response = await deleteData(
+                  `v2/products/${selectedProductId}/review`,
+                  { selectedProductReviewIds },
+                  accessToken
+                );
+                // const response = await deleteData(`v2/products/${id}/review`, null, accessToken);
+                logResponse(response);
                 // router.push({ pathname: router.pathname });
               }}
             >

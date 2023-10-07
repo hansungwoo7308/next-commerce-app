@@ -12,6 +12,10 @@ interface ModalState {
   modalAction2Label?: string | null;
   disabled?: boolean | null;
 
+  selectedProductId?: string | null;
+  selectedProductIds?: any[] | null;
+  selectedProductReviewIds?: any[] | null;
+
   src?: string | null; // image src
   // callback?: Function | null; // 액션
   // onClose?:()=>void;
@@ -32,31 +36,6 @@ export const modalSlice = createSlice({
   initialState,
   reducers: {
     setModal: (state: any, action: PayloadAction<ModalAction>) => {
-      // const {
-      //   active,
-      //   type,
-      //   message,
-      //   id,
-      //   ids,
-      //   modalAction,
-      //   modalActionLabel,
-      //   modalAction2,
-      //   modalAction2Label,
-      //   disabled,
-      // } = action.payload;
-      // if (!active) return {};
-      // if (active) state.active = active;
-      // if (type) state.type = type;
-      // if (message) state.message = message;
-      // if (id) state.id = id;
-      // if (ids) state.ids = ids;
-      // if (modalAction) state.modalAction = modalAction;
-      // if (modalActionLabel) state.modalActionLabel = modalActionLabel;
-      // if (modalAction2) state.modalAction2 = modalAction2;
-      // if (modalAction2Label) state.modalAction2Label = modalAction2Label;
-      // if (disabled) state.disabled = disabled;
-      // state.callback = callback;
-
       if (action.payload.active === false) return {};
       for (let [key, value] of Object.entries(action.payload)) {
         // console.log({ key, value });

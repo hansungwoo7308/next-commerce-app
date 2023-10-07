@@ -13,7 +13,7 @@ import ProductMangerFixed from "@/components/product/ProductMangerFixed";
 
 export default function ProductDetail({ product }: any) {
   const { ratings, reviews } = product;
-  console.log({ reviews });
+  // console.log({ reviews });
   const dispatch = useDispatch();
   const { user } = useSelector((store: any) => store.auth);
 
@@ -75,8 +75,7 @@ export default function ProductDetail({ product }: any) {
           </div> */}
           <hr />
           <h1>Reviews</h1>
-          <ProductReviews reviews={reviews} />
-          {/* <h1>Customers frequently viewed</h1> */}
+          <ProductReviews product={product} reviews={reviews} />
         </div>
       </div>
       <ProductMangerFixed />
