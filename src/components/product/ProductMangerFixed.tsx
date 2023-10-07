@@ -10,8 +10,8 @@ export default function ProductMangerFixed({ products }: any) {
   // state > document object model
   const mangerRef: any = useRef(null);
   useEffect(() => {
-    if (ids.length === 0) mangerRef.current.style.left = "-12rem";
-    else mangerRef.current.style.left = "1rem";
+    if (ids.length === 0) mangerRef.current.style.left = "-15rem";
+    else mangerRef.current.style.left = "2rem";
   }, [ids]);
 
   // client action
@@ -38,8 +38,8 @@ const Box = styled.div`
   padding: 1rem;
   background-color: #333;
   position: fixed;
-  top: 50%;
-  transition: all 0.5s;
+  bottom: 3rem;
+  transition: all 0.3s;
 
   /* children */
   display: flex;
