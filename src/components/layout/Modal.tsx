@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 // import logError from "lib/client/log/logError";
 // import { deleteItemFromCart } from "lib/client/store/cartSlice";
@@ -69,16 +70,17 @@ export default function Modal() {
             <button
               className="delete-button"
               onClick={async () => {
-                // console.log({ selectedProductId, selectedProductReviewIds });
-
-                const response = await deleteData(
-                  `v2/products/${selectedProductId}/review`,
-                  { selectedProductReviewIds },
-                  accessToken
-                );
-                // const response = await deleteData(`v2/products/${id}/review`, null, accessToken);
-                logResponse(response);
-                // router.push({ pathname: router.pathname });
+                try {
+                  const response = await deleteData(
+                    `v2/products/${selectedProductId}/review`,
+                    { ids: selectedProductReviewIds },
+                    accessToken
+                  );
+                  logResponse(response);
+                  // router.push({ pathname: router.pathname });
+                } catch (error: any) {
+                  toast.error(error.message);
+                }
               }}
             >
               Delete

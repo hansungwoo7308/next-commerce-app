@@ -78,10 +78,17 @@ export const createProductReview = async (req: any, res: any) => {
 export const deleteProductReviews = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<deleteProductReview>`);
   // get
+  const { id } = req.query;
   const { ids } = req.body;
+  console.log({ id, ids });
   // delete
-  const deletedProducts = await Product.deleteMany({ _id: { $in: ids } });
+  const updatedProducts = await Product.findByIdAndUpdate(
+    id,
+    { $pull: { reviews: { _id: { $in: ids } } } },
+    { new: true }
+  );
+  // const updatedProducts = await Product.deleteMany({ reviews: { _id: { $in: ids } } });
   // out
-  console.log({ deletedProducts });
-  return res.status(200).json({ deletedProducts });
+  console.log({ updatedProducts });
+  return res.status(200).json({ updatedProducts });
 };
