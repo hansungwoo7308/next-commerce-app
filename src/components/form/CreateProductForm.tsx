@@ -46,8 +46,7 @@ export default function CreateProductForm() {
       logResponse(response);
       dispatch(setLoading(false));
       toast.success("The creation was completed");
-      router.push("/shop/all");
-      // router.push("/category/all");
+      router.push({ pathname: router.pathname });
     } catch (error: any) {
       dispatch(setLoading(false));
       console.log({ error });

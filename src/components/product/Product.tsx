@@ -2,7 +2,7 @@
 // import { useSession } from "next-auth/react";
 import Stars from "@/components/product/Stars";
 import { addToCart } from "lib/client/store/cartSlice";
-import { addProductId, deleteProductId } from "lib/client/store/productManagerSlice";
+import { addProductId, removeProductId } from "lib/client/store/productManagerSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import { setNotify } from "lib/client/store/notifySlice";
 import Image from "next/image";
@@ -25,7 +25,7 @@ export default function Product({ product }: any) {
   const router = useRouter();
 
   const handleSelect = (e: any) => {
-    e.target.checked ? dispatch(addProductId(_id)) : dispatch(deleteProductId(_id));
+    e.target.checked ? dispatch(addProductId(_id)) : dispatch(removeProductId(_id));
   };
 
   // const handleSelect = (e: any) => {
@@ -98,8 +98,7 @@ export default function Product({ product }: any) {
     </button>
   );
   useEffect(() => {
-    if (!selectedProductIds) return;
-    // if (!checkRef.current) return;
+    if (!selectedProductIds || !checkRef.current) return;
     if (selectedProductIds.length === 0) checkRef.current.checked = false;
     selectedProductIds.map((selectedProductId: any) => {
       if (selectedProductId === _id) checkRef.current.checked = true;

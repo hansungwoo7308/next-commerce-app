@@ -2,7 +2,7 @@
 import Avatar from "@/components/auth/Avatar";
 import logError from "lib/client/log/logError";
 import logResponse from "lib/client/log/logResponse";
-import { updateUser } from "lib/client/store/authSlice";
+import { clearCredentials, updateUser } from "lib/client/store/authSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { setNotify } from "lib/client/store/notifySlice";
 import { patchData } from "lib/public/fetchData";

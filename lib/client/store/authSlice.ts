@@ -1,19 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-// type Auth = {
-//   status:boolean,
-//   user:{
-//     username:string,
-//     email:string,
-//     role:string,
-//     image:string
-//   }|null,
-//   accessToken:string|null
-// }
+
 const initialState: any = {
   status: false,
   user: null,
   accessToken: null,
 };
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -38,6 +30,7 @@ export const authSlice = createSlice({
       if (role) state.user.role = role;
       if (image) state.user.image = image;
     },
+    clearCredentials: (state, action) => (state.accessToken = null),
   },
 });
-export const { setCredentials, signout, updateUser }: any = authSlice.actions;
+export const { setCredentials, signout, updateUser, clearCredentials }: any = authSlice.actions;

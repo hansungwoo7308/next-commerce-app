@@ -77,7 +77,7 @@ export default function Modal() {
                     accessToken
                   );
                   logResponse(response);
-                  // router.push({ pathname: router.pathname });
+                  router.push({ pathname: router.asPath });
                 } catch (error: any) {
                   toast.error(error.message);
                 }
