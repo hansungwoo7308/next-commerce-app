@@ -28,8 +28,8 @@ interface ModalAction extends ModalState {
   active: boolean | null; // 모달 활성화, 비활성화
 }
 const initialState: ModalState = {
-  // active: true,
-  // type: "CREATE_PRODUCT",
+  active: true,
+  type: "CREATE_PRODUCT_REVIEW",
 };
 export const modalSlice = createSlice({
   name: "modal",

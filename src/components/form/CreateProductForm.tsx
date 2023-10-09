@@ -61,6 +61,7 @@ export default function CreateProductForm() {
     // setValue("images", filteredImages);
   };
   const handleChangeUploadInput = (e: any) => {
+    // get the changed files
     const newImages = e.target.files;
     // check the duplicated items
     for (let newImage of newImages) {
@@ -68,9 +69,11 @@ export default function CreateProductForm() {
         if (newImage.name === image.name) return console.log({ images });
       }
     }
+    // make the new state
     const changedImages: any = [...images, ...newImages];
+    // console.log({ changedImages });
+    // set the state
     setImages(changedImages);
-    // const newImages = Array.from(e.target.files);
   };
   const handleCloseButton = (e: any) => {
     e.preventDefault();

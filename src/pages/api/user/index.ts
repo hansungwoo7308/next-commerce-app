@@ -3,7 +3,7 @@ import User from "lib/server/models/User";
 import verifyJWT from "lib/server/utils/verifyJWT";
 connectDB();
 export default async function (req: any, res: any) {
-  console.log(`\x1b[32m\n[api/user]:::[${req.method}]`);
+  console.log(`\x1b[33m\n[api/user]:::[${req.method}]`);
   switch (req.method) {
     case "GET":
       await getUser(req, res);

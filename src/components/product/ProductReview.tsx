@@ -26,7 +26,7 @@ export default function ProductReview({ product, review }: Props) {
 
   useEffect(() => {
     if (checkboxRef.current === null) return;
-    console.log({ isCheck });
+    // console.log({ isCheck });
     if (isCheck) {
       checkboxRef.current.classList.add("active");
       dispatch(addProductReviewId(review._id));

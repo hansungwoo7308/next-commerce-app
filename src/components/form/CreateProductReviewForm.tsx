@@ -1,5 +1,6 @@
 import { setModal } from "lib/client/store/modalSlice";
 import { postData } from "lib/public/fetchData";
+import { loadGetInitialProps } from "next/dist/shared/lib/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -17,10 +18,35 @@ export default function CreateProductReviewForm() {
     handleSubmit,
     watch,
     formState: { errors },
+    setValue,
+    getValues,
   } = useForm();
 
+  // image files
+  // const [images, setImages]: any = useState([]);
+  const registeredProperties = register("images", { required: true });
+  // console.log({ registeredProperties });
+  const handleChangeFiles = (e: any) => {
+    // get the previous and new files
+    const prevImages = getValues("images");
+    const newImages = e.target.files;
+    console.log({ prevImages });
+    console.log({ newImages });
+    if (!prevImages) return setValue("images", newImages);
+    // make the new state
+    const changedImages: any = [...prevImages, ...newImages];
+    console.log({ changedImages });
+    // set the state
+    setValue("images", changedImages);
+  };
+
   const handleCreateProductReview = async (data: any) => {
+    console.log({ data });
     // console.log({ ...data, User: auth.user._id });
+    // const test = getValues();
+    // console.log({ test });
+    return;
+
     const review = {
       ...data,
       User: auth.user._id,
@@ -30,6 +56,7 @@ export default function CreateProductReviewForm() {
     router.push({ pathname: router.asPath });
     // console.log(first)
   };
+
   const handleClose = () => dispatch(setModal({ active: false }));
 
   return (
@@ -62,7 +89,18 @@ export default function CreateProductReviewForm() {
           />
         </div>
         <div className="images">
-          <input {...register("images")} type="image" />
+          <input
+            // {...registeredProperties}
+            name={registeredProperties.name}
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={(e) => {
+              // console.log({ e });
+              registeredProperties.onChange(e); // method from hook form register
+              handleChangeFiles(e); // your method
+            }}
+          />
         </div>
       </div>
       <div className="bottom">

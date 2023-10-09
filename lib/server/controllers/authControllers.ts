@@ -2,7 +2,9 @@ import { createAccessToken, createRefreshToken } from "lib/server/utils/createJW
 import User from "lib/server/models/User";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
 export const signup = async (req: any, res: any) => {
+  console.log(`\x1b[32m\n<signup>`);
   // get
   const { username, email, password } = req.body;
   if (!username || !email || !password) return res.status(400).json({ message: "Missing payload" });
@@ -15,7 +17,9 @@ export const signup = async (req: any, res: any) => {
   // out
   res.status(201).json({ newUser });
 };
+
 export const signin = async (req: any, res: any) => {
+  console.log(`\x1b[32m\n<signin>`);
   // get
   const { email, password } = req.body;
   if (!email || !password) {
@@ -54,7 +58,9 @@ export const signin = async (req: any, res: any) => {
     refreshToken: refreshToken.slice(-5),
   });
 };
+
 export const refresh = async (req: any, res: any) => {
+  console.log(`\x1b[32m\n<refresh>`);
   // get
   const { refreshToken } = req.cookies;
   if (!refreshToken) {
