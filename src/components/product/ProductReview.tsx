@@ -4,6 +4,7 @@ import {
   removeProductReviewId,
   setSelectedProductId,
 } from "lib/client/store/productManagerSlice";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { FaCircleUser } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,6 +37,9 @@ export default function ProductReview({ product, review }: Props) {
     }
   }, [isCheck]);
 
+  console.log({ "review.images": review.images[0]?.url });
+
+  if (review.length === 0) return null;
   return (
     <Box className="review">
       <div className="review-left">
@@ -56,7 +60,13 @@ export default function ProductReview({ product, review }: Props) {
         </div>
       </div>
       <div className="review-right">
-        <h1>review image</h1>
+        {/* <h1>review image</h1> */}
+        {/* {product.reivews?.images.length && (
+          )} */}
+
+        {review.images.length > 0 && (
+          <Image src={review.images[0]?.url} alt="alt" width={200} height={200} />
+        )}
       </div>
       {user?.role === "admin" && (
         <div

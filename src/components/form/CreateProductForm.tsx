@@ -24,6 +24,8 @@ export default function CreateProductForm() {
 
   const submit = async (data: any) => {
     console.log("data : ", data);
+    // console.log({ images: images });
+
     // check validation
     if (images.length === 0) return toast.error("Please fill the image field.");
     if (data.category === "all") return toast.error("Please fill the category field.");
@@ -60,7 +62,7 @@ export default function CreateProductForm() {
     // console.log(filteredImages);
     // setValue("images", filteredImages);
   };
-  const handleChangeUploadInput = (e: any) => {
+  const handleChangeFiles = (e: any) => {
     // get the changed files
     const newImages = e.target.files;
     // check the duplicated items
@@ -79,9 +81,6 @@ export default function CreateProductForm() {
     e.preventDefault();
     dispatch(setModal({ active: false }));
   };
-  // useEffect(() => {
-  //   console.log({ images });
-  // }, [images]);
 
   return (
     <Box>
@@ -89,7 +88,6 @@ export default function CreateProductForm() {
         <h3>Create_Product_Form</h3>
         <hr />
       </div>
-      {/* <br /> */}
       <div className="middle">
         <div className="images">
           <div className="preview-images-outer">
@@ -97,8 +95,10 @@ export default function CreateProductForm() {
               {images.map((image: any, index: any) => (
                 <div key={image.id} className={`image ${index === 0 && "thumbnail-image"}`}>
                   <Image
-                    src={image.url || image.secure_url || URL.createObjectURL(image)}
-                    alt={image.url || image.secure_url || URL.createObjectURL(image)}
+                    src={URL.createObjectURL(image)}
+                    alt={URL.createObjectURL(image)}
+                    // src={image.url || image.secure_url || URL.createObjectURL(image)}
+                    // alt={image.url || image.secure_url || URL.createObjectURL(image)}
                     width={100}
                     height={100}
                   />
@@ -108,7 +108,7 @@ export default function CreateProductForm() {
             </div>
           </div>
           <label className="image-uploader">
-            <input type="file" multiple accept="image/*" onChange={handleChangeUploadInput} />
+            <input type="file" multiple accept="image/*" onChange={handleChangeFiles} />
           </label>
         </div>
         <label className="category">

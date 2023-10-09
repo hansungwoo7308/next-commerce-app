@@ -1,6 +1,6 @@
 import Product from "lib/server/models/Product";
 import APIfeatures from "lib/server/utils/APIfeatures";
-import verifyJWT from "lib/server/utils/verifyJWT";
+
 export const newProduct = async (req: any, res: any, next: any) => {
   console.log(`\x1b[32m\n<newProduct>`);
   console.log(req.body);
@@ -68,7 +68,8 @@ export const createProductReview = async (req: any, res: any) => {
   // update
   const updatedProduct = await Product.findByIdAndUpdate(
     id,
-    { $push: { reviews: review } },
+    { $push: { reviews: req.body } },
+    // { $push: { reviews: review } },
     { new: true }
   );
   // out

@@ -1,8 +1,10 @@
+import axios from "axios";
 import { setModal } from "lib/client/store/modalSlice";
 import { postData } from "lib/public/fetchData";
 import { loadGetInitialProps } from "next/dist/shared/lib/utils";
+import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -23,41 +25,65 @@ export default function CreateProductReviewForm() {
   } = useForm();
 
   // image files
-  // const [images, setImages]: any = useState([]);
+  const [images, setImages]: any = useState([]);
   const registeredProperties = register("images", { required: true });
   // console.log({ registeredProperties });
   const handleChangeFiles = (e: any) => {
     // get the previous and new files
     const prevImages = getValues("images");
     const newImages = e.target.files;
-    console.log({ prevImages });
-    console.log({ newImages });
-    if (!prevImages) return setValue("images", newImages);
+    // console.log({ prevImages });
+    // console.log({ newImages });
+    if (!prevImages) {
+      setValue("images", [...newImages]);
+      setImages([...newImages]);
+      return;
+    }
     // make the new state
     const changedImages: any = [...prevImages, ...newImages];
     console.log({ changedImages });
+    // console.log({ "typeof changedImages": typeof changedImages });
     // set the state
     setValue("images", changedImages);
+    setImages(changedImages);
   };
 
   const handleCreateProductReview = async (data: any) => {
-    console.log({ data });
-    // console.log({ ...data, User: auth.user._id });
-    // const test = getValues();
-    // console.log({ test });
-    return;
+    // console.log({ data });
+    // console.log({ "data.images": data.images });
 
-    const review = {
-      ...data,
-      User: auth.user._id,
-    };
-    const response = await postData(`v2/products/${id}/review`, { review }, auth.accessToken);
+    // set the formData
+    const formData: any = new FormData();
+    formData.append("User", auth.user._id);
+    for (let key in data) {
+      if (key === "images") {
+        for (let image of data[key]) formData.append(key, image);
+        continue;
+      }
+      formData.append(key, data[key]);
+    }
+
+    // create
+    const response = await axios({
+      method: "POST",
+      url: `http://localhost:3000/api/v2/products/${router.query.id}/review/multipart`,
+      headers: {
+        Authorization: `Bearer ${auth.accessToken}`,
+        "Content-Type": "multipart/form-data",
+      },
+      data: formData,
+    });
     console.log({ response });
+    dispatch(setModal({ active: false }));
     router.push({ pathname: router.asPath });
     // console.log(first)
   };
 
   const handleClose = () => dispatch(setModal({ active: false }));
+
+  // useEffect(() => {
+  //   console.log({ images });
+  // }, [images]);
 
   return (
     <Box className="CREATE_PRODUCT_REVIEW">
@@ -89,6 +115,15 @@ export default function CreateProductReviewForm() {
           />
         </div>
         <div className="images">
+          <div className="images-previewer">
+            <ul>
+              {images.map((image: any) => (
+                <li key={image.name}>
+                  <Image src={URL.createObjectURL(image)} width={200} height={200} alt="alt" />
+                </li>
+              ))}
+            </ul>
+          </div>
           <input
             // {...registeredProperties}
             name={registeredProperties.name}
@@ -116,4 +151,18 @@ export default function CreateProductReviewForm() {
     </Box>
   );
 }
-const Box = styled.form``;
+const Box = styled.form`
+  .images-previewer {
+    ul {
+      width: 25rem;
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: scroll;
+    }
+    img {
+      width: 10rem;
+      height: 10rem;
+      border: 2px solid #fff;
+    }
+  }
+`;

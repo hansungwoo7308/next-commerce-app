@@ -1,5 +1,6 @@
 import multer from "multer";
 import cloudinary, { UploadApiOptions } from "cloudinary";
+
 // upload middleware (server)
 export const uploadImagesToServer = async (req: any, res: any, next: any) => {
   // set the storage
@@ -11,6 +12,7 @@ export const uploadImagesToServer = async (req: any, res: any, next: any) => {
       callback(null, new Date().toISOString() + "-" + file.originalname);
     },
   });
+
   // upload images to server
   await new Promise((resolve) => {
     // you may use any other multer function
@@ -19,12 +21,15 @@ export const uploadImagesToServer = async (req: any, res: any, next: any) => {
     const upload = multer({ storage }).array("images");
     upload(req, res, resolve);
   });
+
   // log
   console.log(`\n<uploadImagesToServer>`);
   console.log({ files: req.files, body: req.body });
+
   // out
   await next();
 };
+
 // upload middleware (cloudinary)
 export const uploadImagesToCloudinary = async (req: any, res: any, next: any) => {
   console.log(`\x1b[32m\n<uploadImagesToCloudinary>`);

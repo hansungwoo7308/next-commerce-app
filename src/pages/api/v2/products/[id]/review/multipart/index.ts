@@ -5,14 +5,13 @@ import {
   uploadImagesToServer,
   uploadImagesToCloudinary,
 } from "lib/server/middlewares/uploadMiddlewares";
-import { newProduct } from "lib/server/controllers/productControllers";
 import { PageConfig } from "next";
+import { createProductReview } from "lib/server/controllers/productControllers";
 
 connectDB();
-const router = createRouter();
-router
+const router = createRouter()
   .use(async (req: any, res, next) => {
-    console.log(`\x1b[33m\n[api/v2/products/multipart]:::[${req.method}]`);
+    console.log(`\x1b[33m\n[api/v2/products/${req.query.id}/review/multipart]:::[${req.method}]`);
     await next();
   })
 
@@ -22,8 +21,8 @@ router
   // handle the multipart data
   // Not need to parse
   .use(uploadImagesToServer)
-  .post(uploadImagesToCloudinary)
-  .post(newProduct);
+  .use(uploadImagesToCloudinary)
+  .post(createProductReview);
 
 export const config: PageConfig = {
   api: {
