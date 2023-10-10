@@ -83,9 +83,9 @@ export default function ProductReview({ product, review }: Props) {
 }
 
 const Box = styled.li`
+  height: 10rem;
   border: 1px solid;
   border-radius: 5px;
-  /* padding: 1rem; */
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -105,6 +105,7 @@ const Box = styled.li`
     padding: 1rem;
     display: flex;
     gap: 1rem;
+    word-break: break-all;
     > .review-user {
       font-size: 30px;
     }
@@ -118,10 +119,8 @@ const Box = styled.li`
     }
   }
   > .review-image {
-    /* min */
     width: 10rem;
     height: 10rem;
-    background-color: gray;
   }
   > .checkbox-outer {
     position: absolute;

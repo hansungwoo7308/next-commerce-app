@@ -132,7 +132,6 @@ const Box = styled.nav`
     justify-content: space-between;
     align-items: center;
     #nav-belt-left {
-      /* outline: 2px solid red; */
       #nav-logo {
         height: 100%;
       }
@@ -142,7 +141,11 @@ const Box = styled.nav`
       flex: 0.5;
     }
     #nav-belt-right {
-      /* border: 2px solid red; */
+      height: 100%;
+      > * {
+        /* Account Component */
+        height: 100%;
+      }
     }
     a {
       padding: 1rem;

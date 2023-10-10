@@ -74,7 +74,7 @@ export const GlobalStyled = createGlobalStyle`
 
   /* elements */
   a {
-    height:100%;
+    /* height:100%; */
     text-decoration:none;
     color:inherit;
     &:hover {

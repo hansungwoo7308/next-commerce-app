@@ -4,12 +4,14 @@ import { signout } from "lib/client/store/authSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { getData } from "lib/public/fetchData";
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { styled } from "styled-components";
+
 export default function Account() {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -56,32 +58,40 @@ export default function Account() {
     return (
       <Box>
         <Link href={"/cart"}>Cart ({cart.length})</Link>
-        <div className="account">
-          <div className="toggle-button">
-            <a onClick={handleToggle}>
-              Account ({auth.user?.role}:{session.data?.user ? "nextauth" : "general"})
-            </a>
+        <div className="account-outer">
+          <div className="account">
+            <div className="avatar" onClick={handleToggle}>
+              <Image
+                src={auth.user.image || "/images/placeholder.jpg"}
+                alt={auth.user.image}
+                width={100}
+                height={100}
+              />
+            </div>
+            <div className="toggle-menu">
+              {toggle && (
+                <>
+                  <div className="toggle-menu-arrow"></div>
+                  {auth.user?.role === "admin" && (
+                    <>
+                      <Link href={"/my/profile"}>Profile</Link>
+                      <button onClick={handleSignout}>Sign out</button>
+                    </>
+                  )}
+                  {auth.user?.role === "user" && (
+                    <>
+                      <Link href={"/my/profile"}>Profile</Link>
+                      <Link href={"/my/order-list"}>Order List</Link>
+                      <button onClick={handleSignout}>Sign out</button>
+                    </>
+                  )}
+                </>
+              )}
+            </div>
           </div>
-          <div className="toggle-menu">
-            {toggle && (
-              <>
-                <div className="toggle-menu-arrow"></div>
-                {auth.user?.role === "admin" && (
-                  <>
-                    <Link href={"/my/profile"}>Profile</Link>
-                    <button onClick={handleSignout}>Sign out</button>
-                  </>
-                )}
-                {auth.user?.role === "user" && (
-                  <>
-                    <Link href={"/my/profile"}>Profile</Link>
-                    <Link href={"/my/order-list"}>Order List</Link>
-                    <button onClick={handleSignout}>Sign out</button>
-                  </>
-                )}
-              </>
-            )}
-          </div>
+          <p>
+            ({auth.user?.role}:{session.data?.user ? "nextauth" : "general"})
+          </p>
         </div>
       </Box>
     );
@@ -97,38 +107,61 @@ export default function Account() {
 
 const Box = styled.div`
   display: flex;
+  align-items: stretch;
   gap: 1rem;
   /* border: 2px solid yellow; */
-  > .account {
-    position: relative;
-    > .toggle-button {
-    }
-    > .toggle-menu {
-      position: absolute;
-      top: 100%;
-      margin-top: 1rem;
-      /* border: 2px solid green; */
-      background-color: gray;
-
-      > .toggle-menu-arrow {
-        width: 0.7rem;
-        height: 0.7rem;
+  > * {
+    /* padding: 1rem; */
+    /* border: 1px solid red; */
+  }
+  > .account-outer {
+    display: flex;
+    gap: 0.5rem;
+    > .account {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      > .avatar {
+        width: 2rem;
+        height: 2rem;
+        border: 2px solid;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+      }
+      > .toggle-menu {
         position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%) rotate(45deg);
+        top: 100%;
+        /* margin-top: 1rem; */
+        /* border: 2px solid green; */
         background-color: gray;
-        pointer-events: none;
-      }
+        white-space: nowrap;
 
-      > a,
-      button {
-        width: 100%;
-        padding: 1rem;
-        background-color: inherit;
-        text-align: start;
-        /* color: inherit; */
+        > .toggle-menu-arrow {
+          width: 0.7rem;
+          height: 0.7rem;
+          position: absolute;
+          top: 0;
+          left: 50%;
+          transform: translateX(-50%) translateY(-50%) rotate(45deg);
+          background-color: gray;
+          pointer-events: none;
+        }
+
+        > a,
+        button {
+          width: 100%;
+          padding: 1rem;
+          background-color: inherit;
+          text-align: start;
+          /* color: inherit; */
+        }
       }
+    }
+    > p {
+      display: flex;
+      align-items: center;
     }
   }
 `;

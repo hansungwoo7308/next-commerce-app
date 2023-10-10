@@ -59,7 +59,7 @@ export default function ProductDetail({ product }: any) {
           <hr />
           {user?.role === "user" && (
             <div className="write-a-review">
-              <h3>Do you want to review this product?</h3>
+              <p>You can write this product's review</p>
               <button onClick={handleWriteReview}>Write a review</button>
             </div>
           )}

@@ -2,7 +2,7 @@ import Image from "next/image";
 import { styled } from "styled-components";
 export default function Avatar({ image }: any) {
   return (
-    <Box>
+    <Box className="avatar">
       <Image
         src={image || "/images/placeholder.jpg"}
         alt="profile-image"
