@@ -2,17 +2,18 @@
 import Avatar from "@/components/auth/Avatar";
 import logError from "lib/client/log/logError";
 import logResponse from "lib/client/log/logResponse";
-import { clearCredentials, updateUser } from "lib/client/store/authSlice";
+import { updateUser } from "lib/client/store/authSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
-import { setNotify } from "lib/client/store/notifySlice";
+import { refreshAuth } from "lib/client/utils/authUtils";
 import { patchData } from "lib/public/fetchData";
 import { uploadImages } from "lib/public/uploadImages";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { styled } from "styled-components";
+
 export default function Page() {
-  const dispatch = useDispatch();
+  const dispatch: any = useDispatch();
   // state
   const [imageEditMode, setImageEditMode]: any = useState(false);
   const [usernameEditMode, setUsernameEditMode]: any = useState(false);
@@ -22,6 +23,7 @@ export default function Page() {
   const [newUsername, setNewUsername]: any = useState("");
   const [newEmail, setNewEmail]: any = useState("");
   const [newRole, setNewRole]: any = useState("");
+
   // dataset from state
   const dataset = [
     {
@@ -46,22 +48,23 @@ export default function Page() {
       setNewValue: setNewRole,
     },
   ];
+
   // user data
   const auth = useSelector((store: any) => store.auth);
   if (!auth.user) return null;
   const { _id, username, name, email, role, image } = auth.user;
+
   // handlers
   const handleUpdateNewValue = async (newValueKey: any, newValue: any) => {
     try {
       // console.log({ newValueKey, newValue });
       const payload = { _id, [newValueKey]: newValue };
-      console.log({ payload });
+      // console.log({ payload });
       // updateUser(payload);
       const response = await patchData("user", payload, auth.accessToken);
-      const { updatedUser } = response.data;
       // out
       logResponse(response);
-      dispatch(updateUser({ user: updatedUser }));
+      refreshAuth(dispatch);
     } catch (error) {
       logError(error);
     }
@@ -183,6 +186,7 @@ export default function Page() {
     );
     return !editMode ? userInfo : userInfoEditMode;
   });
+
   return (
     <Main>
       <section>
@@ -197,6 +201,7 @@ export default function Page() {
     </Main>
   );
 }
+
 const Main = styled.main`
   > section {
     > .profile-outer {

@@ -49,6 +49,9 @@ const updateUser = async (req: any, res: any) => {
     if (role) foundUser.role = role;
     if (image) foundUser.image = image;
     const savedUser = await foundUser.save();
+    //
+    // 토큰도 리프레시 해주어야 한다. 아니면, 클라이언트와 서버가 인터렉션을 한번 더 해야한다.
+    //
     // out
     console.log({ savedUser });
     return res.status(200).json({ updatedUser: savedUser });

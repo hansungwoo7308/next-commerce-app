@@ -1,18 +1,20 @@
 import Stars from "@/components/product/Stars";
+import { setModal } from "lib/client/store/modalSlice";
 import {
   addProductReviewId,
   removeProductReviewId,
   setSelectedProductId,
 } from "lib/client/store/productManagerSlice";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FaCircleUser } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 interface Props {
-  product: any;
-  review?: any;
+  product?: any;
+  review: any;
 }
 
 export default function ProductReview({ product, review }: Props) {
@@ -37,12 +39,15 @@ export default function ProductReview({ product, review }: Props) {
     }
   }, [isCheck]);
 
-  console.log({ "review.images": review.images[0]?.url });
+  console.log({ review });
 
   if (review.length === 0) return null;
   return (
-    <Box className="review">
-      <div className="review-left">
+    <Box
+      className="review"
+      onClick={() => dispatch(setModal({ active: true, type: "REVIEW", review }))}
+    >
+      <div className="review-content">
         <div className="review-user">
           <FaCircleUser />
         </div>
@@ -59,11 +64,7 @@ export default function ProductReview({ product, review }: Props) {
           </div>
         </div>
       </div>
-      <div className="review-right">
-        {/* <h1>review image</h1> */}
-        {/* {product.reivews?.images.length && (
-          )} */}
-
+      <div className="review-image">
         {review.images.length > 0 && (
           <Image src={review.images[0]?.url} alt="alt" width={200} height={200} />
         )}
@@ -87,9 +88,9 @@ const Box = styled.li`
   /* padding: 1rem; */
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
   &:hover .checkbox-outer {
     display: flex;
     justify-content: center;
@@ -99,7 +100,7 @@ const Box = styled.li`
   > * {
     /* border: 1px solid green; */
   }
-  > .review-left {
+  > .review-content {
     flex: 1;
     padding: 1rem;
     display: flex;
@@ -116,7 +117,7 @@ const Box = styled.li`
       }
     }
   }
-  > .review-right {
+  > .review-image {
     /* min */
     width: 10rem;
     height: 10rem;

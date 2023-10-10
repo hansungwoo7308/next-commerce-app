@@ -1,5 +1,7 @@
 import CreateProductForm from "@/components/form/CreateProductForm";
 import CreateProductReviewForm from "@/components/form/CreateProductReviewForm";
+import ProductReview from "@/components/product/ProductReview";
+import Stars from "@/components/product/Stars";
 import logResponse from "lib/client/log/logResponse";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { setModal } from "lib/client/store/modalSlice";
@@ -8,6 +10,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaCircleUser } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import styled from "styled-components";
@@ -18,9 +21,19 @@ import styled from "styled-components";
 // import { deleteData, getData, postData } from "lib/client/utils/fetchData";
 export default function Modal() {
   const { accessToken } = useSelector((store: any) => store.auth);
-  const { active, type, message, id, ids, modalAction, actionLabel, disabled, src } = useSelector(
-    (store: any) => store.modal
-  );
+  const {
+    active,
+    type,
+    message,
+    id,
+    ids,
+    modalAction,
+    actionLabel,
+    disabled,
+    src,
+
+    review,
+  } = useSelector((store: any) => store.modal);
   const { selectedProductId, selectedProductReviewIds } = useSelector(
     (store: any) => store.productManager
   );
@@ -38,6 +51,39 @@ export default function Modal() {
       </Background>
     );
   }
+  if (type === "REVIEW") {
+    return (
+      <Background onClick={handleClose}>
+        <Box onClick={(e) => e.stopPropagation()}>
+          <div className="review">
+            <div className="review-content">
+              <div className="review-user">
+                <FaCircleUser />
+              </div>
+              <div className="review-info">
+                <div className="review-ratings">
+                  <Stars number={review.rating} />
+                </div>
+                <div className="review-user-id">
+                  <small>User***</small>
+                </div>
+                <div className="review-comment">
+                  <h4>review id : {review._id}</h4>
+                  <p>{review.comment}</p>
+                </div>
+              </div>
+            </div>
+            {review.images.length > 0 && (
+              <div className="review-image">
+                <Image src={review.images[0]?.url} alt="alt" width={500} height={500} />
+              </div>
+            )}
+          </div>
+        </Box>
+      </Background>
+    );
+  }
+
   if (type === "CREATE_PRODUCT") {
     return (
       <Background onClick={handleClose}>
@@ -252,6 +298,24 @@ const Box = styled.div`
   }
   > .modal-image {
     min-width: 500px;
+  }
+
+  /* review */
+  .review {
+    /* height 100% */
+    max-height: 700px;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    .review-content {
+      display: flex;
+      gap: 1rem;
+    }
+    .review-image {
+      img {
+      }
+    }
   }
 `;
 // const handleDeleteUser = async () => {

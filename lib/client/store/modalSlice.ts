@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+
 interface ModalState {
   active?: boolean | null; // 모달 활성화, 비활성화
   type?: string | null; // 액션타입
@@ -17,20 +18,26 @@ interface ModalState {
   selectedProductReviewIds?: any[] | null;
 
   src?: string | null; // image src
+
+  review?: any;
+
   // callback?: Function | null; // 액션
   // onClose?:()=>void;
   // onSubmit?:()=>void;
   // body?:React.ReactElement;
   // footer?:React.ReactElement;
 }
+
 interface ModalAction extends ModalState {
   // required properties
   active: boolean | null; // 모달 활성화, 비활성화
 }
+
 const initialState: ModalState = {
-  active: true,
-  type: "CREATE_PRODUCT_REVIEW",
+  // active: true,
+  // type: "CREATE_PRODUCT_REVIEW",
 };
+
 export const modalSlice = createSlice({
   name: "modal",
   initialState,
@@ -47,17 +54,6 @@ export const modalSlice = createSlice({
       // else return {};
       // return active ? action.payload : {};
     },
-    // closeModal: (state) => {
-    //   //   const modal: any = state.find((v: any) => v.name === action.payload.name);
-    //   //   modal.active = false;
-    //   //   return [];
-    //   state.active = false;
-    //   state.type = "";
-    //   state.message = "";
-    //   state.id = "";
-    //   state.ids = [];
-    //   state.callback = null;
-    // },
   },
   extraReducers(builder) {
     // builder.addCase(fetchTest.fulfilled, (state, action) => {
@@ -67,4 +63,5 @@ export const modalSlice = createSlice({
     // });
   },
 });
+
 export const { setModal } = modalSlice.actions;

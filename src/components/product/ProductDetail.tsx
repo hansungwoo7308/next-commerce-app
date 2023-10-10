@@ -65,14 +65,14 @@ export default function ProductDetail({ product }: any) {
           )}
         </div>
         <div className="bottom-right">
-          {/* <div className="reviews-with-images">
+          <div className="reviews-with-images">
             <h1>Reviews with images</h1>
             <SlickSlider
               imageUrls={product.images.map((image: any) => image.url)}
               multipleItemNumber={3}
               actionType="VIEW_IMAGE"
             />
-          </div> */}
+          </div>
           <hr />
           <h1>Reviews</h1>
           <ProductReviews product={product} reviews={reviews} />
