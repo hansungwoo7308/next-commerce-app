@@ -71,18 +71,17 @@ export default function Account() {
             <div className="toggle-menu">
               {toggle && (
                 <>
-                  <div className="toggle-menu-arrow"></div>
-                  {auth.user?.role === "admin" && (
-                    <>
-                      <Link href={"/my/profile"}>Profile</Link>
-                      <button onClick={handleSignout}>Sign out</button>
-                    </>
-                  )}
+                  <div className="toggle-menu-arrow" />
+                  <Link href={"/my/account"}>
+                    <p>My Account</p>
+                  </Link>
+                  <button onClick={handleSignout}>Sign out</button>
+                  {auth.user?.role === "admin" && <></>}
                   {auth.user?.role === "user" && (
                     <>
-                      <Link href={"/my/profile"}>Profile</Link>
-                      <Link href={"/my/order-list"}>Order List</Link>
-                      <button onClick={handleSignout}>Sign out</button>
+                      <Link href={"/my/order-list"}>
+                        <p>Order List</p>
+                      </Link>
                     </>
                   )}
                 </>
@@ -90,7 +89,7 @@ export default function Account() {
             </div>
           </div>
           <p>
-            ({auth.user?.role}:{session.data?.user ? "nextauth" : "general"})
+            {auth.user?.username} ({auth.user?.role})
           </p>
         </div>
       </Box>

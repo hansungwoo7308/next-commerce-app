@@ -34,14 +34,14 @@ export default function SigninForm() {
         email,
         password,
         redirect: false,
-        // callbackUrl: "/my/profile",
+        // callbackUrl: "/my/account",
       });
       // console.log({ response });
       setLoading(false);
       toast.success("Login Success (next-auth)");
       const { callbackUrl }: any = router.query;
       if (callbackUrl) return router.push(callbackUrl);
-      // router.push('/my/profile')
+      // router.push('/my/account')
     } catch (error: any) {
       console.log({ error });
       setLoading(false);
@@ -59,7 +59,7 @@ export default function SigninForm() {
       toast.success("Login Success (general)");
       // dispatch(setNotify({ status: "success", message: "Login Success", visible: true }));
       // router.push("/auth/profile");
-      router.push("/my/profile");
+      router.push("/my/account");
     } catch (error: any) {
       logError(error);
       dispatch(setLoading(false));

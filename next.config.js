@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // reactStrictMode: true,
   reactStrictMode: false,
   env: {
     // mongodb
@@ -65,6 +64,9 @@ const nextConfig = {
   //       ],
   //     },
   //   ];
+  // },
+  // compiler: {
+  //   styledComponents: true,
   // },
 };
 module.exports = nextConfig;
