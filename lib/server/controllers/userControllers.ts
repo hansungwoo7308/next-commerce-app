@@ -15,7 +15,7 @@ export const updateUser = async (req: any, res: any) => {
     // if (req.body[key]) console.log({ key, value: req.body[key] });
     if (req.body[key]) {
       // console.log({ [key]: req.body[key] });
-      if (key === "images") {
+      if (key === "images" && req.body[key].length) {
         foundUser.image = req.body[key][0].url;
         continue;
       }

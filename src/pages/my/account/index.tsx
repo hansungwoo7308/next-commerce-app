@@ -8,7 +8,7 @@ import { patchData } from "lib/public/fetchData";
 import { uploadImages } from "lib/public/uploadImages";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -24,33 +24,42 @@ export default function Page() {
   const [isEditMode, setIsEditMode]: any = useState(false);
   const { register, handleSubmit, watch, setValue } = useForm();
   const registeredImageProperties = register("image");
+  const registeredRoleProperties = register("role", { value: "" });
 
   const handleUpdateAccountInfo = async (data: any) => {
     console.log({ data });
 
-    // set the formData
-    const formData: any = new FormData();
-    formData.append("images", data.image);
-    formData.append("username", data.username);
-    formData.append("email", data.email);
-    formData.append("role", data.role);
+    try {
+      dispatch(setLoading(true));
+      // set the formData
+      const formData: any = new FormData();
+      formData.append("images", data.image);
+      formData.append("username", data.username);
+      formData.append("email", data.email);
+      formData.append("role", data.role);
 
-    // request
-    const response = await axios({
-      method: "PATCH",
-      url: `http://localhost:3000/api/v2/user/multipart`,
-      headers: {
-        Authorization: `Bearer ${auth.accessToken}`,
-        "Content-Type": "multipart/form-data",
-      },
-      data: formData,
-      // data,
-    });
+      // request
+      const response = await axios({
+        method: "PATCH",
+        url: `http://localhost:3000/api/v2/user/multipart`,
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+        data: formData,
+        // data,
+      });
 
-    // out
-    console.log({ response });
-    refreshAuth(dispatch);
-    // router.push({ pathname: router.asPath });
+      // out
+      console.log({ response });
+      refreshAuth(dispatch);
+      dispatch(setLoading(false));
+      setIsEditMode(false);
+      // router.push({ pathname: router.asPath });
+    } catch (error) {
+      dispatch(setLoading(false));
+      console.log({ error });
+    }
   };
   const handleClickEditButton = (e: any) => {
     e.preventDefault();
@@ -101,6 +110,13 @@ export default function Page() {
   //   // setNewImage((state:any)=>[...state,file]);
   //   setNewImage(file);
   // };
+
+  // const controllerRef: any = useRef();
+  // useEffect(() => {
+  //   if (!controllerRef.current) return;
+  //   if (setIsEditMode) controllerRef.current.style.background = "#777";
+  //   else controllerRef.current.style.background = "#333";
+  // }, [isEditMode]);
 
   if (!auth.user) return null;
   return (
@@ -168,6 +184,7 @@ export default function Page() {
                         const newImage = e.target.files[0];
                         setValue("image", newImage);
                         setNewImage(newImage);
+                        setIsEditMode(true);
                       }}
                     />
                   </div>
@@ -195,21 +212,19 @@ export default function Page() {
                         <td>
                           <div className="radio-inputs">
                             <input
-                              {...register("role")}
+                              {...registeredRoleProperties}
                               type="radio"
                               value="admin"
                               id="admin"
-                              // defaultChecked={auth.user.role === "admin"}
                             />
                             <label htmlFor="admin">
                               <p>Admin</p>
                             </label>
                             <input
-                              {...register("role")}
+                              {...registeredRoleProperties}
                               type="radio"
                               value="user"
                               id="user"
-                              // defaultChecked={auth.user.role === "user"}
                             />
                             <label htmlFor="user">
                               <p>User</p>
@@ -239,7 +254,10 @@ export default function Page() {
                 )}
               </div>
             </div>
-            <div className="account-form-controller component">
+            <div
+              className="account-form-controller component"
+              style={{ background: isEditMode ? "#777" : "#333" }}
+            >
               {isEditMode ? (
                 <div>
                   <button onClick={handleClickCancelButton}>Cancel</button>
