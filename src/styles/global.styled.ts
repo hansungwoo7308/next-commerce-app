@@ -162,6 +162,7 @@ export const GlobalStyled = createGlobalStyle`
     border-bottom: 1px solid #bbbfbf;
   }
   input, textarea {
-    padding: .5rem;
+    /* padding: .5rem; */
+    padding:3px;
   }
 `;

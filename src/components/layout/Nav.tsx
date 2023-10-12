@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
 // import { Squeeze as Hamburger } from "hamburger-react";
 import { IoIosArrowForward, IoIosMenu } from "react-icons/io";
-import Account from "@/components/auth/Account";
+import AccountIcon from "@/components/auth/AccountIcon";
 export default function Nav() {
   const [isVisible, setIsVisible]: any = useState(false);
   // console.log({ router });
@@ -37,7 +37,7 @@ export default function Nav() {
           </div>
           <div id="nav-belt-center"></div>
           <div id="nav-belt-right">
-            <Account />
+            <AccountIcon />
             {/* <div id="nav-tools">
             <div id="nav-account"></div>
             <div id="nav-orders"></div>

@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { styled } from "styled-components";
 
-export default function Account() {
+export default function AccountIcon() {
   const dispatch = useDispatch();
   const router = useRouter();
   const session = useSession();
@@ -75,7 +75,6 @@ export default function Account() {
                   <Link href={"/my/account"}>
                     <p>My Account</p>
                   </Link>
-                  <button onClick={handleSignout}>Sign out</button>
                   {auth.user?.role === "admin" && <></>}
                   {auth.user?.role === "user" && (
                     <>
@@ -84,6 +83,8 @@ export default function Account() {
                       </Link>
                     </>
                   )}
+                  <hr />
+                  <button onClick={handleSignout}>Sign out</button>
                 </>
               )}
             </div>

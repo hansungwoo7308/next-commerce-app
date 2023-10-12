@@ -1,5 +1,4 @@
-// import Avatar from "@/components/Avatar";
-import Avatar from "@/components/auth/Avatar";
+import axios from "axios";
 import logError from "lib/client/log/logError";
 import logResponse from "lib/client/log/logResponse";
 import { updateUser } from "lib/client/store/authSlice";
@@ -7,19 +6,34 @@ import { setLoading } from "lib/client/store/loadingSlice";
 import { refreshAuth } from "lib/client/utils/authUtils";
 import { patchData } from "lib/public/fetchData";
 import { uploadImages } from "lib/public/uploadImages";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { styled } from "styled-components";
 
 export default function Page() {
   const dispatch: any = useDispatch();
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setValue,
+  } = useForm();
+  const registeredImageProperties = register("image");
+  const [newImage, setNewImage]: any = useState("");
+
   // state
+  const [isEditMode, setIsEditMode]: any = useState(false);
+
   const [imageEditMode, setImageEditMode]: any = useState(false);
   const [usernameEditMode, setUsernameEditMode]: any = useState(false);
   const [emailEditMode, setEmailEditMode]: any = useState(false);
   const [roleEditMode, setRoleEditMode]: any = useState(false);
-  const [newImage, setNewImage]: any = useState("");
   const [newUsername, setNewUsername]: any = useState("");
   const [newEmail, setNewEmail]: any = useState("");
   const [newRole, setNewRole]: any = useState("");
@@ -55,6 +69,32 @@ export default function Page() {
   const { _id, username, name, email, role, image } = auth.user;
 
   // handlers
+  const handleUpdateAccountInfo = async (data: any) => {
+    console.log({ data });
+
+    // set the formData
+    const formData: any = new FormData();
+    formData.append("image", data.image);
+    formData.append("username", data.username);
+    formData.append("email", data.email);
+    formData.append("role", data.role);
+
+    // request
+    const response = await axios({
+      method: "PATCH",
+      url: `http://localhost:3000/api/v2/user/multipart`,
+      headers: {
+        Authorization: `Bearer ${auth.accessToken}`,
+        "Content-Type": "multipart/form-data",
+      },
+      data: formData,
+    });
+
+    // out
+    console.log({ response });
+    refreshAuth(dispatch);
+    // router.push({ pathname: router.asPath });
+  };
   const handleUpdateNewValue = async (newValueKey: any, newValue: any) => {
     try {
       // console.log({ newValueKey, newValue });
@@ -90,43 +130,33 @@ export default function Page() {
       toast.error("Failed uploading");
     }
   };
-  const handleChangeImage = (e: any) => {
+  const handleChangeImageFiles = (e: any) => {
     const file = e.target.files[0];
-    // console.log({ file });
     // setNewImage((state:any)=>[...state,file]);
     setNewImage(file);
   };
+
   // elements
   const userAvatar = imageEditMode ? (
-    // userAvatar EditMode
     <>
-      <Avatar image={image} />
-      <div className="uploader">
-        <input type="file" accept="image/*" name="image" onChange={handleChangeImage} />
-        <div className="buttons">
-          <button onClick={() => setImageEditMode(false)}>cancel</button>
-          <button
-            onClick={() => {
-              // console.log({ image });
-              // console.log({ newImage });
-              // for (let v of newImage) console.log({ v });
-              handleUpdateImage();
-              setImageEditMode(false);
-            }}
-          >
-            save
-          </button>
-        </div>
+      <input type="file" accept="image/*" name="image" onChange={handleChangeImageFiles} />
+      <div className="buttons">
+        <button onClick={() => setImageEditMode(false)}>cancel</button>
+        <button
+          onClick={() => {
+            // console.log({ image });
+            // console.log({ newImage });
+            // for (let v of newImage) console.log({ v });
+            handleUpdateImage();
+            setImageEditMode(false);
+          }}
+        >
+          save
+        </button>
       </div>
     </>
   ) : (
-    // userAvatar
-    <>
-      <Avatar image={image} />
-      <div className="uploader">
-        <button onClick={() => setImageEditMode(true)}>edit</button>
-      </div>
-    </>
+    <button onClick={() => setImageEditMode(true)}>edit</button>
   );
   const userInfo = dataset.map((data: any) => {
     const { id, editMode, setEditMode, newValue, setNewValue } = data;
@@ -187,15 +217,164 @@ export default function Page() {
     return !editMode ? userInfo : userInfoEditMode;
   });
 
+  const handleClickEditButton = (e: any) => {
+    e.preventDefault();
+    setIsEditMode(true);
+  };
+  const handleClickCancelButton = (e: any) => {
+    e.preventDefault();
+    setIsEditMode(false);
+  };
+
   return (
     <Main>
       <section>
-        <div className="profile-outer">
+        {/* <form>
           <div className="profile">
-            <div className="left">{userAvatar}</div>
-            <ul className="right">{userInfo}</ul>
-            {/* <li className="username">{usernameEditMode ? contentByEditMode : content}</li> */}
+            <div className="left">
+              <div className="avatar">
+                <Image
+                  src={
+                    (newImage && URL.createObjectURL(newImage)) ||
+                    image ||
+                    "/images/placeholder.jpg"
+                  }
+                  alt="profile-image"
+                  width={300}
+                  height={300}
+                />
+                <div className="input-outer">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name={registeredImageProperties.name}
+                    onChange={(e: any) => {
+                      // registeredImageProperties.onChange(e);
+                      // console.log({ some: e.target.value, some2: e.target.files });
+                      const newImage = e.target.files[0];
+                      setValue("image", newImage);
+                      setNewImage(newImage);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="right">
+              <ul>{userInfo}</ul>
+              <button onClick={handleSubmit(handleUpdateAccountInfo)}>Submit for saving</button>
+            </div>
           </div>
+        </form> */}
+        <div className="account">
+          <form>
+            <div className="account-form-content">
+              <div className="left component">
+                <div className="avatar">
+                  <Image
+                    src={
+                      (newImage && URL.createObjectURL(newImage)) ||
+                      image ||
+                      "/images/placeholder.jpg"
+                    }
+                    alt="profile-image"
+                    width={300}
+                    height={300}
+                  />
+                  <div className="input-outer">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      name={registeredImageProperties.name}
+                      onChange={(e: any) => {
+                        // registeredImageProperties.onChange(e);
+                        // console.log({ some: e.target.value, some2: e.target.files });
+                        const newImage = e.target.files[0];
+                        setValue("image", newImage);
+                        setNewImage(newImage);
+                      }}
+                    />
+                  </div>
+                </div>
+                {/* <div className="uploader">{userAvatar}</div> */}
+              </div>
+              <div className="right component">
+                {isEditMode ? (
+                  <table>
+                    <tbody>
+                      <tr>
+                        <th>Name</th>
+                        <td>
+                          <input {...register("username")} type="text" />
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>Email</th>
+                        <td>
+                          <input {...register("email")} type="email" />
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>Role</th>
+                        <td>
+                          <div className="radio-inputs">
+                            <input
+                              {...register("role")}
+                              type="radio"
+                              value="admin"
+                              id="admin"
+                              defaultChecked={role === "admin"}
+                            />
+                            <label htmlFor="admin">
+                              <p>Admin</p>
+                            </label>
+                            <input
+                              {...register("role")}
+                              type="radio"
+                              value="user"
+                              id="user"
+                              defaultChecked={role === "user"}
+                            />
+                            <label htmlFor="user">
+                              <p>User</p>
+                            </label>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                ) : (
+                  <table>
+                    <tbody>
+                      <tr>
+                        <th>Name</th>
+                        <td>{auth.user.username}</td>
+                      </tr>
+                      <tr>
+                        <th>Email</th>
+                        <td>{auth.user.email}</td>
+                      </tr>
+                      <tr>
+                        <th>Role</th>
+                        <td>{auth.user.role}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+            <div className="account-form-controller component">
+              {isEditMode ? (
+                <div>
+                  <button onClick={handleClickCancelButton}>Cancel</button>
+                  <button onClick={handleSubmit(handleUpdateAccountInfo)}>Submit</button>
+                </div>
+              ) : (
+                <div>
+                  <button onClick={handleClickEditButton}>Edit</button>
+                </div>
+              )}
+            </div>
+          </form>
         </div>
       </section>
     </Main>
@@ -204,104 +383,106 @@ export default function Page() {
 
 const Main = styled.main`
   > section {
-    > .profile-outer {
-      border: 2px solid green;
+    > .account {
+      /* border: 2px solid green; */
       padding: 1rem;
-      > .profile {
-        border: 2px solid green;
-        border-radius: 10px;
-        background-color: #333;
+      > form {
+        width: 500px;
+        margin: auto;
+        /* padding: 1rem; */
+        /* border: 2px solid yellow; */
         display: flex;
-        justify-content: center;
-        gap: 3rem;
-        padding: 3rem;
+        flex-direction: column;
+        gap: 1rem;
+        tr,
+        td {
+          border: 1px solid;
+        }
+
+        input {
+          width: 100%;
+        }
+        .radio-inputs {
+          display: flex;
+          gap: 1rem;
+          input[type="radio"] {
+            display: none;
+            &:checked + label {
+              color: #fff;
+              background-color: #000;
+            }
+          }
+          label {
+            border: 1px solid;
+            border-radius: 7px;
+            padding: 3px 7px;
+            cursor: pointer;
+          }
+        }
+      }
+      .component {
+        border: 2px solid;
+        border-radius: 10px;
+        padding: 1rem;
+        background-color: #333;
+      }
+      .account-form-content {
+        display: flex;
+        gap: 1rem;
         > .left {
           display: flex;
           flex-direction: column;
           gap: 1rem;
-          > .uploader {
-            border: 2px solid;
-            border-radius: 5px;
-            text-align: center;
-            padding: 0.5rem;
-            input {
-              width: 10rem;
-              display: block;
+          /* border: 1px solid red; */
+          > .avatar {
+            position: relative;
+            width: 12rem;
+            height: 12rem;
+            border: 5px solid;
+            border-radius: 50%;
+            overflow: hidden;
+            > .input-outer {
+              position: absolute;
+              bottom: -50%;
+              left: 0;
+              width: 100%;
+              height: 50%;
+              background-color: rgba(0, 0, 0, 0.5);
+              color: coral;
+              opacity: 0;
+              transition: all 0.5s;
             }
-            button {
-              padding: 0.5rem;
-            }
-            .buttons {
-              display: flex;
-              justify-content: center;
+            &:hover > .input-outer {
+              bottom: 0;
+              opacity: 1;
             }
           }
         }
         > .right {
-          width: 300px;
+          flex: 1;
           display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          /* border: 2px solid; */
-          > li {
-            display: flex;
-            justify-content: space-between;
-            gap: 1rem;
-            border: 2px solid;
-            padding: 0.5rem;
-            border-radius: 3px;
-            .left {
-              display: flex;
-              gap: 0.5rem;
-              label {
-                padding: 5px;
-              }
+          table {
+            width: 100%;
+            line-height: 2rem;
+            border-collapse: collapse;
+            /* border: 1px solid; */
+            th,
+            td {
+              /* border: 1px solid; */
+              padding: 0.5rem;
             }
-            .right {
-              display: flex;
-              gap: 0.5rem;
+            th {
+              width: 20%;
             }
           }
         }
       }
-      button {
-        background-color: initial;
+      .account-form-controller {
+        text-align: end;
       }
+    }
+    button {
+      background-color: initial;
     }
   }
 `;
-// const handleUpdateNewUsername = async () => {
-//   try {
-//     const payload = { _id, username: newUsername };
-//     // updateUser(payload);
-//     const response = await patchData("user", payload, auth.accessToken);
-//     const { updatedUser } = response.data;
-//     // out
-//     logResponse(response);
-//     dispatch(updateUser({ user: updatedUser }));
-//     setUsernameEditMode(false);
-//   } catch (error) {
-//     logError(error);
-//   }
-// };
-// const contentByEditMode = (
-//   <>
-//     <input
-//       name="username"
-//       type="text"
-//       // autoComplete="off"
-//       // placeholder={username}
-//       onChange={(e) => setNewUsername(e.target.value)}
-//     />
-//     <div className="buttons">
-//       <button onClick={() => setUsernameEditMode(false)}>cancel</button>
-//       <button onClick={handleUpdateNewUsername}>save</button>
-//     </div>
-//   </>
-// );
-// const content = (
-//   <>
-//     <p>{username}</p>
-//     <button onClick={() => setUsernameEditMode(true)}>edit</button>
-//   </>
-// );

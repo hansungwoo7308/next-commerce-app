@@ -5,29 +5,28 @@ import {
   uploadImagesToServer,
   uploadImagesToCloudinary,
 } from "lib/server/middlewares/uploadMiddlewares";
-import { newProduct } from "lib/server/controllers/productControllers";
+import { updateUser } from "lib/server/controllers/userControllers";
 import { PageConfig } from "next";
 
 connectDB();
 
-// set
+// set the router
 const router = createRouter()
   .use(async (req: any, res, next) => {
-    console.log(`\x1b[33m\n[api/v2/products/multipart]:::[${req.method}]`);
+    console.log(`\x1b[33m\n[api/v2/user/multipart]:::[${req.method}]`);
     await next();
   })
-  // protected routes
   .use(checkAuth, checkRoles(["admin", "user"]))
-  // handle the multipart data
   .use(uploadImagesToServer)
-  .post(uploadImagesToCloudinary)
-  .post(newProduct);
+  .use(uploadImagesToCloudinary)
+  .patch(updateUser);
 
-// out
+// out the configuration and handler
 export const config: PageConfig = {
   api: {
     bodyParser: false,
     externalResolver: true,
   },
 };
+
 export default router.handler();
