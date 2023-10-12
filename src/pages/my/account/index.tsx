@@ -17,64 +17,20 @@ import { styled } from "styled-components";
 export default function Page() {
   const dispatch: any = useDispatch();
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    setValue,
-  } = useForm();
-  const registeredImageProperties = register("image");
-  const [newImage, setNewImage]: any = useState("");
-
-  // state
-  const [isEditMode, setIsEditMode]: any = useState(false);
-
-  const [imageEditMode, setImageEditMode]: any = useState(false);
-  const [usernameEditMode, setUsernameEditMode]: any = useState(false);
-  const [emailEditMode, setEmailEditMode]: any = useState(false);
-  const [roleEditMode, setRoleEditMode]: any = useState(false);
-  const [newUsername, setNewUsername]: any = useState("");
-  const [newEmail, setNewEmail]: any = useState("");
-  const [newRole, setNewRole]: any = useState("");
-
-  // dataset from state
-  const dataset = [
-    {
-      id: "username",
-      editMode: usernameEditMode,
-      setEditMode: setUsernameEditMode,
-      newValue: newUsername,
-      setNewValue: setNewUsername,
-    },
-    {
-      id: "email",
-      editMode: emailEditMode,
-      setEditMode: setEmailEditMode,
-      newValue: newEmail,
-      setNewValue: setNewEmail,
-    },
-    {
-      id: "role",
-      editMode: roleEditMode,
-      setEditMode: setRoleEditMode,
-      newValue: newRole,
-      setNewValue: setNewRole,
-    },
-  ];
-
-  // user data
+  // external
   const auth = useSelector((store: any) => store.auth);
-  if (!auth.user) return null;
-  const { _id, username, name, email, role, image } = auth.user;
+  // internal
+  const [newImage, setNewImage]: any = useState("");
+  const [isEditMode, setIsEditMode]: any = useState(false);
+  const { register, handleSubmit, watch, setValue } = useForm();
+  const registeredImageProperties = register("image");
 
-  // handlers
   const handleUpdateAccountInfo = async (data: any) => {
     console.log({ data });
 
     // set the formData
     const formData: any = new FormData();
-    formData.append("image", data.image);
+    formData.append("images", data.image);
     formData.append("username", data.username);
     formData.append("email", data.email);
     formData.append("role", data.role);
@@ -88,6 +44,7 @@ export default function Page() {
         "Content-Type": "multipart/form-data",
       },
       data: formData,
+      // data,
     });
 
     // out
@@ -95,128 +52,6 @@ export default function Page() {
     refreshAuth(dispatch);
     // router.push({ pathname: router.asPath });
   };
-  const handleUpdateNewValue = async (newValueKey: any, newValue: any) => {
-    try {
-      // console.log({ newValueKey, newValue });
-      const payload = { _id, [newValueKey]: newValue };
-      // console.log({ payload });
-      // updateUser(payload);
-      const response = await patchData("user", payload, auth.accessToken);
-      // out
-      logResponse(response);
-      refreshAuth(dispatch);
-    } catch (error) {
-      logError(error);
-    }
-  };
-  const handleUpdateImage = async () => {
-    try {
-      dispatch(setLoading(true));
-      // upload
-      const uploadedImage = await uploadImages([newImage]);
-      // console.log({ uploadedImage });
-      // update
-      const payload = { _id, image: uploadedImage[0].secure_url };
-      const response = await patchData("user", payload, auth.accessToken);
-      const { updatedUser } = response.data;
-      logResponse(response);
-      dispatch(updateUser({ user: updatedUser }));
-      dispatch(setLoading(false));
-      toast.success("Successfully uploaded");
-      // router.push({pathname:router.pathname})
-    } catch (error) {
-      logError(error);
-      dispatch(setLoading(false));
-      toast.error("Failed uploading");
-    }
-  };
-  const handleChangeImageFiles = (e: any) => {
-    const file = e.target.files[0];
-    // setNewImage((state:any)=>[...state,file]);
-    setNewImage(file);
-  };
-
-  // elements
-  const userAvatar = imageEditMode ? (
-    <>
-      <input type="file" accept="image/*" name="image" onChange={handleChangeImageFiles} />
-      <div className="buttons">
-        <button onClick={() => setImageEditMode(false)}>cancel</button>
-        <button
-          onClick={() => {
-            // console.log({ image });
-            // console.log({ newImage });
-            // for (let v of newImage) console.log({ v });
-            handleUpdateImage();
-            setImageEditMode(false);
-          }}
-        >
-          save
-        </button>
-      </div>
-    </>
-  ) : (
-    <button onClick={() => setImageEditMode(true)}>edit</button>
-  );
-  const userInfo = dataset.map((data: any) => {
-    const { id, editMode, setEditMode, newValue, setNewValue } = data;
-    const userInfo = (
-      <li key={id}>
-        <p>
-          {data.id === "username" && (username || name)}
-          {data.id === "email" && email}
-          {data.id === "role" && role}
-        </p>
-        <button onClick={() => setEditMode(true)}>edit</button>
-      </li>
-    );
-    const userInfoEditMode = (
-      <li key={id}>
-        <div className="left">
-          {data.id === "role" ? (
-            <>
-              <div>
-                <input
-                  type="radio"
-                  name={data.id}
-                  value="admin"
-                  id="admin"
-                  onChange={(e) => setNewValue(e.target.value)}
-                />
-                <label htmlFor="admin">admin</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  name={data.id}
-                  value="user"
-                  id="user"
-                  onChange={(e) => setNewValue(e.target.value)}
-                />
-                <label htmlFor="user">user</label>
-              </div>
-            </>
-          ) : (
-            <input type="text" name={data.id} onChange={(e) => setNewValue(e.target.value)} />
-          )}
-        </div>
-        <div className="right">
-          <button onClick={() => setEditMode(false)}>cancel</button>
-          <button
-            onClick={() => {
-              // console.log({ "data.newValue": data.newValue });
-              handleUpdateNewValue(id, newValue);
-              setEditMode(false);
-            }}
-          >
-            save
-          </button>
-        </div>
-      </li>
-    );
-    return !editMode ? userInfo : userInfoEditMode;
-  });
-
   const handleClickEditButton = (e: any) => {
     e.preventDefault();
     setIsEditMode(true);
@@ -226,6 +61,48 @@ export default function Page() {
     setIsEditMode(false);
   };
 
+  // const handleUpdateNewValue = async (newValueKey: any, newValue: any) => {
+  //   try {
+  //     // console.log({ newValueKey, newValue });
+  //     const payload = { _id, [newValueKey]: newValue };
+  //     // console.log({ payload });
+  //     // updateUser(payload);
+  //     const response = await patchData("user", payload, auth.accessToken);
+  //     // out
+  //     logResponse(response);
+  //     refreshAuth(dispatch);
+  //   } catch (error) {
+  //     logError(error);
+  //   }
+  // };
+  // const handleUpdateImage = async () => {
+  //   try {
+  //     dispatch(setLoading(true));
+  //     // upload
+  //     const uploadedImage = await uploadImages([newImage]);
+  //     // console.log({ uploadedImage });
+  //     // update
+  //     const payload = { _id, image: uploadedImage[0].secure_url };
+  //     const response = await patchData("user", payload, auth.accessToken);
+  //     const { updatedUser } = response.data;
+  //     logResponse(response);
+  //     dispatch(updateUser({ user: updatedUser }));
+  //     dispatch(setLoading(false));
+  //     toast.success("Successfully uploaded");
+  //     // router.push({pathname:router.pathname})
+  //   } catch (error) {
+  //     logError(error);
+  //     dispatch(setLoading(false));
+  //     toast.error("Failed uploading");
+  //   }
+  // };
+  // const handleChangeImageFiles = (e: any) => {
+  //   const file = e.target.files[0];
+  //   // setNewImage((state:any)=>[...state,file]);
+  //   setNewImage(file);
+  // };
+
+  if (!auth.user) return null;
   return (
     <Main>
       <section>
@@ -273,7 +150,7 @@ export default function Page() {
                   <Image
                     src={
                       (newImage && URL.createObjectURL(newImage)) ||
-                      image ||
+                      auth.user.image ||
                       "/images/placeholder.jpg"
                     }
                     alt="profile-image"
@@ -322,7 +199,7 @@ export default function Page() {
                               type="radio"
                               value="admin"
                               id="admin"
-                              defaultChecked={role === "admin"}
+                              // defaultChecked={auth.user.role === "admin"}
                             />
                             <label htmlFor="admin">
                               <p>Admin</p>
@@ -332,7 +209,7 @@ export default function Page() {
                               type="radio"
                               value="user"
                               id="user"
-                              defaultChecked={role === "user"}
+                              // defaultChecked={auth.user.role === "user"}
                             />
                             <label htmlFor="user">
                               <p>User</p>

@@ -3,6 +3,8 @@ import cloudinary, { UploadApiOptions } from "cloudinary";
 
 // upload middleware (server)
 export const uploadImagesToServer = async (req: any, res: any, next: any) => {
+  console.log("\x1b[32m\n<middleware/uploadImagesToServer>");
+
   // set the storage
   const storage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -22,19 +24,18 @@ export const uploadImagesToServer = async (req: any, res: any, next: any) => {
     upload(req, res, resolve);
   });
 
-  // log
-  console.log(`\n<uploadImagesToServer>`);
-  console.log({ files: req.files, body: req.body });
-
   // out
+  console.log({ files: req.files, body: req.body });
   await next();
 };
 
 // upload middleware (cloudinary)
 export const uploadImagesToCloudinary = async (req: any, res: any, next: any) => {
-  console.log(`\x1b[32m\n<uploadImagesToCloudinary>`);
+  console.log("\x1b[32m\n<middleware/uploadImagesToCloudinary>");
+
   // get
   const { files } = req;
+  // console.log({ files });
   // set
   cloudinary.v2.config({
     cloud_name: process.env.CLOUD_NAME,
