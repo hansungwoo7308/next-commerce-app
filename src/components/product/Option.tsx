@@ -2,19 +2,23 @@ import { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 export default function Option() {
-  // set the option
-  const optionRef: any = useRef(null);
+  const optionListRef: any = useRef(null);
+
   const handleClickOption = (e: any) => {
     e.stopPropagation();
-    const option: HTMLElement = optionRef.current;
-    option.classList.toggle("option-list-toggle");
+    const optionList: HTMLElement = optionListRef.current;
+    optionList.classList.toggle("option-list-toggle");
   };
-  // close the option ul tag
+
   useEffect(() => {
-    window.addEventListener("click", () => {
-      const option: HTMLElement = optionRef.current;
-      option.classList.remove("option-list-toggle");
-    });
+    window.addEventListener(
+      "click",
+      // close the option ul tag
+      () => {
+        const option: HTMLElement = optionListRef.current;
+        option.classList.remove("option-list-toggle");
+      }
+    );
   }, []);
 
   return (
@@ -23,7 +27,7 @@ export default function Option() {
         <a className="option-guide" href="#" onClick={handleClickOption}>
           Select the item
         </a>
-        <ul className="option-list" ref={optionRef}>
+        <ul className="option-list" ref={optionListRef}>
           <li className="option-item">
             <a href="#">1</a>
           </li>

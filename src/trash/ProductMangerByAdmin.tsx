@@ -6,11 +6,15 @@ import { deleteData } from "lib/public/fetchData";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
+
 export default function ProductMangerByAdmin() {
+  // external
   const manager = useSelector((store: any) => store.manager);
   const auth = useSelector((store: any) => store.auth);
-  const [toggle, setToggle] = useState(true);
   const dispatch = useDispatch();
+  // internal
+  const [toggle, setToggle] = useState(true);
+
   const handleCreateButton = (e: any) => {
     e.preventDefault();
     const payload = { active: true, type: "CREATE", message: "Let us create a product!" };
@@ -21,7 +25,7 @@ export default function ProductMangerByAdmin() {
     try {
       dispatch(setLoading(true));
       const payload = { ids: manager.checkedItems };
-      const response = await deleteData("v2/products", auth.accessToken, payload);
+      const response = await deleteData("v2/products", payload, auth.accessToken);
       logResponse(response);
       dispatch(setLoading(false));
     } catch (error) {
@@ -29,9 +33,7 @@ export default function ProductMangerByAdmin() {
       dispatch(setLoading(false));
     }
   };
-  useEffect(() => {
-    console.log({ manager });
-  }, [manager]);
+
   return (
     <Box toggle={toggle}>
       <div className="toggle-button">
@@ -56,7 +58,9 @@ export default function ProductMangerByAdmin() {
     </Box>
   );
 }
+
 type Props = { toggle: boolean };
+
 const Box = styled.div<Props>`
   width: 10rem;
   height: 300px;

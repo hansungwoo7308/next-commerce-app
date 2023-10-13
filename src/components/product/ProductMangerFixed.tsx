@@ -9,19 +9,10 @@ import styled from "styled-components";
 // }
 
 export default function ProductMangerFixed() {
-  // state (external)
+  // exteranl
   const { selectedProductId, selectedProductReviewIds } = useSelector(
     (store: any) => store.productManager
   );
-
-  // state > document object model
-  const mangerRef: any = useRef(null);
-  useEffect(() => {
-    if (selectedProductReviewIds.length === 0) mangerRef.current.style.left = "-15rem";
-    else mangerRef.current.style.left = "2rem";
-  }, [selectedProductReviewIds]);
-
-  // client action
   const dispatch = useDispatch();
   const handleDeleteItems = () => {
     dispatch(
@@ -33,6 +24,13 @@ export default function ProductMangerFixed() {
       })
     );
   };
+
+  // internal
+  const mangerRef: any = useRef(null);
+  useEffect(() => {
+    if (selectedProductReviewIds.length === 0) mangerRef.current.style.left = "-15rem";
+    else mangerRef.current.style.left = "2rem";
+  }, [selectedProductReviewIds]);
 
   return (
     <Box className="product-manager" ref={mangerRef}>

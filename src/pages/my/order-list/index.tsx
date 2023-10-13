@@ -1,4 +1,4 @@
-import Orders from "@/components/Orders";
+import Orders from "@/components/order/Orders";
 import logError from "lib/client/log/logError";
 import logResponse from "lib/client/log/logResponse";
 import { setOrders } from "lib/client/store/ordersSlice";
@@ -8,11 +8,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
+
 export default function Page() {
   const auth = useSelector((store: any) => store.auth);
   const orders = useSelector((store: any) => store.orders);
   const dispatch = useDispatch();
-  const fetchData = async () => {
+
+  const fetchData: any = async () => {
     try {
       const response = await getData("order", auth.accessToken);
       logResponse(response);
@@ -22,9 +24,9 @@ export default function Page() {
       logError(error);
     }
   };
-  useEffect(() => {
-    fetchData();
-  }, [auth.user]);
+
+  useEffect(() => fetchData(), [auth.user]);
+
   if (!orders) return null;
   return (
     <>
@@ -42,6 +44,7 @@ export default function Page() {
     </>
   );
 }
+
 const Main = styled.main`
   > section {
     > .orders {

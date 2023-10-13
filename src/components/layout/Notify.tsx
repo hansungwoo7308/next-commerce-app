@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { setNotify } from "lib/client/store/notifySlice";
 import styled from "styled-components";
 // import { setTimeoutId, setVisible } from "lib/client/store/notifySlice";
+
 export default function Notify() {
   const notify = useSelector((store: any) => store.notify);
   const { active, status, message } = notify;
@@ -15,6 +16,7 @@ export default function Notify() {
   //   }
   //   // dispatch(setTimeoutId(timeoutId));
   // }, [notify.active]);
+
   if (!notify.active) return;
   return (
     <>
@@ -27,10 +29,12 @@ export default function Notify() {
     </>
   );
 }
+
 type Props = {
   // active: boolean;
   status: "success" | "error" | null;
 };
+
 const Box = styled.div<Props>`
   width: 15rem;
   height: 8rem;

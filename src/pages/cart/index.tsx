@@ -7,17 +7,20 @@ import { setNotify } from "lib/client/store/notifySlice";
 import { getData } from "lib/public/fetchData";
 import styled from "styled-components";
 import { toast } from "react-toastify";
+
 export default function Page() {
-  const router = useRouter();
+  // external
   const dispatch = useDispatch();
   const cart = useSelector((store: any) => store.cart);
   const auth = useSelector((store: any) => store.auth);
+  // internal
+  const router = useRouter();
   const [total, setToal]: any = useState(0);
+
   const setCart = async () => {
     let newCart: any = [];
     for (const item of cart) {
       // console.log({ item });
-
       try {
         const response = await getData(`products/${item._id}`);
         console.log({ data: response.data });
@@ -48,18 +51,18 @@ export default function Page() {
     // dispatch(addOrder(payload));
     router.push("/order");
   };
-  useEffect(() => {
-    // 주문금액을 스토어에 저장한다.
-    const total = cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0);
-    setToal(total);
-  }, [cart]); // set the tatal
+
+  // set the tatal
+  useEffect(() => setToal(cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0)), [cart]);
+  // get the up-to-date cart
   useEffect(() => {
     // Up-To-Date Product Data (stock, ...)
     // const stringfiedCart: any = localStorage.getItem("cart");
     // if (!stringfiedCart) return;
     // const cart: any = JSON.parse(stringfiedCart);
     setCart();
-  }, []); // get the up-to-date cart
+  }, []);
+
   if (!cart.length) {
     return (
       <Main>
@@ -90,6 +93,7 @@ export default function Page() {
     </Main>
   );
 }
+
 const Main = styled.main`
   > section {
     flex-direction: column;

@@ -63,17 +63,13 @@ export const refresh = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<refresh>`);
   // get
   const { refreshToken } = req.cookies;
-  if (!refreshToken) {
-    return res.status(401).json({ message: "No refreshToken" });
-  }
+  if (!refreshToken) return res.status(401).json({ message: "No refreshToken" });
   // find
   const foundUser = await User.findOne({ refreshToken })
     // .select("-password -createdAt -updatedAt -refreshToken")
     .select("_id username email password role image")
     .exec();
-  if (!foundUser) {
-    return res.status(401).json({ message: "The foundUser do not exist." });
-  }
+  if (!foundUser) return res.status(401).json({ message: "The foundUser do not exist." });
   // verify the refreshToken
   try {
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);

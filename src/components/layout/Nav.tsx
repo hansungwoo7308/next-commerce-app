@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 // import { Squeeze as Hamburger } from "hamburger-react";
 import { IoIosArrowForward, IoIosMenu } from "react-icons/io";
 import AccountIcon from "@/components/auth/AccountIcon";
+
 export default function Nav() {
   const [isVisible, setIsVisible]: any = useState(false);
   // console.log({ router });
@@ -93,9 +94,7 @@ export default function Nav() {
           </div>
         </div>
       </div>
-      {/* <ul className="main">
-      </ul> */}
-      {/* <Link href={"/shop/all"}>Shop</Link> */}
+
       {/* <button onClick={handleToggle}>Shop</button> */}
       {/* {isVisible && (
             <ul className="sub">
@@ -118,6 +117,7 @@ export default function Nav() {
     </Box>
   );
 }
+
 const Box = styled.nav`
   /* search, cart, order... */
   #nav-belt-outer {

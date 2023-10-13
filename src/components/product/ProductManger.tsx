@@ -2,12 +2,11 @@ import { setSelectedProductIds } from "lib/client/store/productManagerSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { useEffect } from "react";
 
 export default function ProductManger({ products }: any) {
   const { selectedProductIds } = useSelector((store: any) => store.productManager);
-
   const dispatch = useDispatch();
+
   const handleSelectAll = () => {
     const productIds = products.map((product: any) => product._id);
     dispatch(setSelectedProductIds(productIds));
@@ -21,10 +20,6 @@ export default function ProductManger({ products }: any) {
   const handleDeleteProducts = () => {
     dispatch(setModal({ active: true, type: "DELETE_PRODUCTS", ids: selectedProductIds }));
   };
-
-  // useEffect(() => {
-  //   console.log({ selectedProductIds });
-  // }, [selectedProductIds]);
 
   return (
     <Box className="product-manager">

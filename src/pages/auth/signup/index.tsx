@@ -9,9 +9,12 @@ import styled from "styled-components";
 import logResponse from "lib/client/log/logResponse";
 import { toast } from "react-toastify";
 import logError from "lib/client/log/logError";
+
 export default function Page() {
+  // external
   const dispatch = useDispatch();
   const router = useRouter();
+  // internal
   const {
     register,
     handleSubmit,
@@ -22,8 +25,11 @@ export default function Page() {
   } = useForm();
   const password = useRef();
   password.current = watch("password");
+
   const handleSignup = async (data: any) => {
-    // console.log({ data });
+    console.log({ data });
+    return;
+
     try {
       dispatch(setLoading(true));
       const response: any = await postData("v2/auth/signup", data);
@@ -40,13 +46,45 @@ export default function Page() {
       toast.error("Failed signing up");
     }
   };
-  useEffect(() => {
-    setFocus("username");
-  }, []);
+
+  useEffect(() => setFocus("username"), []);
   // useEffect(() => {
   //   setFocus("name", { shouldSelect: true });
   // }, [setFocus]);
   // if (status === "authenticated") router.push("/");
+
+  const usernameErrorMessages = (
+    <>
+      {errors.username && errors.username.type === "required" && (
+        <small>This field is required.</small>
+      )}
+      {errors.username && errors.username.type === "maxLength" && (
+        <small>Max Length is 8 character.</small>
+      )}
+    </>
+  );
+  const emailErrorMessages = errors.email && <small>This field is required.</small>;
+  const passwordErrorMessages = (
+    <>
+      {errors.password && errors.password.type === "required" && (
+        <small>This field is required.</small>
+      )}
+      {errors.password && errors.password.type === "maxLength" && (
+        <small>Password max length is 10 characters.</small>
+      )}
+    </>
+  );
+  const passwordConfirmErrorMessages = (
+    <>
+      {errors.passwordConfirm && errors.passwordConfirm.type === "required" && (
+        <small>This field is required.</small>
+      )}
+      {errors.passwordConfirm && errors.passwordConfirm.type === "validate" && (
+        <small>The password is not matched.</small>
+      )}
+    </>
+  );
+
   return (
     <>
       <Head>
@@ -58,63 +96,46 @@ export default function Page() {
             <h1>Sign Up</h1>
             <div className="username">
               <input
-                {...register("username", {
-                  // required: true,
-                  required: "This is required",
-                  maxLength: 8,
-                })}
+                {...register("username", { required: true, maxLength: 15 })}
                 className="input"
                 type="text"
                 placeholder="Name"
               />
-              {errors.username && errors.username.type === "required" && (
-                <small>This field is required.</small>
-              )}
-              {errors.username && errors.username.type === "maxLength" && (
-                <small>Max Length is 8 character.</small>
-              )}
+              {usernameErrorMessages}
             </div>
             <div className="email">
               <input
-                {...register("email", {
-                  // required: true,
-                  required: "This is required",
-                  // maxLength: 10,
-                })}
+                {...register("email", { required: true })}
                 className="input"
                 type="email"
                 placeholder="Email"
                 autoComplete="off"
               />
-              {errors.email && <small>This email field is required.</small>}
+              {emailErrorMessages}
             </div>
             <div className="password">
               <input
                 {...register("password", {
-                  // required: true,
-                  required: "This is required",
-                  maxLength: 10,
-                  // minLength: {
-                  //   value: 4,
-                  //   message: "Min length is 4",
-                  // },
+                  required: true,
+                  minLength: {
+                    value: 4,
+                    message: "Password should have a length of at least 4 characters.",
+                  },
+                  maxLength: {
+                    value: 20,
+                    message: "Password should not be longer than 20 characters.",
+                  },
                 })}
                 className="input"
                 type="password"
                 placeholder="Password"
               />
-              {errors.password && errors.password.type === "required" && (
-                <small>This field is required.</small>
-              )}
-              {errors.password && errors.password.type === "maxLength" && (
-                <small>Password max length is 10 characters.</small>
-              )}
+              {passwordErrorMessages}
             </div>
             <div className="passwordConfirm">
               <input
                 {...register("passwordConfirm", {
-                  // required: true,
-                  required: "This is required",
+                  required: "This field is required",
                   validate: (passwordConfirm) => {
                     return passwordConfirm === password.current;
                   },
@@ -123,12 +144,7 @@ export default function Page() {
                 type="password"
                 placeholder="Password Confirm"
               />
-              {errors.passwordConfirm && errors.passwordConfirm.type === "required" && (
-                <small>This field is required.</small>
-              )}
-              {errors.passwordConfirm && errors.passwordConfirm.type === "validate" && (
-                <small>The password is not matched.</small>
-              )}
+              {passwordConfirmErrorMessages}
             </div>
             <button type="submit">Sign Up</button>
           </form>
@@ -137,6 +153,7 @@ export default function Page() {
     </>
   );
 }
+
 const Main = styled.main`
   > section {
     position: relative;

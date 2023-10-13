@@ -10,10 +10,9 @@ interface Props {
 }
 
 export default function ProductReviews({ product, reviews }: Props) {
+  // exteranl
   const dispatch = useDispatch();
-  const { selectedProductId, selectedProductReviewIds } = useSelector(
-    (store: any) => store.productManager
-  );
+  const { selectedProductReviewIds } = useSelector((store: any) => store.productManager);
 
   useEffect(() => {
     if (selectedProductReviewIds.length === 0) dispatch(setSelectedProductId(null));

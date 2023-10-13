@@ -18,14 +18,15 @@ interface Props {
 }
 
 export default function ProductReview({ product, review }: Props) {
+  // exteranl
   const { user } = useSelector((store: any) => store.auth);
-  const checkboxRef: any = useRef(null);
-  const [isCheck, setIsCheck]: any = useState();
   const { selectedProductId, selectedProductReviewIds } = useSelector(
     (store: any) => store.productManager
   );
-
   const dispatch = useDispatch();
+  // internal
+  const checkboxRef: any = useRef(null);
+  const [isCheck, setIsCheck]: any = useState();
 
   useEffect(() => {
     if (checkboxRef.current === null) return;
@@ -45,7 +46,9 @@ export default function ProductReview({ product, review }: Props) {
   return (
     <Box
       className="review"
-      onClick={() => dispatch(setModal({ active: true, type: "REVIEW", review }))}
+      onClick={() => {
+        if (user?.role !== "admin") dispatch(setModal({ active: true, type: "REVIEW", review }));
+      }}
     >
       <div className="review-content">
         <div className="review-user">

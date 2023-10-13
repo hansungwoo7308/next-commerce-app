@@ -23,9 +23,9 @@ export default function ProductDetail({ product }: any) {
 
   return (
     <Box className="product-detail">
-      {/* <div className="top">
+      <div className="top">
         <ProductDetailWidget product={product} />
-      </div> */}
+      </div>
       {/* <div className="middle">
         <div className="product-description">
           <h1>Product Description</h1>

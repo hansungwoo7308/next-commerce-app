@@ -42,6 +42,7 @@ export default function Carousel({ data }: Props) {
     setDirection("right");
     setSlideIndex((prev: any) => prev + 1);
   };
+
   useEffect(() => {
     // console.log({ slideIndex });
     // 변경된 인덱스에 의해서 애니메이션

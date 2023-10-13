@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
 import styled from "styled-components";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+
 const data = [
   "slide-01.jpg",
   "slide-02.jpg",
@@ -10,6 +10,7 @@ const data = [
   "slide-01.jpg",
   "slide-02.jpg",
 ];
+
 export default function Slider() {
   const [direction, setDirection]: any = useState(null);
   const [slideIndex, setSlideIndex]: any = useState(0);
@@ -110,21 +111,6 @@ export default function Slider() {
               {index}
             </li>
           ))}
-          {/* <li>
-            <Image src="/images/slide-01.jpg" layout="fill" alt="rain" />
-          </li>
-          <li>
-            <Image src="/images/slide-02.jpg" layout="fill" alt="coffee" />
-          </li>
-          <li>
-            <Image src="https://source.unsplash.com/random/?river" layout="fill" alt="river" />
-          </li>
-          <li>
-            <Image src="https://source.unsplash.com/random/?cloud" layout="fill" alt="cloud" />
-          </li>
-          <li>
-            <Image src="https://source.unsplash.com/random/?train" layout="fill" alt="train" />
-          </li> */}
         </ul>
         <div className="controls">
           <div className="arrow prev" onClick={handleClickLeft}>
@@ -138,6 +124,7 @@ export default function Slider() {
     </Box>
   );
 }
+
 const Box = styled.div`
   /* height: calc(100vh - 100px); */
   padding: 1rem;
