@@ -40,7 +40,7 @@ export default function ProductReview({ product, review }: Props) {
     }
   }, [isCheck]);
 
-  console.log({ review });
+  // console.log({ review });
 
   if (review.length === 0) return null;
   return (

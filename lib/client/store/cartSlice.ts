@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+
+// interface InitialState {
+//   total?: number | null;
+//   quantity?: number | null;
+//   cart?: any[] | null;
+// }
+
 const initialState: any = [];
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -26,6 +34,7 @@ export const cartSlice = createSlice({
     },
   },
 });
+
 export const {
   addToCart,
   reloadCart,

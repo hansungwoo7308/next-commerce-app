@@ -19,7 +19,7 @@ export default function SlickSlider({ imageUrls, multipleItemNumber, actionType 
   const sliderRef: any = useRef();
   const dispatch = useDispatch();
 
-  console.log({ imageUrls });
+  // console.log({ imageUrls });
 
   const handleClickImage = (imageUrl: string) => {
     if (!actionType) return;

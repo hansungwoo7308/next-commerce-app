@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { getData } from "lib/public/fetchData";
 import ProductDetail from "@/components/product/ProductDetail";
 // import { setNotify, setTimeoutId, setVisible } from "lib/client/store/notifySlice";
+
 export async function getServerSideProps({ query }: any) {
   // params.id === query.id
   const { id } = query;
@@ -9,6 +10,7 @@ export async function getServerSideProps({ query }: any) {
   const { product } = response.data;
   return { props: { product } };
 }
+
 export default function Page({ product }: any) {
   // console.log({ product });
   return (
@@ -19,4 +21,5 @@ export default function Page({ product }: any) {
     </Main>
   );
 }
+
 const Main = styled.main``;

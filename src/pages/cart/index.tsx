@@ -15,7 +15,7 @@ export default function Page() {
   const auth = useSelector((store: any) => store.auth);
   // internal
   const router = useRouter();
-  const [total, setToal]: any = useState(0);
+  const [total, setTotal]: any = useState(0);
 
   const setCart = async () => {
     let newCart: any = [];
@@ -53,7 +53,7 @@ export default function Page() {
   };
 
   // set the tatal
-  useEffect(() => setToal(cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0)), [cart]);
+  useEffect(() => setTotal(cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0)), [cart]);
   // get the up-to-date cart
   useEffect(() => {
     // Up-To-Date Product Data (stock, ...)
