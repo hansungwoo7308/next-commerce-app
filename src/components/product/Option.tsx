@@ -5,26 +5,23 @@ import styled from "styled-components";
 interface Props {
   setSelectedItems?: any;
   selectedItems?: any;
+  options?: any;
 }
 
-export default function Option({ setSelectedItems, selectedItems }: Props) {
+export default function Option({ setSelectedItems, selectedItems, options }: Props) {
   const optionListRef: any = useRef(null);
-  const [quantity, setQuantity]: any = useState(1);
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    setValue,
-    getValues,
-  } = useForm();
 
   // option list
-  const handleClickOptionItem = (item: string) => {
+  const handleOpenOption = (e: any) => {
+    e.stopPropagation();
+    optionListRef.current.classList.add("option-list-open");
+  };
+  const handleClickOption = (option: any) => {
     optionListRef.current.classList.remove("option-list-open");
-    const newItem = { item, quantity };
+    const newItem = { item: option.item, price: option.price, quantity: 1 };
+    // console.log({ newItem });
     setSelectedItems((state: any) => {
-      const isDuplicated = state.find((v: any) => v.item === item) ? true : false;
+      const isDuplicated = state.find((v: any) => v.item === option.item) ? true : false;
       if (isDuplicated) return state;
       const newState = [...state, newItem];
       return newState;
@@ -74,107 +71,63 @@ export default function Option({ setSelectedItems, selectedItems }: Props) {
   return (
     <Box>
       <div className="option">
-        <a
-          className="option-guide"
-          onClick={(e) => {
-            e.stopPropagation();
-            optionListRef.current.classList.add("option-list-open");
-          }}
-        >
+        <a className="option-guide" onClick={handleOpenOption}>
           Select the item
         </a>
         <ul className="option-list" ref={optionListRef}>
-          <li className="option-item" onClick={() => handleClickOptionItem("1")}>
-            <a href="#">1</a>
-          </li>
-          <li className="option-item" onClick={() => handleClickOptionItem("2")}>
-            <a href="#">2</a>
-          </li>
-          <li className="option-item" onClick={() => handleClickOptionItem("3")}>
-            <a href="#">3</a>
-          </li>
-          <li className="option-item" onClick={() => handleClickOptionItem("4")}>
-            <a href="#">4</a>
-          </li>
+          {options.map((option: any) => (
+            <li key={option.item} className="option-item" onClick={() => handleClickOption(option)}>
+              <a href="#">{option.item}</a>
+            </li>
+          ))}
         </ul>
       </div>
-      {/* <div className="option">
-        <a
-          className="option-guide"
-          onClick={(e) => {
-            e.stopPropagation();
-            optionListRef.current.classList.add("option-list-open");
-          }}
-        >
-          Select the item
-        </a>
-        <ul className="option-list" ref={optionListRef}>
-          <li className="option-item" onClick={() => setSelectedItem("1")}>
-            <a href="#">1</a>
-          </li>
-          <li className="option-item" onClick={() => setSelectedItem("2")}>
-            <a href="#">2</a>
-          </li>
-          <li className="option-item" onClick={() => setSelectedItem("3")}>
-            <a href="#">3</a>
-          </li>
-          <li className="option-item" onClick={() => setSelectedItem("4")}>
-            <a href="#">4</a>
-          </li>
-        </ul>
-      </div> */}
-      {
-        // selectedItems?.length &&
-        selectedItems?.map((selectedItem: any, index: number) => {
-          return (
-            <div key={index} className="selected-item-outer">
-              <div className="selected-item-option">
-                <button
-                  onClick={() =>
-                    setSelectedItems((state: any) => {
-                      const newState = [...state];
-                      newState.find((v: any) => v.item === selectedItem.item).quantity -= 1;
-                      return newState;
-                    })
-                  }
-                  disabled={selectedItem.quantity === 1}
-                >
-                  -
-                </button>
-                <input
-                  type="number"
-                  defaultValue={1}
-                  value={selectedItem.quantity}
-                  onChange={(e) =>
-                    setSelectedItems((state: any) => {
-                      const newState = [...state];
-                      newState.find((v: any) => v.item === selectedItem.item).quantity =
-                        e.target.value;
-                      return newState;
-                    })
-                  }
-                />
-                <button
-                  onClick={() =>
-                    setSelectedItems((state: any) => {
-                      const newState = [...state];
-                      newState.find((v: any) => v.item === selectedItem.item).quantity += 1;
-                      return newState;
-                    })
-                  }
-                >
-                  +
-                </button>
-                {/* <button onClick={() => handleIncrease(selectedItem)}>+</button> */}
-              </div>
-              <div>item : {selectedItem.item}</div>
+      {selectedItems?.map((selectedItem: any, index: number) => {
+        return (
+          <div key={index} className="selected-item-outer">
+            <div>item : {selectedItem.item}</div>
+            <div className="selected-item-option">
+              <button
+                onClick={() =>
+                  setSelectedItems((state: any) => {
+                    const newState = [...state];
+                    newState.find((v: any) => v.item === selectedItem.item).quantity -= 1;
+                    return newState;
+                  })
+                }
+                disabled={selectedItem.quantity === 1}
+              >
+                -
+              </button>
+              <input
+                type="number"
+                // defaultValue={1}
+                value={selectedItem.quantity}
+                onChange={(e) =>
+                  setSelectedItems((state: any) => {
+                    const newState = [...state];
+                    newState.find((v: any) => v.item === selectedItem.item).quantity =
+                      e.target.value;
+                    return newState;
+                  })
+                }
+              />
+              <button
+                onClick={() =>
+                  setSelectedItems((state: any) => {
+                    const newState = [...state];
+                    newState.find((v: any) => v.item === selectedItem.item).quantity += 1;
+                    return newState;
+                  })
+                }
+              >
+                +
+              </button>
+              {/* <button onClick={() => handleIncrease(selectedItem)}>+</button> */}
             </div>
-          );
-        })
-      }
-      {/* {selectedItems.length
-        ? selectedItems.map((item: any, index: number) => <div key={index}>asdas</div>)
-        : "no"} */}
+          </div>
+        );
+      })}
     </Box>
   );
 }
@@ -213,11 +166,12 @@ const Box = styled.div`
     }
   }
   .selected-item-outer {
-    border: 1px solid red;
+    border: 1px solid;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 1rem;
+    padding: 0.5rem;
     .selected-item-option {
       input {
         /* width: 2rem; */

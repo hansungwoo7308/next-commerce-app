@@ -12,22 +12,48 @@ interface Props {
 }
 
 export default function ProductDetailWidget({ product }: Props) {
-  const dispatch = useDispatch();
+  // external
   const { name, price, description, category, seller, stock, ratings, images, reviews } = product;
   const cart = useSelector((store: any) => store.cart);
-
+  const dispatch = useDispatch();
+  // internal
   const [total, setTotal]: any = useState(0);
+  const options = [
+    {
+      item: "option1",
+      price: 3,
+    },
+    {
+      item: "option2",
+      price: 5,
+    },
+    {
+      item: "option3",
+      price: 7,
+    },
+  ];
 
-  const handleSetTotal = () => {
-    setTotal(cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0));
-  };
+  // const handleSetTotal = () => {
+  //   setTotal(cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0));
+  // };
 
-  useEffect(() => {
-    // setTotal(cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0));
-  }, [cart]);
+  // useEffect(() => {
+  //   // setTotal(cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0));
+  // }, [cart]);
 
+  // selected product items
   const [selectedItems, setSelectedItems]: any = useState([]);
   useEffect(() => console.log({ selectedItems }), [selectedItems]);
+  useEffect(() => {
+    const result = selectedItems.reduce((a: any, v: any) => {
+      // console.log({ v, a });
+      // console.log({ v: v.price * v.quantity });
+      return a + v.price * v.quantity;
+    }, 0);
+    setTotal(result);
+    // setTotal();
+  }, [selectedItems]);
+  useEffect(() => console.log({ total }), [total]);
 
   return (
     <Box className="widget">
@@ -67,7 +93,11 @@ export default function ProductDetailWidget({ product }: Props) {
           <small>제주,도서지역 추가 3,000원 / 도서산간지역 추가배송비 발생됩니다</small>
         </div>
         <hr />
-        <Option setSelectedItems={setSelectedItems} selectedItems={selectedItems} />
+        <Option
+          setSelectedItems={setSelectedItems}
+          selectedItems={selectedItems}
+          options={options}
+        />
         <hr />
         <strong>총 상품금액 : ${total}</strong>
         <hr />
