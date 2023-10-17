@@ -57,7 +57,7 @@ export default function AccountIcon() {
   if (auth.accessToken || session.data?.user) {
     return (
       <Box>
-        <Link href={"/cart"}>Cart ({cart.length})</Link>
+        <Link href={"/cart"}>Cart ({cart.products?.length})</Link>
         <div className="account-outer">
           <div className="account">
             <div className="avatar" onClick={handleToggle}>
@@ -98,7 +98,7 @@ export default function AccountIcon() {
   }
   return (
     <Box>
-      <Link href={"/cart"}>Cart ({cart.length})</Link>
+      <Link href={"/cart"}>Cart ({cart.products?.length})</Link>
       <Link href={"/auth/signin"}>Sign in</Link>
       <Link href={"/auth/signup"}>Sign up</Link>
     </Box>

@@ -2,8 +2,6 @@ import Header from "@/components/layout/Header";
 import Loading from "@/components/layout/Loading";
 import Modal from "@/components/layout/Modal";
 import Notify from "@/components/layout/Notify";
-import logError from "lib/client/log/logError";
-import logResponse from "lib/client/log/logResponse";
 import { setCredentials, signout } from "lib/client/store/authSlice";
 import { reloadCart } from "lib/client/store/cartSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
@@ -14,12 +12,14 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 export default function Layout({ children }: any) {
   const router = useRouter();
   const dispatch = useDispatch();
   const session: any = useSession();
   const auth = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
+
   const refreshAuth = async () => {
     try {
       dispatch(setLoading(true));
@@ -50,16 +50,13 @@ export default function Layout({ children }: any) {
     }
   }, [session.status]);
 
-  // set the cart (localStorage, redux store)
+  // 로컬스토리지로부터 리덕스스토어에 카트정보를 채운다.
   useEffect(() => {
-    const serializedCart: any = localStorage.getItem("cart");
-    if (!serializedCart) return;
-    const parseCart = JSON.parse(serializedCart);
-    // console.log("parseCart : ", parseCart);
-    dispatch(reloadCart(parseCart));
-    // parseCart.map((v: any) => {
-    //   dispatch(addToCart(v));
-    // });
+    const serializedProducts: any = localStorage.getItem("cart");
+    if (!serializedProducts) return;
+    const parsedProducts = JSON.parse(serializedProducts);
+    // console.log({ parsedProducts });
+    dispatch(reloadCart({ products: parsedProducts }));
   }, []); // if loaded, cache
   useEffect(() => {
     if (!cart.length) return;

@@ -3,6 +3,7 @@ import CreateProductReviewForm from "@/components/form/CreateProductReviewForm";
 import ProductReview from "@/components/product/ProductReview";
 import Stars from "@/components/product/Stars";
 import logResponse from "lib/client/log/logResponse";
+import { deleteItemFromCart } from "lib/client/store/cartSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import { deleteData, postData } from "lib/public/fetchData";
@@ -20,25 +21,17 @@ import styled from "styled-components";
 // import { deleteUser } from "lib/client/store/usersSlice";
 // import { deleteData, getData, postData } from "lib/client/utils/fetchData";
 export default function Modal() {
+  // external
   const { accessToken } = useSelector((store: any) => store.auth);
-  const {
-    active,
-    type,
-    message,
-    id,
-    ids,
-    modalAction,
-    actionLabel,
-    disabled,
-    src,
-
-    review,
-  } = useSelector((store: any) => store.modal);
+  const { active, type, id, ids, modalAction, actionLabel, disabled, src, review } = useSelector(
+    (store: any) => store.modal
+  );
   const { selectedProductId, selectedProductReviewIds } = useSelector(
     (store: any) => store.productManager
   );
   const router = useRouter();
   const dispatch = useDispatch();
+
   const handleClose = () => dispatch(setModal({ active: false }));
 
   if (!active) return null;
@@ -83,7 +76,6 @@ export default function Modal() {
       </Background>
     );
   }
-
   if (type === "CREATE_PRODUCT") {
     return (
       <Background onClick={handleClose}>
@@ -102,7 +94,57 @@ export default function Modal() {
       </Background>
     );
   }
+  if (type === "DELETE_ITEM") {
+    return (
+      <Background onClick={handleClose}>
+        <Box onClick={(e) => e.stopPropagation()}>
+          <div className="top">
+            <h1>DELETE_ITEM</h1>
+          </div>
+          <div className="middle">
+            <p>Do you want to delete this item?</p>
+          </div>
+          <div className="bottom">
+            <button
+              className="delete-button"
+              onClick={async () => {
+                dispatch(deleteItemFromCart({ _id: id }));
+                dispatch(setModal({ active: false }));
+              }}
+            >
+              Delete
+            </button>
+            <button className="cancel-button" onClick={handleClose}>
+              Cancel
+            </button>
+          </div>
+        </Box>
+      </Background>
+    );
+  }
   if (type === "DELETE_ITEMS") {
+    return (
+      <Background onClick={handleClose}>
+        <Box onClick={(e) => e.stopPropagation()}>
+          <div className="top">
+            <h1>DELETE_ITEMS</h1>
+          </div>
+          <div className="middle">
+            <p>Do you want to delete this items?</p>
+          </div>
+          <div className="bottom">
+            <button className="delete-button" onClick={async () => {}}>
+              Delete
+            </button>
+            <button className="cancel-button" onClick={handleClose}>
+              Cancel
+            </button>
+          </div>
+        </Box>
+      </Background>
+    );
+  }
+  if (type === "DELETE_PRODUCT_REVIEW_ITEMS") {
     return (
       <Background onClick={handleClose}>
         <Box onClick={(e) => e.stopPropagation()}>
@@ -343,6 +385,6 @@ const Box = styled.div`
 //     logError(error);
 //   }
 // };
-// const handleDeleteCartItem = async () => {
+// const handleDeleteBucket = async () => {
 //   dispatch(deleteItemFromCart({ _id: id }));
 // };

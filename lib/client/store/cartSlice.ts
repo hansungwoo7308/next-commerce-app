@@ -1,44 +1,70 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// interface InitialState {
-//   total?: number | null;
-//   quantity?: number | null;
-//   cart?: any[] | null;
-// }
+interface Product {
+  _id?: string;
+  options: any;
+}
 
-const initialState: any = [];
+interface InitialState {
+  products?: Product[] | any;
+}
+
+const initialState: InitialState = {
+  products: [],
+};
 
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      state.push(action.payload);
+      state.products.push(action.payload);
       localStorage.setItem("cart", JSON.stringify(state));
     },
     reloadCart: (state, action) => action.payload,
-    clearCart: (state, action) => [],
+    // clearCart: (state, action) => [],
     increaseQuantity: (state, action) => {
       const { _id } = action.payload;
-      state.find((v: any) => v._id === _id).quantity++;
+      state.products.find((v: any) => v._id === _id).quantity++;
     },
     decreaseQuantity: (state, action) => {
       const { _id } = action.payload;
-      state.find((v: any) => v._id === _id).quantity--;
+      state.products.find((v: any) => v._id === _id).quantity--;
     },
     deleteItemFromCart: (state, action) => {
       const { _id } = action.payload;
-      const newState = state.filter((v: any) => v._id !== _id);
+      const newState = state.products.filter((v: any) => v._id !== _id);
       localStorage.setItem("cart", JSON.stringify(newState));
       return newState;
     },
+    // addToCart: (state, action) => {
+    //   state.push(action.payload);
+    //   localStorage.setItem("cart", JSON.stringify(state));
+    // },
+    // reloadCart: (state, action) => action.payload,
+    // clearCart: (state, action) => [],
+    // increaseQuantity: (state, action) => {
+    //   const { _id } = action.payload;
+    //   state.find((v: any) => v._id === _id).quantity++;
+    // },
+    // decreaseQuantity: (state, action) => {
+    //   const { _id } = action.payload;
+    //   state.find((v: any) => v._id === _id).quantity--;
+    // },
+    // deleteItemFromCart: (state, action) => {
+    //   const { _id } = action.payload;
+    //   const newState = state.filter((v: any) => v._id !== _id);
+    //   localStorage.setItem("cart", JSON.stringify(newState));
+    //   return newState;
+    // },
   },
 });
 
 export const {
   addToCart,
+  updateLatestProducts,
   reloadCart,
-  clearCart,
+  // clearCart,
   increaseQuantity,
   decreaseQuantity,
   deleteItemFromCart,

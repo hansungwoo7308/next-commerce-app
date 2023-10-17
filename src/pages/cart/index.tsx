@@ -1,4 +1,3 @@
-import CartItem from "@/components/cart/CartItem";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,34 +6,40 @@ import { setNotify } from "lib/client/store/notifySlice";
 import { getData } from "lib/public/fetchData";
 import styled from "styled-components";
 import { toast } from "react-toastify";
+import Cart from "@/components/cart/Cart";
 
 export default function Page() {
   // external
   const dispatch = useDispatch();
-  const cart = useSelector((store: any) => store.cart);
   const auth = useSelector((store: any) => store.auth);
+  const cart = useSelector((store: any) => store.cart);
   // internal
   const router = useRouter();
   const [total, setTotal]: any = useState(0);
 
-  const setCart = async () => {
-    let newCart: any = [];
-    for (const item of cart) {
-      // console.log({ item });
+  const setLatestProducts = async (products: any) => {
+    console.log("setLatestProducts");
+    let latestProducts: any = [];
+    for (const product of products) {
       try {
-        const response = await getData(`products/${item._id}`);
-        console.log({ data: response.data });
-        const { product } = response.data;
-        if (!product) return toast.error("No product");
-        const { stock, quantity } = item;
-        if (stock) newCart.push({ ...product, quantity });
+        const response = await getData(`products/${product._id}`);
+        const latestProduct = response.data.product;
+        if (!latestProduct) return toast.error("No product");
+
+        // in stock
+        if (latestProduct.stock)
+          latestProducts.push({ ...latestProduct, options: product.options });
+        // out stock
+        else toast.error(`${latestProduct.name} product is out stock.`);
       } catch (error: any) {
         toast.error(error.message);
-        console.log({ error });
       }
     }
-    dispatch(reloadCart(newCart));
+    // 서버로부터 최신화된 데이터를 클라이언트 리덕스스토어에 저장한다.
+    console.log({ latestProducts });
+    dispatch(reloadCart({ products: latestProducts }));
   };
+
   const handleOrder = (e: any) => {
     e.preventDefault();
     if (!auth.accessToken) {
@@ -53,17 +58,20 @@ export default function Page() {
   };
 
   // set the tatal
-  useEffect(() => setTotal(cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0)), [cart]);
-  // get the up-to-date cart
+  // useEffect(() => setTotal(cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0)), [cart]);
   useEffect(() => {
-    // Up-To-Date Product Data (stock, ...)
-    // const stringfiedCart: any = localStorage.getItem("cart");
-    // if (!stringfiedCart) return;
-    // const cart: any = JSON.parse(stringfiedCart);
-    setCart();
+    if (cart.products?.length) console.log({ "cart.products": cart.products });
+  }, [cart]);
+  // get latest products
+  useEffect(() => {
+    const serializedProducts: any = localStorage.getItem("cart");
+    if (!serializedProducts) return;
+    const parsedProducts = JSON.parse(serializedProducts);
+    // 캐싱된 카트 프러덕츠를 최신화된 데이터로 갱신한다.
+    setLatestProducts(parsedProducts);
   }, []);
 
-  if (!cart.length) {
+  if (!cart.products?.length) {
     return (
       <Main>
         <section>
@@ -80,8 +88,8 @@ export default function Page() {
         <div className="cart">
           <h1>Shopping Cart</h1>
           <ul>
-            {cart.map((item: any) => (
-              <CartItem key={item._id} item={item} />
+            {cart.products.map((product: any, index: number) => (
+              <Cart key={index} product={product} />
             ))}
           </ul>
           <h3>Total : ${total}</h3>

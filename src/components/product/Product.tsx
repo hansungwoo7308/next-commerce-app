@@ -159,7 +159,6 @@ const Box = styled.li`
   background-color: #333;
   > .image {
     width: 10rem;
-    height: 10rem;
     position: relative;
     .checkbox {
       position: absolute;

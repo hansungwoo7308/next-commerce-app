@@ -18,7 +18,7 @@ export default function ProductMangerFixed() {
     dispatch(
       setModal({
         active: true,
-        type: "DELETE_ITEMS",
+        type: "DELETE_PRODUCT_REVIEW_ITEMS",
         selectedProductId,
         selectedProductReviewIds,
       })

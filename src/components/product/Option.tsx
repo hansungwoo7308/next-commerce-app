@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 interface Props {
-  setSelectedItems?: any;
-  selectedItems?: any;
+  setSelectedOptions?: any;
+  selectedOptions?: any;
   options?: any;
 }
 
-export default function Option({ setSelectedItems, selectedItems, options }: Props) {
+export default function Option({ setSelectedOptions, selectedOptions, options }: Props) {
   const optionListRef: any = useRef(null);
 
   // option list
@@ -20,7 +20,7 @@ export default function Option({ setSelectedItems, selectedItems, options }: Pro
     optionListRef.current.classList.remove("option-list-open");
     const newItem = { item: option.item, price: option.price, quantity: 1 };
     // console.log({ newItem });
-    setSelectedItems((state: any) => {
+    setSelectedOptions((state: any) => {
       const isDuplicated = state.find((v: any) => v.item === option.item) ? true : false;
       if (isDuplicated) return state;
       const newState = [...state, newItem];
@@ -47,15 +47,15 @@ export default function Option({ setSelectedItems, selectedItems, options }: Pro
   //   // const currentQuantity = Number(getValues("quantity"));
 
   //   // selectedItem.quantity += 1;
-  //   console.log({ selectedItems });
-  //   setSelectedItems((state: any) => {
+  //   console.log({ selectedOptions });
+  //   setSelectedOptions((state: any) => {
   //     const foundItem = state.find((v: any) => v.item === selectedItem.item);
   //     if (!foundItem) return;
   //     foundItem.quantity += 1;
   //     return state;
   //   });
 
-  //   // selectedItems.map((state: any) => {
+  //   // selectedOptions.map((state: any) => {
   //   //   console.log({ state });
   //   //   // const foundItem = state.find((v: any) => v.item === selectedItem);
   //   //   // console.log({ foundItem });
@@ -63,7 +63,7 @@ export default function Option({ setSelectedItems, selectedItems, options }: Pro
 
   //   // setValue("quantity", currentQuantity + 1);
   //   // setQuantity(currentQuantity + 1);
-  //   // setSelectedItems((state: any) => {
+  //   // setSelectedOptions((state: any) => {
   //   //   // console.log({ state });
   //   // });
   // };
@@ -82,14 +82,14 @@ export default function Option({ setSelectedItems, selectedItems, options }: Pro
           ))}
         </ul>
       </div>
-      {selectedItems?.map((selectedItem: any, index: number) => {
+      {selectedOptions?.map((selectedItem: any, index: number) => {
         return (
           <div key={index} className="selected-item-outer">
             <div>item : {selectedItem.item}</div>
             <div className="selected-item-option">
               <button
                 onClick={() =>
-                  setSelectedItems((state: any) => {
+                  setSelectedOptions((state: any) => {
                     const newState = [...state];
                     newState.find((v: any) => v.item === selectedItem.item).quantity -= 1;
                     return newState;
@@ -104,7 +104,7 @@ export default function Option({ setSelectedItems, selectedItems, options }: Pro
                 // defaultValue={1}
                 value={selectedItem.quantity}
                 onChange={(e) =>
-                  setSelectedItems((state: any) => {
+                  setSelectedOptions((state: any) => {
                     const newState = [...state];
                     newState.find((v: any) => v.item === selectedItem.item).quantity =
                       e.target.value;
@@ -114,7 +114,7 @@ export default function Option({ setSelectedItems, selectedItems, options }: Pro
               />
               <button
                 onClick={() =>
-                  setSelectedItems((state: any) => {
+                  setSelectedOptions((state: any) => {
                     const newState = [...state];
                     newState.find((v: any) => v.item === selectedItem.item).quantity += 1;
                     return newState;

@@ -11,49 +11,44 @@ interface Props {
   product?: any;
 }
 
+// static variable
+const options = [
+  {
+    item: "option1",
+    price: 3,
+  },
+  {
+    item: "option2",
+    price: 5,
+  },
+  {
+    item: "option3",
+    price: 7,
+  },
+];
+
 export default function ProductDetailWidget({ product }: Props) {
   // external
   const { name, price, description, category, seller, stock, ratings, images, reviews } = product;
   const cart = useSelector((store: any) => store.cart);
   const dispatch = useDispatch();
+
   // internal
   const [total, setTotal]: any = useState(0);
-  const options = [
-    {
-      item: "option1",
-      price: 3,
-    },
-    {
-      item: "option2",
-      price: 5,
-    },
-    {
-      item: "option3",
-      price: 7,
-    },
-  ];
-
-  // const handleSetTotal = () => {
-  //   setTotal(cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0));
-  // };
-
-  // useEffect(() => {
-  //   // setTotal(cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0));
-  // }, [cart]);
-
-  // selected product items
-  const [selectedItems, setSelectedItems]: any = useState([]);
-  useEffect(() => console.log({ selectedItems }), [selectedItems]);
+  const [selectedOptions, setSelectedOptions]: any = useState([]);
   useEffect(() => {
-    const result = selectedItems.reduce((a: any, v: any) => {
-      // console.log({ v, a });
-      // console.log({ v: v.price * v.quantity });
-      return a + v.price * v.quantity;
-    }, 0);
-    setTotal(result);
-    // setTotal();
-  }, [selectedItems]);
-  useEffect(() => console.log({ total }), [total]);
+    // if (selectedOptions.length) console.log({ selectedOptions });
+  }, [selectedOptions]);
+  useEffect(
+    () => setTotal(selectedOptions.reduce((a: any, v: any) => a + v.price * v.quantity, 0)),
+    [selectedOptions]
+  );
+  // useEffect(() => {
+  //   // if (total) console.log({ total });
+  // }, [total]);
+  // useEffect(() => {
+  //   if (cart.products.length) console.log({ cart });
+  // }, [cart]);
 
   return (
     <Box className="widget">
@@ -94,8 +89,8 @@ export default function ProductDetailWidget({ product }: Props) {
         </div>
         <hr />
         <Option
-          setSelectedItems={setSelectedItems}
-          selectedItems={selectedItems}
+          setSelectedOptions={setSelectedOptions}
+          selectedOptions={selectedOptions}
           options={options}
         />
         <hr />
@@ -109,9 +104,10 @@ export default function ProductDetailWidget({ product }: Props) {
         <div className="controller">
           <button
             onClick={() => {
-              const duplicate = cart.find((v: any) => v._id === product._id);
-              if (duplicate) return toast.error("Already added it");
-              else dispatch(addToCart({ ...product, quantity: 1 }));
+              // const duplicate = cart.find((v: any) => v._id === product._id);
+              // if (duplicate) return toast.error("Already added it");
+              // else dispatch(addToCart({ ...product, quantity: 1 }));
+              dispatch(addToCart({ ...product, options: selectedOptions }));
             }}
           >
             Add to Cart
