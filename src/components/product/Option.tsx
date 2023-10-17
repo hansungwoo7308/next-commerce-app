@@ -3,15 +3,15 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 interface Props {
+  product?: any;
   setSelectedOptions?: any;
   selectedOptions?: any;
   options?: any;
 }
 
-export default function Option({ setSelectedOptions, selectedOptions, options }: Props) {
+export default function Option({ product, selectedOptions, setSelectedOptions, options }: Props) {
   const optionListRef: any = useRef(null);
 
-  // option list
   const handleOpenOption = (e: any) => {
     e.stopPropagation();
     optionListRef.current.classList.add("option-list-open");
@@ -75,6 +75,12 @@ export default function Option({ setSelectedOptions, selectedOptions, options }:
           Select the item
         </a>
         <ul className="option-list" ref={optionListRef}>
+          <li
+            className="option-item"
+            onClick={() => handleClickOption({ item: product.name, price: product.price })}
+          >
+            <a href="#">{product.name}</a>
+          </li>
           {options.map((option: any) => (
             <li key={option.item} className="option-item" onClick={() => handleClickOption(option)}>
               <a href="#">{option.item}</a>

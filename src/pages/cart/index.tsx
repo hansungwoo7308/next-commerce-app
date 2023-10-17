@@ -57,7 +57,16 @@ export default function Page() {
   };
 
   // set the tatal
-  // useEffect(() => setTotal(cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0)), [cart]);
+  useEffect(
+    () =>
+      setTotal(
+        cart.products.reduce((a: any, v: any) => {
+          const optionsTotal = v.options.reduce((a: any, v: any) => a + v.price * v.quantity, 0);
+          return a + optionsTotal;
+        }, 0)
+      ),
+    [cart]
+  );
 
   // get latest products
   useEffect(() => {
