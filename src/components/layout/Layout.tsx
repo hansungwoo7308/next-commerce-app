@@ -52,17 +52,20 @@ export default function Layout({ children }: any) {
 
   // 로컬스토리지로부터 리덕스스토어에 카트정보를 채운다.
   useEffect(() => {
-    const serializedProducts: any = localStorage.getItem("cart");
-    if (!serializedProducts) return;
-    const parsedProducts = JSON.parse(serializedProducts);
-    // console.log({ parsedProducts });
-    dispatch(reloadCart({ products: parsedProducts }));
+    const serializedCart: any = localStorage.getItem("cart");
+    if (!serializedCart) return;
+    const parsedCart = JSON.parse(serializedCart);
+    // console.log({ parsedCart });
+    dispatch(reloadCart(parsedCart));
   }, []); // if loaded, cache
   useEffect(() => {
-    if (!cart.length) return;
-    const stringfiedCart = JSON.stringify(cart);
-    localStorage.setItem("cart", stringfiedCart);
+    if (!cart.products?.length) return;
+    const serializedCart = JSON.stringify(cart);
+    localStorage.setItem("cart", serializedCart);
   }, [cart]); // if cart is changed, cache
+  useEffect(() => {
+    if (cart.products?.length) console.log({ "cart.products": cart.products });
+  }, [cart]);
 
   return (
     <>

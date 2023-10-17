@@ -21,7 +21,12 @@ export const cartSlice = createSlice({
       state.products.push(action.payload);
       localStorage.setItem("cart", JSON.stringify(state));
     },
-    reloadCart: (state, action) => action.payload,
+    reloadCart: (state, action) => {
+      // console.log({ "action.payload": action.payload });
+      // state.products = action.payload.products;
+      return action.payload;
+    },
+    // reloadCart: (state, action) => action.payload,
     // clearCart: (state, action) => [],
     increaseQuantity: (state, action) => {
       const { _id } = action.payload;

@@ -18,7 +18,6 @@ export default function Page() {
   const [total, setTotal]: any = useState(0);
 
   const setLatestProducts = async (products: any) => {
-    console.log("setLatestProducts");
     let latestProducts: any = [];
     for (const product of products) {
       try {
@@ -36,7 +35,7 @@ export default function Page() {
       }
     }
     // 서버로부터 최신화된 데이터를 클라이언트 리덕스스토어에 저장한다.
-    console.log({ latestProducts });
+    // console.log({ latestProducts });
     dispatch(reloadCart({ products: latestProducts }));
   };
 
@@ -59,16 +58,15 @@ export default function Page() {
 
   // set the tatal
   // useEffect(() => setTotal(cart.reduce((a: any, v: any) => a + v.price * v.quantity, 0)), [cart]);
-  useEffect(() => {
-    if (cart.products?.length) console.log({ "cart.products": cart.products });
-  }, [cart]);
+
   // get latest products
   useEffect(() => {
-    const serializedProducts: any = localStorage.getItem("cart");
-    if (!serializedProducts) return;
-    const parsedProducts = JSON.parse(serializedProducts);
-    // 캐싱된 카트 프러덕츠를 최신화된 데이터로 갱신한다.
-    setLatestProducts(parsedProducts);
+    const serializedCart: any = localStorage.getItem("cart");
+    if (!serializedCart) return;
+    const parsedCart = JSON.parse(serializedCart);
+    // console.log({ parsedCart });
+    // 캐싱된 카트 프러덕츠를 통해서 최신화된 데이터로 갱신한다.
+    setLatestProducts(parsedCart.products);
   }, []);
 
   if (!cart.products?.length) {
