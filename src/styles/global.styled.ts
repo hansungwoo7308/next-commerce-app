@@ -116,6 +116,21 @@ export const GlobalStyled = createGlobalStyle`
       cursor: not-allowed;
     }
   }
+  html body .pay-button{
+    padding: 0.5rem;
+    border-radius: 3px;
+    /* background-color: #c15151; */
+    /* background-color: #fff; */
+    background-color: #67b34bec;
+    color: #fff;
+    &:hover {
+      background-color: #000;
+      color: #fff;
+    }
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
   html body .delete-button{
     padding: 0.5rem;
     border-radius: 3px;
@@ -141,6 +156,7 @@ export const GlobalStyled = createGlobalStyle`
     }
   }
   
+  
   img {
     width: 100%;
     height: 100%;
@@ -164,5 +180,8 @@ export const GlobalStyled = createGlobalStyle`
   input, textarea {
     /* padding: .5rem; */
     padding:3px;
+  }
+  span{
+    font-size: 14px;
   }
 `;

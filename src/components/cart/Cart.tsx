@@ -1,20 +1,35 @@
 import { increaseQuantity, decreaseQuantity } from "lib/client/store/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 import { setModal } from "lib/client/store/modalSlice";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
+import { setOrder } from "lib/client/store/orderSlice";
 
 export default function Cart({ product }: any) {
   // exteranl
   const dispatch = useDispatch();
+  const router = useRouter();
   const { _id, name, price, images, seller, stock, quantity, options } = product;
+  const auth = useSelector((store: any) => store.auth);
 
   const handleDeleteItemFromCart = () =>
     dispatch(setModal({ active: true, type: "DELETE_ITEM", id: _id }));
   const handleIncreaseQuantity = (item: any) => dispatch(increaseQuantity({ _id, item }));
   const handleDecreaseQuantity = (item: any) => dispatch(decreaseQuantity({ _id, item }));
+  const handlePay = (e: any) => {
+    e.preventDefault();
+    // if (!auth.accessToken) {
+    //   toast.error("You have to log in");
+    //   return router.push("/auth/signin");
+    // }
+    const order = { product, payInfo: { total } };
+    dispatch(setOrder(order));
+    router.push("/order");
+  };
 
   // internal
   const [total, setTotal]: any = useState(0);
@@ -85,6 +100,9 @@ export default function Cart({ product }: any) {
       <HorizonLine />
       <div className="product-footer">
         <h3>Total (주문금액) : ${total}</h3>
+        <button className="pay-button" onClick={handlePay}>
+          Pay (결제)
+        </button>
       </div>
     </Box>
   );
@@ -168,7 +186,11 @@ const Box = styled.li`
     }
   }
   .product-footer {
-    text-align: end;
+    /* text-align: end; */
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 1rem;
   }
 `;
 const HorizonLine = styled.hr`

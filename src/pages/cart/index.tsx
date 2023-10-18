@@ -40,24 +40,24 @@ export default function Page() {
     dispatch(reloadCart({ products: latestProducts }));
   };
 
-  const handleOrder = (e: any) => {
-    e.preventDefault();
-    if (!auth.accessToken) {
-      dispatch(setNotify({ status: "error", message: "You have to log in.", visible: true }));
-      return router.push("/auth/signin");
-    }
-    // const { address, mobile } = data;
-    // const payload = {
-    //   address,
-    //   mobile,
-    //   cart,
-    //   total,
-    // };
-    // dispatch(addOrder(payload));
-    router.push("/order");
-  };
+  // const handleOrder = (e: any) => {
+  //   e.preventDefault();
+  //   if (!auth.accessToken) {
+  //     toast.error("You have to log in");
+  //     return router.push("/auth/signin");
+  //   }
+  //   // const { address, mobile } = data;
+  //   // const payload = {
+  //   //   address,
+  //   //   mobile,
+  //   //   cart,
+  //   //   total,
+  //   // };
+  //   // dispatch(addOrder(payload));
+  //   router.push("/order");
+  // };
 
-  // get latest products
+  // get and set latest products from local storage
   useEffect(() => {
     const serializedCart: any = localStorage.getItem("cart");
     if (!serializedCart) return;
@@ -96,15 +96,15 @@ export default function Page() {
       <section>
         <div className="cart">
           <h1>Shopping Cart</h1>
-          <ul>
+          <ul className="cart-list">
             {cart.products.map((product: any, index: number) => (
               <Cart key={index} product={product} />
             ))}
           </ul>
-          <h3>Total (총합) : ${total}</h3>
-          <div className="payment">
+          {/* <div className="payment">
             <button onClick={handleOrder}>Order</button>
-          </div>
+          </div> */}
+          <h3>Total (총합) : ${total}</h3>
         </div>
       </section>
     </Main>
@@ -120,11 +120,9 @@ const Main = styled.main`
       padding: 1rem;
       border: 2px solid green;
       > * {
-        /* border: 2px solid; */
-        /* width: 100%; */
         margin: 1rem 0;
       }
-      > ul {
+      > .cart-list {
         display: flex;
         flex-direction: column;
         gap: 1rem;
@@ -134,20 +132,9 @@ const Main = styled.main`
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        border: 2px solid;
+        border: 2px solid red;
         border-radius: 5px;
         padding: 1rem;
-      }
-      > .payment {
-        display: flex;
-        justify-content: center;
-        > button {
-          padding: 1rem;
-          background-color: #000;
-          &:hover {
-            background-color: green;
-          }
-        }
       }
     }
   }

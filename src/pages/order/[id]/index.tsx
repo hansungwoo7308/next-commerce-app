@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+
 export default function Page() {
   const order = useSelector((store: any) => store.order);
   const auth = useSelector((store: any) => store.auth);
@@ -15,6 +16,7 @@ export default function Page() {
   // find the order
   // const order = orders.find((order: any) => order._id === id);
   // console.log("order : ", order);
+
   if (!auth.accessToken || !order) return null;
   return (
     <Main>
@@ -76,6 +78,7 @@ export default function Page() {
     </Main>
   );
 }
+
 const Main = styled.main`
   > section {
     > div {

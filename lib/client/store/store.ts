@@ -6,7 +6,8 @@ import { productManagerSlice } from "lib/client/store/productManagerSlice";
 import { modalSlice } from "lib/client/store/modalSlice";
 import { notifySlice } from "lib/client/store/notifySlice";
 import { orderSlice } from "lib/client/store/orderSlice";
-import { ordersSlice } from "lib/client/store/ordersSlice";
+import { orderedSlice } from "lib/client/store/orderedSlice";
+// import { ordersSlice } from "lib/client/store/ordersSlice";
 import { userApiSlice } from "lib/client/store/userApiSlice";
 
 export const store = configureStore({
@@ -17,8 +18,9 @@ export const store = configureStore({
     modal: modalSlice.reducer,
     cart: cartSlice.reducer,
     order: orderSlice.reducer,
-    orders: ordersSlice.reducer,
+    ordered: orderedSlice.reducer,
     productManager: productManagerSlice.reducer,
+    // orders: ordersSlice.reducer,
     // [userApiSlice.reducerPath]: userApiSlice.reducer,
   },
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(userApiSlice.middleware),
