@@ -80,7 +80,8 @@ export default function ProductDetailWidget({ product }: Props) {
         <div className="description">
           <p>category : {category}</p>
           <p>seller : {seller}</p>
-          <p>stock : {stock ? "in stock" : "out stock"}</p>
+          <p>stock : {stock ? stock : "out stock"}</p>
+          {/* <p>stock : {stock ? "in stock" : "out stock"}</p> */}
         </div>
         <hr />
         <div className="delivery">

@@ -1,8 +1,4 @@
-import {
-  increaseQuantity,
-  decreaseQuantity,
-  increaseProductOption,
-} from "lib/client/store/cartSlice";
+import { increaseQuantity, decreaseQuantity } from "lib/client/store/cartSlice";
 import { useDispatch } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,16 +11,10 @@ export default function Cart({ product }: any) {
   const dispatch = useDispatch();
   const { _id, name, price, images, seller, stock, quantity, options } = product;
 
-  const handleIncreaseProductOption = (item: any) => {
-    console.log("handleIncreaseProductOption");
-    console.log({ item });
-    dispatch(increaseProductOption({ _id, item }));
-  };
-
-  const handleDecreaseQuantity = () => dispatch(decreaseQuantity({ _id }));
-  const handleIncreaseQuantity = () => dispatch(increaseQuantity({ _id }));
   const handleDeleteItemFromCart = () =>
     dispatch(setModal({ active: true, type: "DELETE_ITEM", id: _id }));
+  const handleIncreaseQuantity = (item: any) => dispatch(increaseQuantity({ _id, item }));
+  const handleDecreaseQuantity = (item: any) => dispatch(decreaseQuantity({ _id, item }));
 
   // internal
   const [total, setTotal]: any = useState(0);
@@ -37,7 +27,7 @@ export default function Cart({ product }: any) {
     // });
     const total = options.reduce((a: any, v: any) => a + v.price * v.quantity, 0);
     setTotal(total);
-  }, []);
+  }, [options]);
 
   return (
     <Box>
@@ -67,19 +57,23 @@ export default function Cart({ product }: any) {
         </div>
         <VerticalLine />
         <ul className="options">
-          {options.map((option: any) => (
+          {options.map((option: any, index: number) => (
             <li className="option">
               <p>{option.item}</p>
               <p>
                 ${option.price} X {option.quantity} = ${option.price * option.quantity}
               </p>
               <div className="buttons">
-                <button onClick={handleDecreaseQuantity} disabled={quantity === 1}>
+                <button
+                  onClick={() => handleDecreaseQuantity(option.item)}
+                  disabled={option.quantity === 1}
+                >
                   -
                 </button>
                 <button
-                  onClick={() => handleIncreaseProductOption(option.item)}
-                  disabled={quantity === stock}
+                  onClick={() => handleIncreaseQuantity(option.item)}
+                  // disabled={option.quantity === stock}
+                  disabled={index === 0 ? option.quantity === stock : option.quantity === 5}
                 >
                   +
                 </button>
@@ -90,7 +84,7 @@ export default function Cart({ product }: any) {
       </div>
       <HorizonLine />
       <div className="product-footer">
-        <h3>주문금액 ${total}</h3>
+        <h3>Total (주문금액) : ${total}</h3>
       </div>
     </Box>
   );

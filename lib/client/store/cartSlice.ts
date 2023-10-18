@@ -22,23 +22,23 @@ export const cartSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(state));
     },
     reloadCart: (state, action) => action.payload,
-    clearCart: (state, action) => {},
-    increaseProductOption: (state, action) => {
+    increaseQuantity: (state, action) => {
       const { _id, item } = action.payload;
-      console.log({ _id });
+      // console.log({ _id });
       const foundProduct = state.products.find((v: any) => v._id === _id);
       const foundProductOption = foundProduct.options.find((v: any) => v.item === item);
       if (!foundProductOption) return;
       foundProductOption.quantity += 1;
-      console.log({ foundProductOption });
-    },
-    increaseQuantity: (state, action) => {
-      const { _id } = action.payload;
-      state.products.find((v: any) => v._id === _id).quantity++;
+      // console.log({ foundProductOption });
     },
     decreaseQuantity: (state, action) => {
-      const { _id } = action.payload;
-      state.products.find((v: any) => v._id === _id).quantity--;
+      const { _id, item } = action.payload;
+      // console.log({ _id });
+      const foundProduct = state.products.find((v: any) => v._id === _id);
+      const foundProductOption = foundProduct.options.find((v: any) => v.item === item);
+      if (!foundProductOption) return;
+      foundProductOption.quantity -= 1;
+      // console.log({ foundProductOption });
     },
     deleteItemFromCart: (state, action) => {
       const { _id } = action.payload;
@@ -47,6 +47,17 @@ export const cartSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(newState));
       return newState;
     },
+    clearCart: (state, action) => ({ products: [] }),
+
+    // increaseQuantity: (state, action) => {
+    //   const { _id } = action.payload;
+    //   state.products.find((v: any) => v._id === _id).quantity++;
+    // },
+    // decreaseQuantity: (state, action) => {
+    //   const { _id } = action.payload;
+    //   state.products.find((v: any) => v._id === _id).quantity--;
+    // },
+
     // addToCart: (state, action) => {
     //   state.push(action.payload);
     //   localStorage.setItem("cart", JSON.stringify(state));
@@ -72,11 +83,9 @@ export const cartSlice = createSlice({
 
 export const {
   addToCart,
-  updateLatestProducts,
   reloadCart,
-  clearCart,
-  increaseProductOption,
+  deleteItemFromCart,
   increaseQuantity,
   decreaseQuantity,
-  deleteItemFromCart,
+  clearCart,
 }: any = cartSlice.actions;

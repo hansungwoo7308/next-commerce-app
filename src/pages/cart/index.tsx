@@ -101,7 +101,7 @@ export default function Page() {
               <Cart key={index} product={product} />
             ))}
           </ul>
-          <h3>Total : ${total}</h3>
+          <h3>Total (총합) : ${total}</h3>
           <div className="payment">
             <button onClick={handleOrder}>Order</button>
           </div>
