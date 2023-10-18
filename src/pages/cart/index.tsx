@@ -17,7 +17,8 @@ export default function Page() {
   const router = useRouter();
   const [total, setTotal]: any = useState(0);
 
-  const setLatestProducts = async (products: any) => {
+  const updateLatestProducts = async (products: any) => {
+    // console.log("updateLatestProducts");
     let latestProducts: any = [];
     for (const product of products) {
       try {
@@ -56,27 +57,28 @@ export default function Page() {
     router.push("/order");
   };
 
-  // set the tatal
-  useEffect(
-    () =>
-      setTotal(
-        cart.products.reduce((a: any, v: any) => {
-          const optionsTotal = v.options.reduce((a: any, v: any) => a + v.price * v.quantity, 0);
-          return a + optionsTotal;
-        }, 0)
-      ),
-    [cart]
-  );
-
   // get latest products
   useEffect(() => {
     const serializedCart: any = localStorage.getItem("cart");
     if (!serializedCart) return;
     const parsedCart = JSON.parse(serializedCart);
+    if (!parsedCart.products?.length) return console.log("8382912");
     // console.log({ parsedCart });
     // 캐싱된 카트 프러덕츠를 통해서 최신화된 데이터로 갱신한다.
-    setLatestProducts(parsedCart.products);
+    if (!parsedCart.products?.length) return;
+    updateLatestProducts(parsedCart.products);
   }, []);
+
+  // set the tatal
+  useEffect(() => {
+    if (cart.products?.length)
+      setTotal(
+        cart.products.reduce((a: any, v: any) => {
+          const optionsTotal = v.options.reduce((a: any, v: any) => a + v.price * v.quantity, 0);
+          return a + optionsTotal;
+        }, 0)
+      );
+  }, [cart]);
 
   if (!cart.products?.length) {
     return (

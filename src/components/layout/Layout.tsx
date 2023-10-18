@@ -55,12 +55,13 @@ export default function Layout({ children }: any) {
     const serializedCart: any = localStorage.getItem("cart");
     if (!serializedCart) return;
     const parsedCart = JSON.parse(serializedCart);
+    if (!parsedCart.products.length) return console.log("8382912");
     // console.log({ parsedCart });
     dispatch(reloadCart(parsedCart));
   }, []); // if loaded, cache
   useEffect(() => {
     if (!cart.products?.length) return;
-    const serializedCart = JSON.stringify(cart);
+    const serializedCart: any = JSON.stringify(cart);
     localStorage.setItem("cart", serializedCart);
   }, [cart]); // if cart is changed, cache
   useEffect(() => {
