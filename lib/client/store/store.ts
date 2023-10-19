@@ -14,12 +14,12 @@ export const store = configureStore({
   reducer: {
     loading: loadingSlice.reducer,
     auth: authSlice.reducer,
-    notify: notifySlice.reducer,
     modal: modalSlice.reducer,
     cart: cartSlice.reducer,
     order: orderSlice.reducer,
     ordered: orderedSlice.reducer,
     productManager: productManagerSlice.reducer,
+    // notify: notifySlice.reducer,
     // orders: ordersSlice.reducer,
     // [userApiSlice.reducerPath]: userApiSlice.reducer,
   },

@@ -3,9 +3,11 @@ import Order from "lib/server/models/Order";
 import Product from "lib/server/models/Product";
 import User from "lib/server/models/User";
 import verifyJWT from "lib/server/utils/verifyJWT";
+
 connectDB();
+
 export default async function (req: any, res: any) {
-  console.log("\x1b[32m\n[api/order]:::[", req.method, "]");
+  console.log("\x1b[33m\n[api/order]:::[", req.method, "]");
   switch (req.method) {
     case "POST":
       await createOrder(req, res);
@@ -17,6 +19,7 @@ export default async function (req: any, res: any) {
       break;
   }
 }
+
 const createOrder = async (req: any, res: any) => {
   try {
     // verify
@@ -70,7 +73,6 @@ const createOrder = async (req: any, res: any) => {
     return res.status(500).json({ error: error.message });
   }
 };
-// method
 const checkStock = async ({ _id, quantity }: any) => {
   try {
     const foundProduct = await Product.findOne({ _id }).exec();
@@ -81,7 +83,6 @@ const checkStock = async ({ _id, quantity }: any) => {
     return false;
   }
 };
-// method
 const updateProduct = async (payload: any) => {
   const { _id, quantity } = payload;
   try {
@@ -102,7 +103,6 @@ const updateProduct = async (payload: any) => {
     return false;
   }
 };
-// handler
 const getOrders = async (req: any, res: any) => {
   try {
     // verify

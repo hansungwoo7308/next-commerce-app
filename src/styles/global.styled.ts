@@ -156,7 +156,7 @@ export const GlobalStyled = createGlobalStyle`
     }
   }
   
-  
+
   img {
     width: 100%;
     height: 100%;
@@ -167,7 +167,7 @@ export const GlobalStyled = createGlobalStyle`
   li{
     list-style:none;
   }
-  p {
+  p,span,label {
     font-size: 14px;
   }
   hr {
@@ -181,7 +181,5 @@ export const GlobalStyled = createGlobalStyle`
     /* padding: .5rem; */
     padding:3px;
   }
-  span{
-    font-size: 14px;
-  }
+  
 `;

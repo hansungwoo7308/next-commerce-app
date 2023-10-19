@@ -11,25 +11,24 @@ export default function Page() {
   const auth = useSelector((store: any) => store.auth);
   const router = useRouter();
   const { id } = router.query;
+  const { product } = order;
   // console.log({ order });
   // console.log({ id });
   // find the order
   // const order = orders.find((order: any) => order._id === id);
   // console.log("order : ", order);
 
-  if (!auth.accessToken || !order) return null;
+  // if (!auth.accessToken || !order) return null;
+
   return (
     <Main>
       <section>
         <div>
           <button onClick={() => router.back()}>Go Back</button>
           <div className="order">
-            <h3 className="title">Order Number : {order._id}</h3>
+            <h3 className="title">Order Number : {order.product._id}</h3>
             <div className="delivery-info">
               <h3>Delivery Information</h3>
-              {/* <p>Receiver Name : {order.User.username}</p>
-              <p>Receiver Address : {order.address}</p>
-              <p>Receiver Mobile : {order.mobile}</p> */}
               <p>
                 Delivered Status : {order.delivered ? "delivered" : "Not delivered"}
                 {auth.role === "user" && <button>Change to Delivered</button>}
@@ -37,29 +36,27 @@ export default function Page() {
             </div>
             <div className="product-info">
               <h3>Product Information</h3>
-              {order.cart.map((product: any) => (
-                <div className="product" key={product._id}>
-                  <Link href={`/commerce/product/${product._id}`}>
-                    <Image
-                      src={product.images[0].url}
-                      alt={product.images[0].url}
-                      width={300}
-                      height={300}
-                    />
-                  </Link>
-                  <div>
-                    <p>Product Number : {product._id}</p>
-                    <p>
-                      {product.quantity} X ${product.price} = ${product.quantity * product.price}
-                    </p>
-                  </div>
+              <div className="product" key={product._id}>
+                <Link href={`/commerce/product/${product._id}`}>
+                  <Image
+                    src={product.images[0].url}
+                    alt={product.images[0].url}
+                    width={300}
+                    height={300}
+                  />
+                </Link>
+                <div>
+                  <p>Product Number : {product._id}</p>
+                  <p>
+                    {product.quantity} X ${product.price} = ${product.quantity * product.price}
+                  </p>
                 </div>
-              ))}
+              </div>
             </div>
             <div className="payment">
               <h3>Payment</h3>
               <p>Payment Status : {order.paid ? "Paid" : "Not paid"}</p>
-              {!order.paid && auth.user.role === "user" && (
+              {/* {!order.paid && auth.user.role === "user" && (
                 <>
                   <p>Total : ${order.total}</p>
                   <Paypal order={order} />
@@ -70,7 +67,7 @@ export default function Page() {
                   <p>Payment Method : {order.method}</p>
                   <p>Payment ID : {order.paymentId}</p>
                 </>
-              )}
+              )} */}
             </div>
           </div>
         </div>

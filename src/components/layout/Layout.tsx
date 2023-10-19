@@ -85,7 +85,7 @@ export default function Layout({ children }: any) {
       />
       <Loading />
       <Modal />
-      <Notify />
+      {/* <Notify /> */}
       <Header />
       {children}
     </>
