@@ -1,5 +1,6 @@
 import Order from "@/components/order/Order";
 import { styled } from "styled-components";
+
 export default function Orders({ orders }: any) {
   return (
     <Box>
@@ -9,6 +10,7 @@ export default function Orders({ orders }: any) {
     </Box>
   );
 }
+
 const Box = styled.ul`
   display: flex;
   flex-direction: column;

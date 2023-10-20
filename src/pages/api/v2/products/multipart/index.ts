@@ -5,7 +5,7 @@ import {
   uploadImagesToServer,
   uploadImagesToCloudinary,
 } from "lib/server/middlewares/uploadMiddlewares";
-import { newProduct } from "lib/server/controllers/productControllers";
+import { createProduct } from "lib/server/controllers/productControllers";
 import { PageConfig } from "next";
 
 connectDB();
@@ -21,7 +21,7 @@ const router = createRouter()
   // handle the multipart data
   .use(uploadImagesToServer)
   .post(uploadImagesToCloudinary)
-  .post(newProduct);
+  .post(createProduct);
 
 // out
 export const config: PageConfig = {

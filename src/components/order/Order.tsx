@@ -2,13 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { styled } from "styled-components";
+
 export default function Order({ order }: any) {
+  // external
+  const { ordererInfo, productInfo, deliveryInfo, payInfo } = order;
+  const { product } = productInfo;
+
+  // internal
   const [expanded, setExpanded]: any = useState(false);
+
   return (
     <Box>
       <h3>Order Number : {order._id}</h3>
-      <small>Payment Date : {order.dateOfPayment}</small>
-      <p>Payment Amount : ${order.total}</p>
+      {/* <small>Payment Date : {order.dateOfPayment}</small>
+      <p>Payment Amount : ${order.total}</p> */}
       {expanded ? (
         <ul className="order-list">
           {order.cart.map((item: any) => (
@@ -31,31 +38,32 @@ export default function Order({ order }: any) {
         </ul>
       ) : (
         <ul className="order-list">
-          <li key={order.cart[0]._id} className="order-item">
+          <li key={product._id} className="order-item">
             <div className="product-thumbnail">
-              <Link href={`/products/${order.cart[0]._id}`}>
+              <Link href={`/products/${product._id}`}>
                 <Image
-                  src={order.cart[0].images[0].url || order.cart[0].images[0].secure_url}
-                  alt={order.cart[0].images[0].url || order.cart[0].images[0].secure_url}
+                  src={product.images[0].url || product.images[0].secure_url}
+                  alt={product.images[0].url || product.images[0].secure_url}
                   width={1000}
                   height={1000}
                 />
               </Link>
             </div>
             <div className="product-info">
-              <strong>{order.cart[0].name}</strong>
+              <strong>{product.name}</strong>
             </div>
           </li>
         </ul>
       )}
-      {order.cart.length >= 2 && (
+      {/* {order.cart.length >= 2 && (
         <button className="expand-button" onClick={() => setExpanded(!expanded)}>
           View all the products
         </button>
-      )}
+      )} */}
     </Box>
   );
 }
+
 const Box = styled.li`
   border: 2px solid green;
   border-radius: 5px;

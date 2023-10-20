@@ -78,7 +78,7 @@ export default function AccountIcon() {
                   {auth.user?.role === "admin" && <></>}
                   {auth.user?.role === "user" && (
                     <>
-                      <Link href={"/my/order-list"}>
+                      <Link href={"/my/orders"}>
                         <p>Order List</p>
                       </Link>
                     </>

@@ -31,6 +31,10 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    sold: {
+      type: Number,
+      default: 0,
+    },
     // not required
     ratings: {
       type: Number,
@@ -103,10 +107,6 @@ const productSchema = new mongoose.Schema(
     //   default: false,
     // },
     // inStock: {
-    //   type: Number,
-    //   default: 0,
-    // },
-    // sold: {
     //   type: Number,
     //   default: 0,
     // },

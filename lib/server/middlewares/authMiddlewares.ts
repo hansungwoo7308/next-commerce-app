@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 // import cookie from "cookie";
 export const checkAuth = async (req: any, res: any, next: any) => {
   console.log("\x1b[32m\n<middleware/checkAuth>");
-  // console.log(Object.keys(req));
 
   // get the accessToken
   const authorization = req.headers.authorization || req.headers.Authorization;
@@ -15,7 +14,7 @@ export const checkAuth = async (req: any, res: any, next: any) => {
   // verify
   const verified: any = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
   if (!verified) return res.status(401).json({ message: "Unauthorized" });
-  console.log({ verified });
+  // console.log({ verified });
 
   // inject the role
   const { role } = verified;

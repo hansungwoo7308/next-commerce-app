@@ -5,10 +5,13 @@ const baseUrl =
 //   NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
 //   BASE_URL: process.env.BASE_URL,
 // });
-export const getData = async (url: string, query?: any) => {
+export const getData = async (url: string, query?: any, token?: string) => {
   const response = await axios({
     method: "get",
     url: `${baseUrl}/api/${url}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
     params: query,
   });
   return response;

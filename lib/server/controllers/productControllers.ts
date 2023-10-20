@@ -1,12 +1,48 @@
 import Product from "lib/server/models/Product";
 import APIfeatures from "lib/server/utils/APIfeatures";
 
-export const newProduct = async (req: any, res: any, next: any) => {
-  console.log(`\x1b[32m\n<newProduct>`);
+// single
+export const createProduct = async (req: any, res: any, next: any) => {
+  console.log(`\x1b[32m\n<createProduct>`);
   console.log(req.body);
   const product = await Product.create(req.body);
   res.status(200).json({ product });
 };
+export const createProductReview = async (req: any, res: any) => {
+  console.log(`\x1b[32m\n<createProductReview>`);
+  // get
+  const { id } = req.query;
+  // const { review } = req.body;
+  // update
+  const updatedProduct = await Product.findByIdAndUpdate(
+    id,
+    { $push: { reviews: req.body } },
+    // { $push: { reviews: review } },
+    { new: true }
+  );
+  // out
+  console.log({ updatedProduct });
+  return res.status(200).json({ updatedProduct });
+};
+export const getProduct = async (req: any, res: any, next: any) => {
+  console.log(`\x1b[32m\n<getProduct>`);
+
+  const product = await Product.findById(req.query.id);
+  if (!product) res.status(404).json({ message: "Not found" });
+  res.status(200).json({ product });
+};
+export const deleteProduct = async (req: any, res: any) => {
+  console.log(`\x1b[32m\n<deleteProduct>`);
+  // get
+  const { id } = req.query;
+  // delete
+  const deletedProduct = await Product.findByIdAndDelete(id, { new: true });
+  // out
+  console.log({ deletedProduct });
+  return res.status(200).json({ deletedProduct });
+};
+
+// multiple
 export const getProducts = async (req: any, res: any, next: any) => {
   console.log(`\x1b[32m\n<getProducts>`);
   // log
@@ -37,44 +73,11 @@ export const getProducts = async (req: any, res: any, next: any) => {
   // out
   res.status(200).json({ products: paginatedProducts, pages: totalPages });
 };
-export const getProduct = async (req: any, res: any, next: any) => {
-  console.log(`\x1b[32m\n<getProduct>`);
-
-  const product = await Product.findById(req.query.id);
-  if (!product) res.status(404).json({ message: "Not found" });
-  res.status(200).json({ product });
-};
-export const deleteProduct = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<deleteProduct>`);
-  // get
-  const { id } = req.query;
-  // delete
-  const deletedProduct = await Product.findByIdAndDelete(id, { new: true });
-  // out
-  console.log({ deletedProduct });
-  return res.status(200).json({ deletedProduct });
-};
 export const deleteProducts = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<deleteProducts>`);
   const { ids } = req.body;
   const deletedProducts = await Product.deleteMany({ _id: { $in: ids } });
   res.status(200).json({ deletedProducts });
-};
-export const createProductReview = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<createProductReview>`);
-  // get
-  const { id } = req.query;
-  // const { review } = req.body;
-  // update
-  const updatedProduct = await Product.findByIdAndUpdate(
-    id,
-    { $push: { reviews: req.body } },
-    // { $push: { reviews: review } },
-    { new: true }
-  );
-  // out
-  console.log({ updatedProduct });
-  return res.status(200).json({ updatedProduct });
 };
 export const deleteProductReviews = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<deleteProductReview>`);

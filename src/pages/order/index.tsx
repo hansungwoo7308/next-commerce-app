@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
 import { setLoading } from "lib/client/store/loadingSlice";
-import { addToOrdered } from "lib/client/store/orderedSlice";
+import { addOrder } from "lib/client/store/ordersSlice";
 import { clearCart } from "lib/client/store/cartSlice";
 import { toast } from "react-toastify";
 import { postData } from "lib/public/fetchData";
@@ -58,9 +58,9 @@ export default function Page() {
   const pay = async (payload: any) => {
     try {
       dispatch(setLoading(true));
-      const response = await postData("v2/order", payload, auth.accessToken);
+      const response = await postData("v2/order", { order: payload }, auth.accessToken);
       console.log({ response });
-      // dispatch(addToOrdered(response.data.order))
+      // dispatch(addOrder(response.data.order))
       // dispatch(clearCart());
       dispatch(setLoading(false));
       router.push(`/order/${order._id}`);

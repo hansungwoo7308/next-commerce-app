@@ -1,22 +1,18 @@
 import connectDB from "lib/server/config/connectDB";
 import { createRouter } from "next-connect";
 import { checkAuth, checkRoles } from "lib/server/middlewares/authMiddlewares";
-import {
-  deleteProducts,
-  getProducts,
-  createProduct,
-} from "lib/server/controllers/productControllers";
+import { getOrders } from "lib/server/controllers/orderControllers";
 
 connectDB();
 const router = createRouter();
 router
   .use(async (req: any, res, next) => {
-    console.log(`\x1b[33m\n[api/v2/products]:::[${req.method}]`);
+    console.log(`\x1b[33m\n[api/v2/orders]:::[${req.method}]`);
     await next();
   })
-  .get(getProducts)
-  // protected routes
-  .use(checkAuth, checkRoles(["admin"]))
-  .delete(deleteProducts);
+  .use(checkAuth, checkRoles(["user"]))
+  .get(getOrders);
+// protected routes
+// .delete(deleteProducts);
 
 export default router.handler();
