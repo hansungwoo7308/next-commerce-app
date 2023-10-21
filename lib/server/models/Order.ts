@@ -17,7 +17,7 @@ const orderSchema = new mongoose.Schema(
       email: String,
       address: String,
       mobile: String,
-      delivered: {
+      isDelivered: {
         type: Boolean,
         default: false,
       },

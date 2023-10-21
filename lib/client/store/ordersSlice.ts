@@ -36,7 +36,14 @@ export const ordersSlice = createSlice({
       const order = action.payload;
       state.orders.push(order);
     },
+    deleteOrder: (state, action) => {
+      const { _id } = action.payload;
+      const newState: any = {
+        orders: state.orders.filter((v: any) => v._id !== _id),
+      };
+      return newState;
+    },
   },
 });
 
-export const { setOrders, addOrder } = ordersSlice.actions;
+export const { setOrders, addOrder, deleteOrder } = ordersSlice.actions;

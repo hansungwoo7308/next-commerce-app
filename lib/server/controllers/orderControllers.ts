@@ -2,6 +2,7 @@ import Product from "lib/server/models/Product";
 import Order from "lib/server/models/Order";
 import User from "lib/server/models/User";
 
+// single
 export const createOrder = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<createOrder>`);
   try {
@@ -44,6 +45,15 @@ export const createOrder = async (req: any, res: any) => {
     return res.status(500).json({ error: error.message });
   }
 };
+export const deleteOrder = async (req: any, res: any) => {
+  console.log(`\x1b[32m\n<deleteOrder>`);
+  const { id } = req.query;
+  const deletedOrder = await Order.findByIdAndDelete(id);
+  console.log({ deletedOrder });
+  return res.status(200).json({ deletedOrder });
+};
+
+// multiple
 export const getOrders = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<getOrders>`);
   try {
@@ -60,7 +70,7 @@ export const getOrders = async (req: any, res: any) => {
         path: "ordererInfo",
         populate: {
           path: "User",
-          model: "User",
+          // model: "User",
         },
       })
       // .populate("ordererInfo")

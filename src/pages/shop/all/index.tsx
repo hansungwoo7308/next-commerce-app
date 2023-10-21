@@ -5,7 +5,6 @@ import Search from "@/components/layout/Search";
 import { getData } from "lib/public/fetchData";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { styled } from "styled-components";
 import ProductManger from "@/components/product/ProductManger";
 

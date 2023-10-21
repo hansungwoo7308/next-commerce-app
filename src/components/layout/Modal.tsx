@@ -15,17 +15,14 @@ import { FaCircleUser } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import styled from "styled-components";
-// import logError from "lib/client/log/logError";
 // import { deleteItemFromCart } from "lib/client/store/cartSlice";
-// import { setLoading, setNotify } from "lib/client/store/notifySlice";
 // import { deleteUser } from "lib/client/store/usersSlice";
 // import { deleteData, getData, postData } from "lib/client/utils/fetchData";
 export default function Modal() {
   // external
   const { accessToken } = useSelector((store: any) => store.auth);
-  const { active, type, id, ids, modalAction, actionLabel, disabled, src, review } = useSelector(
-    (store: any) => store.modal
-  );
+  const { active, type, id, ids, message, modalAction, modalActionLabel, disabled, src, review } =
+    useSelector((store: any) => store.modal);
   const { selectedProductId, selectedProductReviewIds } = useSelector(
     (store: any) => store.productManager
   );
@@ -108,10 +105,11 @@ export default function Modal() {
             <button
               className="delete-button"
               onClick={async () => {
-                dispatch(deleteItemFromCart({ _id: id }));
+                modalAction();
                 dispatch(setModal({ active: false }));
               }}
             >
+              {/* {modalActionLabel ? modalActionLabel : "Delete"} */}
               Delete
             </button>
             <button className="cancel-button" onClick={handleClose}>
@@ -239,30 +237,28 @@ export default function Modal() {
       </Background>
     );
   }
-  // return (
-  //   <Background onClick={handleClose}>
-  //     <Box onClick={(e) => e.stopPropagation()}>
-  //       <div className="header">
-  //         <h3>{type || "test type"}</h3>
-  //       </div>
-  //       <hr />
-  //       <div className="main">
-  //         <p>{message}</p>
-  //       </div>
-  //       <div className="footer">
-  //         <button
-  //           onClick={handleAction}
-  //           // disabled={loading}
-  //         >
-  //           {/* Confirm */}
-  //           {/* {actionLabel} */}
-  //           {actionLabel || "Confirm"}
-  //         </button>
-  //         <button onClick={handleClose}>Close</button>
-  //       </div>
-  //     </Box>
-  //   </Background>
-  // );
+  return (
+    <Background onClick={handleClose}>
+      <Box onClick={(e) => e.stopPropagation()}>
+        <div className="header">
+          <h3>{type}</h3>
+        </div>
+        <hr />
+        <div className="main">
+          <p>{message}</p>
+        </div>
+        <div className="footer">
+          <button
+            onClick={() => modalAction()}
+            // disabled={loading}
+          >
+            {modalActionLabel || "Confirm"}
+          </button>
+          <button onClick={handleClose}>Close</button>
+        </div>
+      </Box>
+    </Background>
+  );
 }
 
 const Background = styled.div`

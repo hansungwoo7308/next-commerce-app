@@ -116,7 +116,8 @@ export const GlobalStyled = createGlobalStyle`
       cursor: not-allowed;
     }
   }
-  html body .pay-button{
+  html body .pay-button,
+  html body .add-button{
     padding: 0.5rem;
     border-radius: 3px;
     /* background-color: #c15151; */

@@ -68,26 +68,25 @@ export default function AccountIcon() {
                 height={100}
               />
             </div>
-            <div className="toggle-menu">
-              {toggle && (
-                <>
-                  <div className="toggle-menu-arrow" />
-                  <Link href={"/my/account"}>
-                    <p>My Account</p>
-                  </Link>
-                  {auth.user?.role === "admin" && <></>}
-                  {auth.user?.role === "user" && (
-                    <>
-                      <Link href={"/my/orders"}>
-                        <p>Order List</p>
-                      </Link>
-                    </>
-                  )}
-                  <hr />
-                  <button onClick={handleSignout}>Sign out</button>
-                </>
-              )}
-            </div>
+            {toggle && (
+              <div className="toggle-menu">
+                <div className="toggle-menu-arrow" />
+                <Link href={"/my/account"}>
+                  <p>My Account</p>
+                </Link>
+                {auth.user?.role === "admin" && <></>}
+                {auth.user?.role === "user" && (
+                  <>
+                    <Link href={"/my/orders"}>
+                      <p>Order List</p>
+                    </Link>
+                  </>
+                )}
+                {/* <hr /> */}
+                <HorizonLine />
+                <button onClick={handleSignout}>Sign out</button>
+              </div>
+            )}
           </div>
           <p>
             {auth.user?.username} ({auth.user?.role})
@@ -137,7 +136,7 @@ const Box = styled.div`
         /* border: 2px solid green; */
         background-color: gray;
         white-space: nowrap;
-
+        padding: 1rem;
         > .toggle-menu-arrow {
           width: 0.7rem;
           height: 0.7rem;
@@ -164,4 +163,7 @@ const Box = styled.div`
       align-items: center;
     }
   }
+`;
+const HorizonLine = styled.hr`
+  margin: 1rem 0;
 `;

@@ -1,4 +1,4 @@
-import { increaseQuantity, decreaseQuantity } from "lib/client/store/cartSlice";
+import { increaseQuantity, decreaseQuantity, deleteItemFromCart } from "lib/client/store/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,8 +16,17 @@ export default function Cart({ product }: any) {
   const { _id, name, price, images, seller, stock, quantity, options } = product;
   const auth = useSelector((store: any) => store.auth);
 
-  const handleDeleteItemFromCart = () =>
-    dispatch(setModal({ active: true, type: "DELETE_ITEM", id: _id }));
+  const handleDeleteItemFromCart = () => {
+    const modalAction = () => dispatch(deleteItemFromCart({ _id }));
+    dispatch(
+      setModal({
+        active: true,
+        type: "DELETE_ITEM",
+        modalAction,
+        modalActionLabel: "Cancel",
+      })
+    );
+  };
   const handleIncreaseQuantity = (item: any) => dispatch(increaseQuantity({ _id, item }));
   const handleDecreaseQuantity = (item: any) => dispatch(decreaseQuantity({ _id, item }));
   const handlePay = (e: any) => {

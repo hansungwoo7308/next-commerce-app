@@ -1,27 +1,27 @@
-// import { setTimeoutId, setNotify, setVisible, setLoading } from "lib/client/store/notifySlice";
 // import { useSession } from "next-auth/react";
 import Stars from "@/components/product/Stars";
 import { addToCart } from "lib/client/store/cartSlice";
 import { addProductId, removeProductId } from "lib/client/store/productManagerSlice";
 import { setModal } from "lib/client/store/modalSlice";
-import { setNotify } from "lib/client/store/notifySlice";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 export default function Product({ product }: any) {
-  // console.log({ product });
+  // external
   const { _id, category, name, description, seller, price, stock, ratings, images, reviews } =
     product;
   const auth = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
   const { selectedProductIds } = useSelector((store: any) => store.productManager);
-
-  const checkRef: any = useRef();
   const dispatch = useDispatch();
+
+  // internal
+  const checkRef: any = useRef();
   const router = useRouter();
 
   const handleSelect = (e: any) => {
@@ -41,25 +41,24 @@ export default function Product({ product }: any) {
   // };
   const buttonByUser = (
     <button
+      className="add-button"
       disabled={!stock}
       onClick={() => {
-        const duplicate = cart.find((v: any) => v._id === product._id);
-        if (duplicate) {
-          dispatch(setNotify({ active: true, status: "error", message: "Duplicated" }));
-        } else {
-          dispatch(addToCart({ ...product, quantity: 1 }));
-          // const callback = () => router.push("/cart");
-          const modalAction = () => router.push("/cart");
-          dispatch(
-            setModal({
-              active: true,
-              type: "DEFAULT",
-              message: "Do you want to move to cart?",
-              modalActionLabel: "Move to Cart Page",
-              modalAction,
-            })
-          );
-        }
+        const duplicate = cart.products.find((v: any) => v._id === product._id);
+        if (duplicate) return toast.error("Duplicated product from cart");
+        const newItem = { item: name, price: price, quantity: 1 };
+        dispatch(addToCart({ ...product, options: [newItem] }));
+        const modalAction = () => router.push("/cart");
+        dispatch(
+          setModal({
+            active: true,
+            // type: "DEFAULT",
+            message: "Do you want to move to cart?",
+            modalAction,
+            modalActionLabel: "Move to Cart Page",
+          })
+        );
+
         // cart.map((v: any) => console.log(v));
         // if (!cart.length) dispatch(addToCart(product));
         // else {

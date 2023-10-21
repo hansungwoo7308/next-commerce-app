@@ -15,4 +15,6 @@ const Box = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding: 1rem;
+  /* border: 1px solid red; */
 `;

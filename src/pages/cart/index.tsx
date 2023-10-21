@@ -80,6 +80,11 @@ export default function Page() {
       );
   }, [cart]);
 
+  // log
+  useEffect(() => {
+    if (cart.products?.length) console.log({ "cart.products": cart.products });
+  }, [cart.products]);
+
   if (!cart.products?.length) {
     return (
       <Main>

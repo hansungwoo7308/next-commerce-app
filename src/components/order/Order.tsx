@@ -1,26 +1,83 @@
+import { setModal } from "lib/client/store/modalSlice";
+import { deleteOrder } from "lib/client/store/ordersSlice";
+import { deleteData } from "lib/public/fetchData";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
 
 export default function Order({ order }: any) {
   // external
   const { ordererInfo, productInfo, deliveryInfo, payInfo } = order;
   const { product } = productInfo;
+  // const { isDelivered } = deliveryInfo;
+  const { method, paid, total } = payInfo;
+  const auth = useSelector((store: any) => store.auth);
+  const dispatch = useDispatch();
 
   // internal
-  const [expanded, setExpanded]: any = useState(false);
+  // const [expanded, setExpanded]: any = useState(false);
+
+  const handleDeleteOrder = () => {
+    const modalAction = async () => {
+      try {
+        const response = await deleteData(`v2/orders/${order._id}`, null, auth.accessToken);
+        console.log({ data: response.data });
+        dispatch(deleteOrder({ _id: response.data.deletedOrder._id }));
+      } catch (error) {
+        console.log({ error });
+      }
+    };
+    dispatch(setModal({ active: true, type: "DELETE_ITEM", modalAction }));
+  };
 
   return (
     <Box>
-      <h3>Order Number : {order._id}</h3>
-      {/* <small>Payment Date : {order.dateOfPayment}</small>
+      <div className="order-header">
+        <h3>Order Number : {order._id}</h3>
+        <button className="delete-button" onClick={handleDeleteOrder}>
+          Delete
+        </button>
+      </div>
+      <HorizonLine />
+      <div className="order">
+        <div className="product-info">
+          <div className="product-info-image">
+            <Link href={`/products/${product._id}`}>
+              <Image
+                src={product.images[0].url || product.images[0].secure_url}
+                alt={product.images[0].url || product.images[0].secure_url}
+                width={1000}
+                height={1000}
+              />
+            </Link>
+          </div>
+          <div className="product-info-content">
+            <p>Product</p>
+            <p>{product.name}</p>
+          </div>
+        </div>
+        <VerticalLine />
+        <div className="delivery-info">
+          <p>Delivery</p>
+          <p>{}</p>
+        </div>
+        <VerticalLine />
+        <div className="pay-info">
+          <p>Payment</p>
+          <p>Method : {method}</p>
+          <p>Paid State : {paid}</p>
+          <p>Total : ${total}</p>
+          {/* <small>Payment Date : {order.dateOfPayment}</small>
       <p>Payment Amount : ${order.total}</p> */}
-      {expanded ? (
+        </div>
+      </div>
+      {/* {expanded ? (
         <ul className="order-list">
           {order.cart.map((item: any) => (
-            <li key={item._id} className="order-item">
-              <div className="product-thumbnail">
+            <li key={item._id} className="product">
+              <div className="product-info-image">
                 <Link href={`/products/${item._id}`}>
                   <Image
                     src={item.images[0].url || item.images[0].secure_url}
@@ -38,8 +95,8 @@ export default function Order({ order }: any) {
         </ul>
       ) : (
         <ul className="order-list">
-          <li key={product._id} className="order-item">
-            <div className="product-thumbnail">
+          <li key={product._id} className="product">
+            <div className="product-info-image">
               <Link href={`/products/${product._id}`}>
                 <Image
                   src={product.images[0].url || product.images[0].secure_url}
@@ -54,7 +111,7 @@ export default function Order({ order }: any) {
             </div>
           </li>
         </ul>
-      )}
+      )} */}
       {/* {order.cart.length >= 2 && (
         <button className="expand-button" onClick={() => setExpanded(!expanded)}>
           View all the products
@@ -65,22 +122,25 @@ export default function Order({ order }: any) {
 }
 
 const Box = styled.li`
-  border: 2px solid green;
+  border: 1px solid;
   border-radius: 5px;
   padding: 1rem;
   background-color: #333;
-  > .order-list {
+  > .order-header {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin: 1rem 0;
-    > .order-item {
-      display: flex;
-      gap: 1rem;
-      border: 2px solid;
-      border-radius: 5px;
-      padding: 1rem;
+    justify-content: space-between;
+  }
+  > .order {
+    display: flex;
+    /* gap: 1rem; */
+    /* padding: 1rem; */
+    > div {
+      flex: 1;
     }
+  }
+  .product-info {
+    display: flex;
+    gap: 1rem;
   }
   > .expand-button {
     padding: 1rem;
@@ -91,4 +151,13 @@ const Box = styled.li`
   img {
     width: 100px;
   }
+`;
+
+const HorizonLine = styled.hr`
+  margin: 0.5rem 0 1rem 0;
+`;
+const VerticalLine = styled.hr`
+  margin: 0 1rem;
+  width: 1px;
+  background-color: #fff;
 `;

@@ -3,6 +3,7 @@ import { setOrders } from "lib/client/store/ordersSlice";
 import { getData } from "lib/public/fetchData";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 
 export default function Page() {
@@ -17,12 +18,13 @@ export default function Page() {
         const { orders } = response.data;
         console.log({ orders });
         dispatch(setOrders(orders));
-      } catch (error) {
+      } catch (error: any) {
+        toast.error(error.message);
         console.log({ error });
       }
     };
-    fetchData();
-  }, []);
+    if (auth.accessToken) fetchData();
+  }, [auth.accessToken]);
 
   if (!orders.length) return null;
   return (

@@ -4,9 +4,9 @@ interface ModalState {
   active?: boolean | null; // 모달 활성화, 비활성화
   type?: string | null; // 액션타입
 
-  message?: string | null; // 모달 메세지
   id?: string | null; // 식별할 아이디
   ids?: string[] | null; // 식별할 아디디 어레이
+  message?: string | null; // 모달 메세지
   modalAction?: Function | null; // 액션
   modalActionLabel?: string | null;
   modalAction2?: Function | null; // 액션
