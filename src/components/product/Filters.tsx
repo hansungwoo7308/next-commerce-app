@@ -116,6 +116,7 @@ export default function Filters() {
       // delete router.query.ratings;
       // router.push({ pathname: router.pathname, query: router.query });
       setRatings([]);
+      setIsFirstLoad(true);
       return;
     }
 
@@ -128,7 +129,7 @@ export default function Filters() {
   useEffect(() => {
     // if (!ratings) return;
     if (!isFirstLoad) return;
-    if (!ratings?.length && isFirstLoad) {
+    if (!ratings?.length) {
       // console.log("ratings.length===0");
       localStorage.removeItem("ratings");
       delete router.query.ratings;
