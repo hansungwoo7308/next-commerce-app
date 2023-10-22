@@ -10,8 +10,7 @@ const router = createRouter()
     console.log(`\x1b[33m\n[api/v2/orders/${req.query.id}]:::[${req.method}]`);
     await next();
   })
-  // .get(getProduct)
-  // protected routes
+  // .get(getOrder)
   .use(checkAuth, checkRoles(["user", "admin"]))
   .delete(deleteOrder);
 

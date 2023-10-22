@@ -241,7 +241,7 @@ export default function Modal() {
     <Background onClick={handleClose}>
       <Box onClick={(e) => e.stopPropagation()}>
         <div className="header">
-          <h3>{type}</h3>
+          <h3>{type || "MODAL"}</h3>
         </div>
         <hr />
         <div className="main">

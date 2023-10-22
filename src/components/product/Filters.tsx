@@ -5,20 +5,29 @@ import Stars from "@/components/product/Stars";
 
 export default function Filters() {
   const router = useRouter();
+
   // category
   const allRef: any = useRef();
   const electronicsRef: any = useRef();
   const foodRef: any = useRef();
   const [categoryElements, setCategoryElements]: any = useState([]);
+
   // ratings
   const [ratings, setRatings]: any = useState([]);
   const [ratingsElements, setRatingsElements]: any = useState([]);
 
   const handleClickCategory = (e: any) => {
+    // get the target value
     const { name, value } = e.target;
-    router.query = { ...router.query, [name]: value };
-    console.log({ router });
+    // console.log({ name });
+
+    // set the router
+    router.query = { ...router.query, [name]: value, page: "1" };
+    // console.log({ router });
+
+    // out
     router.push({ pathname: router.pathname, query: router.query });
+
     // ratings 배열에 이미 존재하면, 배열에서 제거
     // setRatings((prevState: any) => {
     //   const newState = prevState.filter((v: any) => {
@@ -61,12 +70,9 @@ export default function Filters() {
     // }
   };
   const handleClickRatings = (e: any) => {
-    const addRatings = (value: any) => {
-      setRatings((state: any) => [...state, value]);
-    };
-    const removeRatings = (value: any) => {
+    const addRatings = (value: any) => setRatings((state: any) => [...state, value]);
+    const removeRatings = (value: any) =>
       setRatings((state: any) => state.filter((v: any) => v !== value));
-    };
     e.target.checked ? addRatings(e.target.value) : removeRatings(e.target.value);
   };
 
@@ -95,38 +101,42 @@ export default function Filters() {
     });
   }, [categoryElements]);
 
+  // set the state by ratings
   useEffect(() => {
-    // 캐싱된 데이터로 채운다.
-    const localStorageRatings = localStorage.getItem("ratings");
-    if (!localStorageRatings) return;
-    const ratingsToReload = localStorageRatings.split("+");
-    setRatings(ratingsToReload);
-
-    // // 캐싱된 데이터로 조회한다.
-    // router.query = { ...router.query, ratings: localStorageRatings };
-    // router.push({ pathname: router.pathname, query: router.query });
-  }, [router.asPath]); // waterfall from localStorage, query
-
-  // save the ratings to localStorage
-  // route by query
-  useEffect(() => {
-    // console.log({ ratings });
-
+    // 컴포넌트스테이트가 없을때, 레이팅이 설정되지 않은 상태를 보여줘야 한다.
+    if (ratings.length === 0) {
+      // const test: any = localStorage.getItem("ratings");
+      // if (test) return;
+      // const parsedRatings = JSON.parse(test);
+      // if (parsedRatings.length) return;
+      localStorage.removeItem("ratings");
+      delete router.query.ratings;
+      router.push({ pathname: router.pathname, query: router.query });
+      return;
+      // const test: any = localStorage.getItem("ratings");
+      // if (!test) return;
+      // if (!parsedRatings.length) {
+      //   // 캐시 제거
+      //   // console.log({ localStorage });
+      //   // 라우터 프로퍼티 제거
+      //   // 제거된 프로퍼티로 쿼리 요청
+      //   return;
+      // }
+    }
     // cache
+    localStorage.setItem("ratings", JSON.stringify(ratings));
+
     // stringify the ratings (array > string)
     const stringfiedRatings = ratings.reduce((a: any, v: any, i: any) => {
       if (i === 0) return v;
       return a + "+" + v;
     }, "");
-    localStorage.setItem("ratings", stringfiedRatings);
-    // console.log({ stringfiedRatings });
-
-    // query
+    console.log({ stringfiedRatings1: stringfiedRatings });
     router.query = { ...router.query, ratings: stringfiedRatings };
     router.push({ pathname: router.pathname, query: router.query });
-  }, [ratings]); // cache, query, mark as checked
+  }, [ratings]);
 
-  // check the ratings elements
+  // set the ratings checkbox
   useEffect(() => {
     // mark as checked
     // ratings.map((v: any) => {
@@ -159,6 +169,29 @@ export default function Filters() {
       });
     });
   }, [ratings]);
+
+  // reload
+  useEffect(() => {
+    const test: any = localStorage.getItem("ratings");
+    if (!test) return;
+    const parsedRatings = JSON.parse(test);
+    if (!parsedRatings.length) {
+      setRatings([]);
+      // localStorage.removeItem("ratings");
+      // delete router.query.ratings;
+      // router.push({ pathname: router.pathname, query: router.query });
+      return;
+    }
+    console.log({ parsedRatings });
+    setRatings(parsedRatings);
+    // router.query = { ...router.query, ratings: parsedRatings };
+    // router.push({ pathname: router.pathname, query: router.query });
+  }, []);
+
+  // log
+  // useEffect(() => console.log({ categoryElements }), [categoryElements]);
+  // useEffect(() => console.log({ ratingsElements }), [ratingsElements]);
+  useEffect(() => console.log({ ratings }), [ratings]);
 
   return (
     <Box className="filters">

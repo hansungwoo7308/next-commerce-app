@@ -4,7 +4,7 @@ import Products from "@/components/product/Products";
 import Search from "@/components/layout/Search";
 import { getData } from "lib/public/fetchData";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { styled } from "styled-components";
 import ProductManger from "@/components/product/ProductManger";
 
@@ -33,11 +33,19 @@ export default function Page({ products, pages }: any) {
     <Main>
       <section>
         {/* <Search /> */}
-        <div className="all">
-          {/* <button onClick={handleCheckAll}>{isCheckAll ? "Unselect All" : "Select All"}</button> */}
-          {/* <button onClick={handlesetModal}>Delete</button> */}
-          {/* <Products products={products} /> */}
-          {/* <div className="load-more">
+        <div className="product-outer">
+          <div className="left">
+            <Filters />
+            <ProductManger products={products} />
+          </div>
+          <div className="right">
+            <Products products={products} />
+            <Pagination pages={pages} page={page} onChangePage={handleChangePage} />
+          </div>
+        </div>
+      </section>
+      <section></section>
+      {/* <div className="load-more">
               <button
                 onClick={() => {
                   setPage(page + 1);
@@ -54,19 +62,6 @@ export default function Page({ products, pages }: any) {
                 Load More
               </button>
             </div> */}
-        </div>
-        <div className="product-outer">
-          <div className="left">
-            <Filters />
-            <ProductManger products={products} />
-          </div>
-          <div className="right">
-            <Products products={products} />
-            <Pagination pages={pages} page={page} onChangePage={handleChangePage} />
-          </div>
-        </div>
-      </section>
-      <section></section>
     </Main>
   );
 }

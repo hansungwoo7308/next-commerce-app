@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { FaCartShopping } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { styled } from "styled-components";
@@ -57,7 +58,9 @@ export default function AccountIcon() {
   if (auth.accessToken || session.data?.user) {
     return (
       <Box>
-        <Link href={"/cart"}>Cart ({cart.products?.length})</Link>
+        <Link href={"/cart"}>
+          <FaCartShopping /> <pre> ({cart.products?.length})</pre>
+        </Link>
         <div className="account-outer">
           <div className="account">
             <div className="avatar" onClick={handleToggle}>
