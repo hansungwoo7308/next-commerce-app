@@ -15,6 +15,7 @@ export default function Filters() {
   // ratings
   const [ratings, setRatings]: any = useState([]);
   const [ratingsElements, setRatingsElements]: any = useState([]);
+  const [isFirstLoad, setIsFirstLoad]: any = useState(false);
 
   const handleClickCategory = (e: any) => {
     // get the target value
@@ -70,17 +71,17 @@ export default function Filters() {
     // }
   };
   const handleClickRatings = (e: any) => {
-    const addRatings = (value: any) => setRatings((state: any) => [...state, value]);
+    const addRatings = (value: any) => {
+      setRatings((state: any) => {
+        const isDuplicated = state.find((v: any) => v === value);
+        if (isDuplicated) return state;
+        return [...state, value];
+      });
+    };
     const removeRatings = (value: any) =>
       setRatings((state: any) => state.filter((v: any) => v !== value));
     e.target.checked ? addRatings(e.target.value) : removeRatings(e.target.value);
   };
-
-  // origin data : localStorage
-  // 로컬스토리지를 기준으로 데이터가 스토리지에 존재하면 스테이트를 채운다.
-  // 스테이트가 변경시, 로컬스테이트를 업데이트한다.
-  // 스테이크가 변경시, 쿼리를 추가하여 라우팅한다.
-  // sdfhsdlfhslf
 
   // initialize
   useEffect(() => {
@@ -102,28 +103,40 @@ export default function Filters() {
     });
   }, [categoryElements]);
 
+  // reload
+  useEffect(() => {
+    // 로컬스토리지를 기준으로 데이터가 스토리지에 존재하면 스테이트를 채운다.
+    const test: any = localStorage.getItem("ratings");
+    const parsedRatings = JSON.parse(test);
+
+    // 캐시된 데이터가 없는 경우
+    if (!parsedRatings?.length) {
+      // console.log("No cached data");
+      // localStorage.removeItem("ratings");
+      // delete router.query.ratings;
+      // router.push({ pathname: router.pathname, query: router.query });
+      setRatings([]);
+      return;
+    }
+
+    // 캐시된 데이터가 있는 경우
+    setRatings(parsedRatings);
+    setIsFirstLoad(true);
+  }, []);
+
   // set the state by ratings
   useEffect(() => {
-    // 컴포넌트스테이트가 없을때, 레이팅이 설정되지 않은 상태를 보여줘야 한다.
-    if (ratings.length === 0) {
-      // const test: any = localStorage.getItem("ratings");
-      // if (test) return;
-      // const parsedRatings = JSON.parse(test);
-      // if (parsedRatings.length) return;
+    // if (!ratings) return;
+    if (!isFirstLoad) return;
+    if (!ratings?.length && isFirstLoad) {
+      // console.log("ratings.length===0");
       localStorage.removeItem("ratings");
       delete router.query.ratings;
       router.push({ pathname: router.pathname, query: router.query });
       return;
-      // const test: any = localStorage.getItem("ratings");
-      // if (!test) return;
-      // if (!parsedRatings.length) {
-      //   // 캐시 제거
-      //   // console.log({ localStorage });
-      //   // 라우터 프로퍼티 제거
-      //   // 제거된 프로퍼티로 쿼리 요청
-      //   return;
-      // }
     }
+    console.log({ ratings });
+
     // cache
     localStorage.setItem("ratings", JSON.stringify(ratings));
 
@@ -132,7 +145,8 @@ export default function Filters() {
       if (i === 0) return v;
       return a + "+" + v;
     }, "");
-    console.log({ stringfiedRatings1: stringfiedRatings });
+    // console.log({ stringfiedRatings1: stringfiedRatings });
+    // console.log({ router });
     router.query = { ...router.query, ratings: stringfiedRatings };
     router.push({ pathname: router.pathname, query: router.query });
   }, [ratings]);
@@ -155,6 +169,7 @@ export default function Filters() {
     //   });
     // });
     // console.log({ ratingsElements });
+    if (!ratings) return;
     if (!ratings.length) {
       ratingsElements.map((element: any) => {
         element.checked = false;
@@ -171,28 +186,10 @@ export default function Filters() {
     });
   }, [ratings]);
 
-  // reload
-  useEffect(() => {
-    const test: any = localStorage.getItem("ratings");
-    if (!test) return;
-    const parsedRatings = JSON.parse(test);
-    if (!parsedRatings.length) {
-      setRatings([]);
-      // localStorage.removeItem("ratings");
-      // delete router.query.ratings;
-      // router.push({ pathname: router.pathname, query: router.query });
-      return;
-    }
-    console.log({ parsedRatings });
-    setRatings(parsedRatings);
-    // router.query = { ...router.query, ratings: parsedRatings };
-    // router.push({ pathname: router.pathname, query: router.query });
-  }, []);
-
   // log
   // useEffect(() => console.log({ categoryElements }), [categoryElements]);
   // useEffect(() => console.log({ ratingsElements }), [ratingsElements]);
-  useEffect(() => console.log({ ratings }), [ratings]);
+  // useEffect(() => console.log({ ratings }), [ratings]);
 
   return (
     <Box className="filters">
