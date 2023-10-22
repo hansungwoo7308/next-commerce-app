@@ -50,15 +50,21 @@ export default function Home({ products }: any) {
             </div>
             <div className="card">
               <h1>Furnitures</h1>
-              <Image src={"/images/category/furnitures.jpg"} alt="alt" width={300} height={300} />
+              <Link href={"/shop/all?category=furnitures"}>
+                <Image src={"/images/category/furnitures.jpg"} alt="alt" width={300} height={300} />
+              </Link>
             </div>
             <div className="card">
               <h1>Cosmetics</h1>
-              <Image src={"/images/category/cosmetics.jpg"} alt="alt" width={300} height={300} />
+              <Link href={"/shop/all?category=cosmetics"}>
+                <Image src={"/images/category/cosmetics.jpg"} alt="alt" width={300} height={300} />
+              </Link>
             </div>
             <div className="card">
               <h1>Fashion</h1>
-              <Image src={"/images/category/fashion.jpg"} alt="alt" width={300} height={300} />
+              <Link href={"/shop/all?category=fashion"}>
+                <Image src={"/images/category/fashion.jpg"} alt="alt" width={300} height={300} />
+              </Link>
             </div>
           </div>
           {/* <ul className="card-layout">

@@ -15,7 +15,7 @@ export default function Filters() {
   // ratings
   const [ratings, setRatings]: any = useState([]);
   const [ratingsElements, setRatingsElements]: any = useState([]);
-  const [isFirstLoad, setIsFirstLoad]: any = useState(false);
+  const [isCacheLoaded, setIsCacheLoaded]: any = useState(false);
 
   const handleClickCategory = (e: any) => {
     // get the target value
@@ -95,90 +95,76 @@ export default function Filters() {
     if (!router.query.category) allRef.current.checked = true;
   }, []);
 
-  // 초기에 실행, category input check하면 실행
   useEffect(() => {
-    // categoryElements로부터 쿼리와 일치하는 해당항목에 체크한다.
     categoryElements.map((element: any) => {
       if (element.value === router.query.category) element.checked = true;
     });
   }, [categoryElements]);
 
-  // reload
-  useEffect(() => {
-    // 로컬스토리지를 기준으로 데이터가 스토리지에 존재하면 스테이트를 채운다.
-    const test: any = localStorage.getItem("ratings");
-    const parsedRatings = JSON.parse(test);
+  // get ratings from localStorage
+  // get ratings from localStorage
+  // get ratings from localStorage
+  // get ratings from localStorage
+  // get ratings from localStorage
+  const getLocalStorageData = () => {
+    const stringfiedRatings: any = localStorage.getItem("ratings");
+    const parsedRatings = JSON.parse(stringfiedRatings);
 
     // 캐시된 데이터가 없는 경우
     if (!parsedRatings?.length) {
-      // console.log("No cached data");
       // localStorage.removeItem("ratings");
       // delete router.query.ratings;
       // router.push({ pathname: router.pathname, query: router.query });
       setRatings([]);
-      setIsFirstLoad(true);
+      setIsCacheLoaded(true);
       return;
     }
 
     // 캐시된 데이터가 있는 경우
     setRatings(parsedRatings);
-    setIsFirstLoad(true);
-  }, []);
+    setIsCacheLoaded(true);
+  };
+
+  // get the cache data and set the state
+  useEffect(() => getLocalStorageData(), []);
 
   // set the state by ratings
   useEffect(() => {
-    // if (!ratings) return;
-    if (!isFirstLoad) return;
+    if (!isCacheLoaded) return;
     if (!ratings?.length) {
-      // console.log("ratings.length===0");
       localStorage.removeItem("ratings");
       delete router.query.ratings;
       router.push({ pathname: router.pathname, query: router.query });
       return;
     }
-    console.log({ ratings });
+    console.log({ ratings, ratingsElements });
 
     // cache
     localStorage.setItem("ratings", JSON.stringify(ratings));
 
     // stringify the ratings (array > string)
-    const stringfiedRatings = ratings.reduce((a: any, v: any, i: any) => {
+    const serializedRatings = ratings.reduce((a: any, v: any, i: any) => {
       if (i === 0) return v;
       return a + "+" + v;
     }, "");
-    // console.log({ stringfiedRatings1: stringfiedRatings });
-    // console.log({ router });
-    router.query = { ...router.query, ratings: stringfiedRatings };
+    router.query = { ...router.query, ratings: serializedRatings };
     router.push({ pathname: router.pathname, query: router.query });
   }, [ratings]);
 
   // set the ratings checkbox
   useEffect(() => {
-    // mark as checked
-    // ratings.map((v: any) => {
-    //   ratingsElements.map((v2: any) => {
-    //     console.log({ v2 });
-    //     // if(v2.)
-    //   });
-    // });
-    // ratingsElements.map((element: any) => {
-    //   console.log({ element });
-    //   ratings.map((value: any) => {
-    //     console.log({ value });
-    //     if (element?.value === value) element.checked = true;
-    //     else element.checked = false;
-    //   });
-    // });
-    // console.log({ ratingsElements });
-    if (!ratings) return;
+    if (!isCacheLoaded) return;
+    // if (!ratings) return;
     if (!ratings.length) {
       ratingsElements.map((element: any) => {
         element.checked = false;
       });
       return;
     }
+    console.log({ ratingsElements });
     ratingsElements.map((element: any) => {
-      // console.log({ element });
+      console.log("first");
+      console.log({ element });
       ratings.map((value: any) => {
         // console.log({ value });
         if (element?.value === value) element.checked = true;
@@ -191,6 +177,12 @@ export default function Filters() {
   // useEffect(() => console.log({ categoryElements }), [categoryElements]);
   // useEffect(() => console.log({ ratingsElements }), [ratingsElements]);
   // useEffect(() => console.log({ ratings }), [ratings]);
+  useEffect(() => {
+    return () => {
+      // router.query = {};
+      localStorage.removeItem("ratings");
+    };
+  }, []);
 
   return (
     <Box className="filters">
@@ -270,14 +262,6 @@ export default function Filters() {
           ))} */}
         </ul>
       </div>
-      <button className="clear-button" onClick={() => setRatings([])}>
-        Clear ratings
-        <br />
-        (localStorage)
-        <br />
-        (localState:component)
-      </button>
-      {/* <h3>RaringsValues : {JSON.stringify(ratings)}</h3> */}
     </Box>
   );
 }

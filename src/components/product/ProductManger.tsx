@@ -2,10 +2,12 @@ import { setSelectedProductIds } from "lib/client/store/productManagerSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 
 export default function ProductManger({ products }: any) {
   const { selectedProductIds } = useSelector((store: any) => store.productManager);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleSelectAll = () => {
     const productIds = products.map((product: any) => product._id);
@@ -24,6 +26,21 @@ export default function ProductManger({ products }: any) {
   return (
     <Box className="product-manager">
       <h4>Product Manager</h4>
+      <hr />
+      <button
+        className="clear-button"
+        onClick={() => {
+          localStorage.removeItem("ratings");
+          delete router.query.ratings;
+          router.push({ pathname: router.pathname, query: router.query });
+        }}
+      >
+        Clear ratings
+        <br />
+        (localStorage)
+        <br />
+        (localState:component)
+      </button>
       <hr />
       <button onClick={handleSelectAll}>Select All</button>
       <button onClick={handleUnselectAll}>Unselect All</button>
