@@ -1,3 +1,4 @@
+import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Loading from "@/components/layout/Loading";
 import Modal from "@/components/layout/Modal";
@@ -18,6 +19,7 @@ export default function Layout({ children }: any) {
   const auth = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
   const dispatch = useDispatch();
+
   // internal
   const router = useRouter();
 
@@ -45,20 +47,22 @@ export default function Layout({ children }: any) {
   //   }
   // }, [session.status]);
 
-  // 로컬스토리지로부터 리덕스스토어에 카트정보를 채운다.
+  // upload cart data from local storage to redux store
   useEffect(() => {
+    // 로컬스토리지로부터 리덕스스토어에 카트정보를 채운다.
     const serializedCart: any = localStorage.getItem("cart");
     if (!serializedCart) return;
     const parsedCart = JSON.parse(serializedCart);
     if (!parsedCart.products.length) return console.log("8382912");
     // console.log({ parsedCart });
     dispatch(reloadCart(parsedCart));
-  }, []); // if loaded, cache
+  }, []);
+  // upload cart data to local storage
   useEffect(() => {
     if (!cart.products?.length) return;
     const serializedCart: any = JSON.stringify(cart);
     localStorage.setItem("cart", serializedCart);
-  }, [cart]); // if cart is changed, cache
+  }, [cart]);
 
   return (
     <>
@@ -80,6 +84,7 @@ export default function Layout({ children }: any) {
       {/* <Notify /> */}
       <Header />
       {children}
+      <Footer />
     </>
   );
 }

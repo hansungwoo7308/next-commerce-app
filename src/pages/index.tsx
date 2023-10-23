@@ -7,11 +7,11 @@ import Product from "lib/server/models/Product";
 import Image from "next/image";
 import Link from "next/link";
 
-// export async function getServerSideProps({ query }: any) {
-//   connectDB();
-//   const result: any = await Product.aggregate([{ $sample: { size: 10 } }]).exec();
-//   return { props: { products: JSON.parse(JSON.stringify(result)) } };
-// }
+export async function getServerSideProps({ query }: any) {
+  connectDB();
+  const result: any = await Product.aggregate([{ $sample: { size: 10 } }]).exec();
+  return { props: { products: JSON.parse(JSON.stringify(result)) } };
+}
 
 const data = [
   "/images/slide-01.jpg",
@@ -23,7 +23,7 @@ const data = [
 ];
 
 export default function Home({ products }: any) {
-  // console.log({ products });
+  console.log({ products });
 
   return (
     <>
@@ -75,6 +75,22 @@ export default function Home({ products }: any) {
               </li>
             ))}
           </ul> */}
+          <div className="best-sellers">
+            <h1>Best Sellers</h1>
+            {products && (
+              <SlickSlider
+                imageUrls={products.map((product: any) => product.images[0].url)}
+                // imageUrls={product.images.map((image: any) => image.url)}
+                multipleItemNumber={3}
+                actionType="VIEW_IMAGE"
+                dots={false}
+                settings={{}}
+              />
+            )}
+          </div>
+          <div className="new-arrivals">
+            <h1>New Arrivals</h1>
+          </div>
         </section>
         <section></section>
         <section></section>
@@ -85,6 +101,14 @@ export default function Home({ products }: any) {
 }
 const Main = styled.main`
   .hero {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    .card-layout,
+    .best-sellers {
+      background-color: #333;
+      padding: 1rem;
+    }
     .card-layout {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(auto, 200px));
@@ -107,6 +131,11 @@ const Main = styled.main`
         /* .img-outer {
           overflow: hidden;
         } */
+      }
+    }
+    .best-sellers {
+      .slick-slide {
+        padding: 0 1rem;
       }
     }
   }

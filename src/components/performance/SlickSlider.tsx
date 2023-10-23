@@ -13,9 +13,17 @@ interface Props {
   imageUrls: string[];
   multipleItemNumber?: number | null;
   actionType?: string;
+  dots?: boolean;
+  settings?: any;
 }
 
-export default function SlickSlider({ imageUrls, multipleItemNumber, actionType }: Props) {
+export default function SlickSlider({
+  imageUrls,
+  multipleItemNumber,
+  actionType,
+  dots,
+  settings,
+}: Props) {
   const sliderRef: any = useRef();
   const dispatch = useDispatch();
 
@@ -33,11 +41,12 @@ export default function SlickSlider({ imageUrls, multipleItemNumber, actionType 
         <Slider
           ref={sliderRef}
           arrows={false}
-          dots={true}
           speed={1000}
           infinite={true}
+          dots={dots}
           slidesToShow={multipleItemNumber}
           slidesToScroll={multipleItemNumber}
+          {...settings}
         >
           {imageUrls.map((imageUrl: any) => (
             // <img
@@ -56,6 +65,7 @@ export default function SlickSlider({ imageUrls, multipleItemNumber, actionType 
             />
           ))}
         </Slider>
+
         <div className="controller">
           <button className="prev arrow" onClick={() => sliderRef.current.slickPrev()}>
             <IoIosArrowBack size={20} color="#fff" />
