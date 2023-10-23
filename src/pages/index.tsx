@@ -9,11 +9,10 @@ import Link from "next/link";
 
 export async function getServerSideProps({ query }: any) {
   await connectDB();
-  const randomProducts: any = await Product.aggregate([{ $sample: { size: 10 } }]).exec();
-  const recentProducts: any = await Product.aggregate([
-    { $sort: { createdAt: -1 } },
-    { $limit: 10 },
-  ]).exec();
+  let randomProducts: any;
+  let recentProducts: any;
+  randomProducts = await Product.aggregate([{ $sample: { size: 10 } }]).exec();
+  recentProducts = await Product.aggregate([{ $sort: { createdAt: -1 } }, { $limit: 10 }]).exec();
   const products = { randomProducts, recentProducts };
   console.log({ products });
 

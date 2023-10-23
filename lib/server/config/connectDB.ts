@@ -1,18 +1,19 @@
 import mongoose from "mongoose";
 
 export default async function connectDB() {
-  console.log(`\x1b[33m\n[connectDB:${mongoose.connection.name}]\x1b[0m`);
-  if (mongoose.connection.readyState >= 1)
-    return console.log("\n\x1b[33mAlready connected\x1b[30m\n");
+  console.log(`\x1b[33m\n[connectDB:${mongoose.connection.name}]`);
+
+  if (mongoose.connection.readyState >= 1) return console.log("\x1b[32mAlready connected\x1b[30m");
+
   const config = {
     dbName: "test",
     useUnifiedTopology: true,
     useNewUrlParser: true,
   };
+
   try {
-    // await mongoose.disconnect();
     await mongoose.connect(process.env.MONGODB_URI, config);
-    console.log("\n\x1b[33mConnected\x1b[30m\n");
+    console.log("\x1b[32mConnected\x1b[30m");
   } catch (error) {
     console.log(error);
   }

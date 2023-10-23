@@ -19,7 +19,7 @@ export const authOptions: NextAuthOptions = {
         console.log("\x1b[32m\n<authorize>");
 
         // check
-        if (!credentials) throw new Error("No credentials");
+        // if (!credentials) throw new Error("No credentials");
 
         // db
         await connectDB();
@@ -56,7 +56,7 @@ export const authOptions: NextAuthOptions = {
     // user : 로그인할 새로운 유저객체
     // client cookie에 token에는 user data를 포함하지 않도록 되어있다.
     async jwt({ token, user }: any) {
-      console.log("\x1b[33m\n<jwt>\x1b[32m");
+      console.log("\x1b[32m\n<jwt>");
       // console.log({ token, user });
       // if (account) {
       //   token.role = account.role;

@@ -60,10 +60,13 @@ export const signin = async (req: any, res: any) => {
 };
 
 export const refresh = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<refresh>`);
+  // console.log(`\x1b[32m\n<refresh>`);
+
   // get
   const { refreshToken } = req.cookies;
+  // console.log({ refreshToken });
   if (!refreshToken) return res.status(401).json({ message: "No refreshToken" });
+
   // find
   const foundUser = await User.findOne({ refreshToken })
     // .select("-password -createdAt -updatedAt -refreshToken")
@@ -79,6 +82,7 @@ export const refresh = async (req: any, res: any) => {
       return res.status(403).json({ error });
     }
   }
+
   // issue the new tokens
   const user = {
     _id: foundUser._id,
@@ -89,12 +93,15 @@ export const refresh = async (req: any, res: any) => {
   };
   const newAccessToken = createAccessToken(user);
   const newRefreshToken = createRefreshToken(user);
+
   // save
   foundUser.refreshToken = newRefreshToken;
   await foundUser.save();
+
   // out
   res.setHeader("Set-Cookie", [`refreshToken=${newRefreshToken};path=/`]);
   res.status(200).json({ user, accessToken: newAccessToken });
+
   // log
   console.log({
     user: user,

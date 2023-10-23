@@ -2,15 +2,13 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Loading from "@/components/layout/Loading";
 import Modal from "@/components/layout/Modal";
-import { setCredentials, signout } from "lib/client/store/authSlice";
 import { reloadCart } from "lib/client/store/cartSlice";
-import { setLoading } from "lib/client/store/loadingSlice";
 import { refreshAuth } from "lib/client/utils/authUtils";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Layout({ children }: any) {
@@ -28,17 +26,8 @@ export default function Layout({ children }: any) {
   // next-auth session token (cookie)
   useEffect(() => {
     // if (session.status === "authenticated") return console.log("session"); // session 방식으로 구현했다면 리프레시를 패스한다.
-    if (!auth.accessToken) {
-      try {
-        dispatch(setLoading(true));
-        refreshAuth(dispatch);
-        dispatch(setLoading(false));
-      } catch (error: any) {
-        dispatch(setLoading(false));
-        toast.error(error.message);
-        router.push("auth/signin");
-      }
-    }
+    // if (!auth.accessToken) refreshAuth();
+    if (!auth.accessToken) refreshAuth(dispatch);
   }, [auth.accessToken]); // refresh credentials
   // useEffect(() => {
   //   if (session.status === "authenticated") {
