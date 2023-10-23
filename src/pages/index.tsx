@@ -8,9 +8,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 export async function getServerSideProps({ query }: any) {
-  connectDB();
-  const result: any = await Product.aggregate([{ $sample: { size: 10 } }]).exec();
-  return { props: { products: JSON.parse(JSON.stringify(result)) } };
+  await connectDB();
+  const randomProducts: any = await Product.aggregate([{ $sample: { size: 10 } }]).exec();
+  const recentProducts: any = await Product.aggregate([
+    { $sort: { createdAt: -1 } },
+    { $limit: 10 },
+  ]).exec();
+  const products = { randomProducts, recentProducts };
+  console.log({ products });
+
+  return { props: { products: JSON.parse(JSON.stringify(products)) } };
 }
 
 const data = [
@@ -24,6 +31,7 @@ const data = [
 
 export default function Home({ products }: any) {
   console.log({ products });
+  const { randomProducts, recentProducts } = products;
 
   return (
     <>
@@ -36,7 +44,7 @@ export default function Home({ products }: any) {
       <Main>
         <section className="hero">
           <SlickSlider imageUrls={data} />
-          <div className="card-layout">
+          <div className="hero-category">
             <div className="card">
               <h1>Electronics</h1>
               <Link href={"/shop/all?category=electronics"}>
@@ -67,7 +75,7 @@ export default function Home({ products }: any) {
               </Link>
             </div>
           </div>
-          {/* <ul className="card-layout">
+          {/* <ul className="hero-category">
             {products.map((product: any) => (
               <li className="card">
                 <Image src={product.images[0].url} alt="alt" width={300} height={300} />
@@ -77,10 +85,9 @@ export default function Home({ products }: any) {
           </ul> */}
           <div className="best-sellers">
             <h1>Best Sellers</h1>
-            {products && (
+            {randomProducts && (
               <SlickSlider
-                imageUrls={products.map((product: any) => product.images[0].url)}
-                // imageUrls={product.images.map((image: any) => image.url)}
+                imageUrls={randomProducts.map((product: any) => product.images[0].url)}
                 multipleItemNumber={3}
                 actionType="VIEW_IMAGE"
                 dots={false}
@@ -90,6 +97,18 @@ export default function Home({ products }: any) {
           </div>
           <div className="new-arrivals">
             <h1>New Arrivals</h1>
+            {recentProducts && (
+              <SlickSlider
+                imageUrls={recentProducts.map((product: any) => product.images[0].url)}
+                multipleItemNumber={4}
+                actionType="VIEW_IMAGE"
+                dots={false}
+                settings={{}}
+              />
+            )}
+          </div>
+          <div className="recommendations">
+            <h1>Recommendations</h1>
           </div>
         </section>
         <section></section>
@@ -104,12 +123,17 @@ const Main = styled.main`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    .card-layout,
-    .best-sellers {
+    .hero-category,
+    .best-sellers,
+    .new-arrivals,
+    .recommendations {
       background-color: #333;
       padding: 1rem;
+      > h1 {
+        margin-bottom: 10px;
+      }
     }
-    .card-layout {
+    .hero-category {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(auto, 200px));
       justify-content: center;
@@ -134,6 +158,11 @@ const Main = styled.main`
       }
     }
     .best-sellers {
+      .slick-slide {
+        padding: 0 1rem;
+      }
+    }
+    .new-arrivals {
       .slick-slide {
         padding: 0 1rem;
       }

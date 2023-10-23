@@ -6,6 +6,7 @@ import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 // import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 // import clientPromise from "../../../../lib/server/config/mongodb";
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -13,11 +14,19 @@ export const authOptions: NextAuthOptions = {
       id: "credentials",
       credentials: {},
       async authorize(credentials, req) {
-        console.log("\x1b[32m\n[api/auth/[...nextauth]]");
-        console.log("\x1b[33m\n<authorize>\x1b[32m");
+        // log
+        console.log("\x1b[33m\n[api/auth/[...nextauth]]");
+        console.log("\x1b[32m\n<authorize>");
+
+        // check
+        if (!credentials) throw new Error("No credentials");
+
+        // db
         await connectDB();
+
         // get
         const { email, password }: any = credentials;
+
         // find
         const user = await User.findOne({ email })
           // .select("+username +email +role +image")
@@ -25,11 +34,13 @@ export const authOptions: NextAuthOptions = {
           .exec();
         if (!user) throw new Error("Invalid Email");
         console.log({ user });
+
         // compare
         const salt = 10; // 이동이 필요(서버 회원가입 핸들러에서 처리)
         const hashedPassword = await bcrypt.hash(user.password, salt); // 이동이 필요(서버 회원가입 핸들러에서 처리)
         const isPasswordMatched = await bcrypt.compare(password, hashedPassword);
         if (!isPasswordMatched) throw new Error("Invalid Password");
+
         // out
         return user; // 리턴값은 jwt의 user property에 저장한다.
       },
@@ -87,4 +98,5 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
+
 export default NextAuth(authOptions);

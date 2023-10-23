@@ -1,40 +1,8 @@
 import Link from "next/link";
 import styled from "styled-components";
+
 export default function Footer() {
   return (
-    // <Box>
-    //   <section>
-    //     <div className="Title">
-    //       <h1>Footer</h1>
-    //     </div>
-    //     <div className="">
-    //       <div className="">
-    //         <h3>test</h3>
-    //         <ul>
-    //           <li>menu1</li>
-    //           <li>menu1</li>
-    //           <li>menu1</li>
-    //         </ul>
-    //       </div>
-    //       <div>
-    //         <h3>test</h3>
-    //         <ul>
-    //           <li>menu1</li>
-    //           <li>menu1</li>
-    //           <li>menu1</li>
-    //         </ul>
-    //       </div>
-    //       <div>
-    //         <h3>test</h3>
-    //         <ul>
-    //           <li>menu1</li>
-    //           <li>menu1</li>
-    //           <li>menu1</li>
-    //         </ul>
-    //       </div>
-    //     </div>
-    //   </section>
-    // </Box>
     <Box>
       <section>
         <div className="footer-main">
@@ -42,7 +10,6 @@ export default function Footer() {
             <h1 className="title">Youser Stack</h1>
             <h1 className="title">E-Commerce</h1>
             <small>&copy; 2023, youserstack. All rights reserved.</small>
-
             <div className="social">
               {/* <SocialIcon className="icon" url="www.github.com" href="/#" style={size} />
             <SocialIcon className="icon" url="www.twitter.com" href="/#" style={size} />
@@ -56,13 +23,7 @@ export default function Footer() {
                 <Link href={"/"}>Home</Link>
               </li>
               <li>
-                <Link href={"/#about"}>About</Link>
-              </li>
-              <li>
-                <Link href={"/#works"}>Works</Link>
-              </li>
-              <li>
-                <Link href={"/#contact"}>Contact</Link>
+                <Link href={"/#policy"}>Policy</Link>
               </li>
             </ul>
           </div>

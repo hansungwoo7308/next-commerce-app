@@ -14,10 +14,14 @@ import logError from "lib/client/log/logError";
 // import { setCredentials } from "lib/client/store/authSlice";
 // import { postData } from "lib/client/utils/fetchData";
 // import { setLoading, setNotify } from "lib/client/store/notifySlice";
+
 export default function SigninForm() {
+  // external
   const dispatch = useDispatch();
-  const router = useRouter();
   const session: any = useSession();
+
+  // internal
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -25,6 +29,7 @@ export default function SigninForm() {
     setFocus,
     formState: { errors },
   } = useForm();
+
   const handleSigninWithNextauth = async (data: any) => {
     // console.log("data: ", data);
     try {
@@ -83,6 +88,7 @@ export default function SigninForm() {
   //     // router.push("/auth/profile");
   //   }
   // }, [session.data]);
+
   return (
     <Box>
       <h1>Sign In</h1>
@@ -93,6 +99,7 @@ export default function SigninForm() {
     </Box>
   );
 }
+
 const Box = styled.form`
   width: 50%;
   height: 50vh;

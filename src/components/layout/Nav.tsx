@@ -5,21 +5,11 @@ import { styled } from "styled-components";
 // import { Squeeze as Hamburger } from "hamburger-react";
 import { IoIosArrowForward, IoIosMenu } from "react-icons/io";
 import AccountIcon from "@/components/auth/AccountIcon";
+import { getData } from "lib/public/fetchData";
 
 export default function Nav() {
   const [isVisible, setIsVisible]: any = useState(false);
-  // console.log({ router });
-  // const [categoryToggle, setCategoryToggle]: any = useState(false);
-  // const [shopToggle, setShopToggle]: any = useState(false);
-  // const handleCategoryToggle = (e: any) => {
-  //   e.stopPropagation();
-  //   setCategoryToggle((value: boolean) => !value);
-  // };
-  const handleToggle = (e: any) => {
-    e.stopPropagation();
-    setIsVisible((value: boolean) => !value);
-    // setShopToggle((value: boolean) => !value);
-  };
+
   // useEffect(() => {
   //   const handleClose = () => setIsVisible(false);
   //   window.addEventListener("click", handleClose);
@@ -27,6 +17,7 @@ export default function Nav() {
   //   // window.addEventListener("click", () => setCategoryToggle(false));
   //   // window.addEventListener("click", () => setShopToggle(false));
   // }, []);
+
   return (
     <Box>
       <div id="nav-belt-outer">
@@ -91,29 +82,23 @@ export default function Nav() {
                 </Link>
               </li>
             </ul>
+            <hr />
+            <button
+              onClick={async (e) => {
+                e.preventDefault();
+                try {
+                  const response = await getData("disconnect");
+                  console.log({ response });
+                } catch (error) {
+                  console.log({ error });
+                }
+              }}
+            >
+              Disconnect database
+            </button>
           </div>
         </div>
       </div>
-
-      {/* <button onClick={handleToggle}>Shop</button> */}
-      {/* {isVisible && (
-            <ul className="sub">
-              <li>
-                <Link href={"/shop/all"}>All Products</Link>
-              </li>
-              <li>
-                <Link href={"/shop/electronics"}>Electronics</Link>
-              </li>
-              <li>
-                <Link href={"/shop/fashion"}>Fashion</Link>
-              </li>
-              <li>
-                <Link href={"/shop/food"}>Food</Link>
-              </li>
-            </ul>
-          )} */}
-      {/* <li className="shop">
-        </li> */}
     </Box>
   );
 }
