@@ -30,37 +30,14 @@ export default function SigninForm() {
     formState: { errors },
   } = useForm();
 
-  const handleSigninWithNextauth = async (data: any) => {
-    // console.log("data: ", data);
-    try {
-      setLoading(true);
-      const { email, password } = data;
-      const response: any = await signIn("credentials", {
-        email,
-        password,
-        redirect: true,
-        callbackUrl: "/my/account",
-      });
-      console.log({ response });
-      setLoading(false);
-      // toast.success("Login Success (next-auth)");
-    } catch (error: any) {
-      console.log({ error });
-      setLoading(false);
-      toast.error(error.message);
-    }
-  };
   const handleSignin = async (data: any) => {
     try {
       dispatch(setLoading(true));
       const response = await postData("v2/auth/signin", data);
-      // const response = await postData("auth/signin", data);
       const { user, accessToken } = response.data;
       dispatch(setCredentials({ user, accessToken }));
       dispatch(setLoading(false));
-      toast.success("Login Success (general)");
-      // dispatch(setNotify({ status: "success", message: "Login Success", visible: true }));
-      // router.push("/auth/profile");
+      toast.success("Signed in");
       router.push("/my/account");
     } catch (error: any) {
       logError(error);
@@ -68,6 +45,33 @@ export default function SigninForm() {
       toast.error(error.message);
     }
   };
+  const handleSigninWithCredentials = async (data: any) => {
+    // console.log("data: ", data);
+    try {
+      setLoading(true);
+      const { email, password } = data;
+      const { callbackUrl }: any = router.query;
+      const response: any = await signIn("credentials", {
+        email,
+        password,
+        redirect: true,
+        callbackUrl: callbackUrl || "/",
+      });
+      console.log({ response });
+      setLoading(false);
+      toast.success("Signed in by next-auth library");
+    } catch (error: any) {
+      console.log({ error });
+      setLoading(false);
+      toast.error(error.message);
+    }
+  };
+  const handleSigninWithNaver = async (e: any) => {
+    e.preventDefault();
+    const result = await signIn("naver", { redirect: true, callbackUrl: "/" });
+    console.log({ result });
+  };
+
   useEffect(() => {
     setFocus("email");
   }, []);
@@ -91,8 +95,9 @@ export default function SigninForm() {
       <h1>Sign In</h1>
       <input {...register("email", { required: true })} type="text" placeholder="email" />
       <input {...register("password", { required: true })} type="password" placeholder="password" />
-      <button onClick={handleSubmit(handleSignin)}>Sign in</button>
-      <button onClick={handleSubmit(handleSigninWithNextauth)}>Sign in with next-auth</button>
+      <button onClick={handleSubmit(handleSignin)}>Sign in without Library</button>
+      <button onClick={handleSubmit(handleSigninWithCredentials)}>Sign in with Credentials</button>
+      <button onClick={handleSigninWithNaver}>Sign in with Naver</button>
     </Box>
   );
 }

@@ -77,18 +77,18 @@ export const authOptions: NextAuthOptions = {
       if (token.user) session.user = token.user;
       if (token.account) session.account = token.account;
       // console.log({ session });
-      console.log({ account: session.account });
       console.log({ user: session.user });
+      console.log({ account: session.account });
       return session;
     },
   },
   pages: {
     signIn: "/auth/signin",
   },
-  session: {
-    strategy: "jwt",
-  },
-  secret: process.env.NEXTAUTH_SECRET,
+  // session: {
+  //   strategy: "jwt",
+  // },
+  // secret: process.env.NEXTAUTH_SECRET,
 };
 
 export default NextAuth(authOptions);
