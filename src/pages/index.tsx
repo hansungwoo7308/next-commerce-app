@@ -1,4 +1,3 @@
-import { getData } from "lib/public/fetchData";
 import Head from "next/head";
 import SlickSlider from "@/components/performance/SlickSlider";
 import { styled } from "styled-components";
@@ -7,7 +6,11 @@ import Product from "lib/server/models/Product";
 import Image from "next/image";
 import Link from "next/link";
 
-export async function getServerSideProps({ query }: any) {
+export async function getServerSideProps({ req, query }: any) {
+  console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
+  // console.log({ "Object.keys(req)": Object.keys(req) });
+  // console.log({ "Object.entries(req)": Object.entries(req) });
+
   await connectDB();
   let randomProducts: any;
   let recentProducts: any;

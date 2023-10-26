@@ -1,9 +1,12 @@
 import mongoose from "mongoose";
 
 export default async function connectDB() {
-  console.log(`\x1b[33m\n[connectDB:${mongoose.connection.name}]`);
+  // console.log(`\x1b[33m\n[connectDB:${mongoose.connection.name}]`);
 
-  if (mongoose.connection.readyState >= 1) return console.log("\x1b[32mAlready connected\x1b[30m");
+  if (mongoose.connection.readyState >= 1) {
+    // console.log("\x1b[32mAlready connected\x1b[30m");
+    return;
+  }
 
   const config = {
     dbName: "test",
@@ -13,7 +16,7 @@ export default async function connectDB() {
 
   try {
     await mongoose.connect(process.env.MONGODB_URI, config);
-    console.log("\x1b[32mConnected\x1b[30m");
+    // console.log("\x1b[32mConnected\x1b[30m");
   } catch (error) {
     console.log(error);
   }

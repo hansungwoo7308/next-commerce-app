@@ -38,15 +38,12 @@ export default function SigninForm() {
       const response: any = await signIn("credentials", {
         email,
         password,
-        redirect: false,
-        // callbackUrl: "/my/account",
+        redirect: true,
+        callbackUrl: "/my/account",
       });
-      // console.log({ response });
+      console.log({ response });
       setLoading(false);
-      toast.success("Login Success (next-auth)");
-      const { callbackUrl }: any = router.query;
-      if (callbackUrl) return router.push(callbackUrl);
-      // router.push('/my/account')
+      // toast.success("Login Success (next-auth)");
     } catch (error: any) {
       console.log({ error });
       setLoading(false);

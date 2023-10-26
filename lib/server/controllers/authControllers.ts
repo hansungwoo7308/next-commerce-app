@@ -96,7 +96,7 @@ export const refresh = async (req: any, res: any) => {
 
   // save
   foundUser.refreshToken = newRefreshToken;
-  await foundUser.save();
+  const savedUser = await foundUser.save();
 
   // out
   res.setHeader("Set-Cookie", [`refreshToken=${newRefreshToken};path=/`]);
@@ -104,8 +104,9 @@ export const refresh = async (req: any, res: any) => {
 
   // log
   console.log({
-    user: user,
-    accessToken: newAccessToken.slice(-5),
-    refreshToken: newRefreshToken.slice(-5),
+    user: savedUser,
+    // user: user,
+    // accessToken: newAccessToken.slice(-5),
+    // refreshToken: newRefreshToken.slice(-5),
   });
 };

@@ -1,9 +1,13 @@
-import connectDB from "lib/server/config/connectDB";
-import User from "lib/server/models/User";
 import NextAuth, { NextAuthOptions } from "next-auth";
+
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import NaverProvider from "next-auth/providers/naver";
+
+import connectDB from "lib/server/config/connectDB";
+import User from "lib/server/models/User";
 import bcrypt from "bcrypt";
+
 // import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 // import clientPromise from "../../../../lib/server/config/mongodb";
 
@@ -14,14 +18,10 @@ export const authOptions: NextAuthOptions = {
       id: "credentials",
       credentials: {},
       async authorize(credentials, req) {
-        // log
-        console.log("\x1b[33m\n[api/auth/[...nextauth]]");
-        console.log("\x1b[32m\n<authorize>");
-
+        console.log("\x1b[33m\n[authorize]\x1b[30m");
         // check
         // if (!credentials) throw new Error("No credentials");
 
-        // db
         await connectDB();
 
         // get
@@ -49,44 +49,36 @@ export const authOptions: NextAuthOptions = {
     //   clientId: process.env.GOOGLE_CLIENT_ID,
     //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     // }),
+    NaverProvider({
+      clientId: process.env.NAVER_CLIENT_ID as string,
+      clientSecret: process.env.NAVER_CLIENT_SECRET as string,
+    }),
   ],
   callbacks: {
-    // jwt에 user data를 저장하고 토큰을 생성하는 함수
-    // token : 로그인 상태라면 기존의 토큰을 리턴한다.
-    // user : 로그인할 새로운 유저객체
-    // client cookie에 token에는 user data를 포함하지 않도록 되어있다.
-    async jwt({ token, user }: any) {
-      console.log("\x1b[32m\n<jwt>");
-      // console.log({ token, user });
-      // if (account) {
-      //   token.role = account.role;
-      // }
-      if (user) {
-        const userWithoutPassword = { ...user._doc };
-        delete userWithoutPassword.password;
-        token.user = userWithoutPassword;
-        token.name = user.username;
-      }
-      console.log({ token });
-      console.log();
+    signIn({ user, account, profile }) {
+      console.log("\x1b[33m\n[signIn]\x1b[32m");
+      console.log({ user, account });
+      if (account?.provider === "naver") return true;
+      return true;
+    },
+    async jwt({ token, user, account }: any) {
+      // jwt token 에 user 데이터를 저장한다.
+      // user : returned value from authorize function
+      // console.log("\x1b[33m\n[jwt]\x1b[32m");
+      if (user) token.user = user;
+      if (account) token.account = account;
+      // console.log({ token });
       return token;
     },
-    // session에 user data를 저장하는 함수
-    // session : server에 저장되는 user data account object
-    // token : jwt function으로부터 생성된 token
     async session({ session, token }: any) {
-      console.log("\x1b[33m\n<session>\x1b[32m");
-      // console.log({ session, token });
-      // if (session.user) {
-      //   session.user.role = token.role;
-      // }
-      if (session.user) {
-        session.user.name = token.user.username;
-        session.user.email = token.user.email;
-        session.user.role = token.user.role;
-      }
-      console.log({ session });
-      console.log();
+      // session에 user 데이터를 저장한다.
+      // token : returned value from jwt function
+      console.log("\x1b[33m\n[session]\x1b[32m");
+      if (token.user) session.user = token.user;
+      if (token.account) session.account = token.account;
+      // console.log({ session });
+      console.log({ account: session.account });
+      console.log({ user: session.user });
       return session;
     },
   },

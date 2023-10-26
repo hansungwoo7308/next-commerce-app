@@ -2,7 +2,9 @@ import User from "lib/server/models/User";
 import jwt from "jsonwebtoken";
 import connectDB from "lib/server/config/connectDB";
 import { createAccessToken, createRefreshToken } from "lib/server/utils/createJWT";
+
 connectDB();
+
 export default async function (req: any, res: any) {
   console.log("\x1b[32m\n[api/auth/refresh]");
 

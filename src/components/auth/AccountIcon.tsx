@@ -14,13 +14,16 @@ import { toast } from "react-toastify";
 import { styled } from "styled-components";
 
 export default function AccountIcon() {
+  // external
   const dispatch = useDispatch();
-  const router = useRouter();
   const session = useSession();
   const auth = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
 
+  // internal
+  const router = useRouter();
   const [toggle, setToggle]: any = useState(false);
+
   const handleToggle = (e: any) => {
     e.stopPropagation();
     setToggle((value: boolean) => !value);
@@ -55,48 +58,49 @@ export default function AccountIcon() {
     document.addEventListener("click", () => setToggle(false));
   }, []);
 
-  if (auth.accessToken || session.data?.user) {
-    return (
-      <Box>
-        <Link href={"/cart"}>
-          <FaCartShopping /> <pre> ({cart.products?.length})</pre>
-        </Link>
-        <div className="account-outer">
-          <div className="account">
-            <div className="avatar" onClick={handleToggle}>
-              <Image
-                src={auth.user.image || "/images/placeholder.jpg"}
-                alt={auth.user.image}
-                width={100}
-                height={100}
-              />
-            </div>
-            {toggle && (
-              <div className="toggle-menu">
-                <div className="toggle-menu-arrow" />
-                <Link href={"/my/account"}>
-                  <p>My Account</p>
-                </Link>
-                {auth.user?.role === "admin" && <></>}
-                {auth.user?.role === "user" && (
-                  <>
-                    <Link href={"/my/orders"}>
-                      <p>Order List</p>
-                    </Link>
-                  </>
-                )}
-                {/* <hr /> */}
-                <HorizonLine />
-                <button onClick={handleSignout}>Sign out</button>
+  if (session.status === "authenticated" || auth.accessToken) {
+    if (auth.user)
+      return (
+        <Box>
+          <Link href={"/cart"}>
+            <FaCartShopping /> <pre> ({cart.products?.length})</pre>
+          </Link>
+          <div className="account-outer">
+            <div className="account">
+              <div className="avatar" onClick={handleToggle}>
+                <Image
+                  src={auth.user?.image || "/images/placeholder.jpg"}
+                  alt={auth.user?.image}
+                  width={100}
+                  height={100}
+                />
               </div>
-            )}
+              {toggle && (
+                <div className="toggle-menu">
+                  <div className="toggle-menu-arrow" />
+                  <Link href={"/my/account"}>
+                    <p>My Account</p>
+                  </Link>
+                  {auth.user?.role === "admin" && <></>}
+                  {auth.user?.role === "user" && (
+                    <>
+                      <Link href={"/my/orders"}>
+                        <p>Order List</p>
+                      </Link>
+                    </>
+                  )}
+                  {/* <hr /> */}
+                  <HorizonLine />
+                  <button onClick={handleSignout}>Sign out</button>
+                </div>
+              )}
+            </div>
+            <p>
+              {auth.user?.name || auth.user?.username} ({auth.user?.role || "undefined"})
+            </p>
           </div>
-          <p>
-            {auth.user?.username} ({auth.user?.role})
-          </p>
-        </div>
-      </Box>
-    );
+        </Box>
+      );
   }
   return (
     <Box>

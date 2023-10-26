@@ -2,10 +2,10 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Loading from "@/components/layout/Loading";
 import Modal from "@/components/layout/Modal";
+import { setCredentials } from "lib/client/store/authSlice";
 import { reloadCart } from "lib/client/store/cartSlice";
 import { refreshAuth } from "lib/client/utils/authUtils";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
@@ -13,31 +13,30 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Layout({ children }: any) {
   // external
-  const session: any = useSession();
+  const session = useSession();
   const auth = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
   const dispatch = useDispatch();
 
-  // internal
-  const router = useRouter();
-
-  // set the credentials
-  // general jwt : accessToken(redux store), refreshToken(cookie)
-  // next-auth session token (cookie)
+  // auth
   useEffect(() => {
-    // if (session.status === "authenticated") return console.log("session"); // session 방식으로 구현했다면 리프레시를 패스한다.
-    // if (!auth.accessToken) refreshAuth();
+    // general authentication : jwt(accessToken(redux store), refreshToken(cookie))
+    if (session.status === "authenticated") {
+      if (!session.data.user) return;
+      const credentials = { user: session.data.user };
+      dispatch(setCredentials(credentials));
+    }
+  }, [session.status]);
+  useEffect(() => {
+    // next-auth : session token based on jwt (cookie)
+    if (session.status === "authenticated")
+      return console.log("Authentication method is next-auth.");
     if (!auth.accessToken) refreshAuth(dispatch);
-  }, [auth.accessToken]); // refresh credentials
-  // useEffect(() => {
-  //   if (session.status === "authenticated") {
-  //     const credentials = { user: session.data.user, accessToken: "next-auth" };
-  //     dispatch(setCredentials(credentials));
-  //   }
-  // }, [session.status]);
+  }, [auth.accessToken]);
 
-  // upload cart data from local storage to redux store
+  // cart
   useEffect(() => {
+    // upload cart data from local storage to redux store
     // 로컬스토리지로부터 리덕스스토어에 카트정보를 채운다.
     const serializedCart: any = localStorage.getItem("cart");
     if (!serializedCart) return;
@@ -46,8 +45,8 @@ export default function Layout({ children }: any) {
     // console.log({ parsedCart });
     dispatch(reloadCart(parsedCart));
   }, []);
-  // upload cart data to local storage
   useEffect(() => {
+    // upload cart data from redux store to local storage
     if (!cart.products?.length) return;
     const serializedCart: any = JSON.stringify(cart);
     localStorage.setItem("cart", serializedCart);
