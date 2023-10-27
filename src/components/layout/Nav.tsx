@@ -2,12 +2,16 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
-// import { Squeeze as Hamburger } from "hamburger-react";
 import { IoIosArrowForward, IoIosMenu } from "react-icons/io";
 import AccountIcon from "@/components/auth/AccountIcon";
 import { getData } from "lib/public/fetchData";
+import { FaCartShopping } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+// import { Squeeze as Hamburger } from "hamburger-react";
 
 export default function Nav() {
+  const cart = useSelector((store: any) => store.cart);
+
   const [isVisible, setIsVisible]: any = useState(false);
 
   // useEffect(() => {
@@ -29,6 +33,9 @@ export default function Nav() {
           </div>
           <div id="nav-belt-center"></div>
           <div id="nav-belt-right">
+            <Link href={"/cart"}>
+              <FaCartShopping /> <pre> ({cart.products?.length})</pre>
+            </Link>
             <AccountIcon />
             {/* <div id="nav-tools">
             <div id="nav-account"></div>
@@ -127,6 +134,8 @@ const Box = styled.nav`
     }
     #nav-belt-right {
       height: 100%;
+      display: flex;
+      gap: 1rem;
       > * {
         /* Account Component */
         height: 100%;

@@ -8,7 +8,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { FaCartShopping } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { styled } from "styled-components";
@@ -18,7 +17,6 @@ export default function AccountIcon() {
   const dispatch = useDispatch();
   const session = useSession();
   const auth = useSelector((store: any) => store.auth);
-  const cart = useSelector((store: any) => store.cart);
 
   // internal
   const router = useRouter();
@@ -62,9 +60,6 @@ export default function AccountIcon() {
     if (auth.user)
       return (
         <Box>
-          <Link href={"/cart"}>
-            <FaCartShopping /> <pre> ({cart.products?.length})</pre>
-          </Link>
           <div className="account-outer">
             <div className="account">
               <div className="avatar" onClick={handleToggle}>
@@ -104,9 +99,12 @@ export default function AccountIcon() {
   }
   return (
     <Box>
-      <Link href={"/cart"}>Cart ({cart.products?.length})</Link>
-      <Link href={"/auth/signin"}>Sign in</Link>
-      <Link href={"/auth/signup"}>Sign up</Link>
+      <button className="account-button">Account</button>
+      <div className="toggle">
+        <div className="toggle-arrow" />
+        <Link href={"/auth/signin"}>Sign in</Link>
+        <Link href={"/auth/signup"}>Sign up</Link>
+      </div>
     </Box>
   );
 }
@@ -115,11 +113,16 @@ const Box = styled.div`
   display: flex;
   align-items: stretch;
   gap: 1rem;
-  /* border: 2px solid yellow; */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   > * {
     /* padding: 1rem; */
     /* border: 1px solid red; */
   }
+
+  /* when authorized */
   > .account-outer {
     display: flex;
     gap: 0.5rem;
@@ -154,7 +157,6 @@ const Box = styled.div`
           background-color: gray;
           pointer-events: none;
         }
-
         > a,
         button {
           width: 100%;
@@ -169,6 +171,44 @@ const Box = styled.div`
       display: flex;
       align-items: center;
     }
+  }
+
+  /* when unauthorized */
+  > .account-button {
+    height: 100%;
+    &:hover {
+      color: #fff;
+    }
+    &:hover + .toggle {
+      display: block;
+    }
+  }
+  > .toggle {
+    display: none;
+    position: absolute;
+    top: 100%;
+    background-color: gray;
+    white-space: nowrap;
+    padding: 1rem;
+    &:hover {
+      display: block;
+    }
+    > .toggle-arrow {
+      width: 0.7rem;
+      height: 0.7rem;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%) rotate(45deg);
+      background-color: gray;
+      pointer-events: none;
+    }
+  }
+
+  /* public */
+  button,
+  a {
+    color: #ccc;
   }
 `;
 const HorizonLine = styled.hr`

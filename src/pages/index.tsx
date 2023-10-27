@@ -13,10 +13,11 @@ export async function getServerSideProps({ req, query }: any) {
   // console.log({ "Object.entries(req)": Object.entries(req) });
 
   await connectDB();
-  let randomProducts: any;
-  let recentProducts: any;
-  randomProducts = await Product.aggregate([{ $sample: { size: 10 } }]).exec();
-  recentProducts = await Product.aggregate([{ $sort: { createdAt: -1 } }, { $limit: 10 }]).exec();
+  const randomProducts = await Product.aggregate([{ $sample: { size: 10 } }]).exec();
+  const recentProducts = await Product.aggregate([
+    { $sort: { createdAt: -1 } },
+    { $limit: 10 },
+  ]).exec();
   const products = { randomProducts, recentProducts };
   // console.log({ products });
   return { props: { products: JSON.parse(JSON.stringify(products)) } };

@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { reloadCart } from "lib/client/store/cartSlice";
-import { setNotify } from "lib/client/store/notifySlice";
 import { getData } from "lib/public/fetchData";
 import styled from "styled-components";
 import { toast } from "react-toastify";
@@ -123,7 +122,7 @@ const Main = styled.main`
     gap: 3rem;
     .cart {
       padding: 1rem;
-      border: 2px solid green;
+      /* border: 2px solid green; */
       > * {
         margin: 1rem 0;
       }
@@ -137,7 +136,7 @@ const Main = styled.main`
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        border: 2px solid red;
+        border: 1px solid;
         border-radius: 5px;
         padding: 1rem;
       }

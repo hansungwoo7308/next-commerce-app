@@ -118,7 +118,7 @@ export default function Cart({ product }: any) {
 }
 
 const Box = styled.li`
-  border: 2px solid;
+  border: 1px solid;
   border-radius: 5px;
   padding: 1rem;
   background-color: #333;

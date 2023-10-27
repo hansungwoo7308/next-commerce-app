@@ -59,8 +59,8 @@ export default function Page() {
     try {
       dispatch(setLoading(true));
       const response = await postData("v2/order", { order: payload }, auth.accessToken);
-      console.log({ response });
-      // dispatch(addOrder(response.data.order))
+      const { order } = response.data;
+      console.log({ order });
       // dispatch(clearCart());
       dispatch(setLoading(false));
       router.push(`/order/${order._id}`);

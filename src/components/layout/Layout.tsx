@@ -29,7 +29,8 @@ export default function Layout({ children }: any) {
   }, [session.status]);
   useEffect(() => {
     // next-auth : session token based on jwt (cookie)
-    if (session.status === "authenticated") return;
+    // if (session.status === "authenticated") return;
+    if (session) return;
     if (!auth.accessToken) refreshAuth(dispatch);
   }, [auth.accessToken]);
 

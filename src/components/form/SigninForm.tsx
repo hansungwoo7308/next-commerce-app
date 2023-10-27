@@ -122,8 +122,10 @@ const Box = styled.form`
   align-items: center;
   gap: 15px;
   border: 2px solid green;
+  border-radius: 10px;
   padding: 1rem;
-  background-color: var(--color-form-background);
+  /* background-color: var(--color-form-background); */
+  background-color: #222;
   /* border-radius: 1rem; */
   > input {
     /* width: 50%; */
@@ -150,7 +152,7 @@ const Box = styled.form`
     background-color: gray;
   }
   .signin-with-credentials {
-    background-color: lightblue;
+    background-color: #007aff;
   }
   .signin-with-naver {
     background-color: #03c75a;
