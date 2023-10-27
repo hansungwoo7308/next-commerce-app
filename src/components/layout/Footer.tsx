@@ -7,7 +7,7 @@ export default function Footer() {
       <section>
         <div className="footer-main">
           <div className="left">
-            <h1 className="title">Youser Stack</h1>
+            <h1 className="title">youserstack</h1>
             <h1 className="title">E-Commerce</h1>
             <small>&copy; 2023, youserstack. All rights reserved.</small>
             <div className="social">

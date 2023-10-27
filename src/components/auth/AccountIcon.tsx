@@ -70,7 +70,7 @@ export default function AccountIcon() {
               <div className="avatar" onClick={handleToggle}>
                 <Image
                   src={auth.user?.image || "/images/placeholder.jpg"}
-                  alt={auth.user?.image}
+                  alt="alt"
                   width={100}
                   height={100}
                 />
@@ -96,7 +96,7 @@ export default function AccountIcon() {
               )}
             </div>
             <p>
-              {auth.user?.name || auth.user?.username} ({auth.user?.role || "undefined"})
+              {auth.user?.name || auth.user?.username} ({auth.user?.role || "naver user"})
             </p>
           </div>
         </Box>

@@ -5,7 +5,7 @@ import Modal from "@/components/layout/Modal";
 import { setCredentials } from "lib/client/store/authSlice";
 import { reloadCart } from "lib/client/store/cartSlice";
 import { refreshAuth } from "lib/client/utils/authUtils";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
@@ -68,7 +68,6 @@ export default function Layout({ children }: any) {
       />
       <Loading />
       <Modal />
-      {/* <Notify /> */}
       <Header />
       {children}
       <Footer />

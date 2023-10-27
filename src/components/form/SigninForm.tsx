@@ -9,6 +9,7 @@ import { setLoading } from "lib/client/store/loadingSlice";
 import { toast } from "react-toastify";
 import { signIn, useSession } from "next-auth/react";
 import logError from "lib/client/log/logError";
+import { SiNaver } from "react-icons/si";
 // import logResponse from "lib/client/log/logResponse";
 // import logError from "lib/client/log/logError";
 // import { setCredentials } from "lib/client/store/authSlice";
@@ -68,8 +69,7 @@ export default function SigninForm() {
   };
   const handleSigninWithNaver = async (e: any) => {
     e.preventDefault();
-    const result = await signIn("naver", { redirect: true, callbackUrl: "/" });
-    console.log({ result });
+    await signIn("naver", { redirect: true, callbackUrl: "/" });
   };
 
   useEffect(() => {
@@ -95,9 +95,19 @@ export default function SigninForm() {
       <h1>Sign In</h1>
       <input {...register("email", { required: true })} type="text" placeholder="email" />
       <input {...register("password", { required: true })} type="password" placeholder="password" />
-      <button onClick={handleSubmit(handleSignin)}>Sign in without Library</button>
-      <button onClick={handleSubmit(handleSigninWithCredentials)}>Sign in with Credentials</button>
-      <button onClick={handleSigninWithNaver}>Sign in with Naver</button>
+      <button className="signin" onClick={handleSubmit(handleSignin)}>
+        Sign in without Library
+      </button>
+      <button
+        className="signin-with-credentials"
+        onClick={handleSubmit(handleSigninWithCredentials)}
+      >
+        Sign in with Credentials
+      </button>
+      <button className="signin-with-naver" onClick={handleSigninWithNaver}>
+        <SiNaver size={14} />
+        Sign in with Naver
+      </button>
     </Box>
   );
 }
@@ -127,27 +137,23 @@ const Box = styled.form`
       border: 3px solid var(--color-focus);
     }
   }
-  > button:nth-of-type(1) {
-    background-color: lightcoral;
-    color: #fff;
-    &:hover {
-      background-color: var(--color-primary);
-    }
-  }
-  > button:nth-of-type(2) {
-    background-color: lightblue;
-    color: #fff;
-    &:hover {
-      background-color: var(--color-primary);
-    }
-  }
   > button {
-    /* all: unset; */
     width: 200px;
     border-radius: 5px;
-    padding: 10px;
-    cursor: pointer;
-    /* border: none; */
+    padding: 0.7rem !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+  .signin {
+    background-color: gray;
+  }
+  .signin-with-credentials {
+    background-color: lightblue;
+  }
+  .signin-with-naver {
+    background-color: #03c75a;
   }
   @media (width<1000px) {
     width: 70%;

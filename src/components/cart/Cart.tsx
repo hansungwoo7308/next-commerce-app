@@ -82,7 +82,7 @@ export default function Cart({ product }: any) {
         <VerticalLine />
         <ul className="options">
           {options.map((option: any, index: number) => (
-            <li className="option">
+            <li className="option" key={option.item}>
               <p>{option.item}</p>
               <p>
                 ${option.price} X {option.quantity} = ${option.price * option.quantity}

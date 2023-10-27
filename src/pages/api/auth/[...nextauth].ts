@@ -62,7 +62,7 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     async jwt({ token, user, account }: any) {
-      // jwt token 에 user 데이터를 저장한다.
+      // client token 에 user 데이터를 저장한다.
       // user : returned value from authorize function
       // console.log("\x1b[33m\n[jwt]\x1b[32m");
       if (user) token.user = user;
@@ -71,7 +71,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }: any) {
-      // session에 user 데이터를 저장한다.
+      // server session 에 user 데이터를 저장한다.
       // token : returned value from jwt function
       console.log("\x1b[33m\n[session]\x1b[32m");
       if (token.user) session.user = token.user;

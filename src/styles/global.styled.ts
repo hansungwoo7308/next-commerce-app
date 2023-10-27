@@ -82,20 +82,19 @@ export const GlobalStyled = createGlobalStyle`
       color: var(--color-hover);
     }
   }
-  html button {
+  html body button {
     cursor: pointer;
     border:none;
     padding: 0.5rem;
     background-color:inherit;
-    color:inherit;
+    color:#fff;
     &:hover {
-      background-color:#000;
-      color:#fff;
+      background-color:#000 !important;
     }
   }
   html body .general-button {
     padding: 0.5rem;
-    border-radius: 3px;
+    border-radius: 5px;
     background-color: #333;
     color: #ddd;
     &:hover {
@@ -105,7 +104,7 @@ export const GlobalStyled = createGlobalStyle`
   }
   html body .create-button{
     padding: 0.5rem;
-    border-radius: 3px;
+    border-radius: 5px;
     background-color: #00aaff;
     color: #fff;
     &:hover {
@@ -119,7 +118,7 @@ export const GlobalStyled = createGlobalStyle`
   html body .pay-button,
   html body .add-button{
     padding: 0.5rem;
-    border-radius: 3px;
+    border-radius: 5px;
     /* background-color: #c15151; */
     /* background-color: #fff; */
     background-color: #67b34bec;
@@ -134,7 +133,7 @@ export const GlobalStyled = createGlobalStyle`
   }
   html body .delete-button{
     padding: 0.5rem;
-    border-radius: 3px;
+    border-radius: 5px;
     background-color: #c15151;
     color: #fff;
     &:hover {
@@ -148,7 +147,7 @@ export const GlobalStyled = createGlobalStyle`
   html body .cancel-button,
   html body .close-button {
     padding: 0.5rem;
-    border-radius: 3px;
+    border-radius: 5px;
     background-color: #333;
     color: #ddd;
     &:hover {
