@@ -11,6 +11,7 @@ export default function Order({ order }: any) {
   // external
   const { ordererInfo, productInfo, deliveryInfo, payInfo } = order;
   const { product } = productInfo;
+  const { options } = product;
   // const { isDelivered } = deliveryInfo;
   const { method, paid, total } = payInfo;
   const auth = useSelector((store: any) => store.auth);
@@ -35,42 +36,53 @@ export default function Order({ order }: any) {
   return (
     <Box>
       <div className="order-header">
-        <h3>Order Number : {order._id}</h3>
+        <h3>
+          Order Number : {order._id} ({order.createdAt.slice(0, 10)})
+        </h3>
         <button className="delete-button" onClick={handleDeleteOrder}>
           Delete
         </button>
       </div>
       <HorizonLine />
       <div className="order">
-        <div className="product-info">
-          <div className="product-info-image">
-            <Link href={`/products/${product._id}`}>
-              <Image
-                src={product.images[0].url || product.images[0].secure_url}
-                alt={product.images[0].url || product.images[0].secure_url}
-                width={1000}
-                height={1000}
-              />
-            </Link>
-          </div>
-          <div className="product-info-content">
-            <p>Product</p>
-            <p>{product.name}</p>
-          </div>
+        <div className="order-image">
+          <Link href={`/products/${product._id}`}>
+            <Image
+              src={product.images[0].url || product.images[0].secure_url}
+              alt={product.images[0].url || product.images[0].secure_url}
+              width={1000}
+              height={1000}
+            />
+          </Link>
         </div>
-        <VerticalLine />
-        <div className="delivery-info">
-          <p>Delivery</p>
-          <p>{}</p>
-        </div>
-        <VerticalLine />
-        <div className="pay-info">
-          <p>Payment</p>
-          <p>Method : {method}</p>
-          <p>Paid State : {paid}</p>
-          <p>Total : ${total}</p>
-          {/* <small>Payment Date : {order.dateOfPayment}</small>
+        <div className="order-info">
+          <VerticalLine />
+          <div className="product-info">
+            <p>Product Information</p>
+            {options.map((option: any) => (
+              <pre key={option.item}>
+                {option.item} : ${option.price} X {option.quantity} = $
+                {option.price * option.quantity}
+                {/* <span>
+                </span> */}
+              </pre>
+            ))}
+          </div>
+          <VerticalLine />
+          <div className="delivery-info">
+            <p>Delivery Information</p>
+            <p>State : </p>
+            {/* <p>State : {isDelivered ? "delivered" : "not delivered"}</p> */}
+          </div>
+          <VerticalLine />
+          <div className="pay-info">
+            <p>Payment Information</p>
+            <p>Method : {method}</p>
+            <p>State : {paid ? "paid" : "not paid"}</p>
+            <p>Total : ${total}</p>
+            {/* <small>Payment Date : {order.dateOfPayment}</small>
       <p>Payment Amount : ${order.total}</p> */}
+          </div>
         </div>
       </div>
       {/* {expanded ? (
@@ -126,33 +138,42 @@ const Box = styled.li`
   border-radius: 5px;
   padding: 1rem;
   background-color: #333;
-  > .order-header {
+
+  .order-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
-  > .order {
+  .order {
     display: flex;
     /* gap: 1rem; */
     /* padding: 1rem; */
-    > div {
+    font-size: 14px;
+    pre {
+      font-family: none !important;
+    }
+    .order-info {
       flex: 1;
+      display: flex;
+      > div {
+        flex: 1;
+      }
+      .product-info {
+      }
     }
   }
-  .product-info {
-    display: flex;
-    gap: 1rem;
-  }
-  > .expand-button {
+  /* > .expand-button {
     padding: 1rem;
     display: block;
     margin: auto;
     border-radius: 5px;
-  }
+  } */
   img {
-    width: 100px;
+    /* width: 100px; */
+    width: 10rem;
+    height: 10rem;
   }
 `;
-
 const HorizonLine = styled.hr`
   margin: 0.5rem 0 1rem 0;
 `;

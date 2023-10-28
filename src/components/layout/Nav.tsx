@@ -7,6 +7,7 @@ import AccountIcon from "@/components/auth/AccountIcon";
 import { getData } from "lib/public/fetchData";
 import { FaCartShopping } from "react-icons/fa6";
 import { useSelector } from "react-redux";
+import Search from "@/components/layout/Search";
 // import { Squeeze as Hamburger } from "hamburger-react";
 
 export default function Nav() {
@@ -31,7 +32,9 @@ export default function Nav() {
               <Link href={"/"}>Logo</Link>
             </div>
           </div>
-          <div id="nav-belt-center"></div>
+          <div id="nav-belt-center">
+            <Search />
+          </div>
           <div id="nav-belt-right">
             <Link href={"/cart"}>
               <FaCartShopping /> <pre> ({cart.products?.length})</pre>
@@ -71,7 +74,7 @@ export default function Nav() {
           <div className="nav-side-content">
             <ul className="nav-side-menu">
               <li className="nav-side-item">
-                <Link href={"/shop/all"} onClick={() => setIsVisible(false)}>
+                <Link href={"/category/all"} onClick={() => setIsVisible(false)}>
                   <div>All Products</div>
                   <IoIosArrowForward />
                 </Link>

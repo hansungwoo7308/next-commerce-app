@@ -124,6 +124,7 @@ const Box = styled.div`
 
   /* when authorized */
   > .account-outer {
+    height: 100%;
     display: flex;
     gap: 0.5rem;
     > .account {

@@ -5,7 +5,7 @@ import connectDB from "lib/server/config/connectDB";
 import Product from "lib/server/models/Product";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 export async function getServerSideProps({ req, query }: any) {
   console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
@@ -51,7 +51,7 @@ export default function Home({ products }: any) {
           <div className="hero-category">
             <div className="card">
               <h1>Electronics</h1>
-              <Link href={"/shop/all?category=electronics"}>
+              <Link href={"/category/all?category=electronics"}>
                 <Image
                   src={"/images/category/electronics.jpg"}
                   alt="alt"
@@ -62,19 +62,19 @@ export default function Home({ products }: any) {
             </div>
             <div className="card">
               <h1>Furnitures</h1>
-              <Link href={"/shop/all?category=furnitures"}>
+              <Link href={"/category/all?category=furnitures"}>
                 <Image src={"/images/category/furnitures.jpg"} alt="alt" width={300} height={300} />
               </Link>
             </div>
             <div className="card">
               <h1>Cosmetics</h1>
-              <Link href={"/shop/all?category=cosmetics"}>
+              <Link href={"/category/all?category=cosmetics"}>
                 <Image src={"/images/category/cosmetics.jpg"} alt="alt" width={300} height={300} />
               </Link>
             </div>
             <div className="card">
               <h1>Fashion</h1>
-              <Link href={"/shop/all?category=fashion"}>
+              <Link href={"/category/all?category=fashion"}>
                 <Image src={"/images/category/fashion.jpg"} alt="alt" width={300} height={300} />
               </Link>
             </div>

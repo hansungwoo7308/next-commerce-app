@@ -52,9 +52,7 @@ export async function getServerSideProps({ req, res, query }: any) {
 }
 
 export default function Page({ orders }: any) {
-  const auth = useSelector((store: any) => store.auth);
-  const dispatch = useDispatch();
-
+  console.log({ orders });
   // useEffect(() => {
   //   const fetchData: any = async () => {
   //     try {

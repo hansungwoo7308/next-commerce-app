@@ -1,27 +1,51 @@
+import Filters from "@/components/product/Filters";
+import Pagination from "@/components/product/Pagination";
 import Products from "@/components/product/Products";
+import Search from "@/components/layout/Search";
 import { getData } from "lib/public/fetchData";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { styled } from "styled-components";
+import ProductManger from "@/components/product/ProductManger";
+
 export async function getServerSideProps({ query }: any) {
+  const response = await getData(`v2/products`, query);
+  const { products, pages } = response.data;
+  return { props: { products, pages } };
   // console.log({ query });
-  const response = await getData("products", query);
-  const { products } = response.data;
-  return { props: { products } };
+  // const { page }: any = query;
+  // const response = await getData(`v2/products?page=${page}`);
 }
-let renderCount = 0;
-export default function Page({ products }: any) {
-  console.log({ products });
-  renderCount++;
+
+export default function Page({ products, pages }: any) {
+  // console.log({ products, pages });
+  const router = useRouter();
+  const [page, setPage]: any = useState(1);
+
+  const handleChangePage = (page: any) => {
+    setPage(page);
+    router.query.page = page;
+    router.push({ pathname: router.pathname, query: router.query });
+  };
+
   if (!products) return null;
   return (
     <Main>
       <section>
-        <div className="all">
-          {/* <h1>{renderCount}</h1> */}
-          {/* <Filter /> */}
-          {/* <button onClick={handleCheckAll}>{isCheckAll ? "Unselect All" : "Select All"}</button> */}
-          {/* <button onClick={handlesetModal}>Delete</button> */}
-          <Products products={products} />
-          {/* <div className="load-more">
+        {/* <Search /> */}
+        <div className="product-outer">
+          <div className="left">
+            <Filters />
+            <ProductManger products={products} />
+          </div>
+          <div className="right">
+            <Products products={products} />
+            <Pagination pages={pages} page={page} onChangePage={handleChangePage} />
+          </div>
+        </div>
+      </section>
+      <section></section>
+      {/* <div className="load-more">
               <button
                 onClick={() => {
                   setPage(page + 1);
@@ -38,14 +62,46 @@ export default function Page({ products }: any) {
                 Load More
               </button>
             </div> */}
-        </div>
-      </section>
     </Main>
   );
 }
+
 const Main = styled.main`
-  .all {
-    padding: 1rem;
-    border: 2px solid green;
+  .product-outer {
+    height: 100%;
+    display: flex;
+    > .left {
+      padding: 1rem;
+      min-width: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    > .right {
+      min-height: calc(100vh - 100px);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+      /* border: 2px solid; */
+      padding: 1rem;
+    }
+  }
+  .product-manager-by-admin {
+    /* border: 2px solid blue; */
+    max-width: 100%;
+    min-height: 100vh;
+    width: 100%;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    > div {
+      width: 80%;
+      height: 100vh;
+      max-width: 1000px;
+      position: relative;
+    }
   }
 `;

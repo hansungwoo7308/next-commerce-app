@@ -31,7 +31,6 @@ export default function ImageViewer({ images }: Props) {
             )
           }
         />
-        l
       </div>
       <div className="unselected-images">
         {images.map((image: any, index: any) => (

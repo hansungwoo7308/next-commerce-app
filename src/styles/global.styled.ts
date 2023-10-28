@@ -89,7 +89,7 @@ export const GlobalStyled = createGlobalStyle`
     background-color:inherit;
     color:#fff;
     &:hover {
-      background-color:#000 !important;
+      background-color:#000;
     }
   }
   html body .general-button {
@@ -175,7 +175,8 @@ export const GlobalStyled = createGlobalStyle`
     border-left-width: 0px;
     border-right-width: 0px;
     /* border-bottom-width: 1px; */
-    border-bottom: 1px solid #bbbfbf;
+    border-bottom: 1px solid;
+    border-color: #fff;
   }
   input, textarea {
     /* padding: .5rem; */
