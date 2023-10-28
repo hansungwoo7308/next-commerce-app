@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   reactStrictMode: false,
   env: {
+    // Database
     // mongodb
     MONGODB_URI: process.env.MONGODB_URI,
     // cloudinary (image upload)
@@ -10,6 +12,8 @@ const nextConfig = {
     CLOUD_API_SECRET: process.env.CLOUD_API_SECRET,
     CLOUDINARY_PRESET: "next_commerce_app_upload_preset",
     CLOUDINARY_API_BASE_URL: "https://api.cloudinary.com/v1_1/dzktdrw7o/upload",
+
+    // Auth
     // next-auth
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   },
@@ -69,4 +73,5 @@ const nextConfig = {
   //   styledComponents: true,
   // },
 };
+
 module.exports = nextConfig;

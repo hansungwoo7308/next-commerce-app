@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
-import { IoIosArrowForward, IoIosMenu } from "react-icons/io";
+import { IoIosArrowForward, IoIosGlobe, IoIosMenu } from "react-icons/io";
 import AccountIcon from "@/components/auth/AccountIcon";
 import { getData } from "lib/public/fetchData";
 import { FaCartShopping } from "react-icons/fa6";
@@ -29,7 +29,9 @@ export default function Nav() {
         <div id="nav-belt">
           <div id="nav-belt-left">
             <div id="nav-logo">
-              <Link href={"/"}>Logo</Link>
+              <Link href={"/"}>
+                <IoIosGlobe size={30} />
+              </Link>
             </div>
           </div>
           <div id="nav-belt-center">

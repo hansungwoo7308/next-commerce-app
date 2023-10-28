@@ -34,7 +34,7 @@ export default function Page() {
       // set the formData
       const formData: any = new FormData();
       formData.append("images", data.image);
-      formData.append("username", data.username);
+      formData.append("name", data.name);
       formData.append("email", data.email);
       formData.append("role", data.role);
 
@@ -198,7 +198,7 @@ export default function Page() {
                       <tr>
                         <th>Name</th>
                         <td>
-                          <input {...register("username")} type="text" />
+                          <input {...register("name")} type="text" />
                         </td>
                       </tr>
                       <tr>
@@ -239,7 +239,7 @@ export default function Page() {
                     <tbody>
                       <tr>
                         <th>Name</th>
-                        <td>{auth.user.username}</td>
+                        <td>{auth.user.name}</td>
                       </tr>
                       <tr>
                         <th>Email</th>

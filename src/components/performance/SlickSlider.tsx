@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { setModal } from "lib/client/store/modalSlice";
+import styled from "styled-components";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import Slider from "react-slick";
-import styled from "styled-components";
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useDispatch } from "react-redux";
-import { setModal } from "lib/client/store/modalSlice";
 
 interface Props {
   imageUrls: string[];
@@ -48,7 +48,7 @@ export default function SlickSlider({
           slidesToScroll={multipleItemNumber}
           {...settings}
         >
-          {imageUrls.map((imageUrl: any) => (
+          {imageUrls.map((imageUrl: any, index: number) => (
             // <img
             //   key={imageUrl}
             //   onClick={(e) => handleClickImage(imageUrl)}
@@ -65,7 +65,6 @@ export default function SlickSlider({
             />
           ))}
         </Slider>
-
         <div className="controller">
           <button className="prev arrow" onClick={() => sliderRef.current.slickPrev()}>
             <IoIosArrowBack size={20} color="#fff" />
@@ -84,22 +83,22 @@ export default function SlickSlider({
         arrows={false}
         dots={true}
         speed={1000}
-        // autoplay={true}
-        // autoplaySpeed={5000}
-        // pauseOnHover={true}
+        autoplay={true}
+        autoplaySpeed={5000}
+        pauseOnHover={true}
         // slidesToShow={multipleItemNumber ? multipleItemNumber:null}
         // slidesToScroll={multipleItemNumber ? multipleItemNumber:null}
       >
         {imageUrls.map((imageUrl: any) => (
-          // <img src={imageUrl} alt={imageUrl} />
-          <Image
-            key={imageUrl}
-            src={imageUrl}
-            alt="alt"
-            width={1000}
-            height={1000}
-            onClick={(e) => handleClickImage(imageUrl)}
-          />
+          <img key={imageUrl} src={imageUrl} alt={imageUrl} />
+          // <Image
+          //   key={imageUrl}
+          //   src={imageUrl}
+          //   alt="alt"
+          //   width={1000}
+          //   height={1000}
+          //   onClick={(e) => handleClickImage(imageUrl)}
+          // />
         ))}
       </Slider>
       <div className="controller">

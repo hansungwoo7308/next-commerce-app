@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
+
 const userSchema = new mongoose.Schema(
   {
-    username: {
+    name: {
       type: String,
       required: true,
     },
@@ -17,6 +18,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       default: "user",
+      // enum: ['admin','seller','user'],
     },
     refreshToken: {
       type: String,
@@ -26,17 +28,9 @@ const userSchema = new mongoose.Schema(
       default:
         "https://res.cloudinary.com/devatchannel/image/upload/v1602752402/avatar/avatar_cugq40.png",
     },
-    // avatar:{
-    //   public_id:String,
-    //   url:String
-    // }
-    // hashedPassword: {
-    //   type: String,
-    //   required: true,
-    //   minlength: 5,
-    // },
   },
   { timestamps: true }
 );
+
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 export default User;

@@ -9,11 +9,13 @@ import styled from "styled-components";
 import logResponse from "lib/client/log/logResponse";
 import { toast } from "react-toastify";
 import logError from "lib/client/log/logError";
+import connectDB from "lib/server/config/connectDB";
 
 export default function Page() {
   // external
   const dispatch = useDispatch();
   const router = useRouter();
+
   // internal
   const {
     register,
@@ -28,62 +30,60 @@ export default function Page() {
 
   const handleSignup = async (data: any) => {
     console.log({ data });
-    return;
+    // return;
 
     try {
       dispatch(setLoading(true));
       const response: any = await postData("v2/auth/signup", data);
       logResponse(response);
-      toast.success("Successfully signed up");
       dispatch(setLoading(false));
+      toast.success("signup success");
       // reset();
-      // setFocus("username");
+      setFocus("name");
       // router.push('/auth/signin')
     } catch (error: any) {
-      console.log({ error });
       logError(error);
       dispatch(setLoading(false));
-      toast.error("Failed signing up");
+      toast.error("signup failed");
     }
   };
 
-  useEffect(() => setFocus("username"), []);
+  useEffect(() => setFocus("name"), []);
   // useEffect(() => {
   //   setFocus("name", { shouldSelect: true });
   // }, [setFocus]);
-  // if (status === "authenticated") router.push("/");
 
-  const usernameErrorMessages = (
-    <>
-      {errors.username && errors.username.type === "required" && (
-        <small>This field is required.</small>
-      )}
-      {errors.username && errors.username.type === "maxLength" && (
-        <small>Max Length is 8 character.</small>
-      )}
-    </>
-  );
-  const emailErrorMessages = errors.email && <small>This field is required.</small>;
-  const passwordErrorMessages = (
-    <>
-      {errors.password && errors.password.type === "required" && (
-        <small>This field is required.</small>
-      )}
-      {errors.password && errors.password.type === "maxLength" && (
-        <small>Password max length is 10 characters.</small>
-      )}
-    </>
-  );
-  const passwordConfirmErrorMessages = (
-    <>
-      {errors.passwordConfirm && errors.passwordConfirm.type === "required" && (
-        <small>This field is required.</small>
-      )}
-      {errors.passwordConfirm && errors.passwordConfirm.type === "validate" && (
-        <small>The password is not matched.</small>
-      )}
-    </>
-  );
+  // const nameErrorMessages = (
+  //   <>
+  //     {errors.name && errors.name.type === "required" && <small>This field is required.</small>}
+  //     {errors.name && errors.name.type === "maxLength" && (
+  //       <small>Max Length is 20 character.</small>
+  //     )}
+  //   </>
+  // );
+  // const emailErrorMessages = errors.email && <small>This field is required.</small>;
+  // const passwordErrorMessages = (
+  //   <>
+  //     {errors.password && errors.password.type === "required" && (
+  //       <small>This field is required.</small>
+  //     )}
+  //     {errors.password && errors.password.type === "maxLength" && (
+  //       <small>Password max length is 20 characters.</small>
+  //     )}
+  //   </>
+  // );
+  // const passwordConfirmErrorMessages = (
+  //   <>
+  //     {errors.passwordConfirm && errors.passwordConfirm.type === "required" && (
+  //       <small>This field is required.</small>
+  //     )}
+  //     {errors.passwordConfirm && errors.passwordConfirm.type === "validate" && (
+  //       <small>The password is not matched.</small>
+  //     )}
+  //   </>
+  // );
+
+  // useEffect(() => console.log({ errors }), [errors]);
 
   return (
     <>
@@ -94,29 +94,46 @@ export default function Page() {
         <section>
           <form onSubmit={handleSubmit(handleSignup)}>
             <h1>Sign Up</h1>
-            <div className="username">
+            <div className="name">
               <input
-                {...register("username", { required: true, maxLength: 15 })}
+                {...register("name", {
+                  required: {
+                    value: true,
+                    message: "This field is required.",
+                  },
+                  maxLength: {
+                    value: 20,
+                    message: "Password should not be longer than 20 characters.",
+                  },
+                })}
                 className="input"
                 type="text"
                 placeholder="Name"
               />
-              {usernameErrorMessages}
+              <small>{errors.name?.message as string}</small>
             </div>
             <div className="email">
               <input
-                {...register("email", { required: true })}
+                {...register("email", {
+                  required: {
+                    value: true,
+                    message: "This field is required.",
+                  },
+                })}
                 className="input"
                 type="email"
                 placeholder="Email"
                 autoComplete="off"
               />
-              {emailErrorMessages}
+              <small>{errors.email?.message as string}</small>
             </div>
             <div className="password">
               <input
                 {...register("password", {
-                  required: true,
+                  required: {
+                    value: true,
+                    message: "This field is required.",
+                  },
                   minLength: {
                     value: 4,
                     message: "Password should have a length of at least 4 characters.",
@@ -130,12 +147,15 @@ export default function Page() {
                 type="password"
                 placeholder="Password"
               />
-              {passwordErrorMessages}
+              <small>{errors.password?.message as string}</small>
             </div>
             <div className="passwordConfirm">
               <input
                 {...register("passwordConfirm", {
-                  required: "This field is required",
+                  required: {
+                    value: true,
+                    message: "This field is required.",
+                  },
                   validate: (passwordConfirm) => {
                     return passwordConfirm === password.current;
                   },
@@ -144,7 +164,7 @@ export default function Page() {
                 type="password"
                 placeholder="Password Confirm"
               />
-              {passwordConfirmErrorMessages}
+              <small>{errors.passwordConfirm?.message as string}</small>
             </div>
             <button type="submit">Sign Up</button>
           </form>

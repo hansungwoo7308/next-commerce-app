@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 
 export default async function connectDB() {
-  // console.log(`\x1b[33m\n[connectDB:${mongoose.connection.name}]`);
+  // console.log(`\x1b[33m\n[connectDB:${mongoose.connection.name}]\x1b[30m`);
+  // console.log({ "mongoose.connection": mongoose.connection });
 
   if (mongoose.connection.readyState >= 1) {
     // console.log("\x1b[32mAlready connected\x1b[30m");
@@ -9,7 +10,8 @@ export default async function connectDB() {
   }
 
   const config = {
-    dbName: "test",
+    dbName: "e-commerce",
+    // dbName: "test",
     useUnifiedTopology: true,
     useNewUrlParser: true,
   };

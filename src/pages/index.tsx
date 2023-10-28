@@ -47,7 +47,7 @@ export default function Home({ products }: any) {
       </Head>
       <Main>
         <section className="hero">
-          <SlickSlider imageUrls={data} />
+          {/* <SlickSlider imageUrls={data} /> */}
           <div className="hero-category">
             <div className="card">
               <h1>Electronics</h1>
@@ -127,15 +127,15 @@ const Main = styled.main`
   .hero {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 3rem;
     .hero-category,
     .best-sellers,
     .new-arrivals,
     .recommendations {
       background-color: #333;
-      padding: 1rem;
+      padding: 3rem 1rem;
       > h1 {
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
       }
     }
     .hero-category {
@@ -143,8 +143,6 @@ const Main = styled.main`
       grid-template-columns: repeat(auto-fit, minmax(auto, 200px));
       justify-content: center;
       gap: 1rem;
-      background-color: #333;
-      padding: 1rem;
       .card {
         height: 200px;
         background-color: #fff;

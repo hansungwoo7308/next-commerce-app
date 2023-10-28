@@ -6,13 +6,13 @@ import jwt from "jsonwebtoken";
 export const signup = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<signup>`);
   // get
-  const { username, email, password } = req.body;
-  if (!username || !email || !password) return res.status(400).json({ message: "Missing payload" });
+  const { name, email, password } = req.body;
+  if (!name || !email || !password) return res.status(400).json({ message: "Missing payload" });
   // find
-  const duplicatedUser = await User.findOne({ username }).exec();
-  if (duplicatedUser) return res.status(409).json({ message: "Duplicated username" });
+  const duplicatedUser = await User.findOne({ name }).exec();
+  if (duplicatedUser) return res.status(409).json({ message: "Duplicated name" });
   // create
-  const newUser = await User.create({ username, email, password });
+  const newUser = await User.create({ name, email, password });
   console.log({ newUser });
   // out
   res.status(201).json({ newUser });
@@ -38,7 +38,7 @@ export const signin = async (req: any, res: any) => {
   // issue the tokens
   const user = {
     _id: foundUser._id,
-    username: foundUser.username,
+    name: foundUser.name,
     email: foundUser.email,
     role: foundUser.role,
     image: foundUser.image,
@@ -70,7 +70,7 @@ export const refresh = async (req: any, res: any) => {
   // find
   const foundUser = await User.findOne({ refreshToken })
     // .select("-password -createdAt -updatedAt -refreshToken")
-    .select("_id username email password role image")
+    .select("_id name email password role image")
     .exec();
   if (!foundUser) return res.status(401).json({ message: "The foundUser do not exist." });
   // verify the refreshToken
@@ -86,7 +86,7 @@ export const refresh = async (req: any, res: any) => {
   // issue the new tokens
   const user = {
     _id: foundUser._id,
-    username: foundUser.username,
+    name: foundUser.name,
     email: foundUser.email,
     role: foundUser.role,
     image: foundUser.image,
