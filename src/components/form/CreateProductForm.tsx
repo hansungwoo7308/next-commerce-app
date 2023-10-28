@@ -12,27 +12,31 @@ import Image from "next/image";
 import axios from "axios";
 
 export default function CreateProductForm() {
-  // store (external)
+  // external
   const dispatch = useDispatch();
   const auth = useSelector((store: any) => store.auth);
-  // state (internal)
+
+  // internal
   const [product, setProduct]: any = useState({});
   const [images, setImages]: any = useState([]);
   const router = useRouter();
   const { register, handleSubmit, watch, setValue, getValues, reset, formState, control } =
     useForm();
 
-  const submit = async (data: any) => {
+  const handleCreateProduct = async (data: any) => {
     console.log("data : ", data);
-    // console.log({ images: images });
+    console.log({ images: images });
+    return;
 
     // check validation
     if (images.length === 0) return toast.error("Please fill the image field.");
     if (data.category === "all") return toast.error("Please fill the category field.");
+
     // set the formData
     const formData: any = new FormData();
     for (let image of images) formData.append("images", image);
     for (let key in data) formData.append(key, data[key]);
+
     // create
     try {
       dispatch(setLoading(true));
@@ -47,11 +51,11 @@ export default function CreateProductForm() {
       });
       logResponse(response);
       dispatch(setLoading(false));
-      toast.success("The creation was completed");
+      toast.success("A product was created");
       router.push({ pathname: router.pathname });
     } catch (error: any) {
+      logError(error);
       dispatch(setLoading(false));
-      console.log({ error });
       toast.error(error.message);
     }
   };
@@ -89,36 +93,14 @@ export default function CreateProductForm() {
         <hr />
       </div>
       <div className="middle">
-        <div className="images">
-          <div className="preview-images-outer">
-            <div className="preview-images">
-              {images.map((image: any, index: any) => (
-                <div key={image.id} className={`image ${index === 0 && "thumbnail-image"}`}>
-                  <Image
-                    src={URL.createObjectURL(image)}
-                    alt={URL.createObjectURL(image)}
-                    // src={image.url || image.secure_url || URL.createObjectURL(image)}
-                    // alt={image.url || image.secure_url || URL.createObjectURL(image)}
-                    width={100}
-                    height={100}
-                  />
-                  <button onClick={(e: any) => handleDeleteButton(e, index)}>x</button>
-                </div>
-              ))}
-            </div>
-          </div>
-          <label className="image-uploader">
-            <input type="file" multiple accept="image/*" onChange={handleChangeFiles} />
-          </label>
-        </div>
         <label className="category">
           {/* <span>Category</span> */}
           <select {...register("category", { required: true })} id="category">
             <option>Select the category</option>
             <option value="electronics">Electronics</option>
-            <option value="animal">Animal</option>
-            <option value="food">Food</option>
-            <option value="clothes">Clothes</option>
+            <option value="furnitures">Furnitures</option>
+            <option value="cosmetics">Cosmetics</option>
+            <option value="fashion">Fashion</option>
           </select>
         </label>
         <label className="name">
@@ -141,11 +123,33 @@ export default function CreateProductForm() {
         <label className="stock">
           <input {...register("stock", { required: true })} type="number" placeholder="Stock" />
         </label>
+        <div className="images">
+          <div className="preview-images-outer">
+            <div className="preview-images">
+              {images.map((image: any, index: any) => (
+                <div key={image.id} className={`image ${index === 0 && "thumbnail-image"}`}>
+                  <Image
+                    src={URL.createObjectURL(image)}
+                    alt={URL.createObjectURL(image)}
+                    // src={image.url || image.secure_url || URL.createObjectURL(image)}
+                    // alt={image.url || image.secure_url || URL.createObjectURL(image)}
+                    width={100}
+                    height={100}
+                  />
+                  <button onClick={(e: any) => handleDeleteButton(e, index)}>x</button>
+                </div>
+              ))}
+            </div>
+          </div>
+          <label className="image-uploader">
+            <input type="file" multiple accept="image/*" onChange={handleChangeFiles} />
+          </label>
+        </div>
       </div>
       <div className="bottom">
         <button
           className="create-button"
-          onClick={handleSubmit(submit)}
+          onClick={handleSubmit(handleCreateProduct)}
           // disabled={loading}
         >
           Create

@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
+
 const productSchema = new mongoose.Schema(
   {
     category: {
       type: String,
-      // required: true,
+      required: true,
       // enum: {
       //   values: ["electronics", "fashion", "food"],
       //   message: "Please select correct category",
@@ -31,15 +32,6 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    sold: {
-      type: Number,
-      default: 0,
-    },
-    // not required
-    ratings: {
-      type: Number,
-      default: 0,
-    },
     images: {
       type: [
         {
@@ -51,12 +43,17 @@ const productSchema = new mongoose.Schema(
           },
         },
       ],
-      // required: true,
+      required: true,
     },
-    // images: {
-    //   type: Array,
-    //   required: true,
-    // },
+    // not required
+    sold: {
+      type: Number,
+      default: 0,
+    },
+    ratings: {
+      type: Number,
+      default: 0,
+    },
     reviews: {
       type: [
         {
@@ -93,25 +90,13 @@ const productSchema = new mongoose.Schema(
         },
       ],
     },
-    // createdAt: {
-    //   type: Date,
-    //   default: Date.now,
-    // },
-    // Below is Old Properties
-    // content: {
-    //   type: String,
+    // images: {
+    //   type: Array,
     //   required: true,
-    // },
-    // checked: {
-    //   type: Boolean,
-    //   default: false,
-    // },
-    // inStock: {
-    //   type: Number,
-    //   default: 0,
     // },
   },
   { timestamps: true }
 );
+
 const Product = mongoose.models.Product || mongoose.model("Product", productSchema);
 export default Product;
