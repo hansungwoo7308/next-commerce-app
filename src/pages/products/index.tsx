@@ -1,7 +1,6 @@
 import Filters from "@/components/product/Filters";
 import Pagination from "@/components/product/Pagination";
 import Products from "@/components/product/Products";
-import Search from "@/components/layout/Search";
 import { getData } from "lib/public/fetchData";
 import { useRouter } from "next/router";
 import { useState } from "react";

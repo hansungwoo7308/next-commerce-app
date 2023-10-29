@@ -82,14 +82,20 @@ export default function Nav() {
                 </Link>
               </li>
               <li className="nav-side-item">
-                <Link href={"/category?category=electronics"}>
-                  <div>Electronics</div>
+                <Link href={"/products?category=furnitures"} onClick={() => setIsVisible(false)}>
+                  <div>Furnitures</div>
                   <IoIosArrowForward />
                 </Link>
               </li>
               <li className="nav-side-item">
-                <Link href={"/#"}>
-                  <div>Item 1</div>
+                <Link href={"/products?category=cosmetics"} onClick={() => setIsVisible(false)}>
+                  <div>Cosmetics</div>
+                  <IoIosArrowForward />
+                </Link>
+              </li>
+              <li className="nav-side-item">
+                <Link href={"/products?category=fashion"} onClick={() => setIsVisible(false)}>
+                  <div>Fashion</div>
                   <IoIosArrowForward />
                 </Link>
               </li>
@@ -203,14 +209,14 @@ const Box = styled.nav`
     }
   }
   .nav-side {
-    width: 300px;
+    width: 365px;
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     background-color: #fff;
     color: #000;
-    padding: 3rem 0;
+    padding: 3rem 2rem;
     transform: translateX(-100%);
     transition: transform 0.3s;
     &.visible {
@@ -239,28 +245,3 @@ const Box = styled.nav`
     align-items: center;
   }
 `;
-// <li className="category" style={{ display: "none" }}>
-// <button onClick={handleCategoryToggle}>Category</button>
-// {categoryToggle && (
-//   <ul
-//     className="sub"
-//     // 고전적인 방식 (className에 active를 추가)
-//     // {/* <ul className={`sub ${categoryToggle ? "active" : ""}`}> */}
-//     // {/* main의 item이 여러개 일때, 그 item의 sub를 active or unactive 해야할 경우, sub를 선택할 때, useRef를 사용하자 */}
-//     // {/* <ul className="sub" ref={shopSubRef}> */}
-//   >
-//     <li>
-//       <Link href={"/products"}>All Products</Link>
-//     </li>
-//     <li>
-//       <Link href={"/category/electronics"}>Electronics</Link>
-//     </li>
-//     <li>
-//       <Link href={"/category/fashion"}>Fashion</Link>
-//     </li>
-//     <li>
-//       <Link href={"/category/food"}>Food</Link>
-//     </li>
-//   </ul>
-// )}
-// </li>
