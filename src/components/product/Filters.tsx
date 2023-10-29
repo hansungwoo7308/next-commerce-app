@@ -220,10 +220,34 @@ export default function Filters() {
                 ref={foodRef}
                 type="radio"
                 name="category"
-                value="food"
+                value="furnitures"
                 onClick={handleClickCategory}
               />
-              <span>Food</span>
+              <span>Furnitures</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                ref={foodRef}
+                type="radio"
+                name="category"
+                value="cosmetics"
+                onClick={handleClickCategory}
+              />
+              <span>Cosmetics</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input
+                ref={foodRef}
+                type="radio"
+                name="category"
+                value="fashion"
+                onClick={handleClickCategory}
+              />
+              <span>Fashion</span>
             </label>
           </li>
         </ul>

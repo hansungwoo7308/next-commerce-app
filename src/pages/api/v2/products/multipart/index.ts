@@ -17,7 +17,7 @@ const router = createRouter()
     await next();
   })
   // protected routes
-  .use(checkAuth, checkRoles(["admin", "user"]))
+  // .use(checkAuth, checkRoles(["admin", "user"]))
   // handle the multipart data
   .use(uploadImagesToServer)
   .post(uploadImagesToCloudinary)

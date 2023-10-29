@@ -26,7 +26,7 @@ export default function CreateProductForm() {
   const handleCreateProduct = async (data: any) => {
     console.log("data : ", data);
     console.log({ images: images });
-    return;
+    // return;
 
     // check validation
     if (images.length === 0) return toast.error("Please fill the image field.");
@@ -96,7 +96,7 @@ export default function CreateProductForm() {
         <label className="category">
           {/* <span>Category</span> */}
           <select {...register("category", { required: true })} id="category">
-            <option>Select the category</option>
+            <option value="all">Select the category</option>
             <option value="electronics">Electronics</option>
             <option value="furnitures">Furnitures</option>
             <option value="cosmetics">Cosmetics</option>
