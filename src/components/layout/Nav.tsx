@@ -76,14 +76,14 @@ export default function Nav() {
           <div className="nav-side-content">
             <ul className="nav-side-menu">
               <li className="nav-side-item">
-                <Link href={"/category/all"} onClick={() => setIsVisible(false)}>
+                <Link href={"/products"} onClick={() => setIsVisible(false)}>
                   <div>All Products</div>
                   <IoIosArrowForward />
                 </Link>
               </li>
               <li className="nav-side-item">
-                <Link href={"/#"}>
-                  <div>Item 1</div>
+                <Link href={"/category?category=electronics"}>
+                  <div>Electronics</div>
                   <IoIosArrowForward />
                 </Link>
               </li>
@@ -250,7 +250,7 @@ const Box = styled.nav`
 //     // {/* <ul className="sub" ref={shopSubRef}> */}
 //   >
 //     <li>
-//       <Link href={"/category/all"}>All Products</Link>
+//       <Link href={"/products"}>All Products</Link>
 //     </li>
 //     <li>
 //       <Link href={"/category/electronics"}>Electronics</Link>

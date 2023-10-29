@@ -51,7 +51,7 @@ export default function Home({ products }: any) {
           <div className="hero-category">
             <div className="card">
               <h1>Electronics</h1>
-              <Link href={"/category/all?category=electronics"}>
+              <Link href={"/products?category=electronics"}>
                 <Image
                   src={"/images/category/electronics.jpg"}
                   alt="alt"
@@ -62,19 +62,19 @@ export default function Home({ products }: any) {
             </div>
             <div className="card">
               <h1>Furnitures</h1>
-              <Link href={"/category/all?category=furnitures"}>
+              <Link href={"/products?category=furnitures"}>
                 <Image src={"/images/category/furnitures.jpg"} alt="alt" width={300} height={300} />
               </Link>
             </div>
             <div className="card">
               <h1>Cosmetics</h1>
-              <Link href={"/category/all?category=cosmetics"}>
+              <Link href={"/products?category=cosmetics"}>
                 <Image src={"/images/category/cosmetics.jpg"} alt="alt" width={300} height={300} />
               </Link>
             </div>
             <div className="card">
               <h1>Fashion</h1>
-              <Link href={"/category/all?category=fashion"}>
+              <Link href={"/products?category=fashion"}>
                 <Image src={"/images/category/fashion.jpg"} alt="alt" width={300} height={300} />
               </Link>
             </div>
@@ -146,6 +146,7 @@ const Main = styled.main`
       .card {
         height: 200px;
         background-color: #fff;
+        border-radius: 10px;
         color: #000;
         overflow: hidden;
         padding: 1rem;
@@ -160,14 +161,34 @@ const Main = styled.main`
         } */
       }
     }
-    .best-sellers {
-      .slick-slide {
-        padding: 0 1rem;
-      }
-    }
+    .best-sellers,
     .new-arrivals {
       .slick-slide {
         padding: 0 1rem;
+        /* .img-outer {
+          overflow: hidden;
+          img {
+            transition: all 0.2s;
+            transform: scale(1.2);
+            &:hover {
+              transform: scale(1);
+            }
+          }
+        } */
+        .img-outer {
+          border-radius: 10px;
+          overflow: hidden;
+          img {
+            transition: all 0.5s;
+            &:hover {
+              transform: scale(1.1);
+            }
+          }
+        }
+      }
+      .controller .arrow {
+        height: 5rem;
+        border-radius: 50%;
       }
     }
   }

@@ -33,7 +33,7 @@ export default function Search() {
       <button
         onClick={(e) => {
           e.preventDefault();
-          if (!search) return router.push("/category/all");
+          if (!search) return router.push("/products");
           router.query.search = search;
           router.push({ pathname: router.pathname, query: router.query });
           console.log({ router });

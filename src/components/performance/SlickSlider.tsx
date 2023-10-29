@@ -55,14 +55,16 @@ export default function SlickSlider({
             //   src={imageUrl}
             //   alt={imageUrl}
             // />
-            <Image
-              key={imageUrl}
-              src={imageUrl}
-              alt="alt"
-              width={300}
-              height={300}
-              onClick={(e) => handleClickImage(imageUrl)}
-            />
+            <div className="img-outer">
+              <Image
+                key={imageUrl}
+                src={imageUrl}
+                alt="alt"
+                width={300}
+                height={300}
+                onClick={(e) => handleClickImage(imageUrl)}
+              />
+            </div>
           ))}
         </Slider>
         <div className="controller">
