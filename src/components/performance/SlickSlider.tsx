@@ -10,7 +10,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 interface Props {
-  imageUrls: string[];
+  items?: any[];
+  isText?: boolean;
+  // imageUrls?: string[];
   multipleItemNumber?: number | null;
   actionType?: string;
   dots?: boolean;
@@ -18,7 +20,9 @@ interface Props {
 }
 
 export default function SlickSlider({
-  imageUrls,
+  items,
+  isText,
+  // imageUrls,
   multipleItemNumber,
   actionType,
   dots,
@@ -48,22 +52,20 @@ export default function SlickSlider({
           slidesToScroll={multipleItemNumber}
           {...settings}
         >
-          {imageUrls.map((imageUrl: any, index: number) => (
-            // <img
-            //   key={imageUrl}
-            //   onClick={(e) => handleClickImage(imageUrl)}
-            //   src={imageUrl}
-            //   alt={imageUrl}
-            // />
-            <div className="img-outer">
+          {items?.map((item: any, index: number) => (
+            <div className="img-outer" key={item._id}>
               <Image
-                key={imageUrl}
-                src={imageUrl}
+                src={item.images[0].url}
                 alt="alt"
                 width={300}
                 height={300}
-                onClick={(e) => handleClickImage(imageUrl)}
+                onClick={(e) => handleClickImage(item.images[0].url)}
               />
+              {isText && (
+                <div className="text">
+                  <h1>{item.name}</h1>
+                </div>
+              )}
             </div>
           ))}
         </Slider>
@@ -91,16 +93,17 @@ export default function SlickSlider({
         // slidesToShow={multipleItemNumber ? multipleItemNumber:null}
         // slidesToScroll={multipleItemNumber ? multipleItemNumber:null}
       >
-        {imageUrls.map((imageUrl: any) => (
-          <img key={imageUrl} src={imageUrl} alt={imageUrl} />
-          // <Image
-          //   key={imageUrl}
-          //   src={imageUrl}
-          //   alt="alt"
-          //   width={1000}
-          //   height={1000}
-          //   onClick={(e) => handleClickImage(imageUrl)}
-          // />
+        {items?.map((item: any, index: number) => (
+          <div className="img-outer" key={item._id}>
+            <Image
+              src={item.url}
+              alt="alt"
+              width={1000}
+              height={1000}
+              onClick={(e) => handleClickImage(item.url)}
+            />
+            {/* <img key={something} src={something} alt={something} /> */}
+          </div>
         ))}
       </Slider>
       <div className="controller">
@@ -162,6 +165,23 @@ const Box = styled.div`
       top: 50%;
       right: 0;
       transform: translateY(-50%);
+    }
+  }
+  .img-outer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      background-color: rgba(0, 0, 0, 0.5);
+      pointer-events: none;
+      padding: 1rem;
     }
   }
 `;

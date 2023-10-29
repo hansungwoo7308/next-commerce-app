@@ -52,9 +52,8 @@ export const GlobalStyled = createGlobalStyle`
       /* width: 80%; */
       /* max-width:1000px; */
       margin: auto;
-      outline: 2px dashed;
-      nav{
-      }
+      /* outline: 2px dashed; */
+      
     }
   }
   main {
@@ -68,7 +67,7 @@ export const GlobalStyled = createGlobalStyle`
       padding-top:100px;
       /* min-height: calc(100vh - var(--nav-height)); */
       margin: auto;
-      outline: 2px dashed;
+      /* outline: 2px dashed; */
     }
   }
 

@@ -24,12 +24,21 @@ export async function getServerSideProps({ req, query }: any) {
 }
 
 const data = [
-  "/images/slide-01.jpg",
-  "/images/slide-02.jpg",
-  "/images/slide-01.jpg",
-  "/images/slide-02.jpg",
-  "/images/slide-01.jpg",
-  "/images/slide-02.jpg",
+  {
+    url: "/images/slide-01.jpg",
+  },
+  {
+    url: "/images/slide-02.jpg",
+  },
+  {
+    url: "/images/slide-01.jpg",
+  },
+  {
+    url: "/images/slide-02.jpg",
+  },
+  {
+    url: "/images/slide-01.jpg",
+  },
 ];
 
 export default function Home({ products }: any) {
@@ -47,7 +56,7 @@ export default function Home({ products }: any) {
       </Head>
       <Main>
         <section className="hero">
-          {/* <SlickSlider imageUrls={data} /> */}
+          {/* <SlickSlider items={data} /> */}
           <div className="hero-category">
             <div className="card">
               <h1>Electronics</h1>
@@ -91,7 +100,9 @@ export default function Home({ products }: any) {
             <h1>Best Sellers</h1>
             {randomProducts && (
               <SlickSlider
-                imageUrls={randomProducts.map((product: any) => product.images[0].url)}
+                items={randomProducts}
+                isText={true}
+                // imageUrls={randomProducts.map((product: any) => product.images[0].url)}
                 multipleItemNumber={3}
                 actionType="VIEW_IMAGE"
                 dots={false}
@@ -103,7 +114,9 @@ export default function Home({ products }: any) {
             <h1>New Arrivals</h1>
             {recentProducts && (
               <SlickSlider
-                imageUrls={recentProducts.map((product: any) => product.images[0].url)}
+                items={recentProducts}
+                isText={true}
+                // imageUrls={recentProducts.map((product: any) => product.images[0].url)}
                 multipleItemNumber={4}
                 actionType="VIEW_IMAGE"
                 dots={false}
@@ -178,11 +191,15 @@ const Main = styled.main`
         .img-outer {
           border-radius: 10px;
           overflow: hidden;
-          img {
+          &:hover img {
+            transform: scale(1.1);
+          }
+          &:hover .text {
+            display: flex;
+          }
+          img,
+          .text {
             transition: all 0.5s;
-            &:hover {
-              transform: scale(1.1);
-            }
           }
         }
       }
