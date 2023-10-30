@@ -1,8 +1,14 @@
 import Nav from "@/components/layout/Nav";
+import { setBackground } from "lib/client/store/backgroundSlice";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { styled } from "styled-components";
 
 export default function Header() {
+  // internal
+  const dispatch = useDispatch();
+
+  // external
   const headerRef: any = useRef();
   const [previous, setPrevScrollY]: any = useState(0);
 
@@ -19,6 +25,7 @@ export default function Header() {
         headerRef.current.style.transform = "translateY(-300%)";
         headerRef.current.style.opacity = "0";
         headerRef.current.style.transition = "all 1s";
+        dispatch(setBackground(false));
       }
       // scroll up : previous > latest
       else {

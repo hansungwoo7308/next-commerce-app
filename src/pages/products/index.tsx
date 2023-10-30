@@ -31,7 +31,6 @@ export default function Page({ products, pages }: any) {
   return (
     <Main>
       <section>
-        {/* <Search /> */}
         <div className="product-outer">
           <div className="left">
             <Filters />

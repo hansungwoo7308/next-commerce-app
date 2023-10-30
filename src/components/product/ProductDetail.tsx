@@ -12,6 +12,7 @@ import { styled } from "styled-components";
 import ProductMangerFixed from "@/components/product/ProductMangerFixed";
 
 export default function ProductDetail({ product }: any) {
+  // external
   const { ratings, reviews } = product;
   // console.log({ reviews });
   const dispatch = useDispatch();
@@ -20,6 +21,8 @@ export default function ProductDetail({ product }: any) {
   const handleWriteReview = () => {
     dispatch(setModal({ active: true, type: "CREATE_PRODUCT_REVIEW", id: product._id }));
   };
+
+  // console.log({ product });
 
   return (
     <Box className="product-detail">
@@ -68,7 +71,8 @@ export default function ProductDetail({ product }: any) {
           <div className="reviews-with-images">
             <h1>Reviews with images</h1>
             <SlickSlider
-              imageUrls={product.images.map((image: any) => image.url)}
+              items={[product]}
+              // imageUrls={product.images.map((image: any) => image.url)}
               multipleItemNumber={3}
               actionType="VIEW_IMAGE"
             />

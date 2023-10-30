@@ -8,9 +8,11 @@ import { orderSlice } from "lib/client/store/orderSlice";
 import { ordersSlice } from "lib/client/store/ordersSlice";
 import { notifySlice } from "lib/client/store/notifySlice";
 import { userApiSlice } from "lib/client/store/userApiSlice";
+import { backgroundSlice } from "lib/client/store/backgroundSlice";
 
 export const store = configureStore({
   reducer: {
+    background: backgroundSlice.reducer,
     loading: loadingSlice.reducer,
     auth: authSlice.reducer,
     modal: modalSlice.reducer,
@@ -18,6 +20,7 @@ export const store = configureStore({
     order: orderSlice.reducer,
     orders: ordersSlice.reducer,
     productManager: productManagerSlice.reducer,
+
     // notify: notifySlice.reducer,
     // orders: ordersSlice.reducer,
     // [userApiSlice.reducerPath]: userApiSlice.reducer,

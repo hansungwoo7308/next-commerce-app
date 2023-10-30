@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { getData } from "lib/public/fetchData";
 import ProductDetail from "@/components/product/ProductDetail";
-// import { setNotify, setTimeoutId, setVisible } from "lib/client/store/notifySlice";
 
 export async function getServerSideProps({ query }: any) {
   // params.id === query.id

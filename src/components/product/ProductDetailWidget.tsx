@@ -36,13 +36,16 @@ export default function ProductDetailWidget({ product }: Props) {
   // internal
   const [total, setTotal]: any = useState(0);
   const [selectedOptions, setSelectedOptions]: any = useState([]);
+
   useEffect(() => {
     if (selectedOptions.length) console.log({ selectedOptions });
   }, [selectedOptions]);
-  // useEffect(
-  //   () => setTotal(selectedOptions.reduce((a: any, v: any) => a + v.price * v.quantity, 0)),
-  //   [selectedOptions]
-  // );
+
+  useEffect(
+    () => setTotal(selectedOptions.reduce((a: any, v: any) => a + v.price * v.quantity, 0)),
+    [selectedOptions]
+  );
+
   // useEffect(() => {
   //   // if (total) console.log({ total });
   // }, [total]);
@@ -96,13 +99,12 @@ export default function ProductDetailWidget({ product }: Props) {
           options={options}
         />
         <hr />
-        <strong>총 상품금액 : ${total}</strong>
-        <hr />
-        <hr />
-        <hr />
-        <hr />
-        <hr />
-        <hr />
+        {selectedOptions.length ? (
+          <>
+            <strong>총 상품금액 : ${total}</strong>
+            <hr />
+          </>
+        ) : null}
         <div className="controller">
           <button
             onClick={() => {

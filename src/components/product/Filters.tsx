@@ -306,11 +306,6 @@ const Box = styled.div`
       margin-top: 0.5rem;
     }
   }
-  .clear-button {
-    &:hover {
-      color: #fff;
-    }
-  }
   .rating {
     > label {
       display: flex;

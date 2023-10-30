@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { IoIosClose } from "react-icons/io";
 import styled from "styled-components";
 
 interface Props {
@@ -16,7 +17,7 @@ export default function Option({ product, selectedOptions, setSelectedOptions, o
     e.stopPropagation();
     optionListRef.current.classList.add("option-list-open");
   };
-  const handleClickOption = (option: any) => {
+  const handleAddOption = (option: any) => {
     optionListRef.current.classList.remove("option-list-open");
     const newItem = { item: option.item, price: option.price, quantity: 1 };
     // console.log({ newItem });
@@ -27,6 +28,13 @@ export default function Option({ product, selectedOptions, setSelectedOptions, o
       return newState;
     });
   };
+  const handleRemoveOption = (option: any) => {
+    setSelectedOptions((state: any) => {
+      const newState = state.filter((v: any) => v.item !== option.item);
+      return newState;
+    });
+  };
+
   useEffect(() => {
     const handleClick = () => optionListRef.current.classList.remove("option-list-open");
     window.addEventListener("click", handleClick);
@@ -77,59 +85,66 @@ export default function Option({ product, selectedOptions, setSelectedOptions, o
         <ul className="option-list" ref={optionListRef}>
           <li
             className="option-item"
-            onClick={() => handleClickOption({ item: product.name, price: product.price })}
+            onClick={() => handleAddOption({ item: product.name, price: product.price })}
           >
             <a href="#">{product.name}</a>
           </li>
           {options.map((option: any) => (
-            <li key={option.item} className="option-item" onClick={() => handleClickOption(option)}>
+            <li key={option.item} className="option-item" onClick={() => handleAddOption(option)}>
               <a href="#">{option.item}</a>
             </li>
           ))}
         </ul>
       </div>
-      {selectedOptions?.map((selectedItem: any, index: number) => {
+      {selectedOptions?.map((selectedOption: any, index: number) => {
         return (
-          <div key={index} className="selected-item-outer">
-            <div>item : {selectedItem.item}</div>
-            <div className="selected-item-option">
-              <button
-                onClick={() =>
-                  setSelectedOptions((state: any) => {
-                    const newState = [...state];
-                    newState.find((v: any) => v.item === selectedItem.item).quantity -= 1;
-                    return newState;
-                  })
-                }
-                disabled={selectedItem.quantity === 1}
-              >
-                -
-              </button>
-              <input
-                type="number"
-                // defaultValue={1}
-                value={selectedItem.quantity}
-                onChange={(e) =>
-                  setSelectedOptions((state: any) => {
-                    const newState = [...state];
-                    newState.find((v: any) => v.item === selectedItem.item).quantity =
-                      e.target.value;
-                    return newState;
-                  })
-                }
-              />
-              <button
-                onClick={() =>
-                  setSelectedOptions((state: any) => {
-                    const newState = [...state];
-                    newState.find((v: any) => v.item === selectedItem.item).quantity += 1;
-                    return newState;
-                  })
-                }
-              >
-                +
-              </button>
-              {/* <button onClick={() => handleIncrease(selectedItem)}>+</button> */}
+          <div key={index} className="selected-option">
+            <div>item : {selectedOption.item}</div>
+            <div className="option-controller">
+              <div className="option-moderator">
+                <button
+                  onClick={() =>
+                    setSelectedOptions((state: any) => {
+                      const newState = [...state];
+                      newState.find((v: any) => v.item === selectedOption.item).quantity -= 1;
+                      return newState;
+                    })
+                  }
+                  disabled={selectedOption.quantity === 1}
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  // defaultValue={1}
+                  value={selectedOption.quantity}
+                  onChange={(e) =>
+                    setSelectedOptions((state: any) => {
+                      const newState = [...state];
+                      newState.find((v: any) => v.item === selectedOption.item).quantity =
+                        e.target.value;
+                      return newState;
+                    })
+                  }
+                />
+                <button
+                  onClick={() =>
+                    setSelectedOptions((state: any) => {
+                      const newState = [...state];
+                      newState.find((v: any) => v.item === selectedOption.item).quantity += 1;
+                      return newState;
+                    })
+                  }
+                >
+                  +
+                </button>
+                {/* <button onClick={() => handleIncrease(selectedOption)}>+</button> */}
+              </div>
+              <div className="option-remove">
+                <button onClick={() => handleRemoveOption(selectedOption)}>
+                  <IoIosClose />
+                </button>
+              </div>
             </div>
           </div>
         );
@@ -171,16 +186,20 @@ const Box = styled.div`
       display: block;
     }
   }
-  .selected-item-outer {
+  .selected-option {
     border: 1px solid;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 1rem;
     padding: 0.5rem;
-    .selected-item-option {
+    .option-controller {
+      display: flex;
+      gap: 1rem;
+    }
+    .option-moderator {
       input {
-        /* width: 2rem; */
+        width: 5rem;
         padding: 0.5rem;
         text-align: center;
       }
@@ -191,6 +210,16 @@ const Box = styled.div`
       }
       button:disabled {
         cursor: not-allowed;
+      }
+    }
+    .option-remove {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
     .selected-item {

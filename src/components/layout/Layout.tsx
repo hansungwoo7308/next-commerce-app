@@ -1,3 +1,4 @@
+import Background from "@/components/layout/Background";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Loading from "@/components/layout/Loading";
@@ -67,6 +68,7 @@ export default function Layout({ children }: any) {
         pauseOnHover
         theme="colored"
       />
+      <Background />
       <Loading />
       <Modal />
       <Header />
