@@ -31,7 +31,8 @@ export default function CreateProductReviewForm() {
 
   // image files
   const [images, setImages]: any = useState([]);
-  const registeredProperties = register("images", { required: true });
+  const registeredProperties = register("images");
+  // const registeredProperties = register("images", { required: true });
   // console.log({ registeredProperties });
 
   const handleChangeFiles = (e: any) => {
@@ -55,14 +56,15 @@ export default function CreateProductReviewForm() {
   };
 
   const handleCreateProductReview = async (data: any) => {
-    // console.log({ data });
-    // console.log({ "data.images": data.images });
+    console.log({ data });
+    console.log({ "data.images": data.images });
 
     // set the formData
     const formData: any = new FormData();
     formData.append("User", auth.user._id);
     for (let key in data) {
       if (key === "images") {
+        if (!data[key]) continue;
         for (let image of data[key]) formData.append(key, image);
         continue;
       }

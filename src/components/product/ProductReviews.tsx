@@ -30,6 +30,7 @@ export default function ProductReviews({ product, reviews }: Props) {
 
 const Box = styled.ul`
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
+  flex-direction: column-reverse;
   gap: 1rem;
 `;

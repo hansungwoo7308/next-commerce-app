@@ -17,9 +17,6 @@ const router = createRouter()
   })
   // protected routes
   .use(checkAuth, checkRoles(["admin", "user"]))
-  // .post(async (req: any, res: any) => {
-  //   res.status(200).json({ message: "some..." });
-  // });
   // handle the multipart data
   .use(uploadImagesToServer)
   .use(uploadReviewImagesToCloudinary)
