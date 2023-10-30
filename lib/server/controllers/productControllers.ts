@@ -10,9 +10,11 @@ export const createProduct = async (req: any, res: any, next: any) => {
 };
 export const createProductReview = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<createProductReview>`);
+
   // get
   const { id } = req.query;
   // const { review } = req.body;
+
   // update
   const updatedProduct = await Product.findByIdAndUpdate(
     id,
@@ -20,6 +22,7 @@ export const createProductReview = async (req: any, res: any) => {
     // { $push: { reviews: review } },
     { new: true }
   );
+
   // out
   console.log({ updatedProduct });
   return res.status(200).json({ updatedProduct });

@@ -14,21 +14,18 @@ import ProductMangerFixed from "@/components/product/ProductMangerFixed";
 export default function ProductDetail({ product }: any) {
   // external
   const { ratings, reviews } = product;
-  // console.log({ reviews });
-  const dispatch = useDispatch();
   const { user } = useSelector((store: any) => store.auth);
+  const dispatch = useDispatch();
 
   const handleWriteReview = () => {
     dispatch(setModal({ active: true, type: "CREATE_PRODUCT_REVIEW", id: product._id }));
   };
 
-  // console.log({ product });
-
   return (
     <Box className="product-detail">
-      <div className="top">
+      {/* <div className="top">
         <ProductDetailWidget product={product} />
-      </div>
+      </div> */}
       {/* <div className="middle">
         <div className="product-description">
           <h1>Product Description</h1>
@@ -63,19 +60,16 @@ export default function ProductDetail({ product }: any) {
           {user?.role === "user" && (
             <div className="write-a-review">
               <p>You can write this product's review</p>
-              <button onClick={handleWriteReview}>Write a review</button>
+              <button className="create-button" onClick={handleWriteReview}>
+                Write a review
+              </button>
             </div>
           )}
         </div>
         <div className="bottom-right">
           <div className="reviews-with-images">
             <h1>Reviews with images</h1>
-            <SlickSlider
-              items={[product]}
-              // imageUrls={product.images.map((image: any) => image.url)}
-              multipleItemNumber={3}
-              actionType="VIEW_IMAGE"
-            />
+            <SlickSlider items={[product]} multipleItemNumber={3} actionType="VIEW_IMAGE" />
           </div>
           <hr />
           <h1>Reviews</h1>
@@ -101,7 +95,7 @@ const Box = styled.div`
 
   /* children */
   > * {
-    border: 2px solid;
+    border: 1px solid;
     border-radius: 10px;
     padding: 1rem;
     background-color: #333;

@@ -1,4 +1,5 @@
 import axios from "axios";
+import logError from "lib/client/log/logError";
 import { setModal } from "lib/client/store/modalSlice";
 import { postData } from "lib/public/fetchData";
 import { loadGetInitialProps } from "next/dist/shared/lib/utils";
@@ -7,13 +8,17 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 
 export default function CreateProductReviewForm() {
+  // external
   const auth = useSelector((store: any) => store.auth);
   const modal = useSelector((store: any) => store.modal);
   const { active, type, message, id, ids, modalAction, actionLabel, disabled } = modal;
   const dispatch = useDispatch();
+
+  // internal
   const router = useRouter();
   const {
     register,
@@ -28,6 +33,7 @@ export default function CreateProductReviewForm() {
   const [images, setImages]: any = useState([]);
   const registeredProperties = register("images", { required: true });
   // console.log({ registeredProperties });
+
   const handleChangeFiles = (e: any) => {
     // get the previous and new files
     const prevImages = getValues("images");
@@ -63,20 +69,26 @@ export default function CreateProductReviewForm() {
       formData.append(key, data[key]);
     }
 
-    // create
-    const response = await axios({
-      method: "POST",
-      url: `http://localhost:3000/api/v2/products/${router.query.id}/review/multipart`,
-      headers: {
-        Authorization: `Bearer ${auth.accessToken}`,
-        "Content-Type": "multipart/form-data",
-      },
-      data: formData,
-    });
-    console.log({ response });
-    dispatch(setModal({ active: false }));
-    router.push({ pathname: router.asPath });
-    // console.log(first)
+    try {
+      // create
+      const response = await axios({
+        method: "POST",
+        url: `http://localhost:3000/api/v2/products/${router.query.id}/review/multipart`,
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+        data: formData,
+      });
+      console.log({ response });
+      dispatch(setModal({ active: false }));
+      router.push({ pathname: router.asPath });
+      // console.log(first)
+    } catch (error: any) {
+      logError(error);
+      toast.error(error.message);
+      dispatch(setModal({ active: false }));
+    }
   };
 
   const handleClose = () => dispatch(setModal({ active: false }));
@@ -141,7 +153,6 @@ export default function CreateProductReviewForm() {
       <div className="bottom">
         <button
           onClick={handleSubmit(handleCreateProductReview)}
-          // onClick={handleAction}
           // disabled={loading}
         >
           {actionLabel || "Confirm"}

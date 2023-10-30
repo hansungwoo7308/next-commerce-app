@@ -56,7 +56,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     signIn({ user, account, profile }) {
-      console.log("\x1b[33m\n[signIn]\x1b[32m");
+      console.log("\x1b[33m\n[signIn]\x1b[30m");
       console.log({ user, account });
       if (account?.provider === "naver") return true;
       return true;
@@ -73,7 +73,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }: any) {
       // server session 에 user 데이터를 저장한다.
       // token : returned value from jwt function
-      console.log("\x1b[33m\n[session]\x1b[32m");
+      console.log("\x1b[33m\n[session]\x1b[30m");
       if (token.user) session.user = token.user;
       if (token.account) session.account = token.account;
       // console.log({ session });
@@ -85,10 +85,10 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/signin",
   },
-  // session: {
-  //   strategy: "jwt",
-  // },
-  // secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 export default NextAuth(authOptions);

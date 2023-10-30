@@ -6,6 +6,8 @@ import styled from "styled-components";
 import { addToCart } from "lib/client/store/cartSlice";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
+import { FaCartPlus } from "react-icons/fa6";
+import { MdPayment } from "react-icons/md";
 
 interface Props {
   product?: any;
@@ -107,16 +109,33 @@ export default function ProductDetailWidget({ product }: Props) {
         ) : null}
         <div className="controller">
           <button
+            className="add-button"
             onClick={() => {
-              // const duplicate = cart.find((v: any) => v._id === product._id);
-              // if (duplicate) return toast.error("Already added it");
-              // else dispatch(addToCart({ ...product, quantity: 1 }));
+              const duplicate = cart.products.find((v: any) => v._id === product._id);
+              if (duplicate) return toast.error("Already added it");
+              if (!selectedOptions.length)
+                return alert(
+                  "You do not have a option. please select the option.\n(옵션을 선택하지 않으셨습니다. 옵션을 선택해주세요.)"
+                );
               dispatch(addToCart({ ...product, options: selectedOptions }));
             }}
           >
+            <FaCartPlus size={20} />
             Add to Cart
           </button>
-          <button>Buy</button>
+          <button
+            className="buy-button"
+            // disabled={selectedOptions.length === 0}
+            onClick={(e) => {
+              if (!selectedOptions.length)
+                return alert(
+                  "You do not have a option. please select the option.\n(옵션을 선택하지 않으셨습니다. 옵션을 선택해주세요.)"
+                );
+            }}
+          >
+            <MdPayment size={20} />
+            Buy
+          </button>
         </div>
       </div>
     </Box>
@@ -154,10 +173,19 @@ const Box = styled.div`
       }
     }
     > .controller {
-      flex: 1;
+      /* flex: 1; */
       display: flex;
       justify-content: end;
       gap: 1rem;
+      button {
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        &:disabled {
+          cursor: not-allowed;
+        }
+      }
     }
   }
 `;
