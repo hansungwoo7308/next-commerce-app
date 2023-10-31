@@ -11,7 +11,7 @@ export async function getServerSideProps({ query }: any) {
 }
 
 export default function Page({ product }: any) {
-  // console.log({ product });
+  console.log({ product });
   return (
     <Main>
       <section>

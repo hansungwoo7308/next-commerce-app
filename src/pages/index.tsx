@@ -44,7 +44,18 @@ const data = [
 export default function Home({ products }: any) {
   const { randomProducts, recentProducts } = products;
 
-  useEffect(() => console.log({ products }), []);
+  const randomItems = randomProducts.map((product: any) => ({
+    _id: product._id,
+    url: product.images[0].url,
+    text: product.name,
+  }));
+  const recentItems = randomProducts.map((product: any) => ({
+    _id: product._id,
+    url: product.images[0].url,
+    text: product.name,
+  }));
+
+  // useEffect(() => console.log({ products }), []);
 
   return (
     <>
@@ -100,7 +111,7 @@ export default function Home({ products }: any) {
             <h1>Best Sellers</h1>
             {randomProducts && (
               <SlickSlider
-                items={randomProducts}
+                items={randomItems}
                 isText={true}
                 // imageUrls={randomProducts.map((product: any) => product.images[0].url)}
                 multipleItemNumber={3}
@@ -114,7 +125,7 @@ export default function Home({ products }: any) {
             <h1>New Arrivals</h1>
             {recentProducts && (
               <SlickSlider
-                items={recentProducts}
+                items={recentItems}
                 isText={true}
                 // imageUrls={recentProducts.map((product: any) => product.images[0].url)}
                 multipleItemNumber={4}

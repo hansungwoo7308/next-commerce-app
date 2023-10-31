@@ -17,6 +17,16 @@ export default function ProductDetail({ product }: any) {
   const { user } = useSelector((store: any) => store.auth);
   const dispatch = useDispatch();
 
+  const items = product.reviews
+    ?.filter((review: any) => review.images.length !== 0)
+    .map((review: any) => ({
+      _id: review._id,
+      url: review.images[0]?.url,
+      text: review.name,
+    }));
+  // 내림차순 정렬
+  const sortedItems = items.sort((a: any, b: any) => items.indexOf(b) - items.indexOf(a));
+
   const handleWriteReview = () => {
     dispatch(setModal({ active: true, type: "CREATE_PRODUCT_REVIEW", id: product._id }));
   };
@@ -69,7 +79,9 @@ export default function ProductDetail({ product }: any) {
         <div className="bottom-right">
           <div className="reviews-with-images">
             <h1>Reviews with images</h1>
-            <SlickSlider items={[product]} multipleItemNumber={3} actionType="VIEW_IMAGE" />
+            <SlickSlider items={sortedItems} multipleItemNumber={3} actionType="VIEW_IMAGE" />
+            {/* <SlickSlider items={items} multipleItemNumber={3} actionType="VIEW_IMAGE" /> */}
+            {/* <SlickSlider items={[product]} multipleItemNumber={3} actionType="VIEW_IMAGE" /> */}
           </div>
           <hr />
           <h1>Reviews</h1>

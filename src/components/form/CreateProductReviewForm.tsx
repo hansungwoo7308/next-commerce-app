@@ -154,12 +154,15 @@ export default function CreateProductReviewForm() {
       </div>
       <div className="bottom">
         <button
+          className="create-button"
           onClick={handleSubmit(handleCreateProductReview)}
           // disabled={loading}
         >
           {actionLabel || "Confirm"}
         </button>
-        <button onClick={handleClose}>Close</button>
+        <button className="close-button" onClick={handleClose}>
+          Close
+        </button>
       </div>
     </Box>
   );

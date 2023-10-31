@@ -34,7 +34,7 @@ interface ModalAction extends ModalState {
 }
 
 const initialState: ModalState = {
-  active: true,
+  // active: true,
   // type: "CREATE_PRODUCT",
   type: "CREATE_PRODUCT_REVIEW",
 };

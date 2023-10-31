@@ -55,15 +55,15 @@ export default function SlickSlider({
           {items?.map((item: any, index: number) => (
             <div className="img-outer" key={item._id}>
               <Image
-                src={item.images[0].url}
+                src={item.url}
                 alt="alt"
                 width={300}
                 height={300}
-                onClick={(e) => handleClickImage(item.images[0].url)}
+                onClick={(e) => handleClickImage(item.url)}
               />
-              {isText && (
+              {item.text && (
                 <div className="text">
-                  <h1>{item.name}</h1>
+                  <h1>{item.text}</h1>
                 </div>
               )}
             </div>
