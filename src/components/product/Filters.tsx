@@ -156,7 +156,7 @@ export default function Filters() {
         <ul>
           {categories.map((category: any) => (
             <li key={category}>
-              <label htmlFor="">
+              <label>
                 {category === "all" ? (
                   <input
                     type="radio"
@@ -304,6 +304,12 @@ const Box = styled.div`
     /* border: 2px solid; */
     > ul {
       margin-top: 0.5rem;
+      > li {
+        > label {
+          display: flex;
+          gap: 0.5rem;
+        }
+      }
     }
   }
   .rating {
@@ -311,5 +317,10 @@ const Box = styled.div`
       display: flex;
       gap: 0.5rem;
     }
+  }
+  label:hover {
+    cursor: pointer;
+    filter: grayscale();
+    color: gray;
   }
 `;

@@ -50,6 +50,7 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    // ratings 를 ratingsAverage 로 renaming 이 필요해보임.
     ratings: {
       type: Number,
       default: 0,
@@ -97,6 +98,15 @@ const productSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// // 제품이 저장될 때마다 reviews 배열의 rating 값을 취합하여 평균값을 계산하고 ratings 필드에 저장
+// productSchema.pre("save", function (next) {
+//   const totalRatings = this.reviews.reduce((sum, review) => sum + review.rating, 0);
+//   const averageRating = totalRatings / this.reviews.length;
+//   console.log({ totalRatings, averageRating });
+//   this.ratings = averageRating;
+//   next();
+// });
 
 const Product = mongoose.models.Product || mongoose.model("Product", productSchema);
 export default Product;

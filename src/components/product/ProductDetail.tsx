@@ -10,12 +10,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { styled } from "styled-components";
 import ProductMangerFixed from "@/components/product/ProductMangerFixed";
+import { useEffect, useState } from "react";
 
 export default function ProductDetail({ product }: any) {
   // external
   const { ratings, reviews } = product;
   const { user } = useSelector((store: any) => store.auth);
   const dispatch = useDispatch();
+
+  // internal
+  const [reviewRatingsAverage, setReviewRatingsAverage]: any = useState();
 
   const items = product.reviews
     ?.filter((review: any) => review.images.length !== 0)
@@ -31,11 +35,22 @@ export default function ProductDetail({ product }: any) {
     dispatch(setModal({ active: true, type: "CREATE_PRODUCT_REVIEW", id: product._id }));
   };
 
+  useEffect(() => {
+    const reviewRatingsAverage =
+      reviews.reduce((a: any, v: any) => a + v.rating, 0) / reviews.length;
+    console.log({ reviewRatingsAverage });
+    setReviewRatingsAverage(reviewRatingsAverage);
+    // const reviewRatingsAverage =
+    //   reviews.reduce((a: any, v: any) => a.rating + v.rating, 0) / reviews.length;
+    // console.log({ reviewRatingsAverage });
+    // setReviewRatingsAverage(reviewRatingsAverage);
+  }, [reviews]);
+
   return (
     <Box className="product-detail">
-      {/* <div className="top">
+      <div className="top">
         <ProductDetailWidget product={product} />
-      </div> */}
+      </div>
       {/* <div className="middle">
         <div className="product-description">
           <h1>Product Description</h1>
@@ -56,10 +71,10 @@ export default function ProductDetail({ product }: any) {
         <div className="bottom-left">
           <h1>Customer Reviews</h1>
           <div className="reviews-ratings">
-            {ratings ? (
+            {reviews.length && reviewRatingsAverage ? (
               <>
-                <p>{ratings + ".0"}</p>
-                <Stars number={ratings} />
+                <p>{reviewRatingsAverage?.toFixed(1)}</p>
+                <Stars number={Math.round(reviewRatingsAverage)} />
                 <p>{"( " + reviews.length + " )"}</p>
               </>
             ) : (
