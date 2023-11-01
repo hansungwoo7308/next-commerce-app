@@ -41,7 +41,7 @@ export default function Modal() {
       </Background>
     );
   }
-  if (type === "REVIEW") {
+  if (type === "VIEW_REVIEW") {
     return (
       <Background onClick={handleClose}>
         <Box onClick={(e) => e.stopPropagation()}>
@@ -109,7 +109,6 @@ export default function Modal() {
                 dispatch(setModal({ active: false }));
               }}
             >
-              {/* {modalActionLabel ? modalActionLabel : "Delete"} */}
               Delete
             </button>
             <button className="cancel-button" onClick={handleClose}>

@@ -23,7 +23,6 @@ export default function Cart({ product }: any) {
         active: true,
         type: "DELETE_ITEM",
         modalAction,
-        modalActionLabel: "Cancel",
       })
     );
   };

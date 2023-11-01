@@ -25,18 +25,23 @@ export async function getServerSideProps({ req, query }: any) {
 
 const data = [
   {
+    id: "slide-01",
     url: "/images/slide-01.jpg",
   },
   {
+    id: "slide-02",
     url: "/images/slide-02.jpg",
   },
   {
+    id: "slide-03",
     url: "/images/slide-01.jpg",
   },
   {
+    id: "slide-04",
     url: "/images/slide-02.jpg",
   },
   {
+    id: "slide-05",
     url: "/images/slide-01.jpg",
   },
 ];
@@ -45,12 +50,12 @@ export default function Home({ products }: any) {
   const { randomProducts, recentProducts } = products;
 
   const randomItems = randomProducts.map((product: any) => ({
-    _id: product._id,
+    id: product._id,
     url: product.images[0].url,
     text: product.name,
   }));
   const recentItems = randomProducts.map((product: any) => ({
-    _id: product._id,
+    id: product._id,
     url: product.images[0].url,
     text: product.name,
   }));
@@ -67,7 +72,7 @@ export default function Home({ products }: any) {
       </Head>
       <Main>
         <section className="hero">
-          {/* <SlickSlider items={data} /> */}
+          <SlickSlider items={data} />
           <div className="hero-category">
             <div className="card">
               <h1>Electronics</h1>

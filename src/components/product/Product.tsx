@@ -6,7 +6,7 @@ import { setModal } from "lib/client/store/modalSlice";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { toast } from "react-toastify";
@@ -23,6 +23,7 @@ export default function Product({ product }: any) {
   // internal
   const checkRef: any = useRef();
   const router = useRouter();
+  const [reviewRatingsAverage, setReviewRatingsAverage]: any = useState();
 
   const handleSelect = (e: any) => {
     e.target.checked ? dispatch(addProductId(_id)) : dispatch(removeProductId(_id));
@@ -104,6 +105,13 @@ export default function Product({ product }: any) {
     });
   }, [selectedProductIds]);
 
+  useEffect(() => {
+    const reviewRatingsAverage =
+      reviews.reduce((a: any, v: any) => a + v.rating, 0) / reviews.length;
+    // console.log({ reviewRatingsAverage });
+    setReviewRatingsAverage(reviewRatingsAverage);
+  }, [reviews]);
+
   return (
     <Box>
       <div className="image">
@@ -134,12 +142,16 @@ export default function Product({ product }: any) {
         <div className="right">
           {/* <div className="stock">{stock > 0 ? <h6>Stock ({stock}) </h6> : <h6>Sold Out</h6>}</div> */}
           <h3 className="price">${price}</h3>
-          <div className="ratings">
-            <small>{ratings ? ratings + ".0" : "No reviews"}</small>
-            <small>
-              <Stars number={ratings} />
-            </small>
-          </div>
+          {reviewRatingsAverage ? (
+            <div className="ratings">
+              <small>{reviewRatingsAverage.toFixed(1)}</small>
+              <small>
+                <Stars number={Math.round(reviewRatingsAverage)} />
+              </small>
+            </div>
+          ) : (
+            <p>No reviews</p>
+          )}
           {auth.user?.role === "admin" && buttonByAdmin}
           {auth.user?.role === "user" && buttonByUser}
         </div>

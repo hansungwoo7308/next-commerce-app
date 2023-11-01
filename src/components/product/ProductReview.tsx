@@ -47,7 +47,8 @@ export default function ProductReview({ product, review }: Props) {
     <Box
       className="review"
       onClick={() => {
-        if (user?.role !== "admin") dispatch(setModal({ active: true, type: "REVIEW", review }));
+        if (user?.role !== "admin")
+          dispatch(setModal({ active: true, type: "VIEW_REVIEW", review }));
       }}
     >
       <div className="review-content">

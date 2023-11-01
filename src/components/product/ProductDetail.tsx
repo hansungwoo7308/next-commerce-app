@@ -24,7 +24,7 @@ export default function ProductDetail({ product }: any) {
   const items = product.reviews
     ?.filter((review: any) => review.images.length !== 0)
     .map((review: any) => ({
-      _id: review._id,
+      id: review._id,
       url: review.images[0]?.url,
       text: review.name,
     }));

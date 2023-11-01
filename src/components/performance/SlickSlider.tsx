@@ -22,7 +22,6 @@ interface Props {
 export default function SlickSlider({
   items,
   isText,
-  // imageUrls,
   multipleItemNumber,
   actionType,
   dots,
@@ -30,8 +29,6 @@ export default function SlickSlider({
 }: Props) {
   const sliderRef: any = useRef();
   const dispatch = useDispatch();
-
-  // console.log({ imageUrls });
 
   const handleClickImage = (imageUrl: string) => {
     if (!actionType) return;
@@ -52,8 +49,8 @@ export default function SlickSlider({
           slidesToScroll={multipleItemNumber}
           {...settings}
         >
-          {items?.map((item: any, index: number) => (
-            <div className="img-outer" key={item._id}>
+          {items?.map((item: any) => (
+            <div className="img-outer" key={item.id}>
               <Image
                 src={item.url}
                 alt="alt"
@@ -90,19 +87,17 @@ export default function SlickSlider({
         autoplay={true}
         autoplaySpeed={5000}
         pauseOnHover={true}
-        // slidesToShow={multipleItemNumber ? multipleItemNumber:null}
-        // slidesToScroll={multipleItemNumber ? multipleItemNumber:null}
       >
-        {items?.map((item: any, index: number) => (
-          <div className="img-outer" key={item._id}>
-            <Image
+        {items?.map((item: any) => (
+          <div className="img-outer" key={item.id}>
+            {/* <Image
               src={item.url}
               alt="alt"
               width={1000}
               height={1000}
               onClick={(e) => handleClickImage(item.url)}
-            />
-            {/* <img key={something} src={something} alt={something} /> */}
+            /> */}
+            <img src={item.url} alt={"alt"} />
           </div>
         ))}
       </Slider>
