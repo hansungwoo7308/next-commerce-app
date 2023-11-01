@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 
 export default function ProductDetail({ product }: any) {
   // external
-  const { ratings, reviews } = product;
+  const { reviews } = product;
   const { user } = useSelector((store: any) => store.auth);
   const dispatch = useDispatch();
 
@@ -38,12 +38,8 @@ export default function ProductDetail({ product }: any) {
   useEffect(() => {
     const reviewRatingsAverage =
       reviews.reduce((a: any, v: any) => a + v.rating, 0) / reviews.length;
-    console.log({ reviewRatingsAverage });
-    setReviewRatingsAverage(reviewRatingsAverage);
-    // const reviewRatingsAverage =
-    //   reviews.reduce((a: any, v: any) => a.rating + v.rating, 0) / reviews.length;
     // console.log({ reviewRatingsAverage });
-    // setReviewRatingsAverage(reviewRatingsAverage);
+    setReviewRatingsAverage(reviewRatingsAverage);
   }, [reviews]);
 
   return (
