@@ -74,11 +74,16 @@ export default function Home({ products }: any) {
         <section className="banner">
           <SlickSlider
             items={data}
+            itemSize={{ width: 1000, height: 1000 }}
             settings={{
               centerMode: true,
               slidesToShow: 1,
-
-              // variableWidth: true,
+              centerPadding: 0,
+              dots: true,
+              // speed: 1000,
+              // autoplay:true,
+              // autoplaySpeed: 5000,
+              // pauseOnHover:true
             }}
           />
         </section>
@@ -127,10 +132,12 @@ export default function Home({ products }: any) {
             {randomProducts && (
               <SlickSlider
                 items={randomItems}
-                multipleItemNumber={3}
+                itemSize={{ width: 300, height: 300 }}
                 actionType="VIEW_IMAGE"
-                dots={false}
-                settings={{}}
+                settings={{
+                  slidesToShow: 3,
+                  slidesToScroll: 3,
+                }}
               />
             )}
           </div>
@@ -139,10 +146,12 @@ export default function Home({ products }: any) {
             {recentProducts && (
               <SlickSlider
                 items={recentItems}
-                multipleItemNumber={4}
+                itemSize={{ width: 300, height: 300 }}
                 actionType="VIEW_IMAGE"
-                dots={false}
-                settings={{}}
+                settings={{
+                  slidesToShow: 4,
+                  slidesToScroll: 4,
+                }}
               />
             )}
           </div>
@@ -160,7 +169,6 @@ export default function Home({ products }: any) {
 
 const Main = styled.main`
   .banner {
-    border: 2px solid red;
     /* max-width: initial; */
     min-height: initial;
     /* height: 300px; */

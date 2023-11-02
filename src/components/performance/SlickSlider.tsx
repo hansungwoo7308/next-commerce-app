@@ -11,19 +11,14 @@ import "slick-carousel/slick/slick-theme.css";
 
 interface Props {
   items?: any[];
-  multipleItemNumber?: number | null;
+  itemSize?: any;
   actionType?: string;
-  dots?: boolean;
   settings?: any;
+  // multipleItemNumber?: number | null;
+  // dots?: boolean;
 }
 
-export default function SlickSlider({
-  items,
-  multipleItemNumber,
-  actionType,
-  dots,
-  settings,
-}: Props) {
+export default function SlickSlider({ items, itemSize, actionType, settings }: Props) {
   const sliderRef: any = useRef();
   const dispatch = useDispatch();
 
@@ -33,70 +28,82 @@ export default function SlickSlider({
       dispatch(setModal({ active: true, type: "VIEW_IMAGE", src: imageUrl }));
   };
 
-  if (multipleItemNumber) {
-    return (
-      <Box>
-        <Slider
-          ref={sliderRef}
-          arrows={false}
-          speed={1000}
-          infinite={true}
-          dots={dots}
-          slidesToShow={multipleItemNumber}
-          slidesToScroll={multipleItemNumber}
-          {...settings}
-        >
-          {items?.map((item: any) => (
-            <div className="img-outer" key={item.id}>
-              <Image
-                src={item.url}
-                alt="alt"
-                width={300}
-                height={300}
-                onClick={(e) => handleClickImage(item.url)}
-              />
-              {item.text && (
-                <div className="text">
-                  <h1>{item.text}</h1>
-                </div>
-              )}
-            </div>
-          ))}
-        </Slider>
-        <div className="controller">
-          <button className="prev arrow" onClick={() => sliderRef.current.slickPrev()}>
-            <IoIosArrowBack size={20} color="#fff" />
-          </button>
-          <button className="next arrow" onClick={() => sliderRef.current.slickNext()}>
-            <IoIosArrowForward size={20} color="#fff" />
-          </button>
-        </div>
-      </Box>
-    );
-  }
+  // if (multipleItemNumber) {
+  //   return (
+  //     <Box>
+  //       <Slider
+  //         ref={sliderRef}
+  //         arrows={false}
+  //         speed={1000}
+  //         infinite={true}
+  //         // dots={dots}
+  //         slidesToShow={multipleItemNumber}
+  //         slidesToScroll={multipleItemNumber}
+  //         {...settings}
+  //       >
+  //         {items?.map((item: any) => (
+  //           <div className="img-outer" key={item.id}>
+  //             <Image
+  //               src={item.url}
+  //               alt="alt"
+  //               width={300}
+  //               height={300}
+  //               onClick={(e) => handleClickImage(item.url)}
+  //             />
+  //             {item.text && (
+  //               <div className="text">
+  //                 <h1>{item.text}</h1>
+  //               </div>
+  //             )}
+  //           </div>
+  //         ))}
+  //       </Slider>
+  //       <div className="controller">
+  //         <button className="prev arrow" onClick={() => sliderRef.current.slickPrev()}>
+  //           <IoIosArrowBack size={20} color="#fff" />
+  //         </button>
+  //         <button className="next arrow" onClick={() => sliderRef.current.slickNext()}>
+  //           <IoIosArrowForward size={20} color="#fff" />
+  //         </button>
+  //       </div>
+  //     </Box>
+  //   );
+  // }
   return (
     <Box>
-      <Slider
-        ref={sliderRef}
-        arrows={false}
-        dots={true}
-        speed={1000}
-        // autoplay={true}
-        // autoplaySpeed={5000}
-        // pauseOnHover={true}
-        centerPadding="0"
-        {...settings}
-      >
+      <Slider ref={sliderRef} arrows={false} {...settings}>
         {items?.map((item: any) => (
-          <div className="img-outer" key={item.id}>
-            {/* <Image
+          <div key={item.id} className="img-outer">
+            {/* {settings.slidesToShow > 1 ? (
+              <>
+                <Image
+                  src={item.url}
+                  alt="alt"
+                  width={300}
+                  height={300}
+                  onClick={(e) => handleClickImage(item.url)}
+                />
+                {item.text && (
+                  <div className="text">
+                    <h1>{item.text}</h1>
+                  </div>
+                )}
+              </>
+            ) : (
+              <img src={item.url} alt={"alt"} />
+            )} */}
+            <Image
               src={item.url}
               alt="alt"
-              width={1000}
-              height={1000}
+              width={itemSize.width}
+              height={itemSize.height}
               onClick={(e) => handleClickImage(item.url)}
-            /> */}
-            <img src={item.url} alt={"alt"} />
+            />
+            {item.text && (
+              <div className="text">
+                <h1>{item.text}</h1>
+              </div>
+            )}
           </div>
         ))}
       </Slider>
