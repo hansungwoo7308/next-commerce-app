@@ -62,6 +62,7 @@ export const GlobalStyled = createGlobalStyle`
     overflow:hidden;
     section {
       /* width: 80%; */
+      width: 100%;
       max-width:1000px;
       min-height:100vh;
       padding-top:100px;
@@ -122,6 +123,22 @@ export const GlobalStyled = createGlobalStyle`
     /* background-color: #c15151; */
     /* background-color: #fff; */
     background-color: #67b34bec;
+    color: #fff;
+    &:hover {
+      background-color: #000;
+      color: #fff;
+    }
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+  html body .edit-button,
+  html body .update-button{
+    padding: 0.5rem;
+    border-radius: 5px;
+    /* background-color: #c15151; */
+    /* background-color: #fff; */
+    background-color: #ff9800;
     color: #fff;
     &:hover {
       background-color: #000;

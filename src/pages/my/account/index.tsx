@@ -260,12 +260,18 @@ export default function Page() {
             >
               {isEditMode ? (
                 <div>
-                  <button onClick={handleClickCancelButton}>Cancel</button>
-                  <button onClick={handleSubmit(handleUpdateAccountInfo)}>Submit</button>
+                  <button className="cancel-button" onClick={handleClickCancelButton}>
+                    Cancel
+                  </button>
+                  <button className="update-button" onClick={handleSubmit(handleUpdateAccountInfo)}>
+                    Submit
+                  </button>
                 </div>
               ) : (
                 <div>
-                  <button onClick={handleClickEditButton}>Edit</button>
+                  <button className="edit-button" onClick={handleClickEditButton}>
+                    Edit
+                  </button>
                 </div>
               )}
             </div>

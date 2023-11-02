@@ -11,8 +11,6 @@ import "slick-carousel/slick/slick-theme.css";
 
 interface Props {
   items?: any[];
-  isText?: boolean;
-  // imageUrls?: string[];
   multipleItemNumber?: number | null;
   actionType?: string;
   dots?: boolean;
@@ -21,7 +19,6 @@ interface Props {
 
 export default function SlickSlider({
   items,
-  isText,
   multipleItemNumber,
   actionType,
   dots,
@@ -84,9 +81,11 @@ export default function SlickSlider({
         arrows={false}
         dots={true}
         speed={1000}
-        autoplay={true}
-        autoplaySpeed={5000}
-        pauseOnHover={true}
+        // autoplay={true}
+        // autoplaySpeed={5000}
+        // pauseOnHover={true}
+        centerPadding="0"
+        {...settings}
       >
         {items?.map((item: any) => (
           <div className="img-outer" key={item.id}>
@@ -114,12 +113,13 @@ export default function SlickSlider({
 }
 
 const Box = styled.div`
-  height: 200px;
+  height: 300px;
   position: relative;
   /* public */
   img {
     width: 100%;
-    height: 200px;
+    /* height: 100%; */
+    height: 300px;
     cursor: pointer;
   }
   button:hover {
@@ -129,7 +129,7 @@ const Box = styled.div`
   .slick-slider {
     height: 100%;
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; */
     .slick-dots {
       position: absolute;
       bottom: 1rem;
@@ -139,6 +139,7 @@ const Box = styled.div`
       }
     }
   }
+
   .controller {
     .arrow {
       height: 100%;

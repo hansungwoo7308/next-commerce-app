@@ -5,7 +5,7 @@ import connectDB from "lib/server/config/connectDB";
 import Product from "lib/server/models/Product";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export async function getServerSideProps({ req, query }: any) {
   console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
@@ -13,10 +13,10 @@ export async function getServerSideProps({ req, query }: any) {
   // console.log({ "Object.entries(req)": Object.entries(req) });
 
   await connectDB();
-  const randomProducts = await Product.aggregate([{ $sample: { size: 10 } }]).exec();
+  const randomProducts = await Product.aggregate([{ $sample: { size: 9 } }]).exec();
   const recentProducts = await Product.aggregate([
     { $sort: { createdAt: -1 } },
-    { $limit: 10 },
+    { $limit: 12 },
   ]).exec();
   const products = { randomProducts, recentProducts };
   // console.log({ products });
@@ -54,13 +54,13 @@ export default function Home({ products }: any) {
     url: product.images[0].url,
     text: product.name,
   }));
-  const recentItems = randomProducts.map((product: any) => ({
+  const recentItems = recentProducts.map((product: any) => ({
     id: product._id,
     url: product.images[0].url,
     text: product.name,
   }));
 
-  // useEffect(() => console.log({ products }), []);
+  useEffect(() => console.log({ products }), []);
 
   return (
     <>
@@ -71,8 +71,18 @@ export default function Home({ products }: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main>
+        <section className="banner">
+          <SlickSlider
+            items={data}
+            settings={{
+              centerMode: true,
+              slidesToShow: 1,
+
+              // variableWidth: true,
+            }}
+          />
+        </section>
         <section className="hero">
-          <SlickSlider items={data} />
           <div className="hero-category">
             <div className="card">
               <h1>Electronics</h1>
@@ -117,8 +127,6 @@ export default function Home({ products }: any) {
             {randomProducts && (
               <SlickSlider
                 items={randomItems}
-                isText={true}
-                // imageUrls={randomProducts.map((product: any) => product.images[0].url)}
                 multipleItemNumber={3}
                 actionType="VIEW_IMAGE"
                 dots={false}
@@ -131,8 +139,6 @@ export default function Home({ products }: any) {
             {recentProducts && (
               <SlickSlider
                 items={recentItems}
-                isText={true}
-                // imageUrls={recentProducts.map((product: any) => product.images[0].url)}
                 multipleItemNumber={4}
                 actionType="VIEW_IMAGE"
                 dots={false}
@@ -153,6 +159,32 @@ export default function Home({ products }: any) {
 }
 
 const Main = styled.main`
+  .banner {
+    border: 2px solid red;
+    /* max-width: initial; */
+    min-height: initial;
+    /* height: 300px; */
+    .slick-list {
+      overflow: visible;
+      .slick-track {
+        margin: 0;
+      }
+    }
+    .controller {
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      /* width: 1000px; */
+      width: 100%;
+      max-width: 1000px;
+      height: 100%;
+      transform: translateX(-50%);
+      .arrow {
+        pointer-events: initial;
+      }
+    }
+  }
   .hero {
     display: flex;
     flex-direction: column;
@@ -184,26 +216,12 @@ const Main = styled.main`
         a {
           overflow: hidden;
         }
-
-        /* .img-outer {
-          overflow: hidden;
-        } */
       }
     }
     .best-sellers,
     .new-arrivals {
       .slick-slide {
         padding: 0 1rem;
-        /* .img-outer {
-          overflow: hidden;
-          img {
-            transition: all 0.2s;
-            transform: scale(1.2);
-            &:hover {
-              transform: scale(1);
-            }
-          }
-        } */
         .img-outer {
           border-radius: 10px;
           overflow: hidden;
@@ -219,9 +237,11 @@ const Main = styled.main`
           }
         }
       }
-      .controller .arrow {
-        height: 5rem;
-        border-radius: 50%;
+      .controller {
+        .arrow {
+          height: 5rem;
+          border-radius: 50%;
+        }
       }
     }
   }
