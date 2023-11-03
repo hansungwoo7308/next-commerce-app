@@ -11,22 +11,24 @@ export async function getStaticPaths(context: any) {
 
   const products = await Product.find({}).select("_id").exec();
   const productIds = products.map((product) => product._id.toString());
+  // console.log({ productIds });
   const paths = productIds.map((productId: any) => ({ params: { id: productId } }));
 
   return {
     // paths: [{ params: { id: "123" } }],
     paths,
     fallback: true,
+    // fallback: false,
     // fallback: "blocking",
   };
 }
 
 export async function getStaticProps(context: any) {
-  console.log(`\x1b[33m\n[pages/products/[id]]:::[getStaticProps]\x1b[30m`);
-
   const { id } = context.params;
+  console.log(`\x1b[33m\n[pages/products/${id}]:::[getStaticProps]\x1b[30m`);
   const response = await getData(`v2/products/${id}`);
   const { product } = response.data;
+  // console.log({ product });
 
   return { props: { product } };
 }
@@ -41,6 +43,8 @@ export async function getStaticProps(context: any) {
 
 export default function Page({ product }: any) {
   // console.log({ product });
+
+  if (!product) return null;
 
   return (
     <Main>

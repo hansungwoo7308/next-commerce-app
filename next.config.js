@@ -3,6 +3,8 @@
 const nextConfig = {
   reactStrictMode: false,
   env: {
+    // domain
+    BASE_URL: "http://localhost:3000",
     // Database
     // mongodb
     MONGODB_URI: process.env.MONGODB_URI,

@@ -69,7 +69,8 @@ export default function SlickSlider({ items, itemSize, sliderSize, actionType, s
   //   );
   // }
 
-  console.log({ items });
+  // console.log({ items });
+
   return (
     <Box style={{ height: sliderSize?.height || itemSize.height }}>
       <Slider ref={sliderRef} arrows={false} {...settings}>

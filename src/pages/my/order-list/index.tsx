@@ -27,7 +27,7 @@ export default function Page() {
 
   useEffect(() => fetchData(), [auth.user]);
 
-  if (!orders) return null;
+  if (!orders.length) return null;
   return (
     <>
       <Head>

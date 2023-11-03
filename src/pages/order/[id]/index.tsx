@@ -18,9 +18,7 @@ export default function Page() {
   // const order = orders.find((order: any) => order._id === id);
   // console.log("order : ", order);
 
-  // if (!auth.accessToken || !order) return null;
-  if (!order) return null;
-
+  if (!auth.accessToken || !order) return null;
   return (
     <Main>
       <section>
@@ -37,19 +35,14 @@ export default function Page() {
             </div>
             <div className="product-info">
               <h3>Product Information</h3>
-              <div className="product" key={product._id}>
-                <Link href={`/commerce/product/${product._id}`}>
-                  <Image
-                    src={product.images[0].url}
-                    alt={product.images[0].url}
-                    width={300}
-                    height={300}
-                  />
+              <div className="product" key={product?._id}>
+                <Link href={`/commerce/product/${product?._id}`}>
+                  <Image src={product?.images[0]?.url} alt="alt" width={300} height={300} />
                 </Link>
                 <div>
-                  <p>Product Number : {product._id}</p>
+                  <p>Product Number : {product?._id}</p>
                   <p>
-                    {product.quantity} X ${product.price} = ${product.quantity * product.price}
+                    {product?.quantity} X ${product?.price} = ${product?.quantity * product?.price}
                   </p>
                 </div>
               </div>
