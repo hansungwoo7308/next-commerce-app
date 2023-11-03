@@ -12,13 +12,12 @@ import "slick-carousel/slick/slick-theme.css";
 interface Props {
   items?: any[];
   itemSize?: any;
+  sliderSize?: any;
   actionType?: string;
   settings?: any;
-  // multipleItemNumber?: number | null;
-  // dots?: boolean;
 }
 
-export default function SlickSlider({ items, itemSize, actionType, settings }: Props) {
+export default function SlickSlider({ items, itemSize, sliderSize, actionType, settings }: Props) {
   const sliderRef: any = useRef();
   const dispatch = useDispatch();
 
@@ -69,34 +68,19 @@ export default function SlickSlider({ items, itemSize, actionType, settings }: P
   //     </Box>
   //   );
   // }
+
+  console.log({ items });
   return (
-    <Box>
+    <Box style={{ height: sliderSize?.height || itemSize.height }}>
       <Slider ref={sliderRef} arrows={false} {...settings}>
         {items?.map((item: any) => (
           <div key={item.id} className="img-outer">
-            {/* {settings.slidesToShow > 1 ? (
-              <>
-                <Image
-                  src={item.url}
-                  alt="alt"
-                  width={300}
-                  height={300}
-                  onClick={(e) => handleClickImage(item.url)}
-                />
-                {item.text && (
-                  <div className="text">
-                    <h1>{item.text}</h1>
-                  </div>
-                )}
-              </>
-            ) : (
-              <img src={item.url} alt={"alt"} />
-            )} */}
             <Image
               src={item.url}
               alt="alt"
               width={itemSize.width}
               height={itemSize.height}
+              style={{ height: itemSize.height }}
               onClick={(e) => handleClickImage(item.url)}
             />
             {item.text && (
@@ -120,23 +104,45 @@ export default function SlickSlider({ items, itemSize, actionType, settings }: P
 }
 
 const Box = styled.div`
-  height: 300px;
+  /* height: 300px; */
   position: relative;
+
   /* public */
+  .img-outer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .text {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      background-color: rgba(0, 0, 0, 0.5);
+      pointer-events: none;
+      padding: 1rem;
+    }
+  }
   img {
-    width: 100%;
-    /* height: 100%; */
-    height: 300px;
     cursor: pointer;
   }
   button:hover {
     background-color: initial;
   }
+
   /* children */
   .slick-slider {
     height: 100%;
     position: relative;
     /* overflow: hidden; */
+    .slick-list {
+      height: 100%;
+      .slick-track {
+        height: 100%;
+      }
+    }
     .slick-dots {
       position: absolute;
       bottom: 1rem;
@@ -146,7 +152,6 @@ const Box = styled.div`
       }
     }
   }
-
   .controller {
     .arrow {
       height: 100%;
@@ -168,23 +173,6 @@ const Box = styled.div`
       top: 50%;
       right: 0;
       transform: translateY(-50%);
-    }
-  }
-  .img-outer {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    .text {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: none;
-      background-color: rgba(0, 0, 0, 0.5);
-      pointer-events: none;
-      padding: 1rem;
     }
   }
 `;

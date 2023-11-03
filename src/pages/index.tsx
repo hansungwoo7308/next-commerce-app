@@ -75,6 +75,7 @@ export default function Home({ products }: any) {
           <SlickSlider
             items={data}
             itemSize={{ width: 1000, height: 1000 }}
+            sliderSize={{ height: 300 }}
             settings={{
               centerMode: true,
               slidesToShow: 1,
@@ -132,7 +133,7 @@ export default function Home({ products }: any) {
             {randomProducts && (
               <SlickSlider
                 items={randomItems}
-                itemSize={{ width: 300, height: 300 }}
+                itemSize={{ width: 300, height: 200 }}
                 actionType="VIEW_IMAGE"
                 settings={{
                   slidesToShow: 3,
@@ -146,7 +147,7 @@ export default function Home({ products }: any) {
             {recentProducts && (
               <SlickSlider
                 items={recentItems}
-                itemSize={{ width: 300, height: 300 }}
+                itemSize={{ width: 300, height: 200 }}
                 actionType="VIEW_IMAGE"
                 settings={{
                   slidesToShow: 4,
@@ -172,6 +173,10 @@ const Main = styled.main`
     /* max-width: initial; */
     min-height: initial;
     /* height: 300px; */
+    .slick-slider {
+      /* overflow-x: visible; */
+      overflow-y: clip;
+    }
     .slick-list {
       overflow: visible;
       .slick-track {

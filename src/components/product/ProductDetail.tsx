@@ -90,9 +90,18 @@ export default function ProductDetail({ product }: any) {
         <div className="bottom-right">
           <div className="reviews-with-images">
             <h1>Reviews with images</h1>
-            <SlickSlider items={sortedItems} multipleItemNumber={3} actionType="VIEW_IMAGE" />
-            {/* <SlickSlider items={items} multipleItemNumber={3} actionType="VIEW_IMAGE" /> */}
-            {/* <SlickSlider items={[product]} multipleItemNumber={3} actionType="VIEW_IMAGE" /> */}
+            <SlickSlider
+              items={sortedItems}
+              itemSize={{
+                width: 300,
+                height: 200,
+              }}
+              settings={{
+                slidesToShow: 3,
+                slidesToScroll: 3,
+              }}
+              actionType="VIEW_IMAGE"
+            />
           </div>
           <hr />
           <h1>Reviews</h1>

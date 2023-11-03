@@ -12,7 +12,7 @@ export const getData = async (url: string, query?: any, token?: string) => {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-    params: query,
+    params: query ? query : null,
   });
   return response;
 };
