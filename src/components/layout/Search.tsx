@@ -22,7 +22,7 @@ export default function Search() {
         formRef.current.style.outline = "none";
         dispatch(setBackground(false));
       }),
-    []
+    [dispatch]
   );
 
   return (

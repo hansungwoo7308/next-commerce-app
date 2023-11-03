@@ -17,7 +17,7 @@ export default function ProductReviews({ product, reviews }: Props) {
   useEffect(() => {
     if (selectedProductReviewIds.length === 0) dispatch(setSelectedProductId(null));
     else if (selectedProductReviewIds.length === 1) dispatch(setSelectedProductId(product._id));
-  }, [selectedProductReviewIds]);
+  }, [selectedProductReviewIds, dispatch]);
 
   return (
     <Box className="reviews">

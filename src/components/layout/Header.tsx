@@ -35,7 +35,7 @@ export default function Header() {
         headerRef.current.style.transition = "all 1s";
       }
     });
-  }, [previous]);
+  }, [previous, dispatch]);
 
   return (
     <Box ref={headerRef}>

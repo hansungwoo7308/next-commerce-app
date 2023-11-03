@@ -74,7 +74,7 @@ export default function SigninForm() {
 
   useEffect(() => {
     setFocus("email");
-  }, []);
+  }, [setFocus]);
   // useEffect(() => {
   //   if (session.status === "authenticated") {
   //     // console.log({ session });

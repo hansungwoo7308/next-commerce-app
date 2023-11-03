@@ -17,6 +17,7 @@ export async function getStaticPaths(context: any) {
     // paths: [{ params: { id: "123" } }],
     paths,
     fallback: true,
+    // fallback: "blocking",
   };
 }
 
@@ -39,7 +40,7 @@ export async function getStaticProps(context: any) {
 // }
 
 export default function Page({ product }: any) {
-  console.log({ product });
+  // console.log({ product });
 
   return (
     <Main>

@@ -1,8 +1,10 @@
 import connectDB from "lib/server/config/connectDB";
 import User from "lib/server/models/User";
 import verifyJWT from "lib/server/utils/verifyJWT";
+
 connectDB();
-export default async function (req: any, res: any) {
+
+export default async function handler(req: any, res: any) {
   console.log(`\x1b[33m\n[api/user]:::[${req.method}]`);
   switch (req.method) {
     case "GET":
@@ -15,6 +17,7 @@ export default async function (req: any, res: any) {
       break;
   }
 }
+
 const getUser = async (req: any, res: any) => {
   try {
     // verify

@@ -19,6 +19,7 @@ export default function Page() {
   // console.log("order : ", order);
 
   // if (!auth.accessToken || !order) return null;
+  if (!order) return null;
 
   return (
     <Main>

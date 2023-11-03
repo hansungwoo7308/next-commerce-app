@@ -4,7 +4,7 @@ import { styled } from "styled-components";
 export default function Orders({ orders }: any) {
   return (
     <Box>
-      {orders.map((order: any) => (
+      {orders?.map((order: any) => (
         <Order key={order._id} order={order} />
       ))}
     </Box>

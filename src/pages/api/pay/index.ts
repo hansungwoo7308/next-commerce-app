@@ -3,8 +3,10 @@ import Order from "lib/server/models/Order";
 import Product from "lib/server/models/Product";
 import User from "lib/server/models/User";
 import verifyJWT from "lib/server/utils/verifyJWT";
+
 connectDB();
-export default async function (req: any, res: any) {
+
+export default async function handler(req: any, res: any) {
   console.log("\x1b[32m\n[api/pay]:::[", req.method, "]");
   switch (req.method) {
     case "POST":

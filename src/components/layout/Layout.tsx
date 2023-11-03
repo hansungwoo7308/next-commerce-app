@@ -27,13 +27,13 @@ export default function Layout({ children }: any) {
       const credentials = { user: session.data.user };
       dispatch(setCredentials(credentials));
     }
-  }, [session.status]);
+  }, [session.status, dispatch]);
   useEffect(() => {
     // next-auth : session token based on jwt (cookie)
     // if (session.status === "authenticated") return;
     if (session) return;
     if (!auth.accessToken) refreshAuth(dispatch);
-  }, [auth.accessToken]);
+  }, [auth.accessToken, dispatch]);
 
   // cart
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function Layout({ children }: any) {
     if (!parsedCart.products.length) return console.log("8382912");
     // console.log({ parsedCart });
     dispatch(reloadCart(parsedCart));
-  }, []);
+  }, [dispatch]);
   useEffect(() => {
     // upload cart data from redux store to local storage
     if (!cart.products?.length) return;

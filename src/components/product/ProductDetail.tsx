@@ -1,5 +1,4 @@
 import ProductDetailWidget from "@/components/product/ProductDetailWidget";
-import ProductReviewImageSlider from "@/components/product/ProductReviewImageSlider";
 import Stars from "@/components/product/Stars";
 import SlickSlider from "@/components/performance/SlickSlider";
 import ProductReviews from "@/components/product/ProductReviews";
@@ -80,7 +79,7 @@ export default function ProductDetail({ product }: any) {
           <hr />
           {user?.role === "user" && (
             <div className="write-a-review">
-              <p>You can write this product's review</p>
+              <p>You can write this product&apos;s review</p>
               <button className="create-button" onClick={handleWriteReview}>
                 Write a review
               </button>

@@ -69,6 +69,7 @@ export default function Page({ orders }: any) {
   // }, [auth.accessToken]);
 
   // if (!orders.length) return null;
+  if (!orders.length) return null;
   return (
     <Main>
       <section>

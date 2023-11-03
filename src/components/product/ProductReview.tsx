@@ -38,7 +38,7 @@ export default function ProductReview({ product, review }: Props) {
       checkboxRef.current.classList.remove("active");
       dispatch(removeProductReviewId(review._id));
     }
-  }, [isCheck]);
+  }, [isCheck, dispatch]);
 
   // console.log({ review });
 

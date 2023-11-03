@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
-export default async function (req: any, res: any) {
+
+export default async function handler(req: any, res: any) {
   console.log("\x1b[32m[lib/server/verifyJWT]");
 
   // get the accessToken
