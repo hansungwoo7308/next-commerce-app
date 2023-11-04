@@ -19,8 +19,8 @@ export default function ImageViewer({ images }: Props) {
         <Image
           src={images[tabIndex].url || images[tabIndex].secure_url}
           alt={images[tabIndex].url || images[tabIndex].secure_url}
-          width={1000}
-          height={1000}
+          width={500}
+          height={500}
           onClick={() =>
             dispatch(
               setModal({
