@@ -50,10 +50,10 @@ export const authOptions: NextAuthOptions = {
     //   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     // }),
     NaverProvider({
-      clientId: process.env.NAVER_CLIENT_ID_LOCAL as string,
-      clientSecret: process.env.NAVER_CLIENT_SECRET_LOCAL as string,
-      // clientId: process.env.NAVER_CLIENT_ID as string,
-      // clientSecret: process.env.NAVER_CLIENT_SECRET as string,
+      // clientId: process.env.NAVER_CLIENT_ID_LOCAL as string,
+      // clientSecret: process.env.NAVER_CLIENT_SECRET_LOCAL as string,
+      clientId: process.env.NAVER_CLIENT_ID as string,
+      clientSecret: process.env.NAVER_CLIENT_SECRET as string,
     }),
   ],
   callbacks: {
