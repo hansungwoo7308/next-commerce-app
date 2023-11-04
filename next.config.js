@@ -4,7 +4,7 @@ const nextConfig = {
   reactStrictMode: false,
   env: {
     // domain
-    // BASE_URL: "https://next-commerce-app-psi.vercel.app/",
+    BASE_URL: "https://next-commerce-app-psi.vercel.app/",
 
     // [Database]
     // <mongodb>
