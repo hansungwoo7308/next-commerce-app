@@ -32,6 +32,7 @@ export const getProduct = async (req: any, res: any, next: any) => {
 
   const product = await Product.findById(req.query.id);
   if (!product) res.status(404).json({ message: "Not found" });
+
   res.status(200).json({ product });
 };
 export const deleteProduct = async (req: any, res: any) => {

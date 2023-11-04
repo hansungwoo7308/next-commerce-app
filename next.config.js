@@ -4,7 +4,7 @@ const nextConfig = {
   reactStrictMode: false,
   env: {
     // domain
-    BASE_URL: "https://next-commerce-7zidxgmsp-hansungwoo7308.vercel.app/",
+    BASE_URL: "https://next-commerce-app-psi.vercel.app/",
     // Database
     // mongodb
     MONGODB_URI: process.env.MONGODB_URI,
