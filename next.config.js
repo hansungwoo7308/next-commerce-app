@@ -5,6 +5,7 @@ const nextConfig = {
   env: {
     // domain
     BASE_URL: "https://next-commerce-app-psi.vercel.app/",
+    NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
 
     // [Database]
     // <mongodb>

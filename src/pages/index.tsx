@@ -46,6 +46,12 @@ const data = [
   },
 ];
 
+const DOMAIN =
+  process.env.NODE_ENV === "production"
+    ? process.env.NEXT_PUBLIC_BASE_URL
+    : // process.env.NODE_ENV==='development' ? process.env.NEXT_PUBLIC_BASE_URL:
+      process.env.NEXT_PUBLIC_ENV;
+
 export default function Home({ products }: any) {
   const { randomProducts, recentProducts } = products;
 
@@ -60,7 +66,8 @@ export default function Home({ products }: any) {
     text: product.name,
   }));
 
-  useEffect(() => console.log({ products }), []);
+  useEffect(() => console.log({ domain: DOMAIN }), []);
+  // useEffect(() => console.log({ products }), []);
 
   return (
     <>
