@@ -26,11 +26,16 @@ export async function getStaticPaths(context: any) {
 export async function getStaticProps(context: any) {
   const { id } = context.params;
   console.log(`\x1b[33m\n[pages/products/${id}]:::[getStaticProps]\x1b[30m`);
-  const response = await getData(`v2/products/${id}`);
-  const { product } = response.data;
+
+  await connectDB();
+
+  const product = await Product.findById(id);
+
+  // const response = await getData(`v2/products/${id}`);
+  // const { product } = response.data;
   // console.log({ product });
 
-  return { props: { product } };
+  return { props: { product: JSON.parse(JSON.stringify(product)) } };
 }
 
 // export async function getServerSideProps({ query }: any) {
