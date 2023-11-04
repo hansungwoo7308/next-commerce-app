@@ -206,7 +206,8 @@ const Main = styled.main`
     .best-sellers,
     .new-arrivals,
     .recommendations {
-      background-color: #333;
+      /* background-color: #333; */
+      background-color: #172f3e;
       padding: 3rem 1rem;
       > h1 {
         margin-bottom: 1rem;
