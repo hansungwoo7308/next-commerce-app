@@ -1,38 +1,29 @@
 export default class APIfeatures {
   queryProducts: any;
   queryString: any;
+  totalPages: number = 0;
+
   constructor(queryProducts: any, queryString: any) {
     this.queryProducts = queryProducts;
     this.queryString = queryString;
   }
+
   filter() {
     const { search, category, ratings, test } = this.queryString;
-    let query: any = {};
+    let filterConditions: any = {};
 
-    if (search) {
-      query.name = { $regex: search };
-      // this.queryProducts.find({ name: { $regex: search } });
-      // query = { ...query, name: { $regex: search } };
-    }
-    if (category && category !== "all") {
-      query.category = { $regex: category };
-      // if (category === "all") {
-      //   console.log({ category });
-      //   return this;
-      // }
-      // this.queryProducts.find({ category: { $regex: category } });
-      // query = { ...query, category: { $regex: category } };
-    }
+    if (search) filterConditions.name = { $regex: search };
+    if (category && category !== "all") filterConditions.category = { $regex: category };
     if (ratings) {
       const ratingsArray = ratings.split("+").map((v: string) => Number(v));
-      query.ratings = { $in: ratingsArray };
+      filterConditions.ratings = { $in: ratingsArray };
       // ratingsArray.map((value: any) => {
       //   this.queryProducts.find().or({ ratings: value });
       //   // this.queryProducts.find().or({ ratings: { $gte: value } });
       // });
     }
 
-    this.queryProducts.find(query);
+    this.queryProducts.find(filterConditions);
     // if (test) {
     //   const testArray = test.split("+");
     //   console.log({ testArray });
@@ -69,7 +60,7 @@ export default class APIfeatures {
   //   // this.queryProducts = this.queryProducts.find(output);
   //   return this;
   // }
-  paginate() {
+  async paginate() {
     // 요청된 페이지
     const page: number = Number(this.queryString.page) || 1;
     // 페이지 당 아이템
@@ -79,9 +70,15 @@ export default class APIfeatures {
     // const limit: number = Number(this.queryString.limit) || 3;
     // const skip: number = (page - 1) * limit;
     // console.log({ page, limit, skip });
+
     // paginate
     this.queryProducts = this.queryProducts.skip(skip).limit(limit);
-    // out
+    const totalDocs = await this.queryProducts.model.countDocuments(this.queryProducts.getQuery());
+    console.log({ totalDocs });
+    this.totalPages = Math.ceil(totalDocs / limit);
+
+    // console.log({ queryProducts: this.queryProducts, totalPages: this.totalPages });
+
     return this;
   }
   // paginate() {
@@ -99,6 +96,7 @@ export default class APIfeatures {
   //   // out
   //   return this;
   // }
+
   pagination() {
     // current page (ex : page1, page2, ...)
 
