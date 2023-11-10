@@ -6,28 +6,33 @@ export default class APIfeatures {
     this.queryString = queryString;
   }
   filter() {
-    // get
     const { search, category, ratings, test } = this.queryString;
-    // filter
+    let query: any = {};
+
     if (search) {
-      this.queryProducts.find({ name: { $regex: search } });
+      query.name = { $regex: search };
+      // this.queryProducts.find({ name: { $regex: search } });
+      // query = { ...query, name: { $regex: search } };
     }
     if (category && category !== "all") {
+      query.category = { $regex: category };
       // if (category === "all") {
       //   console.log({ category });
       //   return this;
       // }
-      this.queryProducts.find({ category: { $regex: category } });
+      // this.queryProducts.find({ category: { $regex: category } });
+      // query = { ...query, category: { $regex: category } };
     }
     if (ratings) {
-      // this.queryProducts.find({ ratings: Number(ratings) });
       const ratingsArray = ratings.split("+").map((v: string) => Number(v));
-      // console.log({ ratingsArray });
-      ratingsArray.map((value: any) => {
-        this.queryProducts.find().or({ ratings: value });
-        // this.queryProducts.find().or({ ratings: { $gte: value } });
-      });
+      query.ratings = { $in: ratingsArray };
+      // ratingsArray.map((value: any) => {
+      //   this.queryProducts.find().or({ ratings: value });
+      //   // this.queryProducts.find().or({ ratings: { $gte: value } });
+      // });
     }
+
+    this.queryProducts.find(query);
     // if (test) {
     //   const testArray = test.split("+");
     //   console.log({ testArray });
@@ -37,7 +42,6 @@ export default class APIfeatures {
     //   });
     // }
     // if (ratings) this.queryProducts.find({ ratings: { $regex: Number(ratings) } });
-    // out
     return this;
   }
   // filter() {
