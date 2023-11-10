@@ -53,7 +53,7 @@ export const getProducts = async (req: any, res: any, next: any) => {
   console.log({ query: req.query });
 
   // get the total count of products
-  const totalProductCount = await Product.countDocuments();
+  // const totalProductCount = await Product.countDocuments();
   // console.log({ totalProductCount });
 
   // make the queryInstance = Product.find({})

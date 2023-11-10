@@ -127,14 +127,6 @@ export default function Home({ products }: any) {
               </Link>
             </div>
           </div>
-          {/* <ul className="hero-category">
-            {products.map((product: any) => (
-              <li className="card">
-                <Image src={product.images[0].url} alt="alt" width={300} height={300} />
-                <h1>{product.name}</h1>
-              </li>
-            ))}
-          </ul> */}
           <div className="best-sellers">
             <h1>Best Sellers</h1>
             {randomProducts && (

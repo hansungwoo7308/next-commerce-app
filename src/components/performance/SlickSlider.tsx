@@ -71,6 +71,9 @@ export default function SlickSlider({ items, itemSize, sliderSize, actionType, s
 
   // console.log({ items });
 
+  if (!itemSize.width || !itemSize.height) {
+    return null;
+  }
   return (
     <Box style={{ height: sliderSize?.height || itemSize.height }}>
       <Slider ref={sliderRef} arrows={false} {...settings}>
@@ -125,9 +128,9 @@ const Box = styled.div`
       pointer-events: none;
       padding: 1rem;
     }
-  }
-  img {
-    cursor: pointer;
+    img {
+      cursor: pointer;
+    }
   }
   button:hover {
     background-color: initial;
@@ -142,6 +145,11 @@ const Box = styled.div`
       height: 100%;
       .slick-track {
         height: 100%;
+        .slick-slide {
+          height: 100%;
+          overflow: hidden;
+          /* border: 1px solid red; */
+        }
       }
     }
     .slick-dots {
