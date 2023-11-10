@@ -52,10 +52,6 @@ export const getProducts = async (req: any, res: any, next: any) => {
   console.log(`\x1b[32m\n<getProducts>`);
   console.log({ query: req.query });
 
-  // get the total count of products
-  // const totalProductCount = await Product.countDocuments();
-  // console.log({ totalProductCount });
-
   // create a instance
   const queryInstance = new APIfeatures(Product.find({}), req.query);
 
@@ -63,6 +59,7 @@ export const getProducts = async (req: any, res: any, next: any) => {
   // 쿼리의 필터조건설정
   await queryInstance.filter().paginate();
 
+  // excute the query
   const products = await queryInstance.queryProducts; // 쿼리
   const totalPages = queryInstance.totalPages;
 
@@ -72,6 +69,7 @@ export const getProducts = async (req: any, res: any, next: any) => {
   // const paginatedProducts = await queryInstance.queryProducts.clone(); // 쿼리 - 복사본(중복조회회피)
 
   // out
+  console.log({ totalPages });
   console.log({ products });
   res.status(200).json({ products, pages: totalPages });
 };
