@@ -19,7 +19,7 @@ export async function getServerSideProps({ req, query }: any) {
 
   // set the pagination conditions
   const ITEMS_PER_PAGE = 3; // 페이지 당 아이템 수
-  const page = req.query?.page || 1; // 요청된 페이지
+  const page = query.page || 1; // 요청된 페이지
   const skip = (page - 1) * ITEMS_PER_PAGE; // 스킵할 아이템 수
 
   // set the filter conditions
