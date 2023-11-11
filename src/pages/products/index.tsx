@@ -11,44 +11,42 @@ import { setLoading } from "lib/client/store/loadingSlice";
 import connectDB from "lib/server/config/connectDB";
 import Product from "lib/server/models/Product";
 
-export async function getServerSideProps(context: any) {
-  // export async function getServerSideProps({ query }: any) {
+// export async function getServerSideProps(context: any) {
+export async function getServerSideProps({ req, query }: any) {
+  console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
 
   await connectDB();
 
   // set the pagination conditions
   const ITEMS_PER_PAGE = 3; // 페이지 당 아이템 수
-  const page = context.req.query?.page || 1; // 요청된 페이지
+  const page = req.query?.page || 1; // 요청된 페이지
   const skip = (page - 1) * ITEMS_PER_PAGE; // 스킵할 아이템 수
 
   // set the filter conditions
-  let query: any = {};
-  if (context.req.query) {
-    const { search, category, ratings } = context.req.query;
-    if (search) query.name = { $regex: search };
-    if (category && category !== "all") query.category = { $regex: category };
+  let queryCondition: any = {};
+  if (query) {
+    const { search, category, ratings } = query;
+    if (search) queryCondition.name = { $regex: search };
+    if (category && category !== "all") queryCondition.category = { $regex: category };
     if (ratings) {
       const ratingsArray = ratings.split("+").map((v: string) => Number(v));
-      query.ratings = { $in: ratingsArray };
+      queryCondition.ratings = { $in: ratingsArray };
     }
   }
-
   console.log({ query });
+  console.log({ queryCondition });
 
   // excute the query
-  const productCount = await Product.countDocuments(query);
-  const products = await Product.find(query).skip(skip).limit(ITEMS_PER_PAGE);
+  const productCount = await Product.countDocuments(queryCondition);
+  const products = await Product.find(queryCondition).skip(skip).limit(ITEMS_PER_PAGE);
   const pageCount = Math.ceil(productCount / ITEMS_PER_PAGE);
 
   console.log({ products, productCount, productCountPerPage: ITEMS_PER_PAGE, pageCount });
+  return { props: { products: JSON.parse(JSON.stringify(products)), pageCount } };
 
   // const response = await getData(`v2/products`, query);
   // const { products, pageCount } = response.data;
-  return { props: { products: JSON.parse(JSON.stringify(products)), pageCount } };
-
-  // console.log({ query });
-  // const { page }: any = query;
-  // const response = await getData(`v2/products?page=${page}`);
+  // return { props: { products, pageCount } };
 }
 
 export default function Page({ products, pageCount }: any) {
