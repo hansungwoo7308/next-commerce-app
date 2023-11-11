@@ -5,7 +5,7 @@ import connectDB from "lib/server/config/connectDB";
 import Product from "lib/server/models/Product";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export async function getServerSideProps({ req, query }: any) {
   console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
@@ -20,6 +20,7 @@ export async function getServerSideProps({ req, query }: any) {
   ]).exec();
   const products = { randomProducts, recentProducts };
   // console.log({ products });
+
   return { props: { products: JSON.parse(JSON.stringify(products)) } };
 }
 
@@ -54,6 +55,8 @@ const DOMAIN =
 
 export default function Home({ products }: any) {
   const { randomProducts, recentProducts } = products;
+  const [isMobileEnv, setIsMobileEnv] = useState(false);
+  const [deviceEnv, setDeviceEnv] = useState("web");
 
   const randomItems = randomProducts.map((product: any) => ({
     id: product._id,
@@ -68,6 +71,27 @@ export default function Home({ products }: any) {
 
   useEffect(() => console.log({ domain: DOMAIN }), []);
   // useEffect(() => console.log({ products }), []);
+
+  // useEffect를 사용하여 화면 크기에 따라 설정 변경
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 500) {
+        setIsMobileEnv(true);
+        setDeviceEnv("mobile");
+      } else if (window.innerWidth <= 1000) {
+        setDeviceEnv("tablet");
+      } else {
+        setIsMobileEnv(false);
+        setDeviceEnv("web");
+      }
+    };
+
+    // 페이지 로드 및 화면 크기 변경 이벤트에 대한 이벤트 리스너 등록
+    handleResize(); // 페이지 로드시 초기 설정 적용
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // 빈 배열은 컴포넌트가 처음 마운트될 때만 실행되도록 함
 
   return (
     <>
@@ -134,10 +158,33 @@ export default function Home({ products }: any) {
                 items={randomItems}
                 itemSize={{ width: 300, height: 200 }}
                 actionType="VIEW_IMAGE"
-                settings={{
-                  slidesToShow: 3,
-                  slidesToScroll: 3,
-                }}
+                settings={
+                  deviceEnv === "mobile"
+                    ? {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                      }
+                    : deviceEnv === "tablet"
+                    ? {
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                      }
+                    : deviceEnv === "web"
+                    ? {
+                        slidesToShow: 3,
+                        slidesToScroll: 3,
+                      }
+                    : {}
+                  // isMobileEnv
+                  //   ? {
+                  //       slidesToShow: 1,
+                  //       slidesToScroll: 1,
+                  //     }
+                  //   : {
+                  //       slidesToShow: 3,
+                  //       slidesToScroll: 3,
+                  //     }
+                }
               />
             )}
           </div>
@@ -148,10 +195,33 @@ export default function Home({ products }: any) {
                 items={recentItems}
                 itemSize={{ width: 300, height: 200 }}
                 actionType="VIEW_IMAGE"
-                settings={{
-                  slidesToShow: 4,
-                  slidesToScroll: 4,
-                }}
+                settings={
+                  deviceEnv === "mobile"
+                    ? {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                      }
+                    : deviceEnv === "tablet"
+                    ? {
+                        slidesToShow: 2,
+                        slidesToScroll: 2,
+                      }
+                    : deviceEnv === "web"
+                    ? {
+                        slidesToShow: 4,
+                        slidesToScroll: 4,
+                      }
+                    : {}
+                  // isMobileEnv
+                  //   ? {
+                  //       slidesToShow: 1,
+                  //       slidesToScroll: 1,
+                  //     }
+                  //   : {
+                  //       slidesToShow: 4,
+                  //       slidesToScroll: 4,
+                  //     }
+                }
               />
             )}
           </div>
@@ -175,11 +245,11 @@ const Main = styled.main`
     .slick-slider {
       /* overflow-x: visible; */
       overflow-y: clip;
-    }
-    .slick-list {
-      overflow: visible;
-      .slick-track {
-        margin: 0;
+      .slick-list {
+        overflow: visible;
+        .slick-track {
+          margin: 0;
+        }
       }
     }
     .controller {

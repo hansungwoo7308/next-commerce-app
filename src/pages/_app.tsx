@@ -6,6 +6,7 @@ import { GlobalStyled } from "@/styles/global.styled";
 // import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "styled-components";
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>

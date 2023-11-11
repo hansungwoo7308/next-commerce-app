@@ -50,12 +50,8 @@ export async function getServerSideProps({ req, query }: any) {
 }
 
 export default function Page({ products, pageCount }: any) {
-  console.log({ products, pageCount });
+  // console.log({ products, pageCount });
 
-  // external
-  const dispatch = useDispatch();
-
-  // internal
   const router = useRouter();
   const [page, setPage]: any = useState(1);
 
@@ -65,11 +61,6 @@ export default function Page({ products, pageCount }: any) {
     router.push({ pathname: router.pathname, query: router.query });
   };
 
-  // if (!products?.length) {
-  //   dispatch(setLoading(true));
-  //   return null;
-  // }
-  dispatch(setLoading(false));
   return (
     <Main>
       <section>
