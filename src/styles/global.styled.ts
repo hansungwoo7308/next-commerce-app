@@ -33,7 +33,7 @@ export const GlobalStyled = createGlobalStyle`
 
   /* layout */
   body {
-    max-width:100vw;
+    /* max-width:100vw; */
     height:100%;
     background-color:var(--color-background);
     color:var(--color-foreground);

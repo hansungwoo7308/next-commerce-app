@@ -52,27 +52,64 @@ export const getProducts = async (req: any, res: any, next: any) => {
   console.log(`\x1b[32m\n<getProducts>`);
   console.log({ query: req.query });
 
-  // create a instance
-  const queryInstance = new APIfeatures(Product.find({}), req.query);
+  // set
+  const ITEMS_PER_PAGE = 3; // 페이지 당 아이템 수
+  const page = req.query.page || 1; // 요청된 페이지
+  const skip = (page - 1) * ITEMS_PER_PAGE; // 스킵할 아이템 수
+  // const query = req.query;
+  // console.log({ query });
+  let query: any = {};
+  const { search, category, ratings } = req.query;
+  if (search) query.name = { $regex: search };
+  if (category && category !== "all") query.category = { $regex: category };
+  if (ratings) {
+    const ratingsArray = ratings.split("+").map((v: string) => Number(v));
+    query.ratings = { $in: ratingsArray };
+  }
 
-  // apply filtering and paginating
-  // 쿼리의 필터조건설정
-  await queryInstance.filter().paginate();
+  console.log({ query });
 
-  // excute the query
-  const products = await queryInstance.queryProducts; // 쿼리
-  const totalPages = queryInstance.totalPages;
+  try {
+    const productCount = await Product.countDocuments(query);
+    const products = await Product.find(query).skip(skip).limit(ITEMS_PER_PAGE);
+    const pageCount = Math.ceil(productCount / ITEMS_PER_PAGE);
 
-  // paginate
-  // 완전히 새로운 작업을 할 때 clone method를 사용한다.
-  // 이 메서드는 쿼리객체(queryInstance.queryProducts===Product.find().filter())의 복사본을 생성한다.
-  // const paginatedProducts = await queryInstance.queryProducts.clone(); // 쿼리 - 복사본(중복조회회피)
-
-  // out
-  console.log({ totalPages });
-  console.log({ products });
-  res.status(200).json({ products, pages: totalPages });
+    console.log({ products, productCount, productCountPerPage: ITEMS_PER_PAGE, pageCount });
+    return res.status(200).json({
+      products,
+      pageCount,
+    });
+  } catch (error) {
+    console.log({ error });
+    return res.status(500).json({ message: "error...." });
+  }
 };
+// export const getProducts = async (req: any, res: any, next: any) => {
+//   // log
+//   console.log(`\x1b[32m\n<getProducts>`);
+//   console.log({ query: req.query });
+
+//   // create a instance
+//   const queryInstance = new APIfeatures(Product.find({}), req.query);
+
+//   // apply filtering and paginating
+//   // 쿼리의 필터조건설정
+//   await queryInstance.filter().paginate();
+
+//   // excute the query
+//   const products = await queryInstance.queryProducts; // 쿼리
+//   const totalPages = queryInstance.totalPages;
+
+//   // paginate
+//   // 완전히 새로운 작업을 할 때 clone method를 사용한다.
+//   // 이 메서드는 쿼리객체(queryInstance.queryProducts===Product.find().filter())의 복사본을 생성한다.
+//   // const paginatedProducts = await queryInstance.queryProducts.clone(); // 쿼리 - 복사본(중복조회회피)
+
+//   // out
+//   console.log({ totalPages });
+//   console.log({ products });
+//   res.status(200).json({ products, pages: totalPages });
+// };
 // export const getProductsWithPagination = async (req: any, res: any, next: any) => {
 //   console.log(`\x1b[32m\n<getProducts>`);
 //   // log

@@ -157,11 +157,11 @@ const Box = styled.form`
   .signin-with-naver {
     background-color: #03c75a;
   }
-  @media (width<1000px) {
+  /* @media (width<1000px) {
     width: 70%;
     max-width: 500px;
   }
   @media (width<500px) {
     width: 90%;
-  }
+  } */
 `;

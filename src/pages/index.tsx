@@ -78,7 +78,7 @@ export default function Home({ products }: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main>
-        <section className="banner">
+        {/* <section className="banner">
           <SlickSlider
             items={data}
             itemSize={{ width: 1000, height: 1000 }}
@@ -94,7 +94,7 @@ export default function Home({ products }: any) {
               // pauseOnHover:true
             }}
           />
-        </section>
+        </section> */}
         <section className="hero">
           <div className="hero-category">
             <div className="card">

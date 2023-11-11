@@ -9,15 +9,16 @@ import ProductManger from "@/components/product/ProductManger";
 
 export async function getServerSideProps({ query }: any) {
   const response = await getData(`v2/products`, query);
-  const { products, pages } = response.data;
-  return { props: { products, pages } };
+  const { products, pageCount } = response.data;
+  return { props: { products, pageCount } };
   // console.log({ query });
   // const { page }: any = query;
   // const response = await getData(`v2/products?page=${page}`);
 }
 
-export default function Page({ products, pages }: any) {
-  // console.log({ products, pages });
+export default function Page({ products, pageCount }: any) {
+  console.log({ products, pageCount });
+
   const router = useRouter();
   const [page, setPage]: any = useState(1);
 
@@ -38,7 +39,7 @@ export default function Page({ products, pages }: any) {
           </div>
           <div className="right">
             <Products products={products} />
-            <Pagination pages={pages} page={page} onChangePage={handleChangePage} />
+            <Pagination pageCount={pageCount} page={page} onChangePage={handleChangePage} />
           </div>
         </div>
       </section>

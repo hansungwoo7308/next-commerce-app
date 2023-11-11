@@ -9,7 +9,7 @@ export default class APIfeatures {
   }
 
   filter() {
-    const { search, category, ratings, test } = this.queryString;
+    const { search, category, ratings } = this.queryString;
     let filterConditions: any = {};
 
     if (search) filterConditions.name = { $regex: search };

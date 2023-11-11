@@ -1,8 +1,9 @@
 import { styled } from "styled-components";
-export default function Pagination({ pages, page, onChangePage }: any) {
-  const totalPages = Array(pages)
+export default function Pagination({ pageCount, page, onChangePage }: any) {
+  const totalPages = Array(pageCount)
     .fill(undefined)
     .map((v, i) => i + 1);
+
   return (
     <Box>
       <ul className="left">
@@ -33,7 +34,7 @@ export default function Pagination({ pages, page, onChangePage }: any) {
           <button
             onClick={(e) => {
               e.preventDefault();
-              if (page === pages) return;
+              if (page === pageCount) return;
               onChangePage(page + 1);
             }}
           >
@@ -41,7 +42,7 @@ export default function Pagination({ pages, page, onChangePage }: any) {
           </button>
         </li>
         <li>
-          <button onClick={() => onChangePage(pages)}>{">>"}</button>
+          <button onClick={() => onChangePage(pageCount)}>{">>"}</button>
         </li>
       </ul>
     </Box>
