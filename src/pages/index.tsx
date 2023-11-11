@@ -300,11 +300,19 @@ const Main = styled.main`
           overflow: hidden;
         }
       }
+      & {
+        @media (max-width: 500px) {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+      }
     }
     .best-sellers,
     .new-arrivals {
       .slick-slide {
         padding: 0 1rem;
+
         .img-outer {
           border-radius: 10px;
           overflow: hidden;
@@ -317,6 +325,11 @@ const Main = styled.main`
           img,
           .text {
             transition: all 0.5s;
+          }
+        }
+        & {
+          @media (max-width: 500px) {
+            padding: 0;
           }
         }
       }

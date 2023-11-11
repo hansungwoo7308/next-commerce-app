@@ -39,12 +39,11 @@ export default function Header() {
 
   return (
     <Box ref={headerRef}>
-      <section>
-        <Nav />
-      </section>
+      <Nav />
     </Box>
   );
 }
+
 const Box = styled.header`
   /* display: none; */
   > section {

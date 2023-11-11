@@ -15,29 +15,21 @@ export default function Nav() {
 
   const [isVisible, setIsVisible]: any = useState(false);
 
-  // useEffect(() => {
-  //   const handleClose = () => setIsVisible(false);
-  //   window.addEventListener("click", handleClose);
-  //   return () => window.removeEventListener("click", handleClose);
-  //   // window.addEventListener("click", () => setCategoryToggle(false));
-  //   // window.addEventListener("click", () => setShopToggle(false));
-  // }, []);
-
   return (
     <Box>
-      <div id="nav-belt-outer">
-        <div id="nav-belt">
-          <div id="nav-belt-left">
-            <div id="nav-logo">
+      <div className="nav-belt-outer section-outer">
+        <section className="nav-belt">
+          <div className="nav-belt-left">
+            <div className="nav-logo">
               <Link href={"/"}>
                 <IoIosGlobe size={30} />
               </Link>
             </div>
           </div>
-          <div id="nav-belt-center">
+          <div className="nav-belt-center">
             <Search />
           </div>
-          <div id="nav-belt-right">
+          <div className="nav-belt-right">
             <Link href={"/cart"}>
               <FaCartShopping /> <pre> ({cart.products?.length})</pre>
             </Link>
@@ -51,7 +43,7 @@ export default function Nav() {
             </div>
           </div> */}
           </div>
-        </div>
+        </section>
       </div>
       <div id="nav-main-outer">
         <div id="nav-main">
@@ -123,37 +115,34 @@ export default function Nav() {
 
 const Box = styled.nav`
   /* search, cart, order... */
-  #nav-belt-outer {
+  .nav-belt-outer {
     background-color: rgba(19, 25, 33, 0.7);
-  }
-  #nav-belt {
-    width: 80%;
-    max-width: 1000px;
-    height: 60px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    #nav-belt-left {
-      #nav-logo {
-        height: 100%;
-      }
-    }
-    #nav-belt-center {
-      background-color: black;
-      flex: 0.5;
-    }
-    #nav-belt-right {
-      height: 100%;
+    .nav-belt {
+      height: 60px;
       display: flex;
-      gap: 1rem;
-      > * {
-        /* Account Component */
-        height: 100%;
+      justify-content: space-between;
+      align-items: center;
+      .nav-belt-left {
+        .nav-logo {
+          height: 100%;
+        }
       }
-    }
-    a {
-      padding: 1rem;
+      .nav-belt-center {
+        background-color: black;
+        flex: 0.5;
+      }
+      .nav-belt-right {
+        height: 100%;
+        display: flex;
+        gap: 1rem;
+        > * {
+          /* Account Component */
+          height: 100%;
+        }
+      }
+      a {
+        padding: 1rem;
+      }
     }
   }
 

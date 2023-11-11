@@ -60,7 +60,7 @@ export default function ProductManger({ products }: any) {
 }
 
 const Box = styled.div`
-  min-width: 12rem;
+  /* min-width: 12rem; */
   padding: 1rem;
   display: flex;
   flex-direction: column;

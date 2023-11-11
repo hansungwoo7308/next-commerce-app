@@ -61,11 +61,13 @@ export default function Page({ products, pageCount }: any) {
     router.push({ pathname: router.pathname, query: router.query });
   };
 
+  const [deviceEnv, setDeviceEnv] = useState("web");
+
   return (
     <Main>
       <section>
         <div className="product-outer">
-          <div className="left">
+          <div className={`left mobile-env active`}>
             <Filters />
             <ProductManger products={products} />
           </div>
@@ -108,6 +110,23 @@ const Main = styled.main`
       flex-direction: column;
       gap: 1rem;
     }
+    > .mobile-env {
+      @media (width <= 500px) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 1px solid blue;
+        display: flex;
+        /* display: none; */
+        justify-content: center;
+        align-items: center;
+        &.active {
+          border: 1px solid purple;
+        }
+      }
+    }
     > .right {
       min-height: calc(100vh - 100px);
       flex: 1;
@@ -117,6 +136,14 @@ const Main = styled.main`
       gap: 1rem;
       /* border: 2px solid; */
       padding: 1rem;
+    }
+    & {
+      @media (width <= 800px) {
+        flex-direction: column;
+        > .left {
+          flex-direction: column;
+        }
+      }
     }
   }
   .product-manager-by-admin {

@@ -33,7 +33,6 @@ export const GlobalStyled = createGlobalStyle`
 
   /* layout */
   body {
-    /* max-width:100vw; */
     height:100%;
     background-color:var(--color-background);
     color:var(--color-foreground);
@@ -47,13 +46,13 @@ export const GlobalStyled = createGlobalStyle`
     /* font-size: 1rem; */
     /* background-color: rgba(0,0,0,0.5); */
     backdrop-filter: blur(3px);
-    /* border: 2px solid; */
-    section {
-      /* width: 80%; */
-      /* max-width:1000px; */
-      margin: auto;
-      /* outline: 2px dashed; */
-      
+    .section-outer{
+      /* border: 1px solid yellow; */
+      section {
+        max-width: 1000px;
+        margin: auto;
+        /* outline: 2px dashed green; */
+      }
     }
   }
   main {
@@ -68,7 +67,7 @@ export const GlobalStyled = createGlobalStyle`
       padding-top:100px;
       /* min-height: calc(100vh - var(--nav-height)); */
       margin: auto;
-      /* outline: 2px dashed; */
+      outline: 2px dashed;
     }
   }
 
