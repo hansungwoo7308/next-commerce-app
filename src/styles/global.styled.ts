@@ -32,8 +32,13 @@ export const GlobalStyled = createGlobalStyle`
   }
 
   /* layout */
+  html, body {
+    width: 100%;
+    min-width: fit-content;
+  }
   body {
-    height:100%;
+    /* height:100%; */
+    height: 100vh;
     background-color:var(--color-background);
     color:var(--color-foreground);
   }
@@ -56,6 +61,8 @@ export const GlobalStyled = createGlobalStyle`
     }
   }
   main {
+    /* width: 100%; */
+
     /* background-color: var(--color-page-background); */
     /* border: 2px solid; */
     overflow:hidden;
