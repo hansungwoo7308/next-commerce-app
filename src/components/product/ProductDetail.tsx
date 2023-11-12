@@ -8,7 +8,7 @@ import { postData } from "lib/public/fetchData";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { styled } from "styled-components";
-import ProductMangerFixed from "@/components/product/ProductMangerFixed";
+import ProductManagerFixed from "@/components/product/ProductManagerFixed";
 import { useEffect, useState } from "react";
 
 export default function ProductDetail({ product }: any) {
@@ -107,7 +107,7 @@ export default function ProductDetail({ product }: any) {
           <ProductReviews product={product} reviews={reviews} />
         </div>
       </div>
-      <ProductMangerFixed />
+      <ProductManagerFixed />
     </Box>
   );
 }

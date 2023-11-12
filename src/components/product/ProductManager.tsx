@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 
-export default function ProductManger({ products }: any) {
+export default function ProductManager({ products }: any) {
   const { selectedProductIds } = useSelector((store: any) => store.productManager);
   const dispatch = useDispatch();
   const router = useRouter();

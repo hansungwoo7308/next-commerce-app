@@ -8,7 +8,7 @@ import styled from "styled-components";
 //   product?: any;
 // }
 
-export default function ProductMangerFixed() {
+export default function ProductManagerFixed() {
   // exteranl
   const { selectedProductId, selectedProductReviewIds } = useSelector(
     (store: any) => store.productManager

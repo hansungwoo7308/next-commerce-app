@@ -3,13 +3,13 @@ import Pagination from "@/components/product/Pagination";
 import Products from "@/components/product/Products";
 import { getData } from "lib/public/fetchData";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
-import ProductManger from "@/components/product/ProductManger";
 import { useDispatch } from "react-redux";
 import { setLoading } from "lib/client/store/loadingSlice";
 import connectDB from "lib/server/config/connectDB";
 import Product from "lib/server/models/Product";
+import ProductManager from "@/components/product/ProductManager";
 
 // export async function getServerSideProps(context: any) {
 export async function getServerSideProps({ req, query }: any) {
@@ -61,15 +61,23 @@ export default function Page({ products, pageCount }: any) {
     router.push({ pathname: router.pathname, query: router.query });
   };
 
-  const [deviceEnv, setDeviceEnv] = useState("web");
+  const [isVisible, setIsVisible] = useState(false);
 
   return (
     <Main>
       <section>
         <div className="product-outer">
-          <div className={`left mobile-env active`}>
-            <Filters />
-            <ProductManger products={products} />
+          <div
+            className={`product-controller ${isVisible ? "visible" : ""}`}
+            onClick={() => setIsVisible(false)}
+          >
+            <div onClick={(e) => e.stopPropagation()}>
+              <Filters />
+              <ProductManager products={products} />
+            </div>
+          </div>
+          <div className="product-controller-opener">
+            <button onClick={() => setIsVisible(true)}>Filter</button>
           </div>
           <div className="right">
             <Products products={products} />
@@ -103,29 +111,16 @@ const Main = styled.main`
   .product-outer {
     height: 100%;
     display: flex;
-    > .left {
+    > .product-controller {
       padding: 1rem;
       min-width: 200px;
       display: flex;
       flex-direction: column;
       gap: 1rem;
     }
-    > .mobile-env {
-      @media (width <= 500px) {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border: 1px solid blue;
-        display: flex;
-        /* display: none; */
-        justify-content: center;
-        align-items: center;
-        &.active {
-          border: 1px solid purple;
-        }
-      }
+    > .product-controller-opener {
+      display: none;
+      border: 1px solid red;
     }
     > .right {
       min-height: calc(100vh - 100px);
@@ -137,13 +132,31 @@ const Main = styled.main`
       /* border: 2px solid; */
       padding: 1rem;
     }
-    & {
-      @media (width <= 800px) {
+    @media (width <= 800px) {
+      flex-direction: column;
+      .product-controller {
         flex-direction: column;
-        > .left {
-          flex-direction: column;
+      }
+      .product-controller {
+        display: none;
+        z-index: 10000;
+        &.visible {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          border: 1px solid blue;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
       }
+      .product-controller-opener {
+        display: block;
+      }
+    }
+    @media (width <= 500px) {
     }
   }
   .product-manager-by-admin {
