@@ -32,13 +32,12 @@ export const GlobalStyled = createGlobalStyle`
   }
 
   /* layout */
-  html, body {
+  html, body, main {
     width: 100%;
-    min-width: fit-content;
+    min-width:100vw;
+    /* width: 100vw; */
   }
   body {
-    /* height:100%; */
-    height: 100vh;
     background-color:var(--color-background);
     color:var(--color-foreground);
   }
@@ -48,9 +47,9 @@ export const GlobalStyled = createGlobalStyle`
     right:0;
     top:0;
     z-index:100;
+    backdrop-filter: blur(3px);
     /* font-size: 1rem; */
     /* background-color: rgba(0,0,0,0.5); */
-    backdrop-filter: blur(3px);
     .section-outer{
       /* border: 1px solid yellow; */
       section {
@@ -61,11 +60,9 @@ export const GlobalStyled = createGlobalStyle`
     }
   }
   main {
-    /* width: 100%; */
 
-    /* background-color: var(--color-page-background); */
-    /* border: 2px solid; */
     overflow:hidden;
+    /* border: 2px solid; */
     section {
       /* width: 80%; */
       width: 100%;

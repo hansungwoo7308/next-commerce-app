@@ -124,7 +124,7 @@ const Main = styled.main`
     }
     > .right {
       min-height: calc(100vh - 100px);
-      flex: 1;
+      /* flex: 1; */
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -152,15 +152,14 @@ const Main = styled.main`
       }
       .product-controller-opener {
         display: block;
-        position: sticky;
-        top: 0;
+        /* position: sticky;
+        top: 0; */
       }
     }
     @media (width <= 500px) {
     }
   }
-  .product-manager-by-admin {
-    /* border: 2px solid blue; */
+  /* .product-manager-by-admin {
     max-width: 100%;
     min-height: 100vh;
     width: 100%;
@@ -174,5 +173,5 @@ const Main = styled.main`
       max-width: 1000px;
       position: relative;
     }
-  }
+  } */
 `;
