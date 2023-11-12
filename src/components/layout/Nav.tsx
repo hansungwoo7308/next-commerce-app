@@ -199,6 +199,7 @@ const Box = styled.nav`
   }
   .nav-side {
     width: 365px;
+    max-width: 50%;
     position: absolute;
     top: 0;
     left: 0;

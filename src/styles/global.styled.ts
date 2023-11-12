@@ -1,11 +1,18 @@
 import { createGlobalStyle } from "styled-components";
 export const GlobalStyled = createGlobalStyle`
   /* init */
+  /* root 에서 간편하게 변경하기 위해서 변수를 사용한다. */
   :root {
-    /* color */
+    /* COLOR */
+
+    /* according to importance */
     --color-primary:green;
-    --color-background:#000;
-    --color-foreground:#ccc;
+
+    /* according to features */
+    --color-layout-background:#000;
+    --color-layout-color:#fff;
+
+
     --color-hover:#fff;
     --color-layout:coral;
     --color-button-background:#000;
@@ -15,12 +22,11 @@ export const GlobalStyled = createGlobalStyle`
     --color-form-background:#111;
     --color-background-hover:black;
     --color-foreground-hover:coral;
+
     /* component colors */
     --color-navigation-background:#000;
     --color-page-background:#222;
-    /* rem */
-    --rem-small:2rem;
-    --rem-medium:5rem;
+
     /* element sizes */
     --nav-height:50px;
   }
@@ -32,16 +38,16 @@ export const GlobalStyled = createGlobalStyle`
   }
 
   /* layout */
-  html, body, main {
+  html, body {
     width: 100vw;
-    /* min-width:100vw; */
-    /* width: 100vw; */
+    overflow-x: hidden;
   }
   body {
-    background-color:var(--color-background);
-    color:var(--color-foreground);
+    background-color:var(--color-layout-background);
+    color:var(--color-layout-color);
   }
   header {
+    width: 100vw;
     position:fixed;
     left:0;
     right:0;
@@ -60,7 +66,7 @@ export const GlobalStyled = createGlobalStyle`
     }
   }
   main {
-
+    width: 100vw;
     overflow:hidden;
     /* border: 2px solid; */
     section {
