@@ -6,6 +6,7 @@ import { GlobalStyled } from "@/styles/global.styled";
 // import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "styled-components";
+import Head from "next/head";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -25,6 +26,12 @@ export default function App({ Component, pageProps }: AppProps) {
         <Layout>
           <GlobalStyled />
           <ThemeProvider theme={{}}>
+            <Head>
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+              />
+            </Head>
             <Component {...pageProps} />
           </ThemeProvider>
         </Layout>

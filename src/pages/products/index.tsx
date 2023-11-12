@@ -135,10 +135,8 @@ const Main = styled.main`
     @media (width <= 800px) {
       flex-direction: column;
       .product-controller {
-        flex-direction: column;
-      }
-      .product-controller {
         display: none;
+        flex-direction: column;
         z-index: 10000;
         &.visible {
           position: fixed;
@@ -154,6 +152,8 @@ const Main = styled.main`
       }
       .product-controller-opener {
         display: block;
+        position: sticky;
+        top: 0;
       }
     }
     @media (width <= 500px) {
