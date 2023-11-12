@@ -33,8 +33,8 @@ export const GlobalStyled = createGlobalStyle`
 
   /* layout */
   html, body, main {
-    width: 100%;
-    min-width:100vw;
+    width: 100vw;
+    /* min-width:100vw; */
     /* width: 100vw; */
   }
   body {

@@ -132,7 +132,7 @@ const Main = styled.main`
       /* border: 2px solid; */
       padding: 1rem;
     }
-    @media (width <= 800px) {
+    @media (width <= 800px), (device-width <= 800px) {
       flex-direction: column;
       .product-controller {
         display: none;
