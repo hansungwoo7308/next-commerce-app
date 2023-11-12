@@ -8,11 +8,14 @@ import { getData } from "lib/public/fetchData";
 import { FaCartShopping } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import Search from "@/components/layout/Search";
+import NavSide from "@/components/layout/NavSide";
 // import { Squeeze as Hamburger } from "hamburger-react";
 
 export default function Nav() {
+  // external
   const cart = useSelector((store: any) => store.cart);
 
+  // internal
   const [isVisible, setIsVisible]: any = useState(false);
 
   return (
@@ -57,58 +60,7 @@ export default function Nav() {
           <div id="nav-main-right"></div>
         </div>
       </div>
-      <div
-        className={`nav-side-outer ${isVisible ? "visible" : ""}`}
-        onClick={() => setIsVisible(false)}
-      >
-        <div
-          className={`nav-side ${isVisible ? "visible" : ""}`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="nav-side-content">
-            <ul className="nav-side-menu">
-              <li className="nav-side-item">
-                <Link href={"/products"} onClick={() => setIsVisible(false)}>
-                  <div>All Products</div>
-                  <IoIosArrowForward />
-                </Link>
-              </li>
-              <li className="nav-side-item">
-                <Link href={"/products?category=furnitures"} onClick={() => setIsVisible(false)}>
-                  <div>Furnitures</div>
-                  <IoIosArrowForward />
-                </Link>
-              </li>
-              <li className="nav-side-item">
-                <Link href={"/products?category=cosmetics"} onClick={() => setIsVisible(false)}>
-                  <div>Cosmetics</div>
-                  <IoIosArrowForward />
-                </Link>
-              </li>
-              <li className="nav-side-item">
-                <Link href={"/products?category=fashion"} onClick={() => setIsVisible(false)}>
-                  <div>Fashion</div>
-                  <IoIosArrowForward />
-                </Link>
-              </li>
-            </ul>
-            <hr />
-            <button
-              onClick={async (e) => {
-                e.preventDefault();
-                try {
-                  const response = await getData("disconnect");
-                  console.log({ response });
-                } catch (error) {
-                  console.log({ error });
-                }
-              }}
-            >
-              Disconnect database
-            </button>
-          </div>
-        </div>
-      </div>
+      <NavSide isVisible={isVisible} setIsVisible={setIsVisible} />
     </Box>
   );
 }
@@ -171,61 +123,6 @@ const Box = styled.nav`
     }
     a {
       padding: 0.5rem;
-    }
-  }
-
-  /* side navigation */
-  .nav-side-outer {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    visibility: hidden;
-    transition: visibility 0.2s;
-
-    &.visible {
-      visibility: visible;
-    }
-    a {
-      justify-content: space-between;
-      &:hover {
-        color: initial;
-      }
-    }
-  }
-  .nav-side {
-    width: 365px;
-    max-width: 50%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    background-color: #fff;
-    color: #000;
-    padding: 3rem 2rem;
-    transform: translateX(-100%);
-    transition: transform 0.3s;
-    &.visible {
-      transform: translateX(0%);
-    }
-    .nav-side-item {
-      /* outline: 2px solid; */
-      a {
-        padding: 1rem;
-      }
-      svg {
-        color: #777;
-      }
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.1);
-        a svg {
-          color: #000;
-        }
-      }
     }
   }
 
