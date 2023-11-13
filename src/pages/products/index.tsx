@@ -60,9 +60,9 @@ export default function Page({ products, pageCount }: any) {
   return (
     <Main>
       <section>
-        <div className="product-outer">
+        <div className="products-page-section-inner">
           <ProductsWidget products={products} />
-          <div className="right">
+          <div className="products-outer">
             <Products products={products} />
             <Pagination pageCount={pageCount} page={page} onChangePage={handleChangePage} />
           </div>
@@ -91,24 +91,29 @@ export default function Page({ products, pageCount }: any) {
 }
 
 const Main = styled.main`
-  .product-outer {
+  .products-page-section-inner {
     height: 100%;
     display: flex;
+    gap: 1rem;
+    padding: 1rem;
 
-    > .right {
+    > * {
+      /* border: 1px solid red; */
+    }
+
+    > .products-outer {
       min-height: calc(100vh - 100px);
-      /* flex: 1; */
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       gap: 1rem;
-      /* border: 2px solid; */
-      padding: 1rem;
     }
-    @media (max-width: 800px) {
-      flex-direction: column;
+  }
 
-      .product-widget-background {
+  @media (max-width: 800px) {
+    .products-page-section-inner {
+      flex-direction: column;
+      .product-widgets-background {
         display: none;
         flex-direction: column;
         gap: 1rem;
@@ -125,7 +130,7 @@ const Main = styled.main`
           bottom: 0;
         }
       }
-      .product-widget-opener {
+      .product-widgets-opener {
         display: block;
         padding: 0 1rem;
         background-color: #333;
@@ -134,8 +139,9 @@ const Main = styled.main`
         top: 0; */
       }
     }
-    @media (width <= 500px) {
-    }
+  }
+
+  @media (width <= 500px) {
   }
   /* .product-manager-by-admin {
     max-width: 100%;

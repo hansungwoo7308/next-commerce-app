@@ -24,7 +24,7 @@ export default function Header() {
         // hidden
         headerRef.current.style.transform = "translateY(-300%)";
         headerRef.current.style.opacity = "0";
-        headerRef.current.style.transition = "all 1s";
+        headerRef.current.style.transition = "transform 1s, opacity 1s";
         dispatch(setBackground(false));
       }
       // scroll up : previous > latest
@@ -32,7 +32,7 @@ export default function Header() {
         // visible
         headerRef.current.style.transform = "translateY(0%)";
         headerRef.current.style.opacity = "1";
-        headerRef.current.style.transition = "all 1s";
+        headerRef.current.style.transition = "transform 1s, opacity 1s";
       }
     });
   }, [previous, dispatch]);

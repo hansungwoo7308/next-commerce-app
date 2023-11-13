@@ -26,16 +26,18 @@ export default function Modal() {
   const { selectedProductId, selectedProductReviewIds } = useSelector(
     (store: any) => store.productManager
   );
-  const router = useRouter();
   const dispatch = useDispatch();
 
   const handleClose = () => dispatch(setModal({ active: false }));
+
+  // internal
+  const router = useRouter();
 
   if (!active) return null;
   if (type === "VIEW_IMAGE") {
     return (
       <Background onClick={handleClose}>
-        <Box style={{ minWidth: "500px" }} onClick={(e) => e.stopPropagation()}>
+        <Box className="view-image" onClick={(e) => e.stopPropagation()}>
           <Image src={src} alt="alt" width={500} height={500} />
         </Box>
       </Background>
@@ -272,7 +274,19 @@ const Background = styled.div`
   outline: 5px solid purple;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 100;
+
+  .view-image {
+    width: 70vw;
+    height: 70vh;
+  }
+
+  @media (width <= 500px) {
+    .view-image {
+      width: 90vw;
+    }
+  }
 `;
+
 const Box = styled.div`
   background-color: #eee;
   color: #000;
@@ -332,9 +346,6 @@ const Box = styled.div`
       padding: 1rem;
       border-radius: 5px;
     }
-  }
-  > .modal-image {
-    min-width: 500px;
   }
 
   /* review */

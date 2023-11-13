@@ -17,7 +17,7 @@ export default function ProductsWidget({ products }: any) {
       <div
         // mobile, tablet 사이즈의 뷰포트일 경우(Depended on CSS Media Query),
         // 클릭이 된 경우(Depended on Flag State),
-        className={`product-widget-background ${isClicked ? "visible" : ""}`}
+        className={`product-widgets-background ${isClicked ? "visible" : ""}`}
         onClick={() => setIsClicked(false)}
       >
         <div onClick={(e) => e.stopPropagation()}>
@@ -28,7 +28,7 @@ export default function ProductsWidget({ products }: any) {
           ) : null}
         </div>
       </div>
-      <div className="product-widget-opener">
+      <div className="product-widgets-opener">
         <button onClick={() => handleClick("filter")}>Filter</button>
         <button onClick={() => handleClick("manager")}>Manager</button>
       </div>
@@ -38,14 +38,13 @@ export default function ProductsWidget({ products }: any) {
 
 const Box = styled.div`
   /* border: 1px solid coral; */
-  .product-widget-background {
-    padding: 1rem;
+  .product-widgets-background {
     min-width: 200px;
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
-  .product-widget-opener {
+  .product-widgets-opener {
     display: none;
     text-align: end;
   }

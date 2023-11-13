@@ -116,19 +116,15 @@ const Box = styled.div`
   gap: 1rem;
   padding: 1rem;
 
-  /* public */
-  pre {
-    white-space: pre-wrap;
-  }
-
-  /* children */
   > * {
     border: 1px solid;
     border-radius: 10px;
     padding: 1rem;
     background-color: #333;
+    pre {
+      white-space: pre-wrap;
+    }
   }
-
   > .middle {
     display: flex;
     flex-direction: column;

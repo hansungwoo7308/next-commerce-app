@@ -56,7 +56,7 @@ export default function ProductDetailWidget({ product }: Props) {
   // }, [cart]);
 
   return (
-    <Box className="widget">
+    <Box className="product-detail-widget">
       <ImageViewer images={images} />
 
       <div className="product-detail-info">
