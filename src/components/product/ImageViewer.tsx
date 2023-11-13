@@ -14,7 +14,7 @@ export default function ImageViewer({ images }: Props) {
   const dispatch = useDispatch();
 
   return (
-    <Box>
+    <Box className="image-viewer">
       <div className="selected-image">
         <Image
           src={images[tabIndex].url || images[tabIndex].secure_url}
@@ -64,8 +64,7 @@ const Box = styled.div`
   flex-direction: column;
   gap: 1rem;
   .selected-image {
-    width: 25rem;
-    height: 25rem;
+    height: 20rem;
   }
   .unselected-images {
     display: flex;

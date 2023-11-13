@@ -57,10 +57,9 @@ export default function ProductDetailWidget({ product }: Props) {
 
   return (
     <Box className="widget">
-      <div className="left">
-        <ImageViewer images={images} />
-      </div>
-      <div className="right">
+      <ImageViewer images={images} />
+
+      <div className="product-detail-info">
         <div className="product-titles">
           <div className="product-name-and-price">
             <h1>{name}</h1>
@@ -81,19 +80,22 @@ export default function ProductDetailWidget({ product }: Props) {
             </div>
           </div>
         </div>
-        <hr />
+        <Partition className="partition" />
+
         <div className="description">
           <p>category : {category}</p>
           <p>seller : {seller}</p>
           <p>stock : {stock ? stock : "out stock"}</p>
           {/* <p>stock : {stock ? "in stock" : "out stock"}</p> */}
         </div>
-        <hr />
+        <Partition className="partition" />
+
         <div className="delivery">
           <p>Delivery : Free Shipping (CJ 대한통운)</p>
           <small>제주,도서지역 추가 3,000원 / 도서산간지역 추가배송비 발생됩니다</small>
         </div>
-        <hr />
+        <Partition className="partition" />
+
         <Option
           product={product}
           selectedOptions={selectedOptions}
@@ -141,18 +143,27 @@ export default function ProductDetailWidget({ product }: Props) {
     </Box>
   );
 }
+
+const Partition = styled.div``;
+
 const Box = styled.div`
   display: flex;
-  > * {
-    padding: 1rem;
+  gap: 1rem;
+
+  .image-viewer {
+    flex: 1;
   }
-  > .left {
-  }
-  > .right {
+
+  .product-detail-info {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+
+    .partition {
+      border-top: 1px solid;
+      margin: 1rem 0;
+    }
+
     > .product-titles {
       > .product-name-and-price {
         display: flex;
@@ -172,11 +183,13 @@ const Box = styled.div`
         justify-content: space-between;
       }
     }
-    > .controller {
-      /* flex: 1; */
+    .controller {
+      flex: 1;
       display: flex;
       justify-content: end;
+      align-items: end;
       gap: 1rem;
+      padding: 1rem 0 0 0;
       button {
         padding: 1rem;
         display: flex;
@@ -186,6 +199,12 @@ const Box = styled.div`
           cursor: not-allowed;
         }
       }
+    }
+  }
+
+  @media (width <= 800px) {
+    flex-direction: column;
+    .description {
     }
   }
 `;

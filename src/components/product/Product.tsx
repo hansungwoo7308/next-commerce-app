@@ -139,6 +139,7 @@ export default function Product({ product }: any) {
             dicta natus eum, soluta nisi laborum?
           </div>
         </div>
+        <Partition className="partition" />
         <div className="right">
           {/* <div className="stock">{stock > 0 ? <h6>Stock ({stock}) </h6> : <h6>Sold Out</h6>}</div> */}
           <h3 className="price">${price}</h3>
@@ -160,15 +161,15 @@ export default function Product({ product }: any) {
   );
 }
 
+const Partition = styled.div``;
+
 const Box = styled.li`
   border: 1px solid;
   border-radius: 10px;
   display: flex;
-  /* flex-direction: column; */
-  /* justify-content: space-between; */
   overflow: hidden;
   background-color: #333;
-  > .image {
+  .image {
     width: 10rem;
     position: relative;
     .checkbox {
@@ -181,10 +182,13 @@ const Box = styled.li`
       /* object-position: top; */
     }
   }
-  > .description {
+  .partition {
+    border-left: 1px solid;
+    margin: 0 1rem;
+  }
+  .description {
     flex: 1;
     display: flex;
-    /* flex-direction: column; */
     padding: 1rem;
     > * {
       /* border: 2px solid hotpink; */
@@ -200,7 +204,7 @@ const Box = styled.li`
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border-left: 1px solid;
+      /* border-left: 1px solid; */
       padding-left: 1rem;
       .price {
         text-align: end;
@@ -217,6 +221,25 @@ const Box = styled.li`
       button {
         padding: 0.5rem;
         border-radius: 3px;
+      }
+    }
+  }
+  @media (max-width: 800px) {
+    flex-direction: column;
+    .image {
+      width: 100%;
+      img {
+        height: 10rem;
+      }
+    }
+    .partition {
+      border-top: 1px solid;
+      margin: 1rem 0;
+    }
+    .description {
+      flex-direction: column;
+      .right {
+        flex-direction: row;
       }
     }
   }

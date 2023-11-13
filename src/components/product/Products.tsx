@@ -2,7 +2,6 @@ import Product from "@/components/product/Product";
 import { styled } from "styled-components";
 
 export default function Products({ products }: any) {
-  // const [selectedProductIds, setSelectedProductIds] = useState([]);
   return (
     <Box>
       <ul>

@@ -1,14 +1,10 @@
 import Pagination from "@/components/product/Pagination";
 import Products from "@/components/product/Products";
-import { getData } from "lib/public/fetchData";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { styled } from "styled-components";
-import { useDispatch } from "react-redux";
-import { setLoading } from "lib/client/store/loadingSlice";
 import connectDB from "lib/server/config/connectDB";
 import Product from "lib/server/models/Product";
-import { setBackground } from "lib/client/store/backgroundSlice";
 import ProductsWidget from "@/components/product/ProductsWidget";
 
 // export async function getServerSideProps(context: any) {
@@ -51,9 +47,6 @@ export async function getServerSideProps({ req, query }: any) {
 
 export default function Page({ products, pageCount }: any) {
   // console.log({ products, pageCount });
-
-  // external
-  const dispatch = useDispatch();
 
   const router = useRouter();
   const [page, setPage]: any = useState(1);
@@ -114,6 +107,7 @@ const Main = styled.main`
     }
     @media (max-width: 800px) {
       flex-direction: column;
+
       .product-widget-background {
         display: none;
         flex-direction: column;
@@ -122,7 +116,6 @@ const Main = styled.main`
         justify-content: center;
         align-items: center;
         background-color: rgba(0, 0, 0, 0.8);
-        /* padding: 0; */
         &.visible {
           display: flex;
           position: fixed;
@@ -130,11 +123,13 @@ const Main = styled.main`
           left: 0;
           right: 0;
           bottom: 0;
-          border: 1px solid blue;
         }
       }
       .product-widget-opener {
         display: block;
+        padding: 0 1rem;
+        background-color: #333;
+
         /* position: sticky;
         top: 0; */
       }

@@ -43,9 +43,7 @@ export default function ProductDetail({ product }: any) {
 
   return (
     <Box className="product-detail">
-      <div className="top">
-        <ProductDetailWidget product={product} />
-      </div>
+      <ProductDetailWidget product={product} />
       {/* <div className="middle">
         <div className="product-description">
           <h1>Product Description</h1>
@@ -113,11 +111,10 @@ export default function ProductDetail({ product }: any) {
 }
 
 const Box = styled.div`
-  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  /* border: 2px solid green; */
+  padding: 1rem;
 
   /* public */
   pre {
@@ -131,8 +128,7 @@ const Box = styled.div`
     padding: 1rem;
     background-color: #333;
   }
-  > .top {
-  }
+
   > .middle {
     display: flex;
     flex-direction: column;

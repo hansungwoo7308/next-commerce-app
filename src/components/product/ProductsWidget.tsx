@@ -37,8 +37,7 @@ export default function ProductsWidget({ products }: any) {
 }
 
 const Box = styled.div`
-  padding: 0.5rem;
-  border: 1px solid coral;
+  /* border: 1px solid coral; */
   .product-widget-background {
     padding: 1rem;
     min-width: 200px;
