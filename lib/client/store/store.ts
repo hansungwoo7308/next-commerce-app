@@ -9,10 +9,12 @@ import { ordersSlice } from "lib/client/store/ordersSlice";
 import { notifySlice } from "lib/client/store/notifySlice";
 import { userApiSlice } from "lib/client/store/userApiSlice";
 import { backgroundSlice } from "lib/client/store/backgroundSlice";
+import { childrenSlice } from "lib/client/store/childrenSlice";
 
 export const store = configureStore({
   reducer: {
     background: backgroundSlice.reducer,
+    // children: childrenSlice.reducer,
     loading: loadingSlice.reducer,
     auth: authSlice.reducer,
     modal: modalSlice.reducer,

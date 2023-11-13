@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { FaCircleUser } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { styled } from "styled-components";
@@ -99,7 +100,9 @@ export default function AccountIcon() {
   }
   return (
     <Box>
-      <button className="account-button">Account</button>
+      <button className="account-icon">
+        <FaCircleUser size={25} />
+      </button>
       <div className="toggle">
         <div className="toggle-arrow" />
         <Link href={"/auth/signin"}>Sign in</Link>
@@ -175,8 +178,11 @@ const Box = styled.div`
   }
 
   /* when unauthorized */
-  > .account-button {
+  > .account-icon {
     height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
     &:hover {
       color: #fff;
     }

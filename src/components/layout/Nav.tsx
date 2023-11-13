@@ -86,7 +86,6 @@ const Box = styled.nav`
       .nav-belt-right {
         height: 100%;
         display: flex;
-        gap: 1rem;
         > * {
           /* Account Component */
           height: 100%;

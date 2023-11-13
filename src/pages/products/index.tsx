@@ -1,4 +1,3 @@
-import Filters from "@/components/product/Filters";
 import Pagination from "@/components/product/Pagination";
 import Products from "@/components/product/Products";
 import { getData } from "lib/public/fetchData";
@@ -9,7 +8,8 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "lib/client/store/loadingSlice";
 import connectDB from "lib/server/config/connectDB";
 import Product from "lib/server/models/Product";
-import ProductManager from "@/components/product/ProductManager";
+import { setBackground } from "lib/client/store/backgroundSlice";
+import ProductsWidget from "@/components/product/ProductsWidget";
 
 // export async function getServerSideProps(context: any) {
 export async function getServerSideProps({ req, query }: any) {
@@ -52,6 +52,9 @@ export async function getServerSideProps({ req, query }: any) {
 export default function Page({ products, pageCount }: any) {
   // console.log({ products, pageCount });
 
+  // external
+  const dispatch = useDispatch();
+
   const router = useRouter();
   const [page, setPage]: any = useState(1);
 
@@ -61,24 +64,11 @@ export default function Page({ products, pageCount }: any) {
     router.push({ pathname: router.pathname, query: router.query });
   };
 
-  const [isVisible, setIsVisible] = useState(false);
-
   return (
     <Main>
       <section>
         <div className="product-outer">
-          <div
-            className={`product-controller ${isVisible ? "visible" : ""}`}
-            onClick={() => setIsVisible(false)}
-          >
-            <div onClick={(e) => e.stopPropagation()}>
-              <Filters />
-              <ProductManager products={products} />
-            </div>
-          </div>
-          <div className="product-controller-opener">
-            <button onClick={() => setIsVisible(true)}>Filter</button>
-          </div>
+          <ProductsWidget products={products} />
           <div className="right">
             <Products products={products} />
             <Pagination pageCount={pageCount} page={page} onChangePage={handleChangePage} />
@@ -111,17 +101,7 @@ const Main = styled.main`
   .product-outer {
     height: 100%;
     display: flex;
-    > .product-controller {
-      padding: 1rem;
-      min-width: 200px;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    > .product-controller-opener {
-      display: none;
-      border: 1px solid red;
-    }
+
     > .right {
       min-height: calc(100vh - 100px);
       /* flex: 1; */
@@ -134,23 +114,26 @@ const Main = styled.main`
     }
     @media (max-width: 800px) {
       flex-direction: column;
-      .product-controller {
+      .product-widget-background {
         display: none;
         flex-direction: column;
+        gap: 1rem;
         z-index: 10000;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.8);
+        /* padding: 0; */
         &.visible {
+          display: flex;
           position: fixed;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
           border: 1px solid blue;
-          display: flex;
-          justify-content: center;
-          align-items: center;
         }
       }
-      .product-controller-opener {
+      .product-widget-opener {
         display: block;
         /* position: sticky;
         top: 0; */

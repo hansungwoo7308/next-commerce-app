@@ -56,7 +56,7 @@ export default function Search() {
 }
 
 const Box = styled.form`
-  flex: 1;
+  /* flex: 1; */
   display: flex;
   /* gap: 0.5rem; */
   border-radius: 5px;
@@ -72,6 +72,11 @@ const Box = styled.form`
     background-color: #67b34bec;
     &:hover {
       background-color: #67b34bb3;
+    }
+  }
+  @media (max-width: 500px) {
+    input {
+      max-width: 100px;
     }
   }
 `;

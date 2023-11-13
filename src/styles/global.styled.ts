@@ -67,7 +67,7 @@ export const GlobalStyled = createGlobalStyle`
   }
   main {
     width: 100vw;
-    overflow:hidden;
+    overflow-x:hidden;
     /* border: 2px solid; */
     section {
       /* width: 80%; */
