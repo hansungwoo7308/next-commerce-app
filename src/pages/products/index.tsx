@@ -5,7 +5,7 @@ import { useState } from "react";
 import { styled } from "styled-components";
 import connectDB from "lib/server/config/connectDB";
 import Product from "lib/server/models/Product";
-import ProductsWidget from "@/components/product/ProductsWidget";
+import ProductsWidgets from "@/components/product/ProductsWidgets";
 
 // export async function getServerSideProps(context: any) {
 export async function getServerSideProps({ req, query }: any) {
@@ -61,7 +61,7 @@ export default function Page({ products, pageCount }: any) {
     <Main>
       <section>
         <div className="products-page-section-inner">
-          <ProductsWidget products={products} />
+          <ProductsWidgets products={products} />
           <div className="products-outer">
             <Products products={products} />
             <Pagination pageCount={pageCount} page={page} onChangePage={handleChangePage} />
@@ -110,33 +110,45 @@ const Main = styled.main`
     }
   }
 
+  .product-widgets-outer.MOBILE {
+    display: none;
+  }
+
   @media (max-width: 800px) {
     .products-page-section-inner {
       flex-direction: column;
-      .product-widgets-background {
-        display: none;
-        flex-direction: column;
-        gap: 1rem;
-        z-index: 10000;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(0, 0, 0, 0.8);
-        &.visible {
-          display: flex;
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-        }
-      }
-      .product-widgets-opener {
-        display: block;
-        padding: 0 1rem;
-        background-color: #333;
 
-        /* position: sticky;
-        top: 0; */
+      .product-widgets.WEB {
+        display: none;
+      }
+      .product-widgets-outer.MOBILE {
+        display: block;
+
+        .product-widgets-background {
+          display: none;
+          flex-direction: column;
+          gap: 1rem;
+          z-index: 10000;
+          justify-content: center;
+          align-items: center;
+          background-color: rgba(0, 0, 0, 0.8);
+          &.visible {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+          }
+        }
+        .product-widgets-opener {
+          display: block;
+          padding: 0 1rem;
+          background-color: #333;
+
+          /* position: sticky;
+          top: 0; */
+        }
       }
     }
   }
