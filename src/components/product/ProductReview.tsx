@@ -45,7 +45,7 @@ export default function ProductReview({ product, review }: Props) {
   if (review.length === 0) return null;
   return (
     <Box
-      className="review"
+      className="product-review"
       onClick={() => {
         if (user?.role !== "admin")
           dispatch(setModal({ active: true, type: "VIEW_REVIEW", review }));
@@ -69,7 +69,7 @@ export default function ProductReview({ product, review }: Props) {
         </div>
       </div>
       <div className="review-image">
-        {review.images.length > 0 && (
+        {review.images.length && (
           <Image src={review.images[0]?.url} alt="alt" width={200} height={200} />
         )}
       </div>

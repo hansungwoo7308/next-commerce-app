@@ -1,10 +1,11 @@
-import SlickSlider from "@/components/performance/SlickSlider";
-import ProductReviews from "@/components/product/ProductReviews";
-import Stars from "@/components/product/Stars";
 import { setModal } from "lib/client/store/modalSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import Stars from "@/components/product/Stars";
+
+import ProductReviews from "@/components/product/ProductReviews";
+import ProductDetailReviewsImages from "@/components/product/detail/ProductDetailReviewsImages";
 
 export default function ProductDetailReviews({ product }: any) {
   // external
@@ -14,16 +15,6 @@ export default function ProductDetailReviews({ product }: any) {
 
   // internal
   const [reviewRatingsAverage, setReviewRatingsAverage]: any = useState();
-
-  const items = product.reviews
-    ?.filter((review: any) => review.images.length !== 0)
-    .map((review: any) => ({
-      id: review._id,
-      url: review.images[0]?.url,
-      text: review.name,
-    }));
-  // 내림차순 정렬
-  const sortedItems = items.sort((a: any, b: any) => items.indexOf(b) - items.indexOf(a));
 
   const handleWriteReview = () => {
     dispatch(setModal({ active: true, type: "CREATE_PRODUCT_REVIEW", id: product._id }));
@@ -51,7 +42,7 @@ export default function ProductDetailReviews({ product }: any) {
             <p>No reviews</p>
           )}
         </div>
-        <hr />
+        <Partition />
         {user?.role === "user" && (
           <div className="write-a-review">
             <p>You can write this product&apos;s review</p>
@@ -62,28 +53,19 @@ export default function ProductDetailReviews({ product }: any) {
         )}
       </div>
       <div className="reviews-outer">
-        <div className="reviews-with-images">
-          <h1>Reviews with images</h1>
-          <SlickSlider
-            items={sortedItems}
-            itemSize={{
-              width: 300,
-              height: 200,
-            }}
-            settings={{
-              slidesToShow: 3,
-              slidesToScroll: 3,
-            }}
-            actionType="VIEW_IMAGE"
-          />
-        </div>
-        <hr />
+        <ProductDetailReviewsImages product={product} />
+        <Partition />
         <h1>Reviews</h1>
         <ProductReviews product={product} reviews={reviews} />
       </div>
     </Box>
   );
 }
+
+const Partition = styled.div`
+  border-top: 1px solid;
+  margin: 1rem 0;
+`;
 
 const Box = styled.div`
   display: flex;
@@ -100,7 +82,6 @@ const Box = styled.div`
     width: 30%;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
 
     .reviews-ratings {
       display: flex;
@@ -113,7 +94,7 @@ const Box = styled.div`
     width: 70%;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    /* gap: 1rem; */
   }
 
   .slick-track {

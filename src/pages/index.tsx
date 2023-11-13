@@ -47,15 +47,14 @@ const data = [
   },
 ];
 
-const DOMAIN =
-  process.env.NODE_ENV === "production"
-    ? process.env.NEXT_PUBLIC_BASE_URL
-    : // process.env.NODE_ENV==='development' ? process.env.NEXT_PUBLIC_BASE_URL:
-      process.env.NEXT_PUBLIC_ENV;
+// const DOMAIN =
+//   process.env.NODE_ENV === "production"
+//     ? process.env.NEXT_PUBLIC_BASE_URL
+//     : // process.env.NODE_ENV==='development' ? process.env.NEXT_PUBLIC_BASE_URL:
+//       process.env.NEXT_PUBLIC_ENV;
 
 export default function Home({ products }: any) {
   const { randomProducts, recentProducts } = products;
-  const [isMobileEnv, setIsMobileEnv] = useState(false);
   const [deviceEnv, setDeviceEnv] = useState("web");
 
   const randomItems = randomProducts.map((product: any) => ({
@@ -69,19 +68,16 @@ export default function Home({ products }: any) {
     text: product.name,
   }));
 
-  useEffect(() => console.log({ domain: DOMAIN }), []);
+  // useEffect(() => console.log({ domain: DOMAIN }), []);
   // useEffect(() => console.log({ products }), []);
 
-  // useEffect를 사용하여 화면 크기에 따라 설정 변경
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 500) {
-        setIsMobileEnv(true);
         setDeviceEnv("mobile");
       } else if (window.innerWidth <= 1000) {
         setDeviceEnv("tablet");
       } else {
-        setIsMobileEnv(false);
         setDeviceEnv("web");
       }
     };
@@ -91,7 +87,7 @@ export default function Home({ products }: any) {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []); // 빈 배열은 컴포넌트가 처음 마운트될 때만 실행되도록 함
+  }, []);
 
   return (
     <>
@@ -175,15 +171,6 @@ export default function Home({ products }: any) {
                         slidesToScroll: 3,
                       }
                     : {}
-                  // isMobileEnv
-                  //   ? {
-                  //       slidesToShow: 1,
-                  //       slidesToScroll: 1,
-                  //     }
-                  //   : {
-                  //       slidesToShow: 3,
-                  //       slidesToScroll: 3,
-                  //     }
                 }
               />
             )}
@@ -212,15 +199,6 @@ export default function Home({ products }: any) {
                         slidesToScroll: 4,
                       }
                     : {}
-                  // isMobileEnv
-                  //   ? {
-                  //       slidesToShow: 1,
-                  //       slidesToScroll: 1,
-                  //     }
-                  //   : {
-                  //       slidesToShow: 4,
-                  //       slidesToScroll: 4,
-                  //     }
                 }
               />
             )}

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { getData } from "lib/public/fetchData";
-import ProductDetail from "@/components/product/ProductDetail";
+import ProductDetail from "@/components/product/detail/ProductDetail";
 import Product from "lib/server/models/Product";
 import connectDB from "lib/server/config/connectDB";
 
@@ -61,7 +61,7 @@ export default function Page({ product }: any) {
 }
 
 const Main = styled.main`
-  @media (width <= 500px) {
+  @media (width <= 800px) {
     .product-detail-reviews {
       flex-direction: column;
 
@@ -69,6 +69,12 @@ const Main = styled.main`
       .reviews-outer {
         width: 100%;
       }
+    }
+  }
+
+  @media (width <= 500px) {
+    .product-review {
+      flex-direction: column;
     }
   }
 `;
