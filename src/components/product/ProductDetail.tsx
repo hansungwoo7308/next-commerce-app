@@ -10,6 +10,7 @@ import Image from "next/image";
 import { styled } from "styled-components";
 import ProductManagerFixed from "@/components/product/ProductManagerFixed";
 import { useEffect, useState } from "react";
+import ProductDetailReviews from "@/components/product/ProductDetailReviews";
 
 export default function ProductDetail({ product }: any) {
   // external
@@ -60,7 +61,7 @@ export default function ProductDetail({ product }: any) {
           </ul>
         </div>
       </div> */}
-      <div className="bottom">
+      {/* <div className="bottom">
         <div className="bottom-left">
           <h1>Customer Reviews</h1>
           <div className="reviews-ratings">
@@ -104,7 +105,8 @@ export default function ProductDetail({ product }: any) {
           <h1>Reviews</h1>
           <ProductReviews product={product} reviews={reviews} />
         </div>
-      </div>
+      </div> */}
+      <ProductDetailReviews product={product} />
       <ProductManagerFixed />
     </Box>
   );
@@ -131,38 +133,6 @@ const Box = styled.div`
     gap: 3rem;
     h1 {
       margin-bottom: 1rem;
-    }
-  }
-  > .bottom {
-    display: flex;
-    gap: 3rem;
-    > * {
-      /* border: 1px solid; */
-      padding: 1rem;
-    }
-    > .bottom-left {
-      width: 30%;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      > .reviews-ratings {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-    }
-    > .bottom-right {
-      width: 70%;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-  }
-  .slick-track {
-    /* display: flex;
-    gap: 1rem; */
-    .slick-slide {
-      padding: 0 0.5rem;
     }
   }
 `;

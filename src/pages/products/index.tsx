@@ -101,17 +101,13 @@ const Main = styled.main`
       /* border: 1px solid red; */
     }
 
-    > .products-outer {
+    .products-outer {
       min-height: calc(100vh - 100px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       gap: 1rem;
     }
-  }
-
-  .product-widgets-outer.MOBILE {
-    display: none;
   }
 
   @media (max-width: 800px) {
@@ -121,34 +117,9 @@ const Main = styled.main`
       .product-widgets.WEB {
         display: none;
       }
+
       .product-widgets-outer.MOBILE {
         display: block;
-
-        .product-widgets-background {
-          display: none;
-          flex-direction: column;
-          gap: 1rem;
-          z-index: 10000;
-          justify-content: center;
-          align-items: center;
-          background-color: rgba(0, 0, 0, 0.8);
-          &.visible {
-            display: flex;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-          }
-        }
-        .product-widgets-opener {
-          display: block;
-          padding: 0 1rem;
-          background-color: #333;
-
-          /* position: sticky;
-          top: 0; */
-        }
       }
     }
   }

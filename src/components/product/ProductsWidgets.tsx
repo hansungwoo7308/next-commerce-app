@@ -40,16 +40,45 @@ export default function ProductsWidgets({ products }: any) {
 }
 
 const Box = styled.div`
-  border: 1px solid coral;
+  /* border: 1px solid coral; */
 
-  .product-widgets-background {
-    min-width: 200px;
+  .product-widgets.WEB {
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
-  .product-widgets-opener {
+
+  .product-widgets-outer.MOBILE {
     display: none;
-    text-align: end;
+
+    .product-widgets-background {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 10000;
+      &.visible {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+    }
+
+    .product-widgets-opener {
+      text-align: end;
+      padding: 0 1rem;
+      background-color: #333;
+      border: 1px solid;
+      border-radius: 10px;
+      /* border: 1px solid red; */
+
+      /* position: sticky;
+            top: 0; */
+    }
   }
 `;

@@ -60,4 +60,15 @@ export default function Page({ product }: any) {
   );
 }
 
-const Main = styled.main``;
+const Main = styled.main`
+  @media (width <= 500px) {
+    .product-detail-reviews {
+      flex-direction: column;
+
+      .reviews-info,
+      .reviews-outer {
+        width: 100%;
+      }
+    }
+  }
+`;

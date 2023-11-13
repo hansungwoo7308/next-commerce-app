@@ -20,7 +20,7 @@ export default function ProductReviews({ product, reviews }: Props) {
   }, [selectedProductReviewIds, dispatch]);
 
   return (
-    <Box className="reviews">
+    <Box className="product-reviews">
       {reviews.map((review: any) => (
         <ProductReview product={product} review={review} key={review._id} />
       ))}
