@@ -167,18 +167,45 @@ export default function CreateProductReviewForm() {
     </Box>
   );
 }
+
 const Box = styled.form`
-  .images-previewer {
-    ul {
-      width: 25rem;
-      display: flex;
-      gap: 0.5rem;
-      overflow-x: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* border: 2px solid red; */
+
+  .middle {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .rating,
+    .title,
+    .comment,
+    .images {
+      border: 2px solid #00aaff;
+      > * {
+        width: 100%;
+      }
     }
-    img {
-      width: 10rem;
-      height: 10rem;
-      border: 2px solid #fff;
+    .images-previewer {
+      ul {
+        width: 25rem;
+        display: flex;
+        gap: 0.5rem;
+        overflow-x: scroll;
+      }
+      img {
+        width: 10rem;
+        height: 10rem;
+        border: 2px solid #fff;
+      }
     }
+  }
+
+  .bottom {
+    display: flex;
+    justify-content: end;
+    gap: 0.5rem;
   }
 `;

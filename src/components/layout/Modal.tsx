@@ -1,32 +1,33 @@
-import CreateProductForm from "@/components/form/CreateProductForm";
-import CreateProductReviewForm from "@/components/form/CreateProductReviewForm";
-import ProductReview from "@/components/product/ProductReview";
-import Stars from "@/components/product/Stars";
 import logResponse from "lib/client/log/logResponse";
 import { deleteItemFromCart } from "lib/client/store/cartSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import { deleteData, postData } from "lib/public/fetchData";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaCircleUser } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Image from "next/image";
 import styled from "styled-components";
+import CreateProductForm from "@/components/form/CreateProductForm";
+import CreateProductReviewForm from "@/components/form/CreateProductReviewForm";
+import ProductReview from "@/components/product/ProductReview";
+import Stars from "@/components/product/Stars";
 // import { deleteItemFromCart } from "lib/client/store/cartSlice";
 // import { deleteUser } from "lib/client/store/usersSlice";
 // import { deleteData, getData, postData } from "lib/client/utils/fetchData";
+
 export default function Modal() {
   // external
+  const dispatch = useDispatch();
   const { accessToken } = useSelector((store: any) => store.auth);
   const { active, type, id, ids, message, modalAction, modalActionLabel, disabled, src, review } =
     useSelector((store: any) => store.modal);
   const { selectedProductId, selectedProductReviewIds } = useSelector(
     (store: any) => store.productManager
   );
-  const dispatch = useDispatch();
 
   const handleClose = () => dispatch(setModal({ active: false }));
 
@@ -271,19 +272,12 @@ const Background = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  outline: 5px solid purple;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
 
   .view-image {
     width: 70vw;
     height: 70vh;
-  }
-
-  @media (width <= 500px) {
-    .view-image {
-      width: 90vw;
-    }
   }
 `;
 
@@ -309,25 +303,7 @@ const Box = styled.div`
       transform: translateY(0);
     }
   } */
-  > .CREATE_PRODUCT_REVIEW {
-    /* border: 3px solid coral; */
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    > .middle {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      input {
-        width: 100%;
-      }
-    }
-    > .bottom {
-      display: flex;
-      justify-content: end;
-      gap: 0.5rem;
-    }
-  }
+
   > .top {
     > hr {
       border-top: 1px solid;
@@ -364,6 +340,10 @@ const Box = styled.div`
       img {
       }
     }
+  }
+
+  @media (max-width: 500px), (width <= 500px) {
+    width: 90vw;
   }
 `;
 // const handleDeleteUser = async () => {

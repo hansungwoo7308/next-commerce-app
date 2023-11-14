@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 export default function Background() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const background = useSelector((store: any) => store.background);
   // const children = useSelector((store: any) => store.children);
 
-  // if (!background) return null;
-  // return <Box/>
+  if (!background) return null;
+  return <Box onClick={() => dispatch(setBackground(false))} />;
   // return background ? <Box /> : null;
 
   // if (children.length) {
@@ -22,7 +22,7 @@ export default function Background() {
   //     </Box>
   //   );
   // }
-  return background ? <Box /> : null;
+  // return background ? <Box onClick={() => dispatch(setBackground(false))} /> : null;
 }
 
 const Box = styled.div`

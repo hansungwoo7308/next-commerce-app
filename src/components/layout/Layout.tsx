@@ -71,6 +71,7 @@ export default function Layout({ children }: any) {
       <Background />
       <Loading />
       <Modal />
+
       <Header />
       {children}
       <Footer />
