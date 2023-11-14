@@ -1,14 +1,12 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { styled } from "styled-components";
 import { IoIosArrowForward, IoIosGlobe, IoIosMenu } from "react-icons/io";
 import AccountIcon from "@/components/auth/AccountIcon";
-import { getData } from "lib/public/fetchData";
 import { FaCartShopping } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import Search from "@/components/layout/Search";
-import NavSide from "@/components/layout/NavSide";
+import NavSideProductMenu from "@/components/layout/NavSideProductMenu";
 // import { Squeeze as Hamburger } from "hamburger-react";
 
 export default function Nav() {
@@ -60,7 +58,7 @@ export default function Nav() {
           <div id="nav-main-right"></div>
         </div>
       </div>
-      <NavSide isClicked={isClicked} setIsClicked={setIsClicked} />
+      <NavSideProductMenu isClicked={isClicked} setIsClicked={setIsClicked} />
     </Box>
   );
 }

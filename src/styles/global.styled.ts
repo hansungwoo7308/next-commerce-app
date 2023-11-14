@@ -65,7 +65,17 @@ export const GlobalStyled = createGlobalStyle`
       }
     }
 
-    @media (width <= 500px){
+    @media (width <= 1000px){
+      nav .nav-belt .nav-belt-right {
+        .account-icon.WEB{
+          display:none;
+        }
+        .account-icon.MOBILE{
+          display:flex;
+        }
+      }
+    }
+    @media (max-width : 1000px){
       nav .nav-belt .nav-belt-right {
         .account-icon.WEB{
           display:none;
