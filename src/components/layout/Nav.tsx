@@ -16,7 +16,7 @@ export default function Nav() {
   const cart = useSelector((store: any) => store.cart);
 
   // internal
-  const [isVisible, setIsVisible]: any = useState(false);
+  const [isClicked, setIsClicked]: any = useState(false);
 
   return (
     <Box>
@@ -51,7 +51,7 @@ export default function Nav() {
       <div id="nav-main-outer">
         <div id="nav-main">
           <div id="nav-main-left">
-            <button id="nav-hamburger" onClick={() => setIsVisible(true)}>
+            <button id="nav-hamburger" onClick={() => setIsClicked(true)}>
               <IoIosMenu />
               <div>All</div>
             </button>
@@ -60,7 +60,7 @@ export default function Nav() {
           <div id="nav-main-right"></div>
         </div>
       </div>
-      <NavSide isVisible={isVisible} setIsVisible={setIsVisible} />
+      <NavSide isClicked={isClicked} setIsClicked={setIsClicked} />
     </Box>
   );
 }

@@ -3,38 +3,38 @@ import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
 import styled from "styled-components";
 
-export default function NavSide({ isVisible, setIsVisible }: any) {
+export default function NavSide({ isClicked, setIsClicked }: any) {
   return (
     <Background
-      className={`nav-side-background ${isVisible ? "visible" : ""}`}
-      onClick={() => setIsVisible(false)}
+      className={`nav-side-background ${isClicked ? "visible" : ""}`}
+      onClick={() => setIsClicked(false)}
     >
       <Box
-        className={`nav-side ${isVisible ? "visible" : ""}`}
+        className={`nav-side ${isClicked ? "visible" : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="nav-side-content">
           <ul className="nav-side-menu">
             <li className="nav-side-item">
-              <Link href={"/products"} onClick={() => setIsVisible(false)}>
+              <Link href={"/products"} onClick={() => setIsClicked(false)}>
                 <div>All Products</div>
                 <IoIosArrowForward />
               </Link>
             </li>
             <li className="nav-side-item">
-              <Link href={"/products?category=furnitures"} onClick={() => setIsVisible(false)}>
+              <Link href={"/products?category=furnitures"} onClick={() => setIsClicked(false)}>
                 <div>Furnitures</div>
                 <IoIosArrowForward />
               </Link>
             </li>
             <li className="nav-side-item">
-              <Link href={"/products?category=cosmetics"} onClick={() => setIsVisible(false)}>
+              <Link href={"/products?category=cosmetics"} onClick={() => setIsClicked(false)}>
                 <div>Cosmetics</div>
                 <IoIosArrowForward />
               </Link>
             </li>
             <li className="nav-side-item">
-              <Link href={"/products?category=fashion"} onClick={() => setIsVisible(false)}>
+              <Link href={"/products?category=fashion"} onClick={() => setIsClicked(false)}>
                 <div>Fashion</div>
                 <IoIosArrowForward />
               </Link>

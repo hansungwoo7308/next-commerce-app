@@ -69,9 +69,9 @@ export default function ProductReview({ product, review }: Props) {
         </div>
       </div>
       <div className="review-image">
-        {review.images.length && (
+        {review.images.length ? (
           <Image src={review.images[0]?.url} alt="alt" width={200} height={200} />
-        )}
+        ) : null}
       </div>
       {user?.role === "admin" && (
         <div
@@ -87,7 +87,7 @@ export default function ProductReview({ product, review }: Props) {
 }
 
 const Box = styled.li`
-  height: 10rem;
+  min-height: 10rem;
   border: 1px solid;
   border-radius: 5px;
   display: flex;
@@ -124,7 +124,7 @@ const Box = styled.li`
   }
   > .review-image {
     width: 10rem;
-    height: 10rem;
+    /* height: 10rem; */
   }
   > .checkbox-outer {
     position: absolute;

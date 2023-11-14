@@ -75,6 +75,12 @@ const Main = styled.main`
   @media (width <= 500px) {
     .product-review {
       flex-direction: column;
+      height: initial;
+      .review-image {
+        width: 100%;
+        display: flex;
+        /* height: initial; */
+      }
     }
   }
 `;

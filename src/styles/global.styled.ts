@@ -64,6 +64,17 @@ export const GlobalStyled = createGlobalStyle`
         /* outline: 2px dashed green; */
       }
     }
+
+    @media (width <= 500px){
+      nav .nav-belt .nav-belt-right {
+        .account-icon.WEB{
+          display:none;
+        }
+        .account-icon.MOBILE{
+          display:flex;
+        }
+      }
+    }
   }
   main {
     width: 100vw;
