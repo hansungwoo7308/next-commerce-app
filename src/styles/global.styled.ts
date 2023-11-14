@@ -1,34 +1,36 @@
 import { createGlobalStyle } from "styled-components";
-export const GlobalStyled = createGlobalStyle`
+
+const styled = { createGlobalStyle };
+
+export const GlobalStyled = styled.createGlobalStyle`
   /* init */
   /* root 에서 간편하게 변경하기 위해서 변수를 사용한다. */
   :root {
     /* COLOR */
 
     /* according to importance */
-    --color-primary:green;
+    --color-primary: green;
 
     /* according to features */
-    --color-layout-background:#000;
-    --color-layout-color:#fff;
+    --color-layout-background: #000;
+    --color-layout-color: #fff;
 
-
-    --color-hover:#fff;
-    --color-layout:coral;
-    --color-button-background:#000;
-    --color-button-foreground:#ccc;
-    --color-button-background-hover:black;
-    --color-button-foreground-hover:coral;
-    --color-form-background:#111;
-    --color-background-hover:black;
-    --color-foreground-hover:coral;
+    --color-hover: #fff;
+    --color-layout: coral;
+    --color-button-background: #000;
+    --color-button-foreground: #ccc;
+    --color-button-background-hover: black;
+    --color-button-foreground-hover: coral;
+    --color-form-background: #111;
+    --color-background-hover: black;
+    --color-foreground-hover: coral;
 
     /* component colors */
-    --color-navigation-background:#000;
-    --color-page-background:#222;
+    --color-navigation-background: #000;
+    --color-page-background: #222;
 
     /* element sizes */
-    --nav-height:50px;
+    --nav-height: 50px;
   }
   * {
     margin: 0;
@@ -38,25 +40,26 @@ export const GlobalStyled = createGlobalStyle`
   }
 
   /* layout */
-  html, body {
+  html,
+  body {
     width: 100vw;
     overflow-x: hidden;
   }
   body {
-    background-color:var(--color-layout-background);
-    color:var(--color-layout-color);
+    background-color: var(--color-layout-background);
+    color: var(--color-layout-color);
   }
   header {
     width: 100vw;
-    position:fixed;
-    left:0;
-    right:0;
-    top:0;
-    z-index:100;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 100;
     backdrop-filter: blur(3px);
     /* font-size: 1rem; */
     /* background-color: rgba(0,0,0,0.5); */
-    .section-outer{
+    .section-outer {
       /* border: 1px solid yellow; */
       section {
         max-width: 1000px;
@@ -65,48 +68,56 @@ export const GlobalStyled = createGlobalStyle`
       }
     }
 
-    @media (width <= 1000px){
+    @media (width <= 1000px) {
       nav .nav-belt .nav-belt-right {
-        .account-icon.WEB{
-          display:none;
+        .account-icon.WEB {
+          display: none;
         }
-        .account-icon.MOBILE{
-          display:flex;
+        .account-icon.MOBILE {
+          display: flex;
         }
       }
     }
-    @media (max-width : 1000px){
+    @media (max-width: 1000px) {
       nav .nav-belt .nav-belt-right {
-        .account-icon.WEB{
-          display:none;
+        .account-icon.WEB {
+          display: none;
         }
-        .account-icon.MOBILE{
-          display:flex;
+        .account-icon.MOBILE {
+          display: flex;
         }
       }
     }
   }
   main {
     width: 100vw;
-    overflow-x:hidden;
+    overflow-x: hidden;
     /* border: 2px solid; */
     section {
       /* width: 80%; */
       width: 100%;
-      max-width:1000px;
-      min-height:100vh;
-      padding-top:100px;
+      max-width: 1000px;
+      min-height: 100vh;
+      padding-top: 100px;
       /* min-height: calc(100vh - var(--nav-height)); */
       margin: auto;
       outline: 2px dashed;
+    }
+  }
+  footer {
+    @media (width <= 500px) {
+      background-attachment: initial !important;
+      .footer-content {
+        flex-direction: column;
+      }
     }
   }
 
   /* elements */
   a {
     /* height:100%; */
-    text-decoration:none;
-    color:inherit;
+    text-decoration: none;
+    color: inherit;
     &:hover {
       cursor: pointer;
       color: var(--color-hover);
@@ -114,12 +125,12 @@ export const GlobalStyled = createGlobalStyle`
   }
   html body button {
     cursor: pointer;
-    border:none;
+    border: none;
     padding: 0.5rem;
-    background-color:inherit;
-    color:#fff;
+    background-color: inherit;
+    color: #fff;
     &:hover {
-      background-color:#000;
+      background-color: #000;
     }
   }
   html body .general-button {
@@ -132,7 +143,7 @@ export const GlobalStyled = createGlobalStyle`
       color: #fff;
     }
   }
-  html body .create-button{
+  html body .create-button {
     padding: 0.5rem;
     border-radius: 5px;
     background-color: #00aaff;
@@ -147,7 +158,7 @@ export const GlobalStyled = createGlobalStyle`
   }
   html body .buy-button,
   html body .pay-button,
-  html body .add-button{
+  html body .add-button {
     padding: 0.5rem;
     border-radius: 5px;
     /* background-color: #c15151; */
@@ -163,7 +174,7 @@ export const GlobalStyled = createGlobalStyle`
     }
   }
   html body .edit-button,
-  html body .update-button{
+  html body .update-button {
     padding: 0.5rem;
     border-radius: 5px;
     /* background-color: #c15151; */
@@ -178,7 +189,7 @@ export const GlobalStyled = createGlobalStyle`
       cursor: not-allowed;
     }
   }
-  html body .delete-button{
+  html body .delete-button {
     padding: 0.5rem;
     border-radius: 5px;
     background-color: #c15151;
@@ -202,19 +213,20 @@ export const GlobalStyled = createGlobalStyle`
       color: #fff;
     }
   }
-  
 
   img {
     width: 100%;
     height: 100%;
-    object-fit:cover;
+    object-fit: cover;
   }
-  ul{
+  ul {
   }
-  li{
-    list-style:none;
+  li {
+    list-style: none;
   }
-  p,span,label {
+  p,
+  span,
+  label {
     font-size: 14px;
   }
   hr {
@@ -225,9 +237,9 @@ export const GlobalStyled = createGlobalStyle`
     border-bottom: 1px solid;
     border-color: #fff;
   }
-  input, textarea {
+  input,
+  textarea {
     /* padding: .5rem; */
-    padding:3px;
+    padding: 3px;
   }
-  
 `;

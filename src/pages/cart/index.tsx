@@ -98,16 +98,13 @@ export default function Page() {
   return (
     <Main>
       <section>
-        <div className="cart">
+        <div className="cart-list-outer">
           <h1>Shopping Cart</h1>
           <ul className="cart-list">
             {cart.products.map((product: any, index: number) => (
               <Cart key={index} product={product} />
             ))}
           </ul>
-          {/* <div className="payment">
-            <button onClick={handleOrder}>Order</button>
-          </div> */}
           <h3>Total (총합) : ${total}</h3>
         </div>
       </section>
@@ -116,29 +113,47 @@ export default function Page() {
 }
 
 const Main = styled.main`
-  > section {
+  .cart-list-outer {
+    padding: 1rem;
+    display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    gap: 3rem;
-    .cart {
+    gap: 1rem;
+
+    .cart-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    > h3 {
+      height: 3rem;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      border: 1px solid;
+      border-radius: 5px;
       padding: 1rem;
-      /* border: 2px solid green; */
-      > * {
+    }
+  }
+
+  @media (width <= 800px) {
+    .cart-content-main {
+      flex-direction: column;
+      .partition {
+        border-top: 1px solid;
         margin: 1rem 0;
       }
-      > .cart-list {
+    }
+  }
+
+  @media (width <= 500px) {
+    .cart-content-main {
+      .cart-content-info a {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-      }
-      > h3 {
-        height: 3rem;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        border: 1px solid;
-        border-radius: 5px;
-        padding: 1rem;
+        .image {
+          width: 100%;
+        }
       }
     }
   }

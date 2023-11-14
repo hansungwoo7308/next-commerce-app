@@ -5,9 +5,8 @@ export default function Footer() {
   return (
     <Box>
       <section>
-        <div className="footer-main">
+        <div className="footer-content">
           <div className="left">
-            <h1 className="title">youserstack</h1>
             <h1 className="title">E-Commerce</h1>
             <small>&copy; 2023, youserstack. All rights reserved.</small>
             <div className="social">
@@ -47,17 +46,17 @@ const Box = styled.footer`
     margin: auto;
     /* margin-top: 1rem; */
 
-    .footer-main {
+    .footer-content {
       display: flex;
       justify-content: space-between;
-      // border: 2px dashed;
       padding: 2rem;
+      // border: 2px dashed;
+
       .left {
         display: flex;
         flex-direction: column;
         gap: 1rem;
         .title {
-          font-size: 3rem;
         }
         .social {
           display: flex;

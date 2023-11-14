@@ -61,7 +61,7 @@ export default function AccountIcon() {
   //   return () => window.removeEventListener("click", handleClick);
   // }, []);
 
-  console.log({ isClicked });
+  // console.log({ isClicked });
 
   // if (session.status === "authenticated" || auth.accessToken) {
   //   if (auth.user)

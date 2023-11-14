@@ -74,7 +74,7 @@ const Box = styled.div`
   /* border: 1px solid red; */
 
   > * {
-    border: 1px solid green;
+    /* border: 1px solid green; */
     /* padding: 1rem; */
   }
 

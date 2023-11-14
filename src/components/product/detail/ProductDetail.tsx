@@ -1,14 +1,16 @@
 import { styled } from "styled-components";
+import Image from "next/image";
 
 import ProductDetailWidget from "@/components/product/detail/ProductDetailWidget";
 import ProductDetailReviews from "@/components/product/detail/ProductDetailReviews";
 import ProductManagerFixed from "@/components/product/ProductManagerFixed";
 
 export default function ProductDetail({ product }: any) {
+  console.log({ product });
   return (
     <Box className="product-detail">
-      {/* <ProductDetailWidget product={product} /> */}
-      {/* <div className="middle">
+      <ProductDetailWidget product={product} />
+      <div className="middle">
         <div className="product-description">
           <h1>Product Description</h1>
           <pre>{product.description}</pre>
@@ -23,7 +25,7 @@ export default function ProductDetail({ product }: any) {
             ))}
           </ul>
         </div>
-      </div> */}
+      </div>
       <ProductDetailReviews product={product} />
       <ProductManagerFixed />
     </Box>

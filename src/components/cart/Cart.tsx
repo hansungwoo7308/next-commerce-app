@@ -53,16 +53,17 @@ export default function Cart({ product }: any) {
   }, [options]);
 
   return (
-    <Box>
-      <div className="product-header">
+    <Box className="cart">
+      <div className="cart-content-header">
         <h1>Seller : {seller}</h1>
         <button className="delete-button" onClick={handleDeleteItemFromCart}>
           Delete
         </button>
       </div>
-      <HorizonLine />
-      <div className="product-main">
-        <div className="product-info">
+      <Partition className="partition" />
+
+      <div className="cart-content-main">
+        <div className="cart-content-info">
           <Link href={`/products/${_id}`}>
             <div className="image">
               <Image
@@ -78,7 +79,7 @@ export default function Cart({ product }: any) {
             </div>
           </Link>
         </div>
-        <VerticalLine />
+        <Partition className="partition" />
         <ul className="options">
           {options.map((option: any, index: number) => (
             <li className="option" key={option.item}>
@@ -105,8 +106,9 @@ export default function Cart({ product }: any) {
           ))}
         </ul>
       </div>
-      <HorizonLine />
-      <div className="product-footer">
+      <Partition className="partition" />
+
+      <div className="cart-content-footer">
         <h3>Total (주문금액) : ${total}</h3>
         <button className="pay-button" onClick={handlePay}>
           Pay (결제)
@@ -116,12 +118,15 @@ export default function Cart({ product }: any) {
   );
 }
 
+const Partition = styled.div``;
+
 const Box = styled.li`
   border: 1px solid;
   border-radius: 5px;
   padding: 1rem;
   background-color: #333;
-  .product-header {
+
+  .cart-content-header {
     display: flex;
     justify-content: space-between;
 
@@ -133,33 +138,25 @@ const Box = styled.li`
       }
     }
   }
-  .product-main {
+  .cart-content-main {
     /* border: 2px solid yellow; */
     display: flex;
-    .product-info {
+    .cart-content-info {
       flex: 1;
-      /* padding: 1rem; */
-      /* border: 1px solid red; */
-      > a {
-        height: 100%;
-        display: flex;
-        gap: 1rem;
-      }
+
       .image {
-        /* border: 2px solid red; */
         width: 10rem;
-        overflow: hidden;
-        img {
-          /* height: initial; */
-        }
       }
       .description {
         flex: 1;
-        /* padding: 1rem; */
-        > small {
+        small {
           color: #ea5b5b;
         }
       }
+    }
+    .partition {
+      border-left: 1px solid;
+      margin: 0 1rem;
     }
     .options {
       flex: 1;
@@ -193,11 +190,20 @@ const Box = styled.li`
       }
     }
   }
-  .product-footer {
+  .cart-content-footer {
     /* text-align: end; */
     display: flex;
     justify-content: end;
     align-items: center;
+    gap: 1rem;
+  }
+  .partition {
+    border-top: 1px solid;
+    margin: 1rem 0;
+  }
+  a {
+    height: 100%;
+    display: flex;
     gap: 1rem;
   }
 `;
