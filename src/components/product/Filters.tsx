@@ -137,6 +137,7 @@ export default function Filters() {
     }
 
     // 레이팅 있으면 추가
+    console.log("testing...");
     localStorage.setItem("ratings", JSON.stringify(ratings));
     const serializedRatings = ratings.join("+");
     const updatedQuery = { ...router.query, ratings: serializedRatings };

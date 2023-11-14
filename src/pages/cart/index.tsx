@@ -136,7 +136,7 @@ const Main = styled.main`
     }
   }
 
-  @media (width <= 800px) {
+  @media (max-width: 800px), (width <= 800px) {
     .cart-content-main {
       flex-direction: column;
       .partition {
@@ -146,7 +146,7 @@ const Main = styled.main`
     }
   }
 
-  @media (width <= 500px) {
+  @media (max-width: 500px), (width <= 500px) {
     .cart-content-main {
       .cart-content-info a {
         display: flex;

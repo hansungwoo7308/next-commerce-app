@@ -279,7 +279,7 @@ const Main = styled.main`
         }
       }
       & {
-        @media (max-width: 500px) {
+        @media (max-width: 500px), (width <= 500px) {
           display: flex;
           flex-direction: column;
           gap: 1rem;
@@ -306,7 +306,7 @@ const Main = styled.main`
           }
         }
         & {
-          @media (max-width: 500px) {
+          @media (max-width: 500px), (width <= 500px) {
             padding: 0;
           }
         }

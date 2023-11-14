@@ -10,6 +10,7 @@ import ProductsWidgets from "@/components/product/ProductsWidgets";
 // export async function getServerSideProps(context: any) {
 export async function getServerSideProps({ req, query }: any) {
   console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
+  console.log({ query: query });
 
   await connectDB();
 
@@ -25,7 +26,11 @@ export async function getServerSideProps({ req, query }: any) {
     if (search) queryCondition.name = { $regex: search };
     if (category && category !== "all") queryCondition.category = { $regex: category };
     if (ratings) {
-      const ratingsArray = ratings.split("+").map((v: string) => Number(v));
+      const ratingsArray = ratings
+        .split("+")
+        .map((v: string) => Number(v))
+        .sort((a: number, b: number) => b - a);
+      console.log({ ratingsArray });
       queryCondition.ratings = { $in: ratingsArray };
     }
   }
@@ -110,7 +115,7 @@ const Main = styled.main`
     }
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: 800px), (width <= 800px) {
     .products-page-section-inner {
       flex-direction: column;
 
@@ -124,7 +129,7 @@ const Main = styled.main`
     }
   }
 
-  @media (width <= 500px) {
+  @media (max-width: 500px), (width <= 500px) {
   }
   /* .product-manager-by-admin {
     max-width: 100%;

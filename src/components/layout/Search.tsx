@@ -74,7 +74,7 @@ const Box = styled.form`
       background-color: #67b34bb3;
     }
   }
-  @media (max-width: 500px) {
+  @media (max-width: 500px), (width <= 500px) {
     input {
       max-width: 100px;
     }

@@ -202,7 +202,7 @@ const Box = styled.div`
     }
   }
 
-  @media (width <= 800px) {
+  @media (max-width: 800px), (width <= 800px) {
     flex-direction: column;
     .description {
     }

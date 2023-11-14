@@ -61,7 +61,7 @@ export default function Page({ product }: any) {
 }
 
 const Main = styled.main`
-  @media (width <= 800px) {
+  @media (max-width: 800px), (width <= 800px) {
     .product-detail-reviews {
       flex-direction: column;
 
@@ -72,7 +72,7 @@ const Main = styled.main`
     }
   }
 
-  @media (width <= 500px) {
+  @media (max-width: 500px), (width <= 500px) {
     .product-review {
       flex-direction: column;
       height: initial;

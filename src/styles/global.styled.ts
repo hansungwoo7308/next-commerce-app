@@ -68,17 +68,7 @@ export const GlobalStyled = styled.createGlobalStyle`
       }
     }
 
-    @media (width <= 1000px) {
-      nav .nav-belt .nav-belt-right {
-        .account-icon.WEB {
-          display: none;
-        }
-        .account-icon.MOBILE {
-          display: flex;
-        }
-      }
-    }
-    @media (max-width: 1000px) {
+    @media (max-width: 1000px), (width <= 1000px) {
       nav .nav-belt .nav-belt-right {
         .account-icon.WEB {
           display: none;
@@ -105,7 +95,7 @@ export const GlobalStyled = styled.createGlobalStyle`
     }
   }
   footer {
-    @media (width <= 500px) {
+    @media (max-width: 500px), (width <= 500px) {
       background-attachment: initial !important;
       .footer-content {
         flex-direction: column;
