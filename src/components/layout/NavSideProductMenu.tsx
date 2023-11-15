@@ -12,6 +12,11 @@ export default function NavSideProductMenu({ isClicked, setIsClicked }: any) {
   const sideMenu = useSelector((store: any) => store.sideMenu);
   const dispatch = useDispatch();
 
+  const handleClose = () => {
+    dispatch(setBackground(false));
+    dispatch(setSideMenu(false));
+  };
+
   return (
     <>
       <Background />
@@ -21,31 +26,25 @@ export default function NavSideProductMenu({ isClicked, setIsClicked }: any) {
       >
         <ul>
           <li>
-            <Link href={"/products"} onClick={() => dispatch(setSideMenu(false))}>
+            <Link href={"/products"} onClick={handleClose}>
               <div>All Products</div>
               <IoIosArrowForward />
             </Link>
           </li>
           <li>
-            <Link
-              href={"/products?category=furnitures"}
-              onClick={() => dispatch(setSideMenu(false))}
-            >
+            <Link href={"/products?category=furnitures"} onClick={handleClose}>
               <div>Furnitures</div>
               <IoIosArrowForward />
             </Link>
           </li>
           <li>
-            <Link
-              href={"/products?category=cosmetics"}
-              onClick={() => dispatch(setSideMenu(false))}
-            >
+            <Link href={"/products?category=cosmetics"} onClick={handleClose}>
               <div>Cosmetics</div>
               <IoIosArrowForward />
             </Link>
           </li>
           <li>
-            <Link href={"/products?category=fashion"} onClick={() => dispatch(setSideMenu(false))}>
+            <Link href={"/products?category=fashion"} onClick={handleClose}>
               <div>Fashion</div>
               <IoIosArrowForward />
             </Link>
@@ -117,6 +116,7 @@ const Box = styled.div`
   }
 
   a {
+    display: flex;
     justify-content: space-between;
     padding: 1rem;
     color: #777;
@@ -124,5 +124,9 @@ const Box = styled.div`
       background-color: rgba(0, 0, 0, 0.1);
       color: #000;
     }
+  }
+
+  @media (max-width: 500px) {
+    padding: 1rem;
   }
 `;

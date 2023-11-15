@@ -1,12 +1,10 @@
 import Link from "next/link";
-import { useState } from "react";
 import { styled } from "styled-components";
 import { IoIosArrowForward, IoIosGlobe, IoIosMenu } from "react-icons/io";
 import AccountIcon from "@/components/auth/AccountIcon";
 import { FaCartShopping } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import Search from "@/components/layout/Search";
-import NavSideProductMenu from "@/components/layout/NavSideProductMenu";
 import { setSideMenu } from "lib/client/store/sideMenu";
 import { setBackground } from "lib/client/store/backgroundSlice";
 // import { Squeeze as Hamburger } from "hamburger-react";
@@ -15,9 +13,6 @@ export default function Nav() {
   // external
   const cart = useSelector((store: any) => store.cart);
   const dispatch = useDispatch();
-
-  // internal
-  const [isClicked, setIsClicked]: any = useState(false);
 
   return (
     <Box>
@@ -62,16 +57,11 @@ export default function Nav() {
               <IoIosMenu />
               <div>All</div>
             </button>
-            {/* <button id="nav-hamburger" onClick={() => setIsClicked(true)}>
-              <IoIosMenu />
-              <div>All</div>
-            </button> */}
           </div>
           <div id="nav-main-center"></div>
           <div id="nav-main-right"></div>
         </div>
       </div>
-      {/* <NavSideProductMenu isClicked={isClicked} setIsClicked={setIsClicked} /> */}
     </Box>
   );
 }
