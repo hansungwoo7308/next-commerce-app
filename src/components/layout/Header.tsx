@@ -1,5 +1,6 @@
 import Nav from "@/components/layout/Nav";
 import { setBackground } from "lib/client/store/backgroundSlice";
+import { setSideMenu } from "lib/client/store/sideMenu";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { styled } from "styled-components";
@@ -26,6 +27,7 @@ export default function Header() {
         headerRef.current.style.opacity = "0";
         headerRef.current.style.transition = "transform 1s, opacity 1s";
         dispatch(setBackground(false));
+        dispatch(setSideMenu(false));
       }
       // scroll up : previous > latest
       else {

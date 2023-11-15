@@ -3,6 +3,7 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Loading from "@/components/layout/Loading";
 import Modal from "@/components/layout/Modal";
+import NavSideProductMenu from "@/components/layout/NavSideProductMenu";
 import { setCredentials } from "lib/client/store/authSlice";
 import { reloadCart } from "lib/client/store/cartSlice";
 import { refreshAuth } from "lib/client/utils/authUtils";
@@ -68,8 +69,8 @@ export default function Layout({ children }: any) {
         pauseOnHover
         theme="colored"
       />
-      <Background />
       <Loading />
+      <NavSideProductMenu />
       <Modal />
 
       <Header />

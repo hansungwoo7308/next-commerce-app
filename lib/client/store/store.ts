@@ -10,21 +10,26 @@ import { notifySlice } from "lib/client/store/notifySlice";
 import { userApiSlice } from "lib/client/store/userApiSlice";
 import { backgroundSlice } from "lib/client/store/backgroundSlice";
 import { childrenSlice } from "lib/client/store/childrenSlice";
+import { sideMenuSlice } from "lib/client/store/sideMenu";
 
 export const store = configureStore({
   reducer: {
+    // layout
     background: backgroundSlice.reducer,
-    // children: childrenSlice.reducer,
     loading: loadingSlice.reducer,
-    auth: authSlice.reducer,
+    sideMenu: sideMenuSlice.reducer,
     modal: modalSlice.reducer,
+
+    // auth
+    auth: authSlice.reducer,
+
+    // data
     cart: cartSlice.reducer,
     order: orderSlice.reducer,
     orders: ordersSlice.reducer,
     productManager: productManagerSlice.reducer,
 
     // notify: notifySlice.reducer,
-    // orders: ordersSlice.reducer,
     // [userApiSlice.reducerPath]: userApiSlice.reducer,
   },
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(userApiSlice.middleware),

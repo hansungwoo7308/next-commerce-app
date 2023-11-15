@@ -4,41 +4,41 @@ import { styled } from "styled-components";
 import { IoIosSearch } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { setBackground } from "lib/client/store/backgroundSlice";
+import Background from "@/components/layout/Background";
 
 export default function Search() {
   // external
   const dispatch = useDispatch();
-  const background = useSelector((store: any) => store.background);
 
   // internal
+  const [isFocused, setIsFocused] = useState(false);
   const [search, setSearch] = useState("");
-  const searchRef: any = useRef();
-  const formRef: any = useRef();
-  const router = useRouter();
 
-  useEffect(() => searchRef.current.focus(), []);
-  // useEffect(
-  //   () =>
-  //     window.addEventListener("click", () => {
-  //       formRef.current.style.outline = "none";
-  //       // dispatch(setBackground(false));
-  //     }),
-  //   [dispatch]
-  // );
+  // const searchRef: any = useRef();
+  // useEffect(() => searchRef.current.focus(), []);
+
+  const router = useRouter();
 
   return (
     <Box className="search">
-      {background && <div className="background" onClick={() => dispatch(setBackground(false))} />}
-      <div className="search-form" ref={formRef}>
+      {/* <Background onClick={() => setIsFocused(false)} /> */}
+      <div className={`search-form ${isFocused ? "focus" : ""}`}>
         <input
           type="text"
           value={search}
-          ref={searchRef}
           placeholder="Search"
-          onClick={(e) => {
-            e.stopPropagation();
+          // ref={searchRef}
+          // onClick={(e) => {
+          //   console.log("onClick");
+          //   e.stopPropagation();
+          //   dispatch(setBackground(true));
+          //   setIsFocused(true);
+          //   // formRef.current.style.outline = "2px solid coral";
+          // }}
+          onFocus={() => {
+            // console.log("onFocus");
             dispatch(setBackground(true));
-            formRef.current.style.outline = "2px solid coral";
+            setIsFocused(true);
           }}
           onChange={(e: any) => setSearch(e.target.value)}
         />
@@ -60,25 +60,28 @@ export default function Search() {
 }
 
 const Box = styled.form`
+  .background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 100;
+  }
+
   .search-form {
     /* flex: 1; */
     display: flex;
     /* gap: 0.5rem; */
     border-radius: 5px;
     overflow: hidden;
-    border: 2px solid green;
+    /* border: 2px solid green; */
     position: relative;
-    z-index: 100000;
-  }
-
-  .background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 100;
+    z-index: 200;
+    &.focus {
+      outline: 2px solid coral;
+    }
   }
 
   input {
