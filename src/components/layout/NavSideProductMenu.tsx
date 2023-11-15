@@ -19,7 +19,6 @@ export default function NavSideProductMenu({ isClicked, setIsClicked }: any) {
 
   return (
     <>
-      <Background />
       <Box
         className={`nav-side-product-menu ${sideMenu ? "move-in-screen" : ""}`}
         onClick={(e) => e.stopPropagation()}

@@ -70,6 +70,7 @@ export default function Layout({ children }: any) {
         theme="colored"
       />
       <Loading />
+      <Background />
       <NavSideProductMenu />
       <Modal />
 
