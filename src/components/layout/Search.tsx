@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { styled } from "styled-components";
 import { IoIosSearch } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setBackground } from "lib/client/store/backgroundSlice";
-// import Background from "@/components/layout/Background";
 
 export default function Search() {
   // external
@@ -13,36 +12,10 @@ export default function Search() {
   // internal
   const [isFocused, setIsFocused] = useState(false);
   const [search, setSearch] = useState("");
+  const router = useRouter();
 
   // const searchRef: any = useRef();
   // useEffect(() => searchRef.current.focus(), []);
-
-  const router = useRouter();
-
-  const freezeScroll = (e: any) => {
-    e.preventDefault();
-  };
-
-  const handleFocus = () => {
-    // console.log("onFocus");
-    setIsFocused(true);
-    // dispatch(setBackground(true));
-    // window.addEventListener("scroll", freezeScroll);
-  };
-
-  const handleFocusOut = () => {
-    setIsFocused(false);
-    // dispatch(setBackground(false));
-
-    // window.removeEventListener("scroll", freezeScroll);
-  };
-
-  // useEffect(() => {
-  //   if (isFocused) {
-  //     console.log("On focus");
-  //     window.addEventListener("scroll", freezeScroll);
-  //   } else window.removeEventListener("scroll", freezeScroll);
-  // }, [isFocused]);
 
   const [previous, setPrevScrollY]: any = useState(0);
 
@@ -62,7 +35,7 @@ export default function Search() {
 
   return (
     <Box className="search">
-      {isFocused && <Background onClick={handleFocusOut} />}
+      {isFocused && <Background onClick={() => setIsFocused(false)} />}
 
       <div className={`search-form ${isFocused ? "focus" : ""}`}>
         <input
@@ -76,8 +49,8 @@ export default function Search() {
           //   dispatch(setBackground(true));
           //   setIsFocused(true);
           // }}
-          onFocus={handleFocus}
-          onClick={handleFocus}
+          onFocus={() => setIsFocused(true)}
+          onClick={() => setIsFocused(true)}
           onChange={(e: any) => setSearch(e.target.value)}
         />
         <button

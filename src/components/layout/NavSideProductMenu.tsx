@@ -1,4 +1,3 @@
-import Background from "@/components/layout/Background";
 import { setBackground } from "lib/client/store/backgroundSlice";
 import { setSideMenu } from "lib/client/store/sideMenu";
 import { getData } from "lib/public/fetchData";
@@ -7,51 +6,51 @@ import { IoIosArrowForward } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-export default function NavSideProductMenu({ isClicked, setIsClicked }: any) {
+export default function NavSideProductMenu() {
   // external
   const sideMenu = useSelector((store: any) => store.sideMenu);
   const dispatch = useDispatch();
 
   const handleClose = () => {
     dispatch(setBackground(false));
-    dispatch(setSideMenu(false));
+    dispatch(setSideMenu(""));
   };
 
   return (
-    <>
-      <Box
-        className={`nav-side-product-menu ${sideMenu ? "move-in-screen" : ""}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <ul>
-          <li>
-            <Link href={"/products"} onClick={handleClose}>
-              <div>All Products</div>
-              <IoIosArrowForward />
-            </Link>
-          </li>
-          <li>
-            <Link href={"/products?category=furnitures"} onClick={handleClose}>
-              <div>Furnitures</div>
-              <IoIosArrowForward />
-            </Link>
-          </li>
-          <li>
-            <Link href={"/products?category=cosmetics"} onClick={handleClose}>
-              <div>Cosmetics</div>
-              <IoIosArrowForward />
-            </Link>
-          </li>
-          <li>
-            <Link href={"/products?category=fashion"} onClick={handleClose}>
-              <div>Fashion</div>
-              <IoIosArrowForward />
-            </Link>
-          </li>
-        </ul>
-        <hr />
-      </Box>
-    </>
+    <Box
+      className={`nav-side-product-menu ${
+        sideMenu.value === "product-menu" ? "move-in-screen" : ""
+      }`}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <ul>
+        <li>
+          <Link href={"/products"} onClick={handleClose}>
+            <div>All Products</div>
+            <IoIosArrowForward />
+          </Link>
+        </li>
+        <li>
+          <Link href={"/products?category=furnitures"} onClick={handleClose}>
+            <div>Furnitures</div>
+            <IoIosArrowForward />
+          </Link>
+        </li>
+        <li>
+          <Link href={"/products?category=cosmetics"} onClick={handleClose}>
+            <div>Cosmetics</div>
+            <IoIosArrowForward />
+          </Link>
+        </li>
+        <li>
+          <Link href={"/products?category=fashion"} onClick={handleClose}>
+            <div>Fashion</div>
+            <IoIosArrowForward />
+          </Link>
+        </li>
+      </ul>
+      <hr />
+    </Box>
   );
   // return (
   //   <Background

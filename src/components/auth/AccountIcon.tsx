@@ -2,7 +2,9 @@ import NavSideAccountMenu from "@/components/layout/NavSideAccountMenu";
 import logError from "lib/client/log/logError";
 import logResponse from "lib/client/log/logResponse";
 import { signout } from "lib/client/store/authSlice";
+import { setBackground } from "lib/client/store/backgroundSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
+import { setSideMenu } from "lib/client/store/sideMenu";
 import { getData } from "lib/public/fetchData";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
@@ -103,6 +105,12 @@ export default function AccountIcon() {
   //       </Box>
   //     );
   // }
+
+  const handleClickAccountIcon = () => {
+    dispatch(setBackground(true));
+    dispatch(setSideMenu("account-menu"));
+  };
+
   return (
     <Box>
       <div className="account-icon WEB">
@@ -116,14 +124,9 @@ export default function AccountIcon() {
         </div>
       </div>
       <div className="account-icon MOBILE">
-        <button className="account-icon-button" onClick={() => setIsClicked(true)}>
+        <button className="account-icon-button" onClick={handleClickAccountIcon}>
           <FaCircleUser size={25} />
         </button>
-        <div className="account-side-menu">
-          <NavSideAccountMenu isClicked={isClicked} setIsClicked={setIsClicked} />
-          {/* <Link href={"/auth/signin"}>Sign in</Link>
-          <Link href={"/auth/signup"}>Sign up</Link> */}
-        </div>
       </div>
     </Box>
   );
@@ -251,8 +254,4 @@ const Box = styled.div`
   a {
     color: #ccc;
   }
-`;
-
-const HorizonLine = styled.hr`
-  margin: 1rem 0;
 `;

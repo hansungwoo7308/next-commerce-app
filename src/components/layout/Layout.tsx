@@ -3,6 +3,7 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Loading from "@/components/layout/Loading";
 import Modal from "@/components/layout/Modal";
+import NavSideAccountMenu from "@/components/layout/NavSideAccountMenu";
 import NavSideProductMenu from "@/components/layout/NavSideProductMenu";
 import { setCredentials } from "lib/client/store/authSlice";
 import { reloadCart } from "lib/client/store/cartSlice";
@@ -72,6 +73,8 @@ export default function Layout({ children }: any) {
       <Loading />
       <Background />
       <NavSideProductMenu />
+      <NavSideAccountMenu />
+
       <Modal />
 
       <Header />

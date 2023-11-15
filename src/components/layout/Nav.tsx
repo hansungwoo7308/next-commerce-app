@@ -14,6 +14,11 @@ export default function Nav() {
   const cart = useSelector((store: any) => store.cart);
   const dispatch = useDispatch();
 
+  const handleClickHamburgerButton = () => {
+    dispatch(setBackground(true));
+    dispatch(setSideMenu("product-menu"));
+  };
+
   return (
     <Box>
       <div className="nav-belt-outer section-outer">
@@ -47,13 +52,7 @@ export default function Nav() {
       <div id="nav-main-outer">
         <div id="nav-main">
           <div id="nav-main-left">
-            <button
-              id="nav-hamburger"
-              onClick={() => {
-                dispatch(setBackground(true));
-                dispatch(setSideMenu(true));
-              }}
-            >
+            <button id="nav-hamburger" onClick={handleClickHamburgerButton}>
               <IoIosMenu />
               <div>All</div>
             </button>
