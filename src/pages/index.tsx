@@ -9,8 +9,6 @@ import { useEffect, useState } from "react";
 
 export async function getServerSideProps({ req, query }: any) {
   console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
-  // console.log({ "Object.keys(req)": Object.keys(req) });
-  // console.log({ "Object.entries(req)": Object.entries(req) });
 
   await connectDB();
   const randomProducts = await Product.aggregate([{ $sample: { size: 9 } }]).exec();

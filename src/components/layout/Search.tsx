@@ -36,7 +36,6 @@ export default function Search() {
   return (
     <Box className="search">
       {isFocused && <Background onClick={() => setIsFocused(false)} />}
-
       <div className={`search-form ${isFocused ? "focus" : ""}`}>
         <input
           type="text"
@@ -85,26 +84,12 @@ const Background = styled.div`
 `;
 
 const Box = styled.form`
-  /* .background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 100;
-  } */
-
   .search-form {
-    /* flex: 1; */
     display: flex;
-    /* gap: 0.5rem; */
     border-radius: 5px;
     overflow: hidden;
-    /* border: 2px solid green; */
     position: relative;
     z-index: 2000;
-    /* z-index: 200; */
     &.focus {
       outline: 2px solid coral;
     }
@@ -112,12 +97,15 @@ const Box = styled.form`
 
   input {
     flex: 1;
+    width: 100%;
+    min-width: 100px;
     outline: none;
     border: none;
     padding: 10px;
   }
 
   button {
+    width: 3rem;
     /* border: 1px solid red; */
     background-color: #67b34bec;
     &:hover {
@@ -127,7 +115,7 @@ const Box = styled.form`
 
   @media (max-width: 500px), (width <= 500px) {
     input {
-      max-width: 100px;
+      /* max-width: 5rem; */
     }
   }
 `;

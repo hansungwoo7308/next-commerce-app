@@ -7,19 +7,13 @@ import { styled } from "styled-components";
 import { setCredentials } from "lib/client/store/authSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { toast } from "react-toastify";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import logError from "lib/client/log/logError";
 import { SiNaver } from "react-icons/si";
-// import logResponse from "lib/client/log/logResponse";
-// import logError from "lib/client/log/logError";
-// import { setCredentials } from "lib/client/store/authSlice";
-// import { postData } from "lib/client/utils/fetchData";
-// import { setLoading, setNotify } from "lib/client/store/notifySlice";
 
 export default function SigninForm() {
   // external
   const dispatch = useDispatch();
-  const session: any = useSession();
 
   // internal
   const router = useRouter();
@@ -72,26 +66,10 @@ export default function SigninForm() {
     await signIn("naver", { redirect: true, callbackUrl: "/" });
   };
 
-  useEffect(() => {
-    setFocus("email");
-  }, [setFocus]);
-  // useEffect(() => {
-  //   if (session.status === "authenticated") {
-  //     // console.log({ session });
-  //     const user = {
-  //       username: session.data.user?.name,
-  //       email: session.data.user?.email,
-  //       image: session.data.user?.image,
-  //       role: session.data.user?.role,
-  //     };
-  //     const credentials = { user, accessToken: "next-auth" };
-  //     dispatch(setCredentials(credentials));
-  //     // router.push("/auth/profile");
-  //   }
-  // }, [session.data]);
+  useEffect(() => setFocus("email"), [setFocus]);
 
   return (
-    <Box>
+    <Box className="signin-form">
       <h1>Sign In</h1>
       <input {...register("email", { required: true })} type="text" placeholder="email" />
       <input {...register("password", { required: true })} type="password" placeholder="password" />
@@ -114,19 +92,20 @@ export default function SigninForm() {
 
 const Box = styled.form`
   width: 50%;
-  height: 50vh;
   max-width: 500px;
+  min-width: 300px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 15px;
+
   border: 2px solid green;
   border-radius: 10px;
-  padding: 1rem;
-  /* background-color: var(--color-form-background); */
+  padding: 3rem 1rem;
   background-color: #222;
-  /* border-radius: 1rem; */
+
   > input {
     /* width: 50%; */
     width: 200px;
@@ -157,11 +136,4 @@ const Box = styled.form`
   .signin-with-naver {
     background-color: #03c75a;
   }
-  /* @media (width<1000px) {
-    width: 70%;
-    max-width: 500px;
-  }
-  @media (width<500px) {
-    width: 90%;
-  } */
 `;

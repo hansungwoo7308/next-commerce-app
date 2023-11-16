@@ -1,6 +1,7 @@
 import Head from "next/head";
 import styled from "styled-components";
 import SigninForm from "@/components/form/SigninForm";
+
 export default function Page() {
   return (
     <>
@@ -15,8 +16,9 @@ export default function Page() {
     </>
   );
 }
+
 const Main = styled.main`
-  > section {
+  section {
     display: flex;
     justify-content: center;
     align-items: center;
