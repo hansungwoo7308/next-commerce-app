@@ -52,7 +52,7 @@ export default function Page({ product }: any) {
   if (!product) return null;
 
   return (
-    <Main>
+    <Main className="products-[id]-page">
       <section>
         <ProductDetail product={product} />
       </section>

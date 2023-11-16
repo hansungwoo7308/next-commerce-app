@@ -44,7 +44,7 @@ export default function Page() {
       <Head>
         <title>Sign Up</title>
       </Head>
-      <Main>
+      <Main className="signup-page">
         <section>
           <SignupForm />
         </section>

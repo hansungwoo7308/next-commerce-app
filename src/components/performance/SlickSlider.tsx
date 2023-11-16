@@ -84,7 +84,7 @@ export default function SlickSlider({ items, itemSize, sliderSize, actionType, s
               alt="alt"
               width={itemSize.width}
               height={itemSize.height}
-              style={{ height: itemSize.height }}
+              style={{ height: sliderSize?.height }}
               onClick={(e) => handleClickImage(item.url)}
             />
             {item.text && (
@@ -149,6 +149,9 @@ const Box = styled.div`
           height: 100%;
           overflow: hidden;
           /* border: 1px solid red; */
+          div {
+            height: 100%;
+          }
         }
       }
     }

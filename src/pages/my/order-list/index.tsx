@@ -33,7 +33,7 @@ export default function Page() {
       <Head>
         <title>Order List Page</title>
       </Head>
-      <Main>
+      <Main className="my-order-list-page">
         <section>
           <div className="orders">
             <h1>Order List</h1>

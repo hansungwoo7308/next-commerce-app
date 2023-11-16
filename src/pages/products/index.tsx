@@ -63,7 +63,7 @@ export default function Page({ products, pageCount }: any) {
   };
 
   return (
-    <Main>
+    <Main className="products-page">
       <section>
         <div className="products-page-section-inner">
           <ProductsWidgets products={products} />

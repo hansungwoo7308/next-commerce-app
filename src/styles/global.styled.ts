@@ -3,8 +3,7 @@ import { createGlobalStyle } from "styled-components";
 const styled = { createGlobalStyle };
 
 export const GlobalStyled = styled.createGlobalStyle`
-  /* init */
-  /* root 에서 간편하게 변경하기 위해서 변수를 사용한다. */
+  /* Root Varaibles */
   :root {
     /* COLOR */
 
@@ -91,7 +90,7 @@ export const GlobalStyled = styled.createGlobalStyle`
       padding-top: 100px;
       /* min-height: calc(100vh - var(--nav-height)); */
       margin: auto;
-      /* outline: 2px dashed; */
+      outline: 2px dashed;
     }
   }
   footer {
@@ -113,14 +112,18 @@ export const GlobalStyled = styled.createGlobalStyle`
       color: var(--color-hover);
     }
   }
-  html body button {
-    cursor: pointer;
-    border: none;
-    padding: 0.5rem;
-    background-color: inherit;
-    color: #fff;
-    &:hover {
-      background-color: #000;
+  html body {
+    button,
+    .signin-form button,
+    .signup-form button {
+      cursor: pointer;
+      border: none;
+      padding: 0.5rem;
+      background-color: inherit;
+      color: #fff;
+      &:hover {
+        background-color: #000;
+      }
     }
   }
   html body .general-button {

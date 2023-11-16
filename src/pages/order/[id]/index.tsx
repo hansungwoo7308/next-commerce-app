@@ -20,7 +20,7 @@ export default function Page() {
 
   if (!auth.accessToken || !order) return null;
   return (
-    <Main>
+    <Main className="order-[id]-page">
       <section>
         <div>
           <button onClick={() => router.back()}>Go Back</button>

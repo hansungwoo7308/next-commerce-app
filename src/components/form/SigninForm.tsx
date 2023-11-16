@@ -99,7 +99,7 @@ const Box = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
 
   border: 2px solid green;
   border-radius: 10px;

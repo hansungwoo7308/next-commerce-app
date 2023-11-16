@@ -71,7 +71,7 @@ export default function Page() {
   };
 
   return (
-    <Main>
+    <Main className="order-page">
       <section>
         <div className="order-outer">
           <form className="order">

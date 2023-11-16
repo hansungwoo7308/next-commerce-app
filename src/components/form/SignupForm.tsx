@@ -38,7 +38,7 @@ export default function SignupForm() {
       toast.success("signup success");
       // reset();
       setFocus("name");
-      // router.push('/auth/signin')
+      router.push("/auth/signin");
     } catch (error: any) {
       logError(error);
       dispatch(setLoading(false));
@@ -46,7 +46,7 @@ export default function SignupForm() {
     }
   };
 
-  useEffect(() => setFocus("name"), []);
+  useEffect(() => setFocus("name"), [setFocus]);
 
   return (
     <Box className="signup-form">

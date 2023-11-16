@@ -49,7 +49,7 @@ export default function Search() {
           //   setIsFocused(true);
           // }}
           onFocus={() => setIsFocused(true)}
-          onClick={() => setIsFocused(true)}
+          // onClick={() => setIsFocused(true)}
           onChange={(e: any) => setSearch(e.target.value)}
         />
         <button
@@ -60,6 +60,7 @@ export default function Search() {
             router.query.search = search;
             router.push({ pathname: "/products", query: router.query });
             console.log({ router });
+            setIsFocused(false);
           }}
         >
           <IoIosSearch size={20} color="#000" />
@@ -91,25 +92,29 @@ const Box = styled.form`
     position: relative;
     z-index: 2000;
     &.focus {
-      outline: 2px solid coral;
+      /* outline: 2px solid coral; */
+      box-shadow: 0 0 0 2px coral;
     }
-  }
 
-  input {
-    flex: 1;
-    width: 100%;
-    min-width: 100px;
-    outline: none;
-    border: none;
-    padding: 10px;
-  }
+    input {
+      flex: 1;
+      width: 100%;
+      min-width: 100px;
+      outline: none;
+      border: none;
+      padding: 10px;
 
-  button {
-    width: 3rem;
-    /* border: 1px solid red; */
-    background-color: #67b34bec;
-    &:hover {
-      background-color: #67b34bb3;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    button {
+      width: 3rem;
+      /* border: 1px solid red; */
+      background-color: #67b34bec;
+      &:hover {
+        background-color: #67b34bb3;
+      }
     }
   }
 

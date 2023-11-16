@@ -86,7 +86,7 @@ export default function Page() {
 
   if (!cart.products?.length) {
     return (
-      <Main>
+      <Main className="cart-page">
         <section>
           <div className="cart">
             <h1>No items</h1>
@@ -96,7 +96,7 @@ export default function Page() {
     );
   }
   return (
-    <Main>
+    <Main className="cart-page">
       <section>
         <div className="cart-list-outer">
           <h1>Shopping Cart</h1>

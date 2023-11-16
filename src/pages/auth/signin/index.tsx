@@ -8,7 +8,7 @@ export default function Page() {
       <Head>
         <title>signin</title>
       </Head>
-      <Main>
+      <Main className="signin-page">
         <section>
           <SigninForm />
         </section>

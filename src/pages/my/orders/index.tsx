@@ -71,7 +71,7 @@ export default function Page({ orders }: any) {
   // if (!orders.length) return null;
   if (!orders.length) return null;
   return (
-    <Main>
+    <Main className="my-orders-page">
       <section>
         <div>
           <h1>Ordered List</h1>

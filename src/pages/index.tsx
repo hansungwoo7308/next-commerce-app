@@ -25,7 +25,7 @@ export async function getServerSideProps({ req, query }: any) {
 const data = [
   {
     id: "slide-01",
-    url: "/images/slide-01.jpg",
+    url: "https://res.cloudinary.com/dzktdrw7o/image/upload/v1700059928/next-commerce-app/pages/home/paul-steuber-rs11hu-bkTc-unsplash_kzxwfs.jpg",
   },
   {
     id: "slide-02",
@@ -95,7 +95,7 @@ export default function Home({ products }: any) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Main>
+      <Main className="home-page">
         <section className="banner">
           <SlickSlider
             items={data}
@@ -288,25 +288,29 @@ const Main = styled.main`
     .new-arrivals {
       .slick-slide {
         padding: 0 1rem;
-
         .img-outer {
-          border-radius: 10px;
-          overflow: hidden;
-          &:hover img {
-            transform: scale(1.1);
+          img {
+            border-radius: 10px;
+            overflow: hidden;
+            &:hover {
+              transform: scale(1.1);
+            }
           }
-          &:hover .text {
-            display: flex;
+          /* &:hover img {
+            transform: scale(1.1);
+          } */
+          .text {
+            &:hover {
+              display: flex;
+            }
           }
           img,
           .text {
             transition: all 0.5s;
           }
         }
-        & {
-          @media (max-width: 500px), (width <= 500px) {
-            padding: 0;
-          }
+        @media (max-width: 500px), (width <= 500px) {
+          padding: 10px;
         }
       }
       .controller {
