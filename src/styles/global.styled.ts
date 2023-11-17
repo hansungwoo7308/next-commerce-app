@@ -69,11 +69,10 @@ export const GlobalStyled = styled.createGlobalStyle`
 
     @media (max-width: 1000px), (width <= 1000px) {
       nav .nav-belt .nav-belt-right {
-        .account-icon.WEB {
-          display: none;
-        }
-        .account-icon.MOBILE {
-          display: flex;
+        .account-icon .avatar-outer {
+          &:hover + .hover-menu {
+            display: none;
+          }
         }
       }
     }
