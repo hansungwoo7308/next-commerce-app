@@ -9,8 +9,6 @@ import logResponse from "lib/client/log/logResponse";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { FaCircleUser } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { styled } from "styled-components";
@@ -65,7 +63,11 @@ export default function AccountIcon() {
         <div className="account-icon authenticated">
           <div className="avatar-outer" onClick={handleOpenSideMenu}>
             <div className="avatar">
-              <Image src={auth.user?.image} alt="alt" width={100} height={100} />
+              {auth.user?.image ? (
+                <Image src={auth.user?.image} alt="alt" width={100} height={100} />
+              ) : (
+                <FcGlobe size={30} />
+              )}
             </div>
           </div>
           <div className="hover-menu">

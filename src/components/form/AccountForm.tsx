@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { FcGlobe } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
@@ -63,37 +64,82 @@ export default function AccountForm() {
 
   return (
     <Box className="account-form">
-      <div className="avatar">
-        <Image
-          src={
-            (newImage && URL.createObjectURL(newImage)) ||
-            auth.user.image ||
-            "/images/placeholder.jpg"
-          }
-          alt="alt"
-          width={300}
-          height={300}
-        />
-        <div className="input-outer">
-          <input
-            type="file"
-            accept="image/*"
-            name={registeredImageProperties.name}
-            onChange={(e: any) => {
-              // registeredImageProperties.onChange(e);
-              // console.log({ some: e.target.value, some2: e.target.files });
-              const newImage = e.target.files[0];
-              setValue("image", newImage);
-              setNewImage(newImage);
-              setIsEditMode(true);
-            }}
-          />
+      <div className="avatar-outer">
+        <div className="avatar">
+          {auth.user?.image ? (
+            <Image
+              src={
+                (newImage && URL.createObjectURL(newImage)) ||
+                auth.user.image ||
+                "/images/placeholder.jpg"
+              }
+              alt="alt"
+              width={300}
+              height={300}
+            />
+          ) : (
+            <FcGlobe />
+          )}
+          <div className="input-outer">
+            <input
+              type="file"
+              accept="image/*"
+              name={registeredImageProperties.name}
+              onChange={(e: any) => {
+                // registeredImageProperties.onChange(e);
+                // console.log({ some: e.target.value, some2: e.target.files });
+                const newImage = e.target.files[0];
+                setValue("image", newImage);
+                setNewImage(newImage);
+                setIsEditMode(true);
+              }}
+            />
+          </div>
         </div>
       </div>
-      {/* <div className="uploader">{userAvatar}</div> */}
 
       <div className="user-info">
-        <table>
+        {isEditMode ? (
+          <ul className="user-info-list-edit-mode">
+            <li>
+              <strong>Name</strong>
+              <input {...register("name")} type="text" />
+            </li>
+            <li>
+              <strong>Email</strong>
+              <input {...register("email")} type="email" />
+            </li>
+            <li>
+              <strong>Role</strong>
+              <div className="role-option">
+                <input {...registeredRoleProperties} type="radio" value="admin" id="admin" />
+                <label htmlFor="admin">
+                  <p>Admin</p>
+                </label>
+                <input {...registeredRoleProperties} type="radio" value="user" id="user" />
+                <label htmlFor="user">
+                  <p>User</p>
+                </label>
+              </div>
+            </li>
+          </ul>
+        ) : (
+          <ul className="user-info-list">
+            <li>
+              <strong>Name</strong>
+              <p>{auth.user.name}</p>
+            </li>
+            <li>
+              <strong>Email</strong>
+              <p>{auth.user.email}</p>
+            </li>
+            <li>
+              <strong>Role</strong>
+              <p>{auth.user.role}</p>
+            </li>
+          </ul>
+        )}
+        {/* <table>
           <tbody>
             <tr>
               <th>Name</th>
@@ -108,7 +154,7 @@ export default function AccountForm() {
               <td>{auth.user.role}</td>
             </tr>
           </tbody>
-        </table>
+        </table> */}
 
         <div className="controller">
           {isEditMode ? (
@@ -138,56 +184,6 @@ export default function AccountForm() {
             </button>
           )}
         </div>
-        {/* {isEditMode ? (
-          <table>
-            <tbody>
-              <tr>
-                <th>Name</th>
-                <td>
-                  <input {...register("name")} type="text" />
-                </td>
-              </tr>
-              <tr>
-                <th>Email</th>
-                <td>
-                  <input {...register("email")} type="email" />
-                </td>
-              </tr>
-              <tr>
-                <th>Role</th>
-                <td>
-                  <div className="radio-inputs">
-                    <input {...registeredRoleProperties} type="radio" value="admin" id="admin" />
-                    <label htmlFor="admin">
-                      <p>Admin</p>
-                    </label>
-                    <input {...registeredRoleProperties} type="radio" value="user" id="user" />
-                    <label htmlFor="user">
-                      <p>User</p>
-                    </label>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        ) : (
-          <table>
-            <tbody>
-              <tr>
-                <th>Name</th>
-                <td>{auth.user.name}</td>
-              </tr>
-              <tr>
-                <th>Email</th>
-                <td>{auth.user.email}</td>
-              </tr>
-              <tr>
-                <th>Role</th>
-                <td>{auth.user.role}</td>
-              </tr>
-            </tbody>
-          </table>
-        )} */}
       </div>
     </Box>
   );
@@ -203,33 +199,49 @@ const Box = styled.form`
   background-color: #333;
 
   > * {
-    border: 3px solid coral;
+    /* border: 3px solid coral; */
   }
 
-  .avatar {
+  .avatar-outer {
     grid-area: area1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    position: relative;
-    width: 12rem;
-    height: 12rem;
-    border: 3px solid coral;
-    border-radius: 50%;
-    overflow: hidden;
-    &:hover > .input-outer {
-      bottom: 0;
-      opacity: 1;
-    }
+    .avatar {
+      width: 10rem;
+      height: 10rem;
 
-    .input-outer {
-      position: absolute;
-      bottom: -50%;
-      left: 0;
-      width: 100%;
-      height: 50%;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: coral;
-      opacity: 0;
-      transition: all 0.5s;
+      position: relative;
+      border: 3px solid coral;
+      border-radius: 50%;
+      overflow: hidden;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &:hover > .input-outer {
+        bottom: 0;
+        opacity: 1;
+      }
+
+      svg {
+        width: 100%;
+        height: 100%;
+        filter: grayscale(1);
+      }
+
+      .input-outer {
+        position: absolute;
+        bottom: -50%;
+        left: 0;
+        width: 100%;
+        height: 50%;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: coral;
+        opacity: 0;
+        transition: all 0.5s;
+      }
     }
   }
 
@@ -241,23 +253,52 @@ const Box = styled.form`
     justify-content: space-between;
     gap: 1rem;
 
-    table {
-      tr,
-      td {
-        border: 1px solid;
-      }
-    }
-    table {
-      /* width: 100%; */
-      border-collapse: collapse;
-      /* border: 1px solid; */
-      th,
-      td {
-        /* border: 1px solid; */
+    ul {
+      display: flex;
+      flex-direction: column;
+      /* gap: 0.5rem; */
+
+      li {
+        width: 15rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
         padding: 0.5rem;
-      }
-      th {
-        /* width: 20%; */
+        /* border: 1px solid; */
+
+        > * {
+          padding: 3px;
+        }
+
+        input {
+          width: 10rem;
+        }
+
+        .role-option {
+          display: flex;
+          gap: 1rem;
+
+          input[type="radio"] {
+            display: none;
+            &:checked + label {
+              color: #fff;
+              background-color: black;
+            }
+          }
+
+          label {
+            height: 100%;
+            border: 1px solid;
+            border-radius: 2px;
+            padding: 0 3px;
+            cursor: pointer;
+
+            p {
+              font-size: initial;
+            }
+          }
+        }
       }
     }
   }
@@ -265,23 +306,9 @@ const Box = styled.form`
   .controller {
     grid-area: area3;
     text-align: end;
-  }
 
-  .radio-inputs {
-    display: flex;
-    gap: 1rem;
-    input[type="radio"] {
-      display: none;
-      &:checked + label {
-        color: #fff;
-        background-color: #000;
-      }
-    }
-    label {
-      border: 1px solid;
-      border-radius: 7px;
-      padding: 3px 7px;
-      cursor: pointer;
+    .update-button {
+      margin-left: 1rem;
     }
   }
 `;
