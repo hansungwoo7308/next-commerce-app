@@ -108,10 +108,8 @@ export default function SlickSlider({ items, itemSize, sliderSize, actionType, s
 }
 
 const Box = styled.div`
-  /* height: 300px; */
   position: relative;
 
-  /* public */
   .img-outer {
     position: relative;
     display: flex;
@@ -136,7 +134,6 @@ const Box = styled.div`
     background-color: initial;
   }
 
-  /* children */
   .slick-slider {
     height: 100%;
     position: relative;
@@ -164,6 +161,7 @@ const Box = styled.div`
       }
     }
   }
+
   .controller {
     .arrow {
       height: 100%;

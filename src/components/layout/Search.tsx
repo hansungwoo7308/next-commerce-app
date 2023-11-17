@@ -36,7 +36,7 @@ export default function Search() {
   return (
     <Box className="search">
       {isFocused && <Background onClick={() => setIsFocused(false)} />}
-      <div className={`search-form ${isFocused ? "focus" : ""}`}>
+      <div className={`search-form ${isFocused ? "outline" : ""}`}>
         <input
           type="text"
           value={search}
@@ -49,7 +49,6 @@ export default function Search() {
           //   setIsFocused(true);
           // }}
           onFocus={() => setIsFocused(true)}
-          // onClick={() => setIsFocused(true)}
           onChange={(e: any) => setSearch(e.target.value)}
         />
         <button
@@ -91,7 +90,7 @@ const Box = styled.form`
     overflow: hidden;
     position: relative;
     z-index: 2000;
-    &.focus {
+    &.outline {
       /* outline: 2px solid coral; */
       box-shadow: 0 0 0 2px coral;
     }
@@ -99,7 +98,7 @@ const Box = styled.form`
     input {
       flex: 1;
       width: 100%;
-      min-width: 100px;
+      min-width: 10rem;
       outline: none;
       border: none;
       padding: 10px;
@@ -109,8 +108,12 @@ const Box = styled.form`
     }
 
     button {
-      width: 3rem;
-      /* border: 1px solid red; */
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      /* width: 3rem; */
+      height: 100%;
       background-color: #67b34bec;
       &:hover {
         background-color: #67b34bb3;

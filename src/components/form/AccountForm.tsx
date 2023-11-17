@@ -24,6 +24,7 @@ export default function AccountForm() {
 
   const handleUpdateAccountInfo = async (data: any) => {
     console.log({ data });
+    return;
 
     try {
       dispatch(setLoading(true));
@@ -58,144 +59,214 @@ export default function AccountForm() {
     }
   };
 
-  const handleClickEditButton = (e: any) => {
-    e.preventDefault();
-    setIsEditMode(true);
-  };
-  const handleClickCancelButton = (e: any) => {
-    e.preventDefault();
-    setIsEditMode(false);
-  };
-
   if (!auth.user) return null;
 
   return (
-    <Box>
-      <div className="account-form-content">
-        <div className="left component">
-          <div className="avatar">
-            <Image
-              src={
-                (newImage && URL.createObjectURL(newImage)) ||
-                auth.user.image ||
-                "/images/placeholder.jpg"
-              }
-              alt="profile-image"
-              width={300}
-              height={300}
-            />
-            <div className="input-outer">
-              <input
-                type="file"
-                accept="image/*"
-                name={registeredImageProperties.name}
-                onChange={(e: any) => {
-                  // registeredImageProperties.onChange(e);
-                  // console.log({ some: e.target.value, some2: e.target.files });
-                  const newImage = e.target.files[0];
-                  setValue("image", newImage);
-                  setNewImage(newImage);
-                  setIsEditMode(true);
-                }}
-              />
-            </div>
-          </div>
-          {/* <div className="uploader">{userAvatar}</div> */}
-        </div>
-        <div className="right component">
-          {isEditMode ? (
-            <table>
-              <tbody>
-                <tr>
-                  <th>Name</th>
-                  <td>
-                    <input {...register("name")} type="text" />
-                  </td>
-                </tr>
-                <tr>
-                  <th>Email</th>
-                  <td>
-                    <input {...register("email")} type="email" />
-                  </td>
-                </tr>
-                <tr>
-                  <th>Role</th>
-                  <td>
-                    <div className="radio-inputs">
-                      <input {...registeredRoleProperties} type="radio" value="admin" id="admin" />
-                      <label htmlFor="admin">
-                        <p>Admin</p>
-                      </label>
-                      <input {...registeredRoleProperties} type="radio" value="user" id="user" />
-                      <label htmlFor="user">
-                        <p>User</p>
-                      </label>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          ) : (
-            <table>
-              <tbody>
-                <tr>
-                  <th>Name</th>
-                  <td>{auth.user.name}</td>
-                </tr>
-                <tr>
-                  <th>Email</th>
-                  <td>{auth.user.email}</td>
-                </tr>
-                <tr>
-                  <th>Role</th>
-                  <td>{auth.user.role}</td>
-                </tr>
-              </tbody>
-            </table>
-          )}
+    <Box className="account-form">
+      <div className="avatar">
+        <Image
+          src={
+            (newImage && URL.createObjectURL(newImage)) ||
+            auth.user.image ||
+            "/images/placeholder.jpg"
+          }
+          alt="alt"
+          width={300}
+          height={300}
+        />
+        <div className="input-outer">
+          <input
+            type="file"
+            accept="image/*"
+            name={registeredImageProperties.name}
+            onChange={(e: any) => {
+              // registeredImageProperties.onChange(e);
+              // console.log({ some: e.target.value, some2: e.target.files });
+              const newImage = e.target.files[0];
+              setValue("image", newImage);
+              setNewImage(newImage);
+              setIsEditMode(true);
+            }}
+          />
         </div>
       </div>
-      <div
-        className="account-form-controller component"
-        style={{ background: isEditMode ? "#777" : "#333" }}
-      >
-        {isEditMode ? (
-          <div>
-            <button className="cancel-button" onClick={handleClickCancelButton}>
-              Cancel
-            </button>
-            <button className="update-button" onClick={handleSubmit(handleUpdateAccountInfo)}>
-              Submit
-            </button>
-          </div>
-        ) : (
-          <div>
-            <button className="edit-button" onClick={handleClickEditButton}>
+      {/* <div className="uploader">{userAvatar}</div> */}
+
+      <div className="user-info">
+        <table>
+          <tbody>
+            <tr>
+              <th>Name</th>
+              <td>{auth.user.name}</td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td>{auth.user.email}</td>
+            </tr>
+            <tr>
+              <th>Role</th>
+              <td>{auth.user.role}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div className="controller">
+          {isEditMode ? (
+            <>
+              <button
+                className="cancel-button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsEditMode(false);
+                }}
+              >
+                Cancel
+              </button>
+              <button className="update-button" onClick={handleSubmit(handleUpdateAccountInfo)}>
+                Submit
+              </button>
+            </>
+          ) : (
+            <button
+              className="edit-button"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsEditMode(true);
+              }}
+            >
               Edit
             </button>
-          </div>
-        )}
+          )}
+        </div>
+        {/* {isEditMode ? (
+          <table>
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <td>
+                  <input {...register("name")} type="text" />
+                </td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td>
+                  <input {...register("email")} type="email" />
+                </td>
+              </tr>
+              <tr>
+                <th>Role</th>
+                <td>
+                  <div className="radio-inputs">
+                    <input {...registeredRoleProperties} type="radio" value="admin" id="admin" />
+                    <label htmlFor="admin">
+                      <p>Admin</p>
+                    </label>
+                    <input {...registeredRoleProperties} type="radio" value="user" id="user" />
+                    <label htmlFor="user">
+                      <p>User</p>
+                    </label>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        ) : (
+          <table>
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <td>{auth.user.name}</td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td>{auth.user.email}</td>
+              </tr>
+              <tr>
+                <th>Role</th>
+                <td>{auth.user.role}</td>
+              </tr>
+            </tbody>
+          </table>
+        )} */}
       </div>
     </Box>
   );
 }
 
 const Box = styled.form`
-  width: 500px;
-  margin: auto;
-  /* padding: 1rem; */
-  border: 2px solid yellow;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-areas: "area1 area2";
+  gap: 3rem;
+  padding: 3rem;
+  border: 1px solid;
+  border-radius: 10px;
+  background-color: #333;
 
-  tr,
-  td {
-    border: 1px solid;
+  > * {
+    border: 3px solid coral;
   }
-  input {
-    width: 100%;
+
+  .avatar {
+    grid-area: area1;
+
+    position: relative;
+    width: 12rem;
+    height: 12rem;
+    border: 3px solid coral;
+    border-radius: 50%;
+    overflow: hidden;
+    &:hover > .input-outer {
+      bottom: 0;
+      opacity: 1;
+    }
+
+    .input-outer {
+      position: absolute;
+      bottom: -50%;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: coral;
+      opacity: 0;
+      transition: all 0.5s;
+    }
   }
+
+  .user-info {
+    grid-area: area2;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+
+    table {
+      tr,
+      td {
+        border: 1px solid;
+      }
+    }
+    table {
+      /* width: 100%; */
+      border-collapse: collapse;
+      /* border: 1px solid; */
+      th,
+      td {
+        /* border: 1px solid; */
+        padding: 0.5rem;
+      }
+      th {
+        /* width: 20%; */
+      }
+    }
+  }
+
+  .controller {
+    grid-area: area3;
+    text-align: end;
+  }
+
   .radio-inputs {
     display: flex;
     gap: 1rem;
@@ -212,65 +283,5 @@ const Box = styled.form`
       padding: 3px 7px;
       cursor: pointer;
     }
-  }
-  .component {
-    border: 2px solid;
-    border-radius: 10px;
-    padding: 1rem;
-    background-color: #333;
-  }
-  .account-form-content {
-    display: flex;
-    gap: 1rem;
-    > .left {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      /* border: 1px solid red; */
-      > .avatar {
-        position: relative;
-        width: 12rem;
-        height: 12rem;
-        border: 5px solid;
-        border-radius: 50%;
-        overflow: hidden;
-        > .input-outer {
-          position: absolute;
-          bottom: -50%;
-          left: 0;
-          width: 100%;
-          height: 50%;
-          background-color: rgba(0, 0, 0, 0.5);
-          color: coral;
-          opacity: 0;
-          transition: all 0.5s;
-        }
-        &:hover > .input-outer {
-          bottom: 0;
-          opacity: 1;
-        }
-      }
-    }
-    > .right {
-      flex: 1;
-      display: flex;
-      table {
-        width: 100%;
-        line-height: 2rem;
-        border-collapse: collapse;
-        /* border: 1px solid; */
-        th,
-        td {
-          /* border: 1px solid; */
-          padding: 0.5rem;
-        }
-        th {
-          width: 20%;
-        }
-      }
-    }
-  }
-  .account-form-controller {
-    text-align: end;
   }
 `;

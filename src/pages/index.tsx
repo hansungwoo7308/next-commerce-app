@@ -289,21 +289,17 @@ const Main = styled.main`
       .slick-slide {
         padding: 0 1rem;
         .img-outer {
-          img {
-            border-radius: 10px;
-            overflow: hidden;
-            &:hover {
+          border-radius: 10px;
+          overflow: hidden;
+          &:hover {
+            img {
               transform: scale(1.1);
             }
-          }
-          /* &:hover img {
-            transform: scale(1.1);
-          } */
-          .text {
-            &:hover {
+            .text {
               display: flex;
             }
           }
+
           img,
           .text {
             transition: all 0.5s;

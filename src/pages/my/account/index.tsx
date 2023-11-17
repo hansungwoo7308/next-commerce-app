@@ -46,42 +46,6 @@ export default function Page() {
   return (
     <Main className="my-account-page">
       <section>
-        {/* <form>
-          <div className="profile">
-            <div className="left">
-              <div className="avatar">
-                <Image
-                  src={
-                    (newImage && URL.createObjectURL(newImage)) ||
-                    image ||
-                    "/images/placeholder.jpg"
-                  }
-                  alt="profile-image"
-                  width={300}
-                  height={300}
-                />
-                <div className="input-outer">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    name={registeredImageProperties.name}
-                    onChange={(e: any) => {
-                      // registeredImageProperties.onChange(e);
-                      // console.log({ some: e.target.value, some2: e.target.files });
-                      const newImage = e.target.files[0];
-                      setValue("image", newImage);
-                      setNewImage(newImage);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="right">
-              <ul>{userInfo}</ul>
-              <button onClick={handleSubmit(handleUpdateAccountInfo)}>Submit for saving</button>
-            </div>
-          </div>
-        </form> */}
         <AccountForm />
       </section>
     </Main>
@@ -93,5 +57,11 @@ const Main = styled.main`
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  @media (max-width: 500px) {
+    .account-form {
+      grid-template-areas: "area1 area1" "area2 area2";
+    }
   }
 `;
