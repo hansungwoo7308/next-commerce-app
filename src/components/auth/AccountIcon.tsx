@@ -88,11 +88,10 @@ export default function AccountIcon() {
 
   return (
     <Box>
-      <div className="account-icon WEB">
+      <div className="account-icon">
         <div className="avatar-outer">
           <div className="avatar" onClick={handleOpenSideMenu}>
-            {/* <FaCircleUser size={25} /> */}
-            <FcGlobe />
+            <FcGlobe size={30} />
           </div>
         </div>
         <div className="hover-menu">
@@ -126,7 +125,7 @@ const Box = styled.div`
       height: 100%;
       display: flex;
       align-items: center;
-      padding: 1rem;
+      padding: 12px;
       &:hover {
         color: #fff;
       }
@@ -135,16 +134,15 @@ const Box = styled.div`
       }
 
       .avatar {
-        width: 100%;
-        height: 100%;
-        /* border: 1px solid; */
         border: 2px solid coral;
         border-radius: 50%;
         overflow: hidden;
 
-        svg {
-          width: 100%;
-          height: 100%;
+        display: flex;
+
+        img {
+          width: 30px;
+          height: 30px;
         }
       }
     }
@@ -171,14 +169,11 @@ const Box = styled.div`
         pointer-events: none;
       }
 
-      button,
-      a {
-        /* color: #ccc; */
-      }
       p {
         display: flex;
         align-items: center;
       }
+
       a,
       button {
         width: 100%;
