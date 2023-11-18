@@ -113,13 +113,9 @@ export default function AccountForm() {
               <strong>Role</strong>
               <div className="role-option">
                 <input {...registeredRoleProperties} type="radio" value="admin" id="admin" />
-                <label htmlFor="admin">
-                  <p>Admin</p>
-                </label>
+                <label htmlFor="admin">Admin</label>
                 <input {...registeredRoleProperties} type="radio" value="user" id="user" />
-                <label htmlFor="user">
-                  <p>User</p>
-                </label>
+                <label htmlFor="user">User</label>
               </div>
             </li>
           </ul>
@@ -268,7 +264,7 @@ const Box = styled.form`
         /* border: 1px solid; */
 
         > * {
-          padding: 3px;
+          padding: 0;
         }
 
         input {
@@ -277,25 +273,24 @@ const Box = styled.form`
 
         .role-option {
           display: flex;
-          gap: 1rem;
+          gap: 10px;
 
           input[type="radio"] {
             display: none;
             &:checked + label {
               color: #fff;
-              background-color: black;
+              background-color: coral;
             }
           }
 
           label {
             height: 100%;
-            border: 1px solid;
             border-radius: 2px;
-            padding: 0 3px;
+            padding: 2px 5px;
             cursor: pointer;
-
-            p {
-              font-size: initial;
+            font-size: 12px;
+            &:hover {
+              background-color: black;
             }
           }
         }

@@ -89,7 +89,7 @@ export const GlobalStyled = styled.createGlobalStyle`
       padding-top: 100px;
       /* min-height: calc(100vh - var(--nav-height)); */
       margin: auto;
-      outline: 2px dashed;
+      /* outline: 2px dashed; */
     }
   }
   footer {
