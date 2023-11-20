@@ -145,69 +145,69 @@ export default function Home({ products }: any) {
               </Link>
             </div>
           </div>
-          <div className="best-sellers">
-            <h1>Best Sellers</h1>
-            {randomProducts && (
-              <SlickSlider
-                items={randomItems}
-                itemSize={{ width: 300, height: 200 }}
-                actionType="VIEW_IMAGE"
-                settings={
-                  deviceEnv === "mobile"
-                    ? {
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                      }
-                    : deviceEnv === "tablet"
-                    ? {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
-                      }
-                    : deviceEnv === "web"
-                    ? {
-                        slidesToShow: 3,
-                        slidesToScroll: 3,
-                      }
-                    : {}
-                }
-              />
-            )}
-          </div>
-          <div className="new-arrivals">
-            <h1>New Arrivals</h1>
-            {recentProducts && (
-              <SlickSlider
-                items={recentItems}
-                itemSize={{ width: 300, height: 200 }}
-                actionType="VIEW_IMAGE"
-                settings={
-                  deviceEnv === "mobile"
-                    ? {
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                      }
-                    : deviceEnv === "tablet"
-                    ? {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
-                      }
-                    : deviceEnv === "web"
-                    ? {
-                        slidesToShow: 4,
-                        slidesToScroll: 4,
-                      }
-                    : {}
-                }
-              />
-            )}
-          </div>
-          <div className="recommendations">
-            <h1>Recommendations</h1>
+
+          <div className="hero-content">
+            <div className="best-sellers">
+              <h1>Best Sellers</h1>
+              {randomProducts && (
+                <SlickSlider
+                  items={randomItems}
+                  itemSize={{ width: 300, height: 200 }}
+                  actionType="VIEW_IMAGE"
+                  settings={
+                    deviceEnv === "mobile"
+                      ? {
+                          slidesToShow: 1,
+                          slidesToScroll: 1,
+                        }
+                      : deviceEnv === "tablet"
+                      ? {
+                          slidesToShow: 2,
+                          slidesToScroll: 2,
+                        }
+                      : deviceEnv === "web"
+                      ? {
+                          slidesToShow: 3,
+                          slidesToScroll: 3,
+                        }
+                      : {}
+                  }
+                />
+              )}
+            </div>
+            <div className="new-arrivals">
+              <h1>New Arrivals</h1>
+              {recentProducts && (
+                <SlickSlider
+                  items={recentItems}
+                  itemSize={{ width: 300, height: 200 }}
+                  actionType="VIEW_IMAGE"
+                  settings={
+                    deviceEnv === "mobile"
+                      ? {
+                          slidesToShow: 1,
+                          slidesToScroll: 1,
+                        }
+                      : deviceEnv === "tablet"
+                      ? {
+                          slidesToShow: 2,
+                          slidesToScroll: 2,
+                        }
+                      : deviceEnv === "web"
+                      ? {
+                          slidesToShow: 4,
+                          slidesToScroll: 4,
+                        }
+                      : {}
+                  }
+                />
+              )}
+            </div>
           </div>
         </section>
+        {/* <section></section>
         <section></section>
-        <section></section>
-        <section></section>
+        <section></section> */}
       </Main>
     </>
   );
@@ -244,25 +244,30 @@ const Main = styled.main`
     }
   }
   .hero {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    .hero-category,
-    .best-sellers,
-    .new-arrivals,
-    .recommendations {
-      /* background-color: #333; */
-      background-color: #172f3e;
-      padding: 3rem 1rem;
-      > h1 {
-        margin-bottom: 1rem;
-      }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 400px;
+      left: 0;
+      width: 100vw;
+      height: 500px;
+      background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1)),
+        url("/images/antoine-le-idiwVxHqmGg-unsplash.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      z-index: -1;
+      /* border: 1px solid red; */
     }
+
     .hero-category {
+      padding: 100px 1rem;
+
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(auto, 200px));
       justify-content: center;
       gap: 1rem;
+
       .card {
         height: 200px;
         background-color: #fff;
@@ -276,43 +281,58 @@ const Main = styled.main`
           overflow: hidden;
         }
       }
-      & {
-        @media (max-width: 500px), (width <= 500px) {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
+      @media (max-width: 500px), (width <= 500px) {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
       }
     }
-    .best-sellers,
-    .new-arrivals {
-      .slick-slide {
-        padding: 0 1rem;
-        .img-outer {
-          border-radius: 10px;
-          overflow: hidden;
-          &:hover {
-            img {
-              transform: scale(1.1);
-            }
-            .text {
-              display: flex;
-            }
-          }
 
-          img,
-          .text {
-            transition: all 0.5s;
-          }
-        }
-        @media (max-width: 500px), (width <= 500px) {
-          padding: 10px;
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+
+      .best-sellers,
+      .new-arrivals,
+      .recommendations {
+        /* background-color: #333; */
+        background-color: #172f3e;
+        padding: 3rem 1rem;
+        > h1 {
+          margin-bottom: 1rem;
         }
       }
-      .controller {
-        .arrow {
-          height: 5rem;
-          border-radius: 50%;
+      .best-sellers,
+      .new-arrivals {
+        .slick-slide {
+          padding: 0 1rem;
+          .img-outer {
+            border-radius: 10px;
+            overflow: hidden;
+            &:hover {
+              img {
+                transform: scale(1.1);
+              }
+              .text {
+                display: flex;
+              }
+            }
+
+            img,
+            .text {
+              transition: all 0.5s;
+            }
+          }
+          @media (max-width: 500px), (width <= 500px) {
+            padding: 10px;
+          }
+        }
+        .controller {
+          .arrow {
+            height: 5rem;
+            border-radius: 50%;
+          }
         }
       }
     }

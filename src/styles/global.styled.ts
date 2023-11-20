@@ -81,15 +81,20 @@ export const GlobalStyled = styled.createGlobalStyle`
     width: 100vw;
     overflow-x: hidden;
     /* border: 2px solid; */
+
     section {
       /* width: 80%; */
       width: 100%;
       max-width: 1000px;
       min-height: 100vh;
-      padding-top: 100px;
+      /* padding-top: 100px; */
       /* min-height: calc(100vh - var(--nav-height)); */
       margin: auto;
       /* outline: 2px dashed; */
+    }
+
+    .banner {
+      padding-top: 100px;
     }
   }
   footer {
