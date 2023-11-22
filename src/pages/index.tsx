@@ -7,8 +7,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export async function getServerSideProps({ req, query }: any) {
-  console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
+export async function getStaticProps({ req }: any) {
+  // console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
+  console.log(`\x1b[33m\n[/]:::[getStaticProps]\x1b[30m`);
 
   await connectDB();
   const randomProducts = await Product.aggregate([{ $sample: { size: 9 } }]).exec();
@@ -21,6 +22,21 @@ export async function getServerSideProps({ req, query }: any) {
 
   return { props: { products: JSON.parse(JSON.stringify(products)) } };
 }
+
+// export async function getServerSideProps({ req, query }: any) {
+//   console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
+
+//   await connectDB();
+//   const randomProducts = await Product.aggregate([{ $sample: { size: 9 } }]).exec();
+//   const recentProducts = await Product.aggregate([
+//     { $sort: { createdAt: -1 } },
+//     { $limit: 12 },
+//   ]).exec();
+//   const products = { randomProducts, recentProducts };
+//   // console.log({ products });
+
+//   return { props: { products: JSON.parse(JSON.stringify(products)) } };
+// }
 
 const data = [
   {

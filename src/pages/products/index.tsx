@@ -9,7 +9,8 @@ import ProductsWidgets from "@/components/product/ProductsWidgets";
 
 // export async function getServerSideProps(context: any) {
 export async function getServerSideProps({ req, query }: any) {
-  console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
+  console.log(`\x1b[33m\n[/products]:::[getStaticProps]\x1b[30m`);
+  // console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
   console.log({ query: query });
 
   await connectDB();
