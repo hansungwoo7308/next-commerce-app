@@ -96,12 +96,9 @@ export default function Page() {
   const { mutate } = useSWRConfig();
 
   // console.log({ data, isLoading });
-  // console.log({ data });
+  console.log({ data });
 
   const handleChangePage = (page: any) => {
-    // mutate('/api/v2/products',data,)
-    // mutate()
-
     router.query.page = page;
     mutate("/api/v2/products");
     return;

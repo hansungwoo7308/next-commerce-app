@@ -73,8 +73,8 @@ export default function ProductDetailWidget({ product }: Props) {
                 </div>
               ) : (
                 <div>
-                  <span>{ratings + ".0"}</span>
-                  <Stars number={ratings} />
+                  <span>{ratings}</span>
+                  <Stars number={Math.round(ratings)} />
                 </div>
               )}
             </div>

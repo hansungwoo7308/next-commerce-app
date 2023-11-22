@@ -59,8 +59,11 @@ export default function Filters2() {
     console.log("testing...");
     localStorage.setItem("ratings", JSON.stringify(ratings));
     const serializedRatings = ratings.join("+");
-    const updatedQuery = { ...router.query, ratings: serializedRatings };
-    router.push({ pathname: router.pathname, query: updatedQuery });
+    router.query.ratings = serializedRatings;
+    mutate("/api/v2/products");
+
+    // const updatedQuery = { ...router.query, ratings: serializedRatings };
+    // router.push({ pathname: router.pathname, query: updatedQuery });
   }, [ratings]);
 
   return (

@@ -34,8 +34,8 @@ export default function ProductDetailReviews({ product }: any) {
         <div className="reviews-ratings">
           {reviews.length && reviewRatingsAverage ? (
             <>
-              <p>{reviewRatingsAverage?.toFixed(1)}</p>
-              <Stars number={Math.round(reviewRatingsAverage)} />
+              <p>{product.ratings}</p>
+              <Stars number={Math.round(product.ratings)} />
               <p>{"( " + reviews.length + " )"}</p>
             </>
           ) : (

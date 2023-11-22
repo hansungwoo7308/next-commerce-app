@@ -13,19 +13,29 @@ export const createProductReview = async (req: any, res: any) => {
 
   // get
   const { id } = req.query;
-  // const { review } = req.body;
+  const review = req.body;
 
   // update
-  const updatedProduct = await Product.findByIdAndUpdate(
-    id,
-    { $push: { reviews: req.body } },
-    // { $push: { reviews: review } },
-    { new: true }
-  );
+  const product = await Product.findById(id);
+  // const updatedProduct = await Product.findByIdAndUpdate(
+  //   id,
+  //   { $push: { reviews: req.body } },
+  //   // { $push: { reviews: review } },
+  //   { new: true }
+  // );
+  // updatedProduct.reviews.reduce((sum:any,review:any)=>sum+review.rating,0)
+
+  product.reviews.push(review);
+
+  const totalRating = product.reviews.reduce((sum: any, review: any) => sum + review.rating, 0);
+  const averageRating: any = totalRating / product.reviews.length;
+  product.ratings = parseFloat(averageRating.toFixed(1));
+
+  await product.save();
 
   // out
-  console.log({ updatedProduct });
-  return res.status(200).json({ updatedProduct });
+  console.log({ product });
+  return res.status(200).json({ product });
 };
 export const getProduct = async (req: any, res: any, next: any) => {
   console.log(`\x1b[32m\n<getProduct>`);
