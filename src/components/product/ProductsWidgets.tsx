@@ -1,4 +1,5 @@
 import Filters from "@/components/product/Filters";
+import Filters2 from "@/components/product/Filters2";
 import ProductManager from "@/components/product/ProductManager";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -9,7 +10,8 @@ export default function ProductsWidgets({ products }: any) {
   return (
     <Box>
       <div className="product-widgets WEB">
-        <Filters />
+        {/* <Filters /> */}
+        <Filters2 />
         <ProductManager products={products} />
       </div>
 

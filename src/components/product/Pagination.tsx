@@ -1,4 +1,5 @@
 import { styled } from "styled-components";
+
 export default function Pagination({ pageCount, page, onChangePage }: any) {
   const totalPages = Array(pageCount)
     .fill(undefined)
@@ -48,6 +49,7 @@ export default function Pagination({ pageCount, page, onChangePage }: any) {
     </Box>
   );
 }
+
 const Box = styled.div`
   width: fit-content;
   place-self: center;

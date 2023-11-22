@@ -7,6 +7,13 @@ import connectDB from "lib/server/config/connectDB";
 import Product from "lib/server/models/Product";
 import ProductsWidgets from "@/components/product/ProductsWidgets";
 import { getData } from "lib/public/fetchData";
+import { useDispatch } from "react-redux";
+import { setLoading } from "lib/client/store/loadingSlice";
+import useSWR, { useSWRConfig } from "swr";
+import axios from "axios";
+
+const baseUrl =
+  process.env.NODE_ENV === "production" ? process.env.BASE_URL : process.env.NEXT_PUBLIC_ENV;
 
 // export async function getServerSideProps(context: any) {
 // export async function getServerSideProps({ req, query }: any) {
@@ -55,33 +62,77 @@ import { getData } from "lib/public/fetchData";
 // export default function Page({ products, pageCount }: any) {
 export default function Page() {
   // console.log({ products, pageCount });
-  const [products, setProducts] = useState([]);
-  const [pageCount, setPageCount] = useState(0);
+
+  // external
+  const dispatch = useDispatch();
+
+  // internal
+  // const [products, setProducts] = useState([]);
+  // const [pageCount, setPageCount] = useState(0);
 
   const router = useRouter();
   const [page, setPage]: any = useState(1);
 
+  // test swr
+  const fetcher = (url: any) =>
+    axios.get(url, { params: router.query }).then((res: any) => res.data);
+  // const fetcher: any = (url: any) => {
+  //   console.log({ url, query: router.query });
+  //   // const fetcher = async (...args: any) => {
+  //   try {
+  //     // const response =  getData(url, router.query);
+  //     // const { products, pageCount } = response.data;
+  //     const response: any = fetch(url);
+  //     // const response = await fetch(url);
+  //     // const data = await response.json();
+  //     // return { products, pageCount };
+  //     return response.json();
+  //   } catch (error) {
+  //     // console.log({ error });
+  //     throw error;
+  //   }
+  // };
+  const { data, error, isLoading, isValidating } = useSWR("/api/v2/products", fetcher);
+  const { mutate } = useSWRConfig();
+
+  // console.log({ data, isLoading });
+  // console.log({ data });
+
   const handleChangePage = (page: any) => {
+    // mutate('/api/v2/products',data,)
+    // mutate()
+
+    router.query.page = page;
+    mutate("/api/v2/products");
+    return;
     setPage(page);
     router.query.page = page;
     router.push({ pathname: router.pathname, query: router.query });
   };
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      console.log({ "router.query": router.query });
-      try {
-        const response = await getData("/v2/products", router.query);
-        const { products, pageCount }: any = response.data;
-        // console.log({ products, pageCount });
-        setProducts(products);
-        setPageCount(pageCount);
-      } catch (error) {
-        console.log({ error });
-      }
-    };
-    fetchProducts();
-  }, []);
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     // console.log({ "router.query": router.query });
+  //     try {
+  //       dispatch(setLoading(true));
+  //       const response = await getData("/v2/products", router.query);
+  //       const { products, pageCount }: any = response.data;
+  //       // console.log({ products, pageCount });
+  //       setProducts(products);
+  //       setPageCount(pageCount);
+  //       dispatch(setLoading(false));
+  //     } catch (error) {
+  //       console.log({ error });
+  //       dispatch(setLoading(false));
+  //     }
+  //   };
+
+  //   fetchProducts();
+  // }, [router.query]);
+
+  if (isLoading) return null;
+
+  const { products, pageCount } = data;
 
   return (
     <Main className="products-page">
