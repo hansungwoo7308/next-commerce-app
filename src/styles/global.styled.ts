@@ -80,6 +80,8 @@ export const GlobalStyled = styled.createGlobalStyle`
   main {
     width: 100vw;
     overflow-x: hidden;
+    padding-top: 100px;
+    padding-bottom: 5rem;
     /* border: 2px solid; */
 
     section {
@@ -87,14 +89,9 @@ export const GlobalStyled = styled.createGlobalStyle`
       width: 100%;
       max-width: 1000px;
       min-height: 100vh;
-      padding-top: 100px;
       /* min-height: calc(100vh - var(--nav-height)); */
       margin: auto;
       /* outline: 2px dashed; */
-    }
-
-    .banner {
-      padding-top: 100px;
     }
   }
   footer {

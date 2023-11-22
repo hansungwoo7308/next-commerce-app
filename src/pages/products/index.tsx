@@ -74,7 +74,6 @@ export default function Page({ products, pageCount }: any) {
           </div>
         </div>
       </section>
-      <section></section>
       {/* <div className="load-more">
               <button
                 onClick={() => {
