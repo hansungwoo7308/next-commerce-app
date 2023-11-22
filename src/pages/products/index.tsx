@@ -1,58 +1,62 @@
 import Pagination from "@/components/product/Pagination";
 import Products from "@/components/product/Products";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import connectDB from "lib/server/config/connectDB";
 import Product from "lib/server/models/Product";
 import ProductsWidgets from "@/components/product/ProductsWidgets";
+import { getData } from "lib/public/fetchData";
 
 // export async function getServerSideProps(context: any) {
-export async function getServerSideProps({ req, query }: any) {
-  console.log(`\x1b[33m\n[/products]:::[getStaticProps]\x1b[30m`);
-  // console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
-  console.log({ query: query });
+// export async function getServerSideProps({ req, query }: any) {
+//   console.log(`\x1b[33m\n[/products]:::[getStaticProps]\x1b[30m`);
+//   // console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
+//   console.log({ query: query });
 
-  await connectDB();
+//   await connectDB();
 
-  // set the pagination conditions
-  const ITEMS_PER_PAGE = 3; // 페이지 당 아이템 수
-  const page = query.page || 1; // 요청된 페이지
-  const skip = (page - 1) * ITEMS_PER_PAGE; // 스킵할 아이템 수
+//   // set the pagination conditions
+//   const ITEMS_PER_PAGE = 3; // 페이지 당 아이템 수
+//   const page = query.page || 1; // 요청된 페이지
+//   const skip = (page - 1) * ITEMS_PER_PAGE; // 스킵할 아이템 수
 
-  // set the filter conditions
-  let queryCondition: any = {};
-  if (query) {
-    const { search, category, ratings } = query;
-    if (search) queryCondition.name = { $regex: search };
-    if (category && category !== "all") queryCondition.category = { $regex: category };
-    if (ratings) {
-      const ratingsArray = ratings
-        .split("+")
-        .map((v: string) => Number(v))
-        .sort((a: number, b: number) => b - a);
-      console.log({ ratingsArray });
-      queryCondition.ratings = { $in: ratingsArray };
-    }
-  }
-  console.log({ query });
-  console.log({ queryCondition });
+//   // set the filter conditions
+//   let queryCondition: any = {};
+//   if (query) {
+//     const { search, category, ratings } = query;
+//     if (search) queryCondition.name = { $regex: search };
+//     if (category && category !== "all") queryCondition.category = { $regex: category };
+//     if (ratings) {
+//       const ratingsArray = ratings
+//         .split("+")
+//         .map((v: string) => Number(v))
+//         .sort((a: number, b: number) => b - a);
+//       console.log({ ratingsArray });
+//       queryCondition.ratings = { $in: ratingsArray };
+//     }
+//   }
+//   console.log({ query });
+//   console.log({ queryCondition });
 
-  // excute the query
-  const productCount = await Product.countDocuments(queryCondition);
-  const products = await Product.find(queryCondition).skip(skip).limit(ITEMS_PER_PAGE);
-  const pageCount = Math.ceil(productCount / ITEMS_PER_PAGE);
+//   // excute the query
+//   const productCount = await Product.countDocuments(queryCondition);
+//   const products = await Product.find(queryCondition).skip(skip).limit(ITEMS_PER_PAGE);
+//   const pageCount = Math.ceil(productCount / ITEMS_PER_PAGE);
 
-  console.log({ products, productCount, productCountPerPage: ITEMS_PER_PAGE, pageCount });
-  return { props: { products: JSON.parse(JSON.stringify(products)), pageCount } };
+//   console.log({ products, productCount, productCountPerPage: ITEMS_PER_PAGE, pageCount });
+//   return { props: { products: JSON.parse(JSON.stringify(products)), pageCount } };
 
-  // const response = await getData(`v2/products`, query);
-  // const { products, pageCount } = response.data;
-  // return { props: { products, pageCount } };
-}
+//   // const response = await getData(`v2/products`, query);
+//   // const { products, pageCount } = response.data;
+//   // return { props: { products, pageCount } };
+// }
 
-export default function Page({ products, pageCount }: any) {
+// export default function Page({ products, pageCount }: any) {
+export default function Page() {
   // console.log({ products, pageCount });
+  const [products, setProducts] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
 
   const router = useRouter();
   const [page, setPage]: any = useState(1);
@@ -62,6 +66,22 @@ export default function Page({ products, pageCount }: any) {
     router.query.page = page;
     router.push({ pathname: router.pathname, query: router.query });
   };
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      console.log({ "router.query": router.query });
+      try {
+        const response = await getData("/v2/products", router.query);
+        const { products, pageCount }: any = response.data;
+        // console.log({ products, pageCount });
+        setProducts(products);
+        setPageCount(pageCount);
+      } catch (error) {
+        console.log({ error });
+      }
+    };
+    fetchProducts();
+  }, []);
 
   return (
     <Main className="products-page">
