@@ -12,24 +12,30 @@ export default function Filters2() {
   // const [isCacheLoaded, setIsCacheLoaded]: any = useState(false);
 
   const handleCategoryChange = (category: any) => {
+    // 쿼리를 추가하고, 서버에 요청
     router.query = { ...router.query, category: category, page: "1" };
+    router.push({ pathname: router.pathname, query: router.query });
     mutate("/api/v2/products");
   };
 
   const handleRatingChange = (rating: any) => {
-    const updatedRatings = ratings.includes(rating)
-      ? // remove the rating
-        ratings.filter((r: any) => r !== rating)
-      : // add the rating
-        [...ratings, rating];
+    // 업데이트 데이터를 생성
+    const updatedRatings =
+      // 중복체크
+      ratings.includes(rating)
+        ? // remove the rating
+          ratings.filter((r: any) => r !== rating)
+        : // add the rating
+          [...ratings, rating];
+    // console.log({ updatedRatings });
 
+    // 로컬스테이트와 로컬스토리지에 저장
     setRatings(updatedRatings);
     localStorage.setItem("ratings", JSON.stringify(updatedRatings));
 
-    console.log({ updatedRatings });
-    // router.query.ratings = "updatedRatings";
+    // 업데이트 데이터를 쿼리에 추가하고, 서버에 요청
     router.query.ratings = updatedRatings.join("+");
-    // router.query = { ...router.query, ratings: [...updatedRatings] };
+    router.push({ pathname: router.pathname, query: router.query });
     mutate("/api/v2/products");
   };
 
@@ -39,6 +45,8 @@ export default function Filters2() {
     if (!ratings) setRatings([]);
     else setRatings(JSON.parse(ratings));
 
+    // console.log(router);
+    // console.log(router.query);
     // setIsCacheLoaded(true);
   }, []);
 

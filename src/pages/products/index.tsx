@@ -74,8 +74,8 @@ export default function Page() {
   const [page, setPage]: any = useState(1);
 
   // test swr
-  const fetcher = (url: any) =>
-    axios.get(url, { params: router.query }).then((res: any) => res.data);
+  const fetcher = async (url: any) =>
+    await axios.get(url, { params: router.query }).then((res: any) => res.data);
   // const fetcher: any = (url: any) => {
   //   console.log({ url, query: router.query });
   //   // const fetcher = async (...args: any) => {
@@ -125,6 +125,10 @@ export default function Page() {
 
   //   fetchProducts();
   // }, [router.query]);
+
+  useEffect(() => {
+    mutate("/api/v2/products");
+  }, [router.query]);
 
   if (isLoading) return null;
 
