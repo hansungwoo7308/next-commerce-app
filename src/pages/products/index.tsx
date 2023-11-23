@@ -12,9 +12,6 @@ import { setLoading } from "lib/client/store/loadingSlice";
 import useSWR, { useSWRConfig } from "swr";
 import axios from "axios";
 
-const baseUrl =
-  process.env.NODE_ENV === "production" ? process.env.BASE_URL : process.env.NEXT_PUBLIC_ENV;
-
 // export async function getServerSideProps(context: any) {
 // export async function getServerSideProps({ req, query }: any) {
 //   console.log(`\x1b[33m\n[/products]:::[getStaticProps]\x1b[30m`);
@@ -61,51 +58,35 @@ const baseUrl =
 
 // export default function Page({ products, pageCount }: any) {
 export default function Page() {
-  // console.log({ products, pageCount });
-
   // external
   const dispatch = useDispatch();
 
   // internal
-  // const [products, setProducts] = useState([]);
-  // const [pageCount, setPageCount] = useState(0);
-
   const router = useRouter();
   const [page, setPage]: any = useState(1);
 
-  // test swr
+  // network : swr fetch library
   const fetcher = async (url: any) =>
     await axios.get(url, { params: router.query }).then((res: any) => res.data);
-  // const fetcher: any = (url: any) => {
-  //   console.log({ url, query: router.query });
-  //   // const fetcher = async (...args: any) => {
-  //   try {
-  //     // const response =  getData(url, router.query);
-  //     // const { products, pageCount } = response.data;
-  //     const response: any = fetch(url);
-  //     // const response = await fetch(url);
-  //     // const data = await response.json();
-  //     // return { products, pageCount };
-  //     return response.json();
-  //   } catch (error) {
-  //     // console.log({ error });
-  //     throw error;
-  //   }
-  // };
-  const { data, error, isLoading, isValidating } = useSWR("/api/v2/products", fetcher);
+  const { data, error, isLoading } = useSWR("/api/v2/products", fetcher);
   const { mutate } = useSWRConfig();
 
-  // useEffect(() => console.log({ data }), [data]);
-
-  const handleChangePage = (page: any) => {
-    router.query.page = page;
+  // 쿼리변경시, 서버에 요청
+  useEffect(() => {
     mutate("/api/v2/products");
-    return;
+  }, [router.query]);
+  useEffect(() => console.log({ router }), [router.asPath]);
+
+  const handlePaginate = (page: any) => {
     setPage(page);
     router.query.page = page;
     router.push({ pathname: router.pathname, query: router.query });
+    mutate("/api/v2/products");
   };
 
+  // useEffect(() => console.log({ data }), [data]);
+  // const [products, setProducts] = useState([]);
+  // const [pageCount, setPageCount] = useState(0);
   // useEffect(() => {
   //   const fetchProducts = async () => {
   //     // console.log({ "router.query": router.query });
@@ -122,18 +103,11 @@ export default function Page() {
   //       dispatch(setLoading(false));
   //     }
   //   };
-
   //   fetchProducts();
   // }, [router.query]);
 
-  useEffect(() => {
-    mutate("/api/v2/products");
-  }, [router.query]);
-
   if (isLoading) return null;
-
   const { products, pageCount } = data;
-
   return (
     <Main className="products-page">
       <section>
@@ -141,7 +115,7 @@ export default function Page() {
           <ProductsWidgets products={products} />
           <div className="products-outer">
             <Products products={products} />
-            <Pagination pageCount={pageCount} page={page} onChangePage={handleChangePage} />
+            <Pagination pageCount={pageCount} page={page} onPaginate={handlePaginate} />
           </div>
         </div>
       </section>

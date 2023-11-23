@@ -24,7 +24,7 @@ export default function ProductsWidgets({ products }: any) {
         >
           <div className="product-widgets" onClick={(e) => e.stopPropagation()}>
             {widget === "filter" ? (
-              <Filters />
+              <Filters2 />
             ) : widget === "manager" ? (
               <ProductManager products={products} />
             ) : (

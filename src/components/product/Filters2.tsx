@@ -13,7 +13,8 @@ export default function Filters2() {
 
   const handleCategoryChange = (category: any) => {
     // 쿼리를 추가하고, 서버에 요청
-    router.query = { ...router.query, category: category, page: "1" };
+    router.query = { ...router.query, category: category };
+    // router.query = { ...router.query, category: category, page: "1" };
     router.push({ pathname: router.pathname, query: router.query });
     mutate("/api/v2/products");
   };
@@ -51,7 +52,7 @@ export default function Filters2() {
   }, []);
 
   useEffect(() => {
-    console.log({ ratings });
+    // console.log({ ratings });
 
     // if (!isCacheLoaded) return;
 

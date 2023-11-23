@@ -1,49 +1,55 @@
 import { styled } from "styled-components";
 
-export default function Pagination({ pageCount, page, onChangePage }: any) {
+export default function Pagination({ pageCount, page, onPaginate }: any) {
   const totalPages = Array(pageCount)
     .fill(undefined)
     .map((v, i) => i + 1);
+
+  const handleClickLeft = (e: any) => {
+    e.preventDefault();
+    if (page === 1) return;
+    onPaginate(page - 1);
+  };
+
+  const handleClickLeftEnd = (e: any) => {
+    e.preventDefault();
+    onPaginate(1);
+  };
+
+  const handleClickRight = (e: any) => {
+    e.preventDefault();
+    if (page === pageCount) return;
+    onPaginate(page + 1);
+  };
+
+  const handleClickRightEnd = (e: any) => {
+    e.preventDefault();
+    onPaginate(pageCount);
+  };
 
   return (
     <Box>
       <ul className="left">
         <li>
-          <button onClick={() => onChangePage(1)}>{"<<"}</button>
+          <button onClick={handleClickLeftEnd}>{"<<"}</button>
         </li>
         <li>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              if (page === 1) return;
-              onChangePage(page - 1);
-            }}
-          >
-            {"<"}
-          </button>
+          <button onClick={handleClickLeft}>{"<"}</button>
         </li>
       </ul>
       <ul className="center">
         {totalPages?.map((page: any) => (
           <li key={page}>
-            <button onClick={() => onChangePage(page)}>{page}</button>
+            <button onClick={() => onPaginate(page)}>{page}</button>
           </li>
         ))}
       </ul>
       <ul className="right">
         <li>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              if (page === pageCount) return;
-              onChangePage(page + 1);
-            }}
-          >
-            {">"}
-          </button>
+          <button onClick={handleClickRight}>{">"}</button>
         </li>
         <li>
-          <button onClick={() => onChangePage(pageCount)}>{">>"}</button>
+          <button onClick={handleClickRightEnd}>{">>"}</button>
         </li>
       </ul>
     </Box>
