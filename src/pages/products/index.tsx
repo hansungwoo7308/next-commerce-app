@@ -95,8 +95,7 @@ export default function Page() {
   const { data, error, isLoading, isValidating } = useSWR("/api/v2/products", fetcher);
   const { mutate } = useSWRConfig();
 
-  // console.log({ data, isLoading });
-  console.log({ data });
+  // useEffect(() => console.log({ data }), [data]);
 
   const handleChangePage = (page: any) => {
     router.query.page = page;

@@ -74,7 +74,28 @@ export const getProducts = async (req: any, res: any, next: any) => {
   if (category && category !== "all") query.category = { $regex: category };
   if (ratings) {
     const ratingsArray = ratings.split("+").map((v: string) => Number(v));
-    query.ratings = { $in: ratingsArray };
+    console.log({ ratingsArray });
+
+    // query.$expr = {
+    //   $in: [
+    //     {
+    //       $mod: [
+    //         { $trunc: { $multiply: ["$ratings", 1] } }, // $trunc를 사용하여 정수 부분만 추출
+    //         10,
+    //       ],
+    //     },
+    //     ratingsArray,
+    //   ],
+    // };
+
+    // query.ratings = { $in: ratingsArray };
+    // query.ratings = {
+    //   $or: [ratingsArray.map((rating: any) => ({ $in: { $gte: rating, $lt: rating + 1 } }))],
+    // };
+    // query.ratings = { $in: ratingsArray.map((rating: any) => ({ $gte: rating, $lt: rating + 1 })) };
+    const min = Math.min(...ratingsArray);
+    const max = Math.max(...ratingsArray);
+    query.ratings = { $gte: min - 1, $lt: max };
   }
 
   console.log({ query });

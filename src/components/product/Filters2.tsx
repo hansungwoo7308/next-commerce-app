@@ -9,7 +9,7 @@ const categories = ["all", "electronics", "furnitures", "cosmetics", "fashion"];
 export default function Filters2() {
   const router = useRouter();
   const [ratings, setRatings]: any = useState([]);
-  const [isCacheLoaded, setIsCacheLoaded]: any = useState(false);
+  // const [isCacheLoaded, setIsCacheLoaded]: any = useState(false);
 
   const handleCategoryChange = (category: any) => {
     router.query = { ...router.query, category: category, page: "1" };
@@ -22,48 +22,32 @@ export default function Filters2() {
         ratings.filter((r: any) => r !== rating)
       : // add the rating
         [...ratings, rating];
+
     setRatings(updatedRatings);
+    localStorage.setItem("ratings", JSON.stringify(updatedRatings));
+
+    console.log({ updatedRatings });
+    // router.query.ratings = "updatedRatings";
+    router.query.ratings = updatedRatings.join("+");
+    // router.query = { ...router.query, ratings: [...updatedRatings] };
+    mutate("/api/v2/products");
   };
 
-  // get the cache data and set the state
-
   useEffect(() => {
-    const stringfiedRatings: any = localStorage.getItem("ratings");
-    const parsedRatings = JSON.parse(stringfiedRatings);
+    const ratings: any = localStorage.getItem("ratings");
 
-    // 캐시된 레이팅이 없으면
-    if (!parsedRatings?.length) {
-      setRatings([]);
-      setIsCacheLoaded(true);
-      return;
-    }
+    if (!ratings) setRatings([]);
+    else setRatings(JSON.parse(ratings));
 
-    // 캐시된 레이팅이 있으면
-    setRatings(parsedRatings);
-    setIsCacheLoaded(true);
+    // setIsCacheLoaded(true);
   }, []);
 
   useEffect(() => {
-    // 초기로드시에는 패스한다.
-    if (!isCacheLoaded) return;
+    console.log({ ratings });
 
-    // 레이팅 없으면 제거
-    if (!ratings?.length) {
-      localStorage.removeItem("ratings");
-      delete router.query.ratings;
-      router.push({ pathname: router.pathname, query: router.query });
-      return;
-    }
+    // if (!isCacheLoaded) return;
 
-    // 레이팅 있으면 추가
-    console.log("testing...");
-    localStorage.setItem("ratings", JSON.stringify(ratings));
-    const serializedRatings = ratings.join("+");
-    router.query.ratings = serializedRatings;
-    mutate("/api/v2/products");
-
-    // const updatedQuery = { ...router.query, ratings: serializedRatings };
-    // router.push({ pathname: router.pathname, query: updatedQuery });
+    if (!ratings) localStorage.removeItem("ratings");
   }, [ratings]);
 
   return (
@@ -93,81 +77,11 @@ export default function Filters2() {
                     onChange={() => handleCategoryChange(category)}
                   />
                 )}
-
                 <span>{category.charAt(0).toUpperCase() + category.slice(1)}</span>
               </label>
             </li>
           ))}
         </ul>
-        {/* <ul>
-          <li>
-            <label>
-              <input
-                ref={allRef}
-                type="radio"
-                name="category"
-                value="all"
-                onChange={handleCategoryChange}
-                checked={
-                  router.query.category === "all" || router.query.category === undefined
-                    ? true
-                    : false
-                }
-              />
-              <span>All</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                ref={electronicsRef}
-                type="radio"
-                name="category"
-                value="electronics"
-                onChange={handleCategoryChange}
-                checked={router.query.category === "electronics"}
-              />
-              <span>Electronics</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                ref={furnituresRef}
-                type="radio"
-                name="category"
-                value="furnitures"
-                onChange={handleCategoryChange}
-                checked={router.query.category === "furnitures"}
-              />
-              <span>Furnitures</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                ref={cosmeticsRef}
-                type="radio"
-                name="category"
-                value="cosmetics"
-                onChange={handleCategoryChange}
-              />
-              <span>Cosmetics</span>
-            </label>
-          </li>
-          <li>
-            <label>
-              <input
-                ref={fashionRef}
-                type="radio"
-                name="category"
-                value="fashion"
-                onChange={handleCategoryChange}
-              />
-              <span>Fashion</span>
-            </label>
-          </li>
-        </ul> */}
       </div>
       <div className="ratings-filter">
         <h4>Customer Reviews</h4>
@@ -180,28 +94,17 @@ export default function Filters2() {
                   <input
                     type="checkbox"
                     name="rating"
-                    value={rating}
+                    // value={rating}
                     checked={ratings.includes(rating)}
                     onChange={() => handleRatingChange(rating)}
                   />
-                  <Stars number={rating} />
+                  {/* <Stars number={rating} /> */}
+                  <p>
+                    {rating - 1}-{rating}
+                  </p>
                 </label>
               </li>
             ))}
-          {/* {ratingsData.map((rating: any,index:any) => (
-            <li key={index+1}>
-              <label>
-                <input
-                  className="ratings"
-                  type="checkbox"
-                  name="ratings"
-                  value={rating.icons.length}
-                  onClick={handleClickRatings}
-                />
-                {rating.icons.map((icon: any) => icon)}
-              </label>
-            </li>
-          ))} */}
         </ul>
       </div>
     </Box>
