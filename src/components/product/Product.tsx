@@ -1,95 +1,39 @@
 // import { useSession } from "next-auth/react";
 import Stars from "@/components/product/Stars";
-import { addToCart } from "lib/client/store/cartSlice";
+import { addToCart, deleteItemFromCart } from "lib/client/store/cartSlice";
 import { addProductId, removeProductId } from "lib/client/store/productManagerSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { toast } from "react-toastify";
+import { useSession } from "next-auth/react";
 
-export default function Product({ product }: any) {
-  // external
-  const { _id, category, name, description, seller, price, stock, ratings, images, reviews } =
-    product;
-  const auth = useSelector((store: any) => store.auth);
-  const cart = useSelector((store: any) => store.cart);
-  const { selectedProductIds } = useSelector((store: any) => store.productManager);
-  const dispatch = useDispatch();
+function UserButton({ product, isDuplicated, dispatch }: any) {
+  const { _id, name, stock, price } = product;
 
-  // internal
-  const checkRef: any = useRef();
-  const router = useRouter();
-  const [reviewRatingsAverage, setReviewRatingsAverage]: any = useState();
-
-  const handleSelect = (e: any) => {
-    e.target.checked ? dispatch(addProductId(_id)) : dispatch(removeProductId(_id));
-  };
-
-  // const handleSelect = (e: any) => {
-  //   // e.target.checked ? dispatch(addItem(_id)) : dispatch(deleteItem(_id));
-  //   e.target.checked
-  //     ? setSelectedProductIds((state: any) => [...state, _id])
-  //     : setSelectedProductIds((state: any) => {
-  //         const filteredProductIds = state.filter(
-  //           (selectedProductId: any) => selectedProductId !== _id
-  //         );
-  //         return filteredProductIds;
-  //       });
-  // };
-  const buttonByUser = (
+  return (
     <button
-      className="add-button"
-      disabled={!stock}
+      className={isDuplicated ? "delete-button" : "add-button"}
+      disabled={stock === 0}
       onClick={() => {
-        const duplicate = cart.products.find((v: any) => v._id === product._id);
-        if (duplicate) return toast.error("Duplicated product from cart");
+        if (isDuplicated) return dispatch(deleteItemFromCart({ _id }));
+
         const newItem = { item: name, price: price, quantity: 1 };
         dispatch(addToCart({ ...product, options: [newItem] }));
-        const modalAction = () => router.push("/cart");
-        dispatch(
-          setModal({
-            active: true,
-            // type: "DEFAULT",
-            message: "Do you want to move to cart?",
-            modalAction,
-            modalActionLabel: "Move to Cart Page",
-          })
-        );
-
-        // cart.map((v: any) => console.log(v));
-        // if (!cart.length) dispatch(addToCart(product));
-        // else {
-        //   const duplicate = cart.filter((v: any) => v._id === product._id);
-        //   if (duplicate) return;
-        //   else dispatch(addToCart(product));
-        // }
-        // dispatch(addToCart(product));
-        // console.log("product._id : ", product._id);
-        // console.log("cart : ", cart);
-        // if (!cart.length) return dispatch(addToCart(product));
-        // const test = cart.every((v: any) => v._id !== product._id);
-        // const result = cart.filter((v: any) => v._id === product._id);
-        // if (result) console.log(result);
-        // cart.map((v: any) => {
-        //   if (v._id === product._id) {
-        //     return dispatch(setNotify());
-        //   } else {
-        //     console.log("asdkhadsi");
-        //     return dispatch(addToCart(product));
-        //   }
-        // });
-        // cart.find((v: any) => console.log("v:", v));
-        // console.log(test);
       }}
     >
-      Add to cart
+      {isDuplicated ? "Remove from cart" : "Add to cart"}
     </button>
   );
-  const buttonByAdmin = (
+}
+
+function AdminButton({ product, dispatch }: any) {
+  const { _id } = product;
+
+  return (
     <button
       className="delete-button"
       onClick={() => dispatch(setModal({ active: true, type: "DELETE_PRODUCT", id: _id }))}
@@ -97,27 +41,93 @@ export default function Product({ product }: any) {
       Delete
     </button>
   );
+}
+
+export default function Product({ product }: any) {
+  // external
+  const { _id, category, name, description, seller, price, stock, ratings, images, reviews } =
+    product;
+  const session = useSession();
+  const auth = useSelector((store: any) => store.auth);
+  const cart = useSelector((store: any) => store.cart);
+  const { selectedProductIds } = useSelector((store: any) => store.productManager); // admin
+  const dispatch = useDispatch();
+
+  // cart.products : root state : redux store data (application의 지속가능한 데이터)
+  // products : external props : fetched data (server로부터 가져온 증발가능한 데이터)
+  const isDuplicated = cart.products.find((v: any) => v._id === product._id);
+
+  // internal
+  const checkRef: any = useRef(null);
+
+  const handleSelect = (e: any) => {
+    e.target.checked ? dispatch(addProductId(_id)) : dispatch(removeProductId(_id));
+  };
+
   useEffect(() => {
-    if (!selectedProductIds || !checkRef.current) return;
-    if (selectedProductIds.length === 0) checkRef.current.checked = false;
-    selectedProductIds.map((selectedProductId: any) => {
-      if (selectedProductId === _id) checkRef.current.checked = true;
-    });
+    // if (!selectedProductIds || !checkRef.current) return;
+    // if (selectedProductIds.length === 0) checkRef.current.checked = false;
+    // selectedProductIds.map((selectedProductId: any) => {
+    //   if (selectedProductId === _id) checkRef.current.checked = true;
+    // });
   }, [selectedProductIds]);
 
-  useEffect(() => {
-    const reviewRatingsAverage =
-      reviews.reduce((a: any, v: any) => a + v.rating, 0) / reviews.length;
-    // console.log({ reviewRatingsAverage });
-    setReviewRatingsAverage(reviewRatingsAverage);
-  }, [reviews]);
+  if (auth.user?.role === "user") {
+    return (
+      <Box className="product">
+        <div className="image">
+          <input
+            ref={checkRef}
+            className="checkbox"
+            type="checkbox"
+            onChange={handleSelect}
+            checked={selectedProductIds.find((id: any) => id === _id)}
+          />
+          <Link href={`/products/${_id}`}>
+            <Image
+              src={images[0].url || images[0].secure_url}
+              alt={images[0].url}
+              width={200}
+              height={200}
+              priority
+            />
+          </Link>
+        </div>
+        <div className="description">
+          <div className="left">
+            <div className="top">
+              <h3>{name}</h3>
+            </div>
+            <div className="middle">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde similique ex sed at
+              adipisci nostrum? Obcaecati illo minima corporis maiores dolores ut, magnam accusamus
+              dicta natus eum, soluta nisi laborum?
+            </div>
+          </div>
+          <Partition className="partition" />
+          <div className="right">
+            {/* <div className="stock">{stock > 0 ? <h6>Stock ({stock}) </h6> : <h6>Sold Out</h6>}</div> */}
+            <h3 className="price">${price}</h3>
+            {ratings === 0 ? (
+              <p>No reviews</p>
+            ) : (
+              <div className="ratings">
+                <small>{ratings}</small>
+                <small>
+                  <Stars number={Math.round(ratings)} />
+                </small>
+              </div>
+            )}
+            <AdminButton product={product} dispatch={dispatch} />
+          </div>
+        </div>
+      </Box>
+    );
+  }
 
   return (
-    <Box>
+    <Box className="product">
       <div className="image">
-        {auth.user?.role === "admin" && (
-          <input ref={checkRef} className="checkbox" type="checkbox" onChange={handleSelect} />
-        )}
         <Link href={`/products/${_id}`}>
           <Image
             src={images[0].url || images[0].secure_url}
@@ -143,18 +153,17 @@ export default function Product({ product }: any) {
         <div className="right">
           {/* <div className="stock">{stock > 0 ? <h6>Stock ({stock}) </h6> : <h6>Sold Out</h6>}</div> */}
           <h3 className="price">${price}</h3>
-          {reviewRatingsAverage ? (
+          {ratings === 0 ? (
+            <p>No reviews</p>
+          ) : (
             <div className="ratings">
-              <small>{reviewRatingsAverage.toFixed(1)}</small>
+              <small>{ratings}</small>
               <small>
-                <Stars number={Math.round(reviewRatingsAverage)} />
+                <Stars number={Math.round(ratings)} />
               </small>
             </div>
-          ) : (
-            <p>No reviews</p>
           )}
-          {auth.user?.role === "admin" && buttonByAdmin}
-          {auth.user?.role === "user" && buttonByUser}
+          <UserButton product={product} isDuplicated={isDuplicated} dispatch={dispatch} />
         </div>
       </div>
     </Box>
@@ -164,11 +173,13 @@ export default function Product({ product }: any) {
 const Partition = styled.div``;
 
 const Box = styled.li`
+  height: 10rem;
   border: 1px solid;
   border-radius: 10px;
   display: flex;
   overflow: hidden;
   background-color: #333;
+
   .image {
     width: 10rem;
     position: relative;
@@ -224,23 +235,7 @@ const Box = styled.li`
       }
     }
   }
-  @media (max-width: 800px), (width <= 800px) {
-    flex-direction: column;
-    .image {
-      width: 100%;
-      img {
-        height: 10rem;
-      }
-    }
-    .partition {
-      border-top: 1px solid;
-      margin: 1rem 0;
-    }
-    .description {
-      flex-direction: column;
-      .right {
-        flex-direction: row;
-      }
-    }
+  button {
+    width: 8rem;
   }
 `;

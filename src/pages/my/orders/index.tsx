@@ -69,7 +69,17 @@ export default function Page({ orders }: any) {
   // }, [auth.accessToken]);
 
   // if (!orders.length) return null;
-  if (!orders.length) return null;
+  if (!orders.length) {
+    return (
+      <Main className="my-orders-page">
+        <section>
+          <div>
+            <h1>No ordered products</h1>
+          </div>
+        </section>
+      </Main>
+    );
+  }
   return (
     <Main className="my-orders-page">
       <section>

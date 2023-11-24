@@ -65,7 +65,7 @@ export default function Page() {
   const router = useRouter();
   const [page, setPage]: any = useState(1);
 
-  // network : swr fetch library
+  // fetched from server : swr fetch library
   const fetcher = async (url: any) =>
     await axios.get(url, { params: router.query }).then((res: any) => res.data);
   const { data, error, isLoading } = useSWR("/api/v2/products", fetcher);
@@ -170,6 +170,27 @@ const Main = styled.main`
 
       .product-widgets-outer.MOBILE {
         display: block;
+      }
+    }
+
+    .product {
+      height: initial;
+      flex-direction: column;
+      .image {
+        width: 100%;
+        img {
+          height: 10rem;
+        }
+      }
+      .partition {
+        border-top: 1px solid;
+        margin: 1rem 0;
+      }
+      .description {
+        flex-direction: column;
+        .right {
+          flex-direction: row;
+        }
       }
     }
   }

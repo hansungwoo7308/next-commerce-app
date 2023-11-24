@@ -12,6 +12,7 @@ export default function Page() {
   const dispatch = useDispatch();
   const auth = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
+
   // internal
   const router = useRouter();
   const [total, setTotal]: any = useState(0);
@@ -34,8 +35,8 @@ export default function Page() {
         toast.error(error.message);
       }
     }
+
     // 서버로부터 최신화된 데이터를 클라이언트 리덕스스토어에 저장한다.
-    // console.log({ latestProducts });
     dispatch(reloadCart({ products: latestProducts }));
   };
 
@@ -59,12 +60,10 @@ export default function Page() {
   // get and set latest products from local storage
   useEffect(() => {
     const serializedCart: any = localStorage.getItem("cart");
-    if (!serializedCart) return;
     const parsedCart = JSON.parse(serializedCart);
-    if (!parsedCart.products?.length) return console.log("8382912");
-    // console.log({ parsedCart });
+    if (!parsedCart?.products?.length) return console.log("No cached items");
+
     // 캐싱된 카트 프러덕츠를 통해서 최신화된 데이터로 갱신한다.
-    if (!parsedCart.products?.length) return;
     updateLatestProducts(parsedCart.products);
   }, []);
 
@@ -89,7 +88,7 @@ export default function Page() {
       <Main className="cart-page">
         <section>
           <div className="cart">
-            <h1>No items</h1>
+            <h1>No cart items</h1>
           </div>
         </section>
       </Main>
