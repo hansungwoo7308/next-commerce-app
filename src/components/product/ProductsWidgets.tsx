@@ -1,40 +1,59 @@
 import Filters from "@/components/product/Filters";
 import Filters2 from "@/components/product/Filters2";
 import ProductManager from "@/components/product/ProductManager";
-import { useEffect, useState } from "react";
+import { setBackground } from "lib/client/store/backgroundSlice";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 export default function ProductsWidgets({ products }: any) {
+  // external
+  const dispatch = useDispatch();
+
+  // internal
   const [widget, setWidget] = useState("");
+  const productWidgetsRef: any = useRef(null);
+
+  useEffect(() => {
+    const handleClick = () => setWidget("");
+    window.addEventListener("click", handleClick);
+    return () => window.removeEventListener("click", handleClick);
+  }, []);
+
+  const handleClickFilter = (e: any) => {
+    e.stopPropagation();
+    dispatch(setBackground(true));
+    setWidget("filter");
+  };
+
+  const handleClickManager = (e: any) => {
+    e.stopPropagation();
+    dispatch(setBackground(true));
+    setWidget("manager");
+  };
 
   return (
     <Box>
       <div className="product-widgets WEB">
-        {/* <Filters /> */}
         <Filters2 />
         <ProductManager products={products} />
       </div>
 
       <div className="product-widgets-outer MOBILE">
         <div
-          // mobile, tablet 사이즈의 뷰포트일 경우(Depended on CSS Media Query),
-          // 클릭이 된 경우(Depended on Flag State),
-          className={`product-widgets-background ${widget ? "visible" : ""}`}
-          onClick={() => setWidget("")}
+          className="product-widgets"
+          onClick={(e) => e.stopPropagation()}
+          ref={productWidgetsRef}
         >
-          <div className="product-widgets" onClick={(e) => e.stopPropagation()}>
-            {widget === "filter" ? (
-              <Filters2 />
-            ) : widget === "manager" ? (
-              <ProductManager products={products} />
-            ) : (
-              ""
-            )}
-          </div>
+          {widget === "filter" ? (
+            <Filters2 />
+          ) : widget === "manager" ? (
+            <ProductManager products={products} />
+          ) : null}
         </div>
         <div className="product-widgets-opener">
-          <button onClick={() => setWidget("filter")}>Filter</button>
-          <button onClick={() => setWidget("manager")}>Manager</button>
+          <button onClick={handleClickFilter}>Filter</button>
+          <button onClick={handleClickManager}>Manager</button>
         </div>
       </div>
     </Box>
@@ -42,8 +61,6 @@ export default function ProductsWidgets({ products }: any) {
 }
 
 const Box = styled.div`
-  /* border: 1px solid coral; */
-
   .product-widgets.WEB {
     display: flex;
     flex-direction: column;
@@ -53,22 +70,12 @@ const Box = styled.div`
   .product-widgets-outer.MOBILE {
     display: none;
 
-    .product-widgets-background {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      background-color: rgba(0, 0, 0, 0.8);
-      z-index: 10000;
-      &.visible {
-        display: flex;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-      }
+    .product-widgets {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
     }
 
     .product-widgets-opener {
@@ -77,10 +84,6 @@ const Box = styled.div`
       background-color: #333;
       border: 1px solid;
       border-radius: 10px;
-      /* border: 1px solid red; */
-
-      /* position: sticky;
-            top: 0; */
     }
   }
 `;

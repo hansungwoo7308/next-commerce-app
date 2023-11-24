@@ -298,6 +298,7 @@ const Main = styled.main`
   }
 
   .recommendation {
+    min-height: initial;
     display: flex;
     flex-direction: column;
     gap: 3rem;

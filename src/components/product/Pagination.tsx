@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 
 export default function Pagination({ pageCount, page, onPaginate }: any) {
-  const totalPages = Array(pageCount)
+  const pageNumbers = Array(pageCount)
     .fill(undefined)
     .map((v, i) => i + 1);
 
@@ -27,29 +27,38 @@ export default function Pagination({ pageCount, page, onPaginate }: any) {
     onPaginate(pageCount);
   };
 
+  if (!pageCount) return null;
   return (
     <Box>
       <ul className="left">
         <li>
-          <button onClick={handleClickLeftEnd}>{"<<"}</button>
+          <button onClick={handleClickLeftEnd} disabled={page === 1}>
+            {"<<"}
+          </button>
         </li>
         <li>
-          <button onClick={handleClickLeft}>{"<"}</button>
+          <button onClick={handleClickLeft} disabled={page === 1}>
+            {"<"}
+          </button>
         </li>
       </ul>
       <ul className="center">
-        {totalPages?.map((page: any) => (
-          <li key={page}>
-            <button onClick={() => onPaginate(page)}>{page}</button>
+        {pageNumbers?.map((pageNumber: any) => (
+          <li key={pageNumber} className={pageNumber === page ? "current-page" : ""}>
+            <button onClick={() => onPaginate(pageNumber)}>{pageNumber}</button>
           </li>
         ))}
       </ul>
       <ul className="right">
         <li>
-          <button onClick={handleClickRight}>{">"}</button>
+          <button onClick={handleClickRight} disabled={page === pageCount}>
+            {">"}
+          </button>
         </li>
         <li>
-          <button onClick={handleClickRightEnd}>{">>"}</button>
+          <button onClick={handleClickRightEnd} disabled={page === pageCount}>
+            {">>"}
+          </button>
         </li>
       </ul>
     </Box>
@@ -66,39 +75,34 @@ const Box = styled.div`
   border-radius: 10px;
   background-color: #333;
   overflow: hidden;
-  /* padding: 1rem; */
-  > ul {
+
+  ul {
     display: flex;
-    /* padding: 1rem; */
-    > li {
-      /* padding: 0.5rem; */
-      /* border: 1px solid; */
-      > button {
+    li {
+      button {
         width: 2.5rem;
         height: 2.5rem;
         display: flex;
         justify-content: center;
         align-items: center;
-        /* border: 1px solid red; */
         &:hover {
           color: #fff;
+        }
+        &:disabled {
+          /* cursor: not-allowed; */
+          cursor: initial;
+          background-color: rgba(0, 0, 0, 0.3);
         }
       }
     }
   }
+
   .center {
     border-left: 1px solid;
     border-right: 1px solid;
-    /* border-top: 1px solid;
-    border-bottom: 1px solid; */
-  }
-  .left {
-    /* border-right: 1px solid; */
-    /* border: 1px solid;
-    border-radius: 10px 0 0 10px; */
-  }
-  .right {
-    /* border: 1px solid;
-    border-radius: 0 10px 10px 0; */
+
+    .current-page {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
   }
 `;
