@@ -1,8 +1,8 @@
-import { setSelectedProductIds } from "lib/client/store/productManagerSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import { setIds } from "lib/client/store/productManagerSlice";
 
 export default function ProductManager({ products }: any) {
   const { selectedProductIds } = useSelector((store: any) => store.productManager);
@@ -11,10 +11,10 @@ export default function ProductManager({ products }: any) {
 
   const handleSelectAll = () => {
     const productIds = products.map((product: any) => product._id);
-    dispatch(setSelectedProductIds(productIds));
+    dispatch(setIds(productIds));
   };
   const handleUnselectAll = () => {
-    dispatch(setSelectedProductIds([]));
+    dispatch(setIds([]));
   };
   const handleCreateProduct = () => {
     dispatch(setModal({ active: true, type: "CREATE_PRODUCT" }));

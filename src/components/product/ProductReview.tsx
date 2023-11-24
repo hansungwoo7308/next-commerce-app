@@ -1,10 +1,6 @@
 import Stars from "@/components/product/Stars";
 import { setModal } from "lib/client/store/modalSlice";
-import {
-  addProductReviewId,
-  removeProductReviewId,
-  setSelectedProductId,
-} from "lib/client/store/productManagerSlice";
+import { setId, setReviewId, setReviewIds } from "lib/client/store/productManagerSlice";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -33,10 +29,15 @@ export default function ProductReview({ product, review }: Props) {
     // console.log({ isCheck });
     if (isCheck) {
       checkboxRef.current.classList.add("active");
-      dispatch(addProductReviewId(review._id));
+      dispatch(setReviewIds((state: any) => state.reviewIds.push(review._id)));
+      // dispatch(setReviewIds((state:any)=>[...state.reviewIds,review._id]));
     } else {
       checkboxRef.current.classList.remove("active");
-      dispatch(removeProductReviewId(review._id));
+      dispatch(
+        setReviewIds((state: any) =>
+          state.reviewIds.filter((reviewId: any) => reviewId !== review._id)
+        )
+      );
     }
   }, [isCheck, dispatch]);
 

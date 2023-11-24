@@ -1,5 +1,5 @@
 import { setModal } from "lib/client/store/modalSlice";
-import { setSelectedProductId } from "lib/client/store/productManagerSlice";
+import { setId } from "lib/client/store/productManagerSlice";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";

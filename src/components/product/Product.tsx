@@ -1,7 +1,6 @@
 // import { useSession } from "next-auth/react";
 import Stars from "@/components/product/Stars";
 import { addToCart, deleteItemFromCart } from "lib/client/store/cartSlice";
-import { addProductId, removeProductId } from "lib/client/store/productManagerSlice";
 import { setModal } from "lib/client/store/modalSlice";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
+import { setIds } from "lib/client/store/productManagerSlice";
 
 function UserButton({ product, isDuplicated, dispatch }: any) {
   const { _id, name, stock, price } = product;
@@ -50,7 +50,7 @@ export default function Product({ product }: any) {
   const session = useSession();
   const auth = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
-  const { selectedProductIds } = useSelector((store: any) => store.productManager); // admin
+  const { ids } = useSelector((store: any) => store.productManager); // admin
   const dispatch = useDispatch();
 
   // cart.products : root state : redux store data (application의 지속가능한 데이터)
@@ -60,17 +60,37 @@ export default function Product({ product }: any) {
   // internal
   const checkRef: any = useRef(null);
 
+  // const handleSelect = (e: any) => {
+  //   e.target.checked
+  //     ? dispatch(
+  //         setIds((state: any) => {
+  //           // const test = state.ids.push(_id);
+  //           const copy = [...state.ids, _id];
+  //           return copy;
+  //         })
+  //       )
+  //     : dispatch(
+  //         setIds((state: any) => {
+  //           // state.ids.filter((id: any) => id !== _id);
+  //           const copy = state.ids.filter((id: any) => id !== _id);
+  //           return copy;
+  //         })
+  //       );
+  // };
   const handleSelect = (e: any) => {
-    e.target.checked ? dispatch(addProductId(_id)) : dispatch(removeProductId(_id));
+    const newId = _id;
+    e.target.checked
+      ? dispatch(setIds([...ids, newId]))
+      : dispatch(setIds(ids.filter((id: any) => id !== newId)));
   };
 
-  useEffect(() => {
-    // if (!selectedProductIds || !checkRef.current) return;
-    // if (selectedProductIds.length === 0) checkRef.current.checked = false;
-    // selectedProductIds.map((selectedProductId: any) => {
-    //   if (selectedProductId === _id) checkRef.current.checked = true;
-    // });
-  }, [selectedProductIds]);
+  // useEffect(() => {
+  //   // if (!selectedProductIds || !checkRef.current) return;
+  //   // if (selectedProductIds.length === 0) checkRef.current.checked = false;
+  //   // selectedProductIds.map((selectedProductId: any) => {
+  //   //   if (selectedProductId === _id) checkRef.current.checked = true;
+  //   // });
+  // }, [selectedProductIds]);
 
   if (auth.user?.role === "user") {
     return (
@@ -81,7 +101,7 @@ export default function Product({ product }: any) {
             className="checkbox"
             type="checkbox"
             onChange={handleSelect}
-            checked={selectedProductIds.find((id: any) => id === _id)}
+            // checked={selectedProductIds.find((id: any) => id === _id)}
           />
           <Link href={`/products/${_id}`}>
             <Image

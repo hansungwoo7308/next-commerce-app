@@ -1,5 +1,5 @@
 import ProductReview from "@/components/product/ProductReview";
-import { setSelectedProductId } from "lib/client/store/productManagerSlice";
+import { setId } from "lib/client/store/productManagerSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -15,8 +15,8 @@ export default function ProductReviews({ product, reviews }: Props) {
   const { selectedProductReviewIds } = useSelector((store: any) => store.productManager);
 
   useEffect(() => {
-    if (selectedProductReviewIds.length === 0) dispatch(setSelectedProductId(null));
-    else if (selectedProductReviewIds.length === 1) dispatch(setSelectedProductId(product._id));
+    if (selectedProductReviewIds.length === 0) dispatch(setId(null));
+    else if (selectedProductReviewIds.length === 1) dispatch(setId(product._id));
   }, [selectedProductReviewIds, dispatch]);
 
   return (
