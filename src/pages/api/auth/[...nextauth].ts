@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
       id: "credentials",
       credentials: {},
       async authorize(credentials, req) {
-        console.log("\x1b[33m\n[authorize]\x1b[30m");
+        console.log("\x1b[33m\n[api/auth/[...nextauth]/authorize]\x1b[30m");
         // check
         // if (!credentials) throw new Error("No credentials");
 
@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
         // find
         const user = await User.findOne({ email })
           // .select("+username +email +role +image")
-          .select("-refreshToken -createdAt -updatedAt -__v")
+          .select("-password -refreshToken -createdAt -updatedAt -__v")
           .exec();
         if (!user) throw new Error("Invalid Email");
         console.log({ user });
@@ -58,29 +58,47 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     signIn({ user, account, profile }) {
-      console.log("\x1b[33m\n[signIn]\x1b[30m");
+      console.log("\x1b[33m\n[api/auth/[...nextauth]/signIn]\x1b[30m");
       console.log({ user, account });
       if (account?.provider === "naver") return true;
       return true;
     },
-    async jwt({ token, user, account }: any) {
+
+    // client token (jwt)
+    async jwt({ token, user, account, trigger, session }: any) {
+      console.log("\x1b[33m\n[api/auth/[...nextauth]/jwt]\x1b[30m");
+
       // client token 에 user 데이터를 저장한다.
       // user : returned value from authorize function
-      // console.log("\x1b[33m\n[jwt]\x1b[32m");
       if (user) token.user = user;
       if (account) token.account = account;
+
+      // client에서 update를 trigger한 경우, 토큰을 업데이트한다.
+      // console.log({ trigger, session });
+      if (trigger === "update") {
+        // console.log({ token });
+        token.user = session.user;
+        // console.log({ token });
+        return token;
+        // return {...token,...session.user}
+      }
+
       // console.log({ token });
       return token;
     },
+
+    // server session
     async session({ session, token }: any) {
+      console.log("\x1b[33m\n[api/auth/[...nextauth]/session]\x1b[30m");
+
       // server session 에 user 데이터를 저장한다.
       // token : returned value from jwt function
-      console.log("\x1b[33m\n[session]\x1b[30m");
       if (token.user) session.user = token.user;
       if (token.account) session.account = token.account;
-      // console.log({ session });
-      console.log({ user: session.user });
-      console.log({ account: session.account });
+
+      // console.log({ user: session.user });
+      // console.log({ account: session.account });
+      console.log({ session });
       return session;
     },
   },

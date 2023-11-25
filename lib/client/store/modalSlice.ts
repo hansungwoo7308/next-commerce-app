@@ -56,6 +56,9 @@ export const modalSlice = createSlice({
       // else return {};
       // return active ? action.payload : {};
     },
+    // closeModal: (state, action) => {
+    //   state.active = false;
+    // },
   },
   extraReducers(builder) {
     // builder.addCase(fetchTest.fulfilled, (state, action) => {

@@ -158,6 +158,8 @@ export default function Modal() {
             <button
               className="delete-button"
               onClick={async () => {
+                return;
+
                 try {
                   const response = await deleteData(
                     `v2/products/${selectedProductId}/review`,
@@ -195,6 +197,8 @@ export default function Modal() {
             <button
               className="delete-button"
               onClick={async () => {
+                console.log({ id });
+                return;
                 const response = await deleteData(`v2/products/${id}`, null, accessToken);
                 logResponse(response);
                 router.push({ pathname: router.pathname });
@@ -224,6 +228,8 @@ export default function Modal() {
             <button
               className="delete-button"
               onClick={async () => {
+                return;
+
                 const response = await deleteData(`v2/products/${id}`, ids, accessToken);
                 logResponse(response);
                 router.push({ pathname: router.asPath });

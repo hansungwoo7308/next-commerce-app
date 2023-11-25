@@ -4,9 +4,8 @@ import jwt from "jsonwebtoken";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-// import cookie from "cookie";
 export const checkAuth = async (req: any, res: any, next: any) => {
-  console.log("\x1b[32m\n<middleware/checkAuth>");
+  // console.log("\x1b[32m\n<middleware/checkAuth>\x1b[30m");
 
   // get the session (auth method 1)
   const session = await getServerSession(req, res, authOptions);
@@ -27,13 +26,7 @@ export const checkAuth = async (req: any, res: any, next: any) => {
   // console.log({ verified });
 
   // inject the role
-  const { role } = verified;
-  // console.log({ "req.user": req.user });
-  const user = { role };
-  req.user = user;
-  req.user.id = verified._id;
-  // console.log({ "req.user": req.user });
-
+  req.user = { role: verified.role, id: verified._id };
   return await next();
 
   // get the credentials from session and cookies
@@ -51,10 +44,11 @@ export const checkAuth = async (req: any, res: any, next: any) => {
   // out
   // await next();
 };
+
 export const checkRoles = (roles: any) => {
   return async (req: any, res: any, next: any) => {
-    console.log("\x1b[32m\n<middleware/checkRoles>");
-    console.log({ "req.user.role": req.user.role });
+    // console.log("\x1b[32m\n<middleware/checkRoles>\x1b[30m");
+    // console.log({ "req.user.role": req.user.role });
 
     if (!roles.includes(req.user.role)) {
       throw new Error(`Role (${req.user.role}) is not allowed to access this resource.`);

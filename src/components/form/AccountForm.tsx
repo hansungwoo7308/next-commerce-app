@@ -1,6 +1,7 @@
 import axios from "axios";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { refreshAuth } from "lib/client/utils/authUtils";
+import { getSession, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -11,6 +12,7 @@ import styled from "styled-components";
 
 export default function AccountForm() {
   // external
+  const session = useSession();
   const auth = useSelector((store: any) => store.auth);
   const dispatch: any = useDispatch();
 
@@ -25,7 +27,7 @@ export default function AccountForm() {
 
   const handleUpdateAccountInfo = async (data: any) => {
     console.log({ data });
-    return;
+    // return;
 
     try {
       dispatch(setLoading(true));
@@ -50,7 +52,14 @@ export default function AccountForm() {
 
       // out
       console.log({ response });
-      refreshAuth(dispatch);
+
+      if (session)
+        await session.update({
+          ...session.data,
+          user: { ...session.data?.user, role: response.data.savedUser.role },
+        });
+      else refreshAuth(dispatch);
+
       dispatch(setLoading(false));
       setIsEditMode(false);
       // router.push({ pathname: router.asPath });

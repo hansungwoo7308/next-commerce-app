@@ -4,16 +4,13 @@ import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-// interface Props {
-//   product?: any;
-// }
-
 export default function ProductManagerFixed() {
   // exteranl
   const { selectedProductId, selectedProductReviewIds } = useSelector(
     (store: any) => store.productManager
   );
   const dispatch = useDispatch();
+
   const handleDeleteItems = () => {
     dispatch(
       setModal({
@@ -27,10 +24,10 @@ export default function ProductManagerFixed() {
 
   // internal
   const mangerRef: any = useRef(null);
-  useEffect(() => {
-    if (selectedProductReviewIds.length === 0) mangerRef.current.style.left = "-15rem";
-    else mangerRef.current.style.left = "2rem";
-  }, [selectedProductReviewIds]);
+  // useEffect(() => {
+  //   if (selectedProductReviewIds.length === 0) mangerRef.current.style.left = "-15rem";
+  //   else mangerRef.current.style.left = "2rem";
+  // }, [selectedProductReviewIds]);
 
   return (
     <Box className="product-manager" ref={mangerRef}>
