@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 export default function ProductManagerFixed() {
   // exteranl
-  const { productId, reviewIds } = useSelector((store: any) => store.productManager);
+  const { reviewIds } = useSelector((store: any) => store.productManager);
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
@@ -22,10 +22,15 @@ export default function ProductManagerFixed() {
   // }, [selectedProductReviewIds]);
 
   return (
-    <Box className="product-manager" ref={mangerRef}>
+    <Box className={`product-manager ${reviewIds.length === 0 ? "hidden" : ""}`} ref={mangerRef}>
       <h4>Product Manager</h4>
       <hr />
-      <button className="delete-button" onClick={handleOpenModal} disabled={reviewIds.length === 0}>
+      <button
+        className="delete-button"
+        //
+        // disabled={reviewIds.length === 0}
+        onClick={handleOpenModal}
+      >
         Delete the selected items
       </button>
     </Box>
@@ -47,6 +52,10 @@ const Box = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  &.hidden {
+    left: -15rem;
+  }
 
   h4 {
     text-align: center;

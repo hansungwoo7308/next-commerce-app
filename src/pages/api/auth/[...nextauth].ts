@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
       id: "credentials",
       credentials: {},
       async authorize(credentials, req) {
-        console.log("\x1b[33m\n[api/auth/[...nextauth]/authorize]\x1b[30m");
+        console.log("\x1b[34m\n<api/auth/[...nextauth]/authorize>\x1b[30m");
         // check
         // if (!credentials) throw new Error("No credentials");
 
@@ -58,7 +58,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     signIn({ user, account, profile }) {
-      console.log("\x1b[33m\n[api/auth/[...nextauth]/signIn]\x1b[30m");
+      console.log("\x1b[34m\n<api/auth/[...nextauth]/signIn>\x1b[30m");
       console.log({ user, account });
       if (account?.provider === "naver") return true;
       return true;
@@ -66,7 +66,7 @@ export const authOptions: NextAuthOptions = {
 
     // client token (jwt)
     async jwt({ token, user, account, trigger, session }: any) {
-      console.log("\x1b[33m\n[api/auth/[...nextauth]/jwt]\x1b[30m");
+      console.log("\x1b[34m\n<api/auth/[...nextauth]/jwt>\x1b[30m");
 
       // client token 에 user 데이터를 저장한다.
       // user : returned value from authorize function
@@ -89,7 +89,7 @@ export const authOptions: NextAuthOptions = {
 
     // server session
     async session({ session, token }: any) {
-      console.log("\x1b[33m\n[api/auth/[...nextauth]/session]\x1b[30m");
+      console.log("\x1b[34m\n<api/auth/[...nextauth]/session>\x1b[30m");
 
       // server session 에 user 데이터를 저장한다.
       // token : returned value from jwt function

@@ -165,15 +165,15 @@ export const deleteProductReviews = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<deleteProductReview>\x1b[30m`);
 
   // get
-  const { id } = req.query;
+  const { id: productId } = req.query;
   const { reviewIds } = req.body;
-  console.log({ id, reviewIds });
+  console.log({ productId, reviewIds });
 
-  return res.status(200).json({ test: "test" });
+  // return res.status(200).json({ test: "test" });
 
   // delete
   const updatedProducts = await Product.findByIdAndUpdate(
-    id,
+    productId,
     { $pull: { reviews: { _id: { $in: reviewIds } } } },
     { new: true }
   );

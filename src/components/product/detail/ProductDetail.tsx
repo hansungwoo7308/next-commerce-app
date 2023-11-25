@@ -6,7 +6,8 @@ import ProductDetailReviews from "@/components/product/detail/ProductDetailRevie
 import ProductManagerFixed from "@/components/product/ProductManagerFixed";
 
 export default function ProductDetail({ product }: any) {
-  console.log({ product });
+  // console.log({ product });
+
   return (
     <Box className="product-detail">
       <ProductDetailWidget product={product} />

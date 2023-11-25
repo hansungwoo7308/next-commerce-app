@@ -20,42 +20,32 @@ export default function ProductReview({ product, review }: Props) {
   const dispatch = useDispatch();
 
   // internal
-  const checkboxRef: any = useRef(null);
-  const [isCheck, setIsCheck]: any = useState();
+  const [isSelected, setIsSelected]: any = useState(false);
 
-  const handleSelectReview = () => setIsCheck(!isCheck);
+  const handleOpenProductReview = () => {
+    if (user?.role === "user") dispatch(setModal({ active: true, type: "VIEW_REVIEW", review }));
+  };
 
+  const handleSelectReview = () => setIsSelected(!isSelected);
+
+  // 선택된 리뷰아이디를 스토어(프러덕트 매니저)에 저장한다.
   useEffect(() => {
-    if (!checkboxRef.current) return;
+    // 초기로드시, 선택된 리뷰가 없기 때문에, 스토어에 액션을 보낼 필요가 없다.
+    if (!isSelected && reviewIds.length === 0) return;
 
-    if (isCheck) {
-      checkboxRef.current.classList.add("active");
-
+    if (isSelected) {
       // 체크시, 하나도 추가하지 않은 경우만 제품아이디를 추가
       if (reviewIds.length === 0) dispatch(setProductId(product._id));
-
       dispatch(setReviewIds([...reviewIds, review._id]));
     } else {
-      checkboxRef.current.classList.remove("active");
-
       // 체크시, 마지막 하나 남은 경우만 제품아이디을 제거
       if (reviewIds.length === 1) dispatch(setProductId(null));
-
       dispatch(setReviewIds(reviewIds.filter((reviewId: any) => reviewId !== review._id)));
     }
-  }, [isCheck, dispatch]);
+  }, [isSelected, dispatch]);
 
-  // console.log({ review });
-
-  if (review.length === 0) return null;
   return (
-    <Box
-      className="product-review"
-      onClick={() => {
-        if (user?.role !== "admin")
-          dispatch(setModal({ active: true, type: "VIEW_REVIEW", review }));
-      }}
-    >
+    <Box className="product-review" onClick={handleOpenProductReview}>
       <div className="review-content">
         <div className="review-user">
           <FaCircleUser />
@@ -79,8 +69,11 @@ export default function ProductReview({ product, review }: Props) {
         ) : null}
       </div>
       {user?.role === "admin" && (
-        <div className="checkbox-outer" ref={checkboxRef} onClick={handleSelectReview}>
-          {isCheck ? <h1>Selected</h1> : <h1>Select this item</h1>}
+        <div
+          className={`checkbox-outer ${isSelected ? "active" : ""}`}
+          onClick={handleSelectReview}
+        >
+          {isSelected ? <h1>Selected</h1> : <h1>Select this item</h1>}
         </div>
       )}
     </Box>
