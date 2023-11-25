@@ -3,13 +3,13 @@ import APIfeatures from "lib/server/utils/APIfeatures";
 
 // single
 export const createProduct = async (req: any, res: any, next: any) => {
-  console.log(`\x1b[32m\n<createProduct>`);
+  console.log(`\x1b[32m\n<createProduct>\x1b[30m`);
   console.log(req.body);
   const product = await Product.create(req.body);
   res.status(200).json({ product });
 };
 export const createProductReview = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<createProductReview>`);
+  console.log(`\x1b[32m\n<createProductReview>\x1b[30m`);
 
   // get
   const { id } = req.query;
@@ -38,7 +38,7 @@ export const createProductReview = async (req: any, res: any) => {
   return res.status(200).json({ product });
 };
 export const getProduct = async (req: any, res: any, next: any) => {
-  console.log(`\x1b[32m\n<getProduct>`);
+  console.log(`\x1b[32m\n<getProduct>\x1b[30m`);
 
   const product = await Product.findById(req.query.id);
   if (!product) res.status(404).json({ message: "Not found" });
@@ -46,7 +46,7 @@ export const getProduct = async (req: any, res: any, next: any) => {
   res.status(200).json({ product });
 };
 export const deleteProduct = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<deleteProduct>`);
+  console.log(`\x1b[32m\n<deleteProduct>\x1b[30m`);
   // get
   const { id } = req.query;
   // delete
@@ -59,7 +59,7 @@ export const deleteProduct = async (req: any, res: any) => {
 // multiple
 export const getProducts = async (req: any, res: any, next: any) => {
   // log
-  console.log(`\x1b[32m\n<getProducts>`);
+  console.log(`\x1b[32m\n<getProducts>\x1b[30m`);
   console.log({ query: req.query });
 
   // set
@@ -156,24 +156,29 @@ export const getProducts = async (req: any, res: any, next: any) => {
 //   res.status(200).json({ products: paginatedProducts, pages: totalPages });
 // };
 export const deleteProducts = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<deleteProducts>`);
+  console.log(`\x1b[32m\n<deleteProducts>\x1b[30m`);
   const { ids } = req.body;
   const deletedProducts = await Product.deleteMany({ _id: { $in: ids } });
   res.status(200).json({ deletedProducts });
 };
 export const deleteProductReviews = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<deleteProductReview>`);
+  console.log(`\x1b[32m\n<deleteProductReview>\x1b[30m`);
+
   // get
   const { id } = req.query;
-  const { ids } = req.body;
-  console.log({ id, ids });
+  const { reviewIds } = req.body;
+  console.log({ id, reviewIds });
+
+  return res.status(200).json({ test: "test" });
+
   // delete
   const updatedProducts = await Product.findByIdAndUpdate(
     id,
-    { $pull: { reviews: { _id: { $in: ids } } } },
+    { $pull: { reviews: { _id: { $in: reviewIds } } } },
     { new: true }
   );
   // const updatedProducts = await Product.deleteMany({ reviews: { _id: { $in: ids } } });
+
   // out
   console.log({ updatedProducts });
   return res.status(200).json({ updatedProducts });

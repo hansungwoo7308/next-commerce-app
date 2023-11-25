@@ -1,25 +1,17 @@
 import { setModal } from "lib/client/store/modalSlice";
-import { setId } from "lib/client/store/productManagerSlice";
+import { setProductId } from "lib/client/store/productManagerSlice";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 export default function ProductManagerFixed() {
   // exteranl
-  const { selectedProductId, selectedProductReviewIds } = useSelector(
-    (store: any) => store.productManager
-  );
+  const { productId, reviewIds } = useSelector((store: any) => store.productManager);
   const dispatch = useDispatch();
 
-  const handleDeleteItems = () => {
-    dispatch(
-      setModal({
-        active: true,
-        type: "DELETE_PRODUCT_REVIEW_ITEMS",
-        selectedProductId,
-        selectedProductReviewIds,
-      })
-    );
+  const handleOpenModal = () => {
+    const settings = { active: true, type: "DELETE_PRODUCT_REVIEWS" };
+    dispatch(setModal(settings));
   };
 
   // internal
@@ -33,11 +25,7 @@ export default function ProductManagerFixed() {
     <Box className="product-manager" ref={mangerRef}>
       <h4>Product Manager</h4>
       <hr />
-      <button
-        className="delete-button"
-        onClick={handleDeleteItems}
-        disabled={selectedProductReviewIds?.length === 0}
-      >
+      <button className="delete-button" onClick={handleOpenModal} disabled={reviewIds.length === 0}>
         Delete the selected items
       </button>
     </Box>
@@ -46,23 +34,30 @@ export default function ProductManagerFixed() {
 
 const Box = styled.div`
   min-width: 12rem;
-  border: 1px solid red;
+
+  border: 1px solid;
   border-radius: 10px;
   padding: 1rem;
-  background-color: #333;
+  background-color: #555;
+
   position: fixed;
   bottom: 3rem;
   transition: all 0.3s;
 
-  /* children */
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
-  > h4 {
+  h4 {
     text-align: center;
   }
-  > hr {
+  hr {
     place-self: stretch;
+  }
+
+  button {
+    &:disabled {
+      background-color: #222;
+    }
   }
 `;

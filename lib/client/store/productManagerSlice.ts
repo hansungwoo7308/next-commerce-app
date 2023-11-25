@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface InitialState {
-  id?: string | null;
-  ids?: string[] | null;
+  productId?: string | null;
+  productIds?: string[] | null;
   reviewId?: string | null;
   reviewIds?: string[] | null;
 }
 
 const initialState: InitialState = {
-  id: null,
-  ids: [],
+  productId: null,
+  productIds: [],
   reviewId: null,
   reviewIds: [],
 };
@@ -18,11 +18,11 @@ export const productManagerSlice = createSlice({
   name: "productManager",
   initialState,
   reducers: {
-    setId: (state, action) => {
-      state.id = action.payload;
+    setProductId: (state, action) => {
+      state.productId = action.payload;
     },
-    setIds: (state, action) => {
-      state.ids = action.payload;
+    setProductIds: (state, action) => {
+      state.productIds = action.payload;
     },
     setReviewId: (state, action) => {
       state.reviewId = action.payload;
@@ -33,4 +33,5 @@ export const productManagerSlice = createSlice({
   },
 });
 
-export const { setId, setIds, setReviewId, setReviewIds }: any = productManagerSlice.actions;
+export const { setProductId, setProductIds, setReviewId, setReviewIds }: any =
+  productManagerSlice.actions;

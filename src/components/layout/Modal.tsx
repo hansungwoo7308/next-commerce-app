@@ -15,6 +15,7 @@ import CreateProductForm from "@/components/form/CreateProductForm";
 import CreateProductReviewForm from "@/components/form/CreateProductReviewForm";
 import ProductReview from "@/components/product/ProductReview";
 import Stars from "@/components/product/Stars";
+import { useSession } from "next-auth/react";
 // import { deleteItemFromCart } from "lib/client/store/cartSlice";
 // import { deleteUser } from "lib/client/store/usersSlice";
 // import { deleteData, getData, postData } from "lib/client/utils/fetchData";
@@ -22,12 +23,11 @@ import Stars from "@/components/product/Stars";
 export default function Modal() {
   // external
   const dispatch = useDispatch();
+  const session = useSession();
   const { accessToken } = useSelector((store: any) => store.auth);
   const { active, type, id, ids, message, modalAction, modalActionLabel, disabled, src, review } =
     useSelector((store: any) => store.modal);
-  const { selectedProductId, selectedProductReviewIds } = useSelector(
-    (store: any) => store.productManager
-  );
+  const { productId, reviewIds } = useSelector((store: any) => store.productManager);
 
   const handleClose = () => dispatch(setModal({ active: false }));
 
@@ -144,7 +144,24 @@ export default function Modal() {
       </Background>
     );
   }
-  if (type === "DELETE_PRODUCT_REVIEW_ITEMS") {
+  if (type === "DELETE_PRODUCT_REVIEWS") {
+    const handleDeleteItems = async () => {
+      console.log({ productId, reviewIds });
+      // return;
+
+      try {
+        const response = await deleteData(
+          `v2/products/${productId}/review`,
+          { reviewIds },
+          accessToken
+        );
+        logResponse(response);
+        router.push({ pathname: router.asPath });
+      } catch (error: any) {
+        toast.error(error.message);
+      }
+    };
+
     return (
       <Background onClick={handleClose}>
         <Box onClick={(e) => e.stopPropagation()}>
@@ -155,24 +172,7 @@ export default function Modal() {
             <p>Do you want to delete this items?</p>
           </div>
           <div className="bottom">
-            <button
-              className="delete-button"
-              onClick={async () => {
-                return;
-
-                try {
-                  const response = await deleteData(
-                    `v2/products/${selectedProductId}/review`,
-                    { ids: selectedProductReviewIds },
-                    accessToken
-                  );
-                  logResponse(response);
-                  router.push({ pathname: router.asPath });
-                } catch (error: any) {
-                  toast.error(error.message);
-                }
-              }}
-            >
+            <button className="delete-button" onClick={handleDeleteItems}>
               Delete
             </button>
             <button className="cancel-button" onClick={handleClose}>

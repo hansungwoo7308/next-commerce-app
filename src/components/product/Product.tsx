@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
-import { setIds } from "lib/client/store/productManagerSlice";
+import { setProductIds } from "lib/client/store/productManagerSlice";
 
 function UserButton({ product, isDuplicated, dispatch }: any) {
   const { _id, name, stock, price } = product;
@@ -63,14 +63,14 @@ export default function Product({ product }: any) {
   // const handleSelect = (e: any) => {
   //   e.target.checked
   //     ? dispatch(
-  //         setIds((state: any) => {
+  //         setProductIds((state: any) => {
   //           // const test = state.ids.push(_id);
   //           const copy = [...state.ids, _id];
   //           return copy;
   //         })
   //       )
   //     : dispatch(
-  //         setIds((state: any) => {
+  //         setProductIds((state: any) => {
   //           // state.ids.filter((id: any) => id !== _id);
   //           const copy = state.ids.filter((id: any) => id !== _id);
   //           return copy;
@@ -80,8 +80,8 @@ export default function Product({ product }: any) {
   const handleSelect = (e: any) => {
     const newId = _id;
     e.target.checked
-      ? dispatch(setIds([...ids, newId]))
-      : dispatch(setIds(ids.filter((id: any) => id !== newId)));
+      ? dispatch(setProductIds([...ids, newId]))
+      : dispatch(setProductIds(ids.filter((id: any) => id !== newId)));
   };
 
   // useEffect(() => {

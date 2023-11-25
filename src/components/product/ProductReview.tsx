@@ -1,6 +1,6 @@
 import Stars from "@/components/product/Stars";
 import { setModal } from "lib/client/store/modalSlice";
-import { setId, setReviewId, setReviewIds } from "lib/client/store/productManagerSlice";
+import { setProductId, setReviewId, setReviewIds } from "lib/client/store/productManagerSlice";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -16,28 +16,32 @@ interface Props {
 export default function ProductReview({ product, review }: Props) {
   // exteranl
   const { user } = useSelector((store: any) => store.auth);
-  const { selectedProductId, selectedProductReviewIds } = useSelector(
-    (store: any) => store.productManager
-  );
+  const { reviewIds } = useSelector((store: any) => store.productManager);
   const dispatch = useDispatch();
+
   // internal
   const checkboxRef: any = useRef(null);
   const [isCheck, setIsCheck]: any = useState();
 
+  const handleSelectReview = () => setIsCheck(!isCheck);
+
   useEffect(() => {
-    if (checkboxRef.current === null) return;
-    // console.log({ isCheck });
+    if (!checkboxRef.current) return;
+
     if (isCheck) {
       checkboxRef.current.classList.add("active");
-      dispatch(setReviewIds((state: any) => state.reviewIds.push(review._id)));
-      // dispatch(setReviewIds((state:any)=>[...state.reviewIds,review._id]));
+
+      // 체크시, 하나도 추가하지 않은 경우만 제품아이디를 추가
+      if (reviewIds.length === 0) dispatch(setProductId(product._id));
+
+      dispatch(setReviewIds([...reviewIds, review._id]));
     } else {
       checkboxRef.current.classList.remove("active");
-      dispatch(
-        setReviewIds((state: any) =>
-          state.reviewIds.filter((reviewId: any) => reviewId !== review._id)
-        )
-      );
+
+      // 체크시, 마지막 하나 남은 경우만 제품아이디을 제거
+      if (reviewIds.length === 1) dispatch(setProductId(null));
+
+      dispatch(setReviewIds(reviewIds.filter((reviewId: any) => reviewId !== review._id)));
     }
   }, [isCheck, dispatch]);
 
@@ -75,11 +79,7 @@ export default function ProductReview({ product, review }: Props) {
         ) : null}
       </div>
       {user?.role === "admin" && (
-        <div
-          className="checkbox-outer"
-          ref={checkboxRef}
-          onClick={() => setIsCheck((state: any) => !state)}
-        >
+        <div className="checkbox-outer" ref={checkboxRef} onClick={handleSelectReview}>
           {isCheck ? <h1>Selected</h1> : <h1>Select this item</h1>}
         </div>
       )}

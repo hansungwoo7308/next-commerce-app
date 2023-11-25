@@ -38,7 +38,9 @@ const Box = styled.div`
   gap: 1rem;
   padding: 1rem;
 
-  > * {
+  .product-detail-widget,
+  .middle,
+  .product-detail-reviews {
     border: 1px solid;
     border-radius: 10px;
     padding: 1rem;
@@ -47,10 +49,12 @@ const Box = styled.div`
       white-space: pre-wrap;
     }
   }
-  > .middle {
+
+  .middle {
     display: flex;
     flex-direction: column;
     gap: 3rem;
+
     h1 {
       margin-bottom: 1rem;
     }

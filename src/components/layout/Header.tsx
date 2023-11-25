@@ -2,12 +2,13 @@ import Nav from "@/components/layout/Nav";
 import { setBackground } from "lib/client/store/backgroundSlice";
 import { setSideMenu } from "lib/client/store/sideMenu";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
 
 export default function Header() {
   // internal
   const dispatch = useDispatch();
+  const background = useSelector((store: any) => store.background);
 
   // external
   const headerRef: any = useRef();
@@ -26,8 +27,10 @@ export default function Header() {
         headerRef.current.style.transform = "translateY(-300%)";
         headerRef.current.style.opacity = "0";
         headerRef.current.style.transition = "transform 1s, opacity 1s";
-        dispatch(setBackground(false));
-        dispatch(setSideMenu(false));
+        if (background) {
+          dispatch(setBackground(false));
+          dispatch(setSideMenu(false));
+        }
       }
       // scroll up : previous > latest
       else {

@@ -3,6 +3,9 @@ import { getData } from "lib/public/fetchData";
 import ProductDetail from "@/components/product/detail/ProductDetail";
 import Product from "lib/server/models/Product";
 import connectDB from "lib/server/config/connectDB";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { setProductId, setReviewIds } from "lib/client/store/productManagerSlice";
 
 export async function getStaticPaths(context: any) {
   console.log(`\x1b[33m\n[pages/products/[id]]:::[getStaticPaths]\x1b[30m`);
@@ -48,6 +51,16 @@ export async function getStaticProps(context: any) {
 
 export default function Page({ product }: any) {
   // console.log({ product });
+
+  // external
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(setProductId(null));
+      dispatch(setReviewIds([]));
+    };
+  }, []);
 
   if (!product) return null;
 
