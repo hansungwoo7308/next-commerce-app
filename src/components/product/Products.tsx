@@ -15,6 +15,7 @@ export default function Products({ products }: any) {
 const Box = styled.div`
   min-height: 500px;
   /* border: 2px solid green; */
+
   > ul {
     display: flex;
     flex-direction: column;

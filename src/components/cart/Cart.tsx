@@ -182,8 +182,9 @@ const Box = styled.li`
             align-items: center;
             &:disabled {
               cursor: not-allowed;
-              background-color: #222;
-              color: inherit;
+              /* background-color: #222;
+              color: inherit; */
+              opacity: 0.5;
             }
           }
         }

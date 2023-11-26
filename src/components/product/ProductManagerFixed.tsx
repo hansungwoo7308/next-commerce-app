@@ -1,6 +1,7 @@
 import { setModal } from "lib/client/store/modalSlice";
-import { setProductId } from "lib/client/store/productManagerSlice";
-import { useEffect, useRef } from "react";
+import { setProductId, setReviewIds } from "lib/client/store/productManagerSlice";
+import { useEffect, useRef, useState } from "react";
+import { FaCirclePlus, FaPlus } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
@@ -14,59 +15,116 @@ export default function ProductManagerFixed() {
     dispatch(setModal(settings));
   };
 
+  const handleUnselectAll = () => dispatch(setReviewIds([]));
+
   // internal
-  const mangerRef: any = useRef(null);
-  // useEffect(() => {
-  //   if (selectedProductReviewIds.length === 0) mangerRef.current.style.left = "-15rem";
-  //   else mangerRef.current.style.left = "2rem";
-  // }, [selectedProductReviewIds]);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleMoveInScreen = () => setIsVisible(!isVisible);
+
+  useEffect(() => console.log({ reviewIds }), [reviewIds]);
 
   return (
-    <Box className={`product-manager ${reviewIds.length === 0 ? "hidden" : ""}`} ref={mangerRef}>
-      <h4>Product Manager</h4>
-      <hr />
-      <button
-        className="delete-button"
-        //
-        // disabled={reviewIds.length === 0}
-        onClick={handleOpenModal}
-      >
-        Delete the selected items
-      </button>
+    <Box>
+      <div className={`product-manager ${isVisible ? "visible" : ""}`}>
+        <h4>Product Manager</h4>
+        <hr />
+        <button
+          className="delete-button"
+          disabled={reviewIds.length === 0}
+          onClick={handleOpenModal}
+        >
+          Delete the selected items
+        </button>
+        <button className="cancel-button" onClick={handleUnselectAll}>
+          Unselect all the items
+        </button>
+      </div>
+
+      <div className="product-manager-nav">
+        <button onClick={handleMoveInScreen}>
+          <FaPlus />
+        </button>
+      </div>
     </Box>
   );
 }
 
 const Box = styled.div`
-  min-width: 12rem;
-
-  border: 1px solid;
-  border-radius: 10px;
-  padding: 1rem;
-  background-color: #555;
-
   position: fixed;
-  bottom: 3rem;
-  transition: all 0.3s;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 77, 0, 0.3);
+  pointer-events: none;
 
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  .product-manager {
+    min-width: 12rem;
 
-  &.hidden {
+    border: 1px solid green;
+    border-radius: 10px;
+    padding: 1rem;
+    background-color: #555;
+
+    position: fixed;
+    top: 120px;
     left: -15rem;
-  }
+    /* bottom: 10rem; */
 
-  h4 {
-    text-align: center;
-  }
-  hr {
-    place-self: stretch;
-  }
+    transition: all 0.3s;
 
-  button {
-    &:disabled {
-      background-color: #222;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    pointer-events: initial;
+
+    &.visible {
+      left: 20px;
     }
+
+    h4 {
+      text-align: center;
+    }
+    hr {
+      place-self: stretch;
+    }
+
+    button {
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  .product-manager-nav {
+    button {
+      width: 3rem;
+      height: 3rem;
+      background-color: green;
+      border-radius: 50%;
+      padding: 0;
+
+      position: fixed;
+      left: 3%;
+      bottom: 3%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        background-color: black;
+      }
+
+      > * {
+        /* border: 1px solid red; */
+      }
+    }
+
+    pointer-events: initial;
   }
 `;

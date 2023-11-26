@@ -34,7 +34,7 @@ export default function ProductReview({ product, review }: Props) {
     if (!isSelected && reviewIds.length === 0) return;
 
     if (isSelected) {
-      // 체크시, 하나도 추가하지 않은 경우만 제품아이디를 추가
+      // 체크시, 하나도 추가하지 않은 경우만 ㄴ제품아이디를 추가
       if (reviewIds.length === 0) dispatch(setProductId(product._id));
       dispatch(setReviewIds([...reviewIds, review._id]));
     } else {
@@ -43,6 +43,11 @@ export default function ProductReview({ product, review }: Props) {
       dispatch(setReviewIds(reviewIds.filter((reviewId: any) => reviewId !== review._id)));
     }
   }, [isSelected, dispatch]);
+
+  // 스토어에 저장된 리뷰아이디가 없으면, 선택취소한다.
+  useEffect(() => {
+    if (reviewIds.length === 0) setIsSelected(false);
+  }, [reviewIds.length]);
 
   return (
     <Box className="product-review" onClick={handleOpenProductReview}>

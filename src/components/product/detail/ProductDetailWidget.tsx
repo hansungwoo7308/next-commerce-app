@@ -197,6 +197,7 @@ const Box = styled.div`
         gap: 0.5rem;
         &:disabled {
           cursor: not-allowed;
+          opacity: 0.5;
         }
       }
     }

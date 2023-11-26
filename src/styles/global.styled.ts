@@ -125,6 +125,9 @@ export const GlobalStyled = styled.createGlobalStyle`
       &:hover {
         background-color: #000;
       }
+      &:disabled {
+        opacity: 0.5;
+      }
     }
   }
   html body .general-button {
@@ -146,9 +149,6 @@ export const GlobalStyled = styled.createGlobalStyle`
       background-color: #000;
       color: #fff;
     }
-    &:disabled {
-      cursor: not-allowed;
-    }
   }
   html body .buy-button,
   html body .pay-button,
@@ -163,9 +163,6 @@ export const GlobalStyled = styled.createGlobalStyle`
       background-color: #000;
       color: #fff;
     }
-    &:disabled {
-      cursor: not-allowed;
-    }
   }
   html body .edit-button,
   html body .update-button {
@@ -179,9 +176,6 @@ export const GlobalStyled = styled.createGlobalStyle`
       background-color: #000;
       color: #fff;
     }
-    &:disabled {
-      cursor: not-allowed;
-    }
   }
   html body .delete-button {
     padding: 0.5rem;
@@ -191,9 +185,6 @@ export const GlobalStyled = styled.createGlobalStyle`
     &:hover {
       background-color: #000;
       color: #fff;
-    }
-    &:disabled {
-      cursor: not-allowed;
     }
   }
   html body .cancel-button,
@@ -208,6 +199,11 @@ export const GlobalStyled = styled.createGlobalStyle`
     }
   }
 
+  button {
+    &:disabled {
+      cursor: default;
+    }
+  }
   img {
     width: 100%;
     height: 100%;

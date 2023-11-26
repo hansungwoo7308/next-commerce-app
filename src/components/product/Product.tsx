@@ -92,7 +92,7 @@ export default function Product({ product }: any) {
   //   // });
   // }, [selectedProductIds]);
 
-  if (auth.user?.role === "user") {
+  if (auth.user?.role === "admin") {
     return (
       <Box className="product">
         <div className="image">
@@ -257,5 +257,8 @@ const Box = styled.li`
   }
   button {
     width: 8rem;
+    &:disabled {
+      opacity: 0.5;
+    }
   }
 `;

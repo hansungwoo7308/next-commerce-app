@@ -91,7 +91,7 @@ const Box = styled.div`
         &:disabled {
           /* cursor: not-allowed; */
           cursor: initial;
-          background-color: rgba(0, 0, 0, 0.3);
+          opacity: 0.5;
         }
       }
     }

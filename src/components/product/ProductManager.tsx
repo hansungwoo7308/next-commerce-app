@@ -75,4 +75,9 @@ const Box = styled.div`
   > hr {
     place-self: stretch;
   }
+  button {
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
 `;
