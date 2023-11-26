@@ -1,5 +1,5 @@
 import { setBackground } from "lib/client/store/backgroundSlice";
-import { setSideMenu } from "lib/client/store/sideMenu";
+import { setSideMenu } from "lib/client/store/sideMenuSlice";
 import { getData } from "lib/public/fetchData";
 import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";

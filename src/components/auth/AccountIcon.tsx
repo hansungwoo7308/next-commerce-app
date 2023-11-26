@@ -1,7 +1,7 @@
 import { signout } from "lib/client/store/authSlice";
 import { setBackground } from "lib/client/store/backgroundSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
-import { setSideMenu } from "lib/client/store/sideMenu";
+import { setSideMenu } from "lib/client/store/sideMenuSlice";
 import { getData } from "lib/public/fetchData";
 import { signOut, useSession } from "next-auth/react";
 import logError from "lib/client/log/logError";
@@ -20,7 +20,7 @@ export default function AccountIcon() {
   const session = useSession();
   const auth = useSelector((store: any) => store.auth);
 
-  // MOBILE handler
+  // MOBILE only
   const handleOpenSideMenu = () => {
     if (window.innerWidth > 1000) return console.log("innerWidth is over 1000px.");
     dispatch(setBackground(true));
@@ -59,48 +59,44 @@ export default function AccountIcon() {
 
   if (session.status === "authenticated" || auth.accessToken) {
     return (
-      <Box>
-        <div className="account-icon authenticated">
-          <div className="avatar-outer" onClick={handleOpenSideMenu}>
-            <div className="avatar">
-              {auth.user?.image ? (
-                <Image src={auth.user?.image} alt="alt" width={100} height={100} />
-              ) : (
-                <FcGlobe size={30} />
-              )}
-            </div>
-          </div>
-          <div className="hover-menu">
-            <div className="arrow" />
-            <Link href={"/my/account"}>
-              <p>My Account</p>
-            </Link>
-            {/* {auth.user.role === "admin" && <></>} */}
-            {auth.user?.role === "user" && (
-              <Link href={"/my/orders"}>
-                <p>Order List</p>
-              </Link>
+      <Box className="account-icon authenticated">
+        <div className="avatar-outer" onClick={handleOpenSideMenu}>
+          <div className="avatar">
+            {auth.user?.image ? (
+              <Image src={auth.user?.image} alt="alt" width={100} height={100} />
+            ) : (
+              <FcGlobe size={30} />
             )}
-            <button onClick={handleSignout}>Sign out</button>
           </div>
+        </div>
+        <div className="hover-menu">
+          <div className="arrow" />
+          <Link href={"/my/account"}>
+            <p>My Account</p>
+          </Link>
+          {/* {auth.user.role === "admin" && <></>} */}
+          {auth.user?.role === "user" && (
+            <Link href={"/my/orders"}>
+              <p>Order List</p>
+            </Link>
+          )}
+          <button onClick={handleSignout}>Sign out</button>
         </div>
       </Box>
     );
   }
 
   return (
-    <Box>
-      <div className="account-icon">
-        <div className="avatar-outer">
-          <div className="avatar" onClick={handleOpenSideMenu}>
-            <FcGlobe size={30} />
-          </div>
+    <Box className="account-icon">
+      <div className="avatar-outer">
+        <div className="avatar" onClick={handleOpenSideMenu}>
+          <FcGlobe size={30} />
         </div>
-        <div className="hover-menu">
-          <div className="arrow" />
-          <Link href={"/auth/signin"}>Sign in</Link>
-          <Link href={"/auth/signup"}>Sign up</Link>
-        </div>
+      </div>
+      <div className="hover-menu">
+        <div className="arrow" />
+        <Link href={"/auth/signin"}>Sign in</Link>
+        <Link href={"/auth/signup"}>Sign up</Link>
       </div>
     </Box>
   );
@@ -108,81 +104,69 @@ export default function AccountIcon() {
 
 const Box = styled.div`
   display: flex;
-  align-items: stretch;
-  gap: 1rem;
+  align-items: center;
+  justify-content: center;
   position: relative;
 
-  > * {
-    /* padding: 1rem; */
-    /* border: 1px solid red; */
-  }
-
-  .account-icon {
+  .avatar-outer {
+    height: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    position: relative;
-
-    .avatar-outer {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      padding: 12px;
-      &:hover {
-        color: #fff;
-      }
-      &:hover + .hover-menu {
-        display: block;
-      }
-
-      .avatar {
-        border: 2px solid coral;
-        border-radius: 50%;
-        overflow: hidden;
-
-        display: flex;
-
-        img {
-          width: 30px;
-          height: 30px;
-        }
-      }
+    padding: 12px;
+    &:hover {
+      color: #fff;
+    }
+    &:hover + .hover-menu {
+      display: block;
     }
 
-    .hover-menu {
+    .avatar {
+      border: 2px solid coral;
+      border-radius: 50%;
+      overflow: hidden;
+
+      display: flex;
+
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+
+  .hover-menu {
+    position: absolute;
+    top: 100%;
+    background-color: gray;
+    white-space: nowrap;
+    padding: 1rem;
+    display: none;
+    &:hover {
+      display: block;
+    }
+
+    .arrow {
+      width: 0.7rem;
+      height: 0.7rem;
       position: absolute;
-      top: 100%;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%) rotate(45deg);
       background-color: gray;
-      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    p {
+      display: flex;
+      align-items: center;
+    }
+
+    a,
+    button {
+      width: 100%;
       padding: 1rem;
-      display: none;
-      &:hover {
-        display: block;
-      }
-
-      .arrow {
-        width: 0.7rem;
-        height: 0.7rem;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%) rotate(45deg);
-        background-color: gray;
-        pointer-events: none;
-      }
-
-      p {
-        display: flex;
-        align-items: center;
-      }
-
-      a,
-      button {
-        width: 100%;
-        padding: 1rem;
-        background-color: inherit;
-        text-align: start;
-      }
+      background-color: inherit;
+      text-align: start;
     }
   }
 `;

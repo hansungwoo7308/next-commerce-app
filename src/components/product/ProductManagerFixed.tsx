@@ -1,12 +1,15 @@
 import { setModal } from "lib/client/store/modalSlice";
 import { setProductId, setReviewIds } from "lib/client/store/productManagerSlice";
+import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
-import { FaCirclePlus, FaPlus } from "react-icons/fa6";
+import { FaCirclePlus, FaMinus, FaPlus } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 export default function ProductManagerFixed() {
   // exteranl
+  const { data: session } = useSession();
+  const { accessToken: token } = useSelector((store: any) => store.auth);
   const { reviewIds } = useSelector((store: any) => store.productManager);
   const dispatch = useDispatch();
 
@@ -23,6 +26,8 @@ export default function ProductManagerFixed() {
   const handleMoveInScreen = () => setIsVisible(!isVisible);
 
   useEffect(() => console.log({ reviewIds }), [reviewIds]);
+
+  if (!session && !token) return null;
 
   return (
     <Box>
@@ -42,9 +47,7 @@ export default function ProductManagerFixed() {
       </div>
 
       <div className="product-manager-nav">
-        <button onClick={handleMoveInScreen}>
-          <FaPlus />
-        </button>
+        <button onClick={handleMoveInScreen}>{isVisible ? <FaMinus /> : <FaPlus />}</button>
       </div>
     </Box>
   );
@@ -58,7 +61,7 @@ const Box = styled.div`
   bottom: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 77, 0, 0.3);
+  /* background-color: rgba(0, 77, 0, 0.3); */
   pointer-events: none;
 
   .product-manager {
@@ -70,9 +73,9 @@ const Box = styled.div`
     background-color: #555;
 
     position: fixed;
-    top: 120px;
+    /* top: 120px; */
     left: -15rem;
-    /* bottom: 10rem; */
+    bottom: 3%;
 
     transition: all 0.3s;
 
@@ -83,7 +86,7 @@ const Box = styled.div`
     pointer-events: initial;
 
     &.visible {
-      left: 20px;
+      left: 3%;
     }
 
     h4 {
@@ -94,6 +97,10 @@ const Box = styled.div`
     }
 
     button {
+      /* &:hover {
+        outline: 3px solid yellow;
+      } */
+
       &:disabled {
         opacity: 0.5;
       }
@@ -109,7 +116,8 @@ const Box = styled.div`
       padding: 0;
 
       position: fixed;
-      left: 3%;
+      /* left: 3%; */
+      right: 3%;
       bottom: 3%;
 
       display: flex;

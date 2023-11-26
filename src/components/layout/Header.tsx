@@ -1,6 +1,6 @@
 import Nav from "@/components/layout/Nav";
 import { setBackground } from "lib/client/store/backgroundSlice";
-import { setSideMenu } from "lib/client/store/sideMenu";
+import { setSideMenu } from "lib/client/store/sideMenuSlice";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";

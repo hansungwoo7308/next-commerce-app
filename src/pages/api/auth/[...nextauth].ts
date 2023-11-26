@@ -18,11 +18,10 @@ export const authOptions: NextAuthOptions = {
       id: "credentials",
       credentials: {},
       async authorize(credentials, req) {
-        console.log("\x1b[34m\n<api/auth/[...nextauth]/authorize>\x1b[30m");
-        // check
-        // if (!credentials) throw new Error("No credentials");
-
         await connectDB();
+
+        console.log("\x1b[34m\n<api/auth/[...nextauth]/authorize>\x1b[30m");
+        // if (!credentials) throw new Error("No credentials");
 
         // get
         const { email, password }: any = credentials;
@@ -30,7 +29,7 @@ export const authOptions: NextAuthOptions = {
         // find
         const user = await User.findOne({ email })
           // .select("+username +email +role +image")
-          .select("-password -refreshToken -createdAt -updatedAt -__v")
+          .select("-refreshToken -createdAt -updatedAt -__v")
           .exec();
         if (!user) throw new Error("Invalid Email");
         console.log({ user });
@@ -38,6 +37,7 @@ export const authOptions: NextAuthOptions = {
         // compare
         const salt = 10; // 이동이 필요(서버 회원가입 핸들러에서 처리)
         const hashedPassword = await bcrypt.hash(user.password, salt); // 이동이 필요(서버 회원가입 핸들러에서 처리)
+        console.log({ hashedPassword });
         const isPasswordMatched = await bcrypt.compare(password, hashedPassword);
         if (!isPasswordMatched) throw new Error("Invalid Password");
 
@@ -57,10 +57,12 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    // authorize(인가) 후에 서버에서 유저와 계정 정보를 로깅하자.
     signIn({ user, account, profile }) {
-      console.log("\x1b[34m\n<api/auth/[...nextauth]/signIn>\x1b[30m");
-      console.log({ user, account });
-      if (account?.provider === "naver") return true;
+      // console.log("\x1b[34m\n<api/auth/[...nextauth]/signIn>\x1b[30m");
+      // console.log({ user, account });
+
+      // if (account?.provider === "naver") return true;
       return true;
     },
 
@@ -73,7 +75,7 @@ export const authOptions: NextAuthOptions = {
       if (user) token.user = user;
       if (account) token.account = account;
 
-      // client에서 update를 trigger한 경우, 토큰을 업데이트한다.
+      // client에서 session update를 trigger한 경우, 토큰을 업데이트한다.
       // console.log({ trigger, session });
       if (trigger === "update") {
         // console.log({ token });

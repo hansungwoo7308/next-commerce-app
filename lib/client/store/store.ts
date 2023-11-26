@@ -6,11 +6,9 @@ import { productManagerSlice } from "lib/client/store/productManagerSlice";
 import { modalSlice } from "lib/client/store/modalSlice";
 import { orderSlice } from "lib/client/store/orderSlice";
 import { ordersSlice } from "lib/client/store/ordersSlice";
-import { notifySlice } from "lib/client/store/notifySlice";
 import { userApiSlice } from "lib/client/store/userApiSlice";
 import { backgroundSlice } from "lib/client/store/backgroundSlice";
-import { childrenSlice } from "lib/client/store/childrenSlice";
-import { sideMenuSlice } from "lib/client/store/sideMenu";
+import { sideMenuSlice } from "lib/client/store/sideMenuSlice";
 
 export const store = configureStore({
   reducer: {

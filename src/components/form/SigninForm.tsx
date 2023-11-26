@@ -118,7 +118,8 @@ const Box = styled.form`
       border: 3px solid var(--color-focus);
     }
   }
-  > button {
+
+  button {
     width: 200px;
     border-radius: 5px;
     padding: 0.7rem !important;
@@ -126,13 +127,22 @@ const Box = styled.form`
     justify-content: center;
     align-items: center;
     gap: 12px;
+
+    background-color: inherit;
+    color: #fff;
+    &:hover {
+      background-color: #000;
+    }
   }
+
   .signin {
     background-color: gray;
   }
+
   .signin-with-credentials {
     background-color: #007aff;
   }
+
   .signin-with-naver {
     background-color: #03c75a;
   }

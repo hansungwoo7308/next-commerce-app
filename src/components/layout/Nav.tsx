@@ -5,7 +5,7 @@ import AccountIcon from "@/components/auth/AccountIcon";
 import { FaCartShopping } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import Search from "@/components/layout/Search";
-import { setSideMenu } from "lib/client/store/sideMenu";
+import { setSideMenu } from "lib/client/store/sideMenuSlice";
 import { setBackground } from "lib/client/store/backgroundSlice";
 // import { Squeeze as Hamburger } from "hamburger-react";
 

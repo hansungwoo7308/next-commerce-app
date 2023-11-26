@@ -3,7 +3,7 @@ import logResponse from "lib/client/log/logResponse";
 import { signout } from "lib/client/store/authSlice";
 import { setBackground } from "lib/client/store/backgroundSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
-import { setSideMenu } from "lib/client/store/sideMenu";
+import { setSideMenu } from "lib/client/store/sideMenuSlice";
 import { getData } from "lib/public/fetchData";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
@@ -25,25 +25,22 @@ export default function NavSideAccountMenu() {
     e.preventDefault();
     try {
       dispatch(setLoading(true));
-      // console.log({ session });
       if (session.status === "authenticated") {
         signOut({ redirect: false });
-        dispatch(signout());
-        dispatch(setLoading(false));
-        router.push("/auth/signin");
-        // toast.success("Signed Out");
         // signOut({ callbackUrl: "/auth/signin" });
-        return;
+      } else {
+        const response = await getData("v3/auth/signout");
+        logResponse(response);
       }
-      const response = await getData("v3/auth/signout");
-      logResponse(response);
       dispatch(signout());
       dispatch(setLoading(false));
+      dispatch(setSideMenu(false));
       router.push("/auth/signin");
       // toast.success("Signed Out");
     } catch (error: any) {
       logError(error);
       dispatch(setLoading(false));
+      dispatch(setSideMenu(false));
       toast.error(error.message);
     }
     handleClose();

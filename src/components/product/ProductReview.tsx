@@ -23,7 +23,7 @@ export default function ProductReview({ product, review }: Props) {
   const [isSelected, setIsSelected]: any = useState(false);
 
   const handleOpenProductReview = () => {
-    if (user?.role === "user") dispatch(setModal({ active: true, type: "VIEW_REVIEW", review }));
+    if (user?.role !== "admin") dispatch(setModal({ active: true, type: "VIEW_REVIEW", review }));
   };
 
   const handleSelectReview = () => setIsSelected(!isSelected);
@@ -75,7 +75,7 @@ export default function ProductReview({ product, review }: Props) {
       </div>
       {user?.role === "admin" && (
         <div
-          className={`checkbox-outer ${isSelected ? "active" : ""}`}
+          className={`product-review-cover ${isSelected ? "selected" : ""}`}
           onClick={handleSelectReview}
         >
           {isSelected ? <h1>Selected</h1> : <h1>Select this item</h1>}
@@ -94,7 +94,7 @@ const Box = styled.li`
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  &:hover .checkbox-outer {
+  &:hover .product-review-cover {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -125,7 +125,7 @@ const Box = styled.li`
     width: 10rem;
     /* height: 10rem; */
   }
-  > .checkbox-outer {
+  > .product-review-cover {
     position: absolute;
     top: 0;
     left: 0;
@@ -139,7 +139,7 @@ const Box = styled.li`
     }
   }
 
-  .active {
+  .selected {
     display: flex;
     justify-content: center;
     align-items: center;

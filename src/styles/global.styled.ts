@@ -70,6 +70,7 @@ export const GlobalStyled = styled.createGlobalStyle`
     @media (max-width: 1000px), (width <= 1000px) {
       nav .nav-belt .nav-belt-right {
         .account-icon .avatar-outer {
+          cursor: pointer;
           &:hover + .hover-menu {
             display: none;
           }
@@ -113,21 +114,21 @@ export const GlobalStyled = styled.createGlobalStyle`
       color: var(--color-hover);
     }
   }
-  html body {
-    button,
-    .signin-form button,
-    .signup-form button {
-      cursor: pointer;
-      border: none;
-      padding: 0.5rem;
-      background-color: inherit;
+
+  button {
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+
+    background-color: inherit;
+    color: #fff;
+    &:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+    &:hover {
+      background-color: #000;
       color: #fff;
-      &:hover {
-        background-color: #000;
-      }
-      &:disabled {
-        opacity: 0.5;
-      }
     }
   }
   html body .general-button {
@@ -135,10 +136,6 @@ export const GlobalStyled = styled.createGlobalStyle`
     border-radius: 5px;
     background-color: #333;
     color: #ddd;
-    &:hover {
-      background-color: #000;
-      color: #fff;
-    }
   }
   html body .create-button {
     padding: 0.5rem;
@@ -186,6 +183,9 @@ export const GlobalStyled = styled.createGlobalStyle`
       background-color: #000;
       color: #fff;
     }
+    &:disabled {
+      background-color: #c15151;
+    }
   }
   html body .cancel-button,
   html body .close-button {
@@ -199,11 +199,6 @@ export const GlobalStyled = styled.createGlobalStyle`
     }
   }
 
-  button {
-    &:disabled {
-      cursor: default;
-    }
-  }
   img {
     width: 100%;
     height: 100%;
