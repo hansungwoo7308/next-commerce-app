@@ -14,7 +14,7 @@ export default function Background() {
       className={`background ${background ? "visible" : ""}`}
       onClick={() => {
         dispatch(setBackground(false));
-        dispatch(setSideMenu(false));
+        dispatch(setSideMenu("hidden"));
       }}
     />
   );

@@ -29,7 +29,7 @@ export default function Header() {
         headerRef.current.style.transition = "transform 1s, opacity 1s";
         if (background) {
           dispatch(setBackground(false));
-          dispatch(setSideMenu(false));
+          dispatch(setSideMenu("hidden"));
         }
       }
       // scroll up : previous > latest

@@ -1,24 +1,18 @@
-import { signout } from "lib/client/store/authSlice";
 import { setBackground } from "lib/client/store/backgroundSlice";
-import { setLoading } from "lib/client/store/loadingSlice";
 import { setSideMenu } from "lib/client/store/sideMenuSlice";
-import { getData } from "lib/public/fetchData";
-import { signOut, useSession } from "next-auth/react";
-import logError from "lib/client/log/logError";
-import logResponse from "lib/client/log/logResponse";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { styled } from "styled-components";
 import { FcGlobe } from "react-icons/fc";
+import { signout } from "lib/client/utils/authUtils";
 
 export default function AccountIcon() {
   // external
   const dispatch = useDispatch();
-  const session = useSession();
-  const auth = useSelector((store: any) => store.auth);
+  const { data: session } = useSession();
+  const { user, accessToken: token } = useSelector((store: any) => store.auth);
 
   // MOBILE only
   const handleOpenSideMenu = () => {
@@ -27,43 +21,17 @@ export default function AccountIcon() {
     dispatch(setSideMenu("account-menu"));
   };
 
-  // internal
-  const router = useRouter();
-
-  const handleSignout = async (e: any) => {
-    e.preventDefault();
-    try {
-      dispatch(setLoading(true));
-      // console.log({ session });
-      if (session.status === "authenticated") {
-        signOut({ redirect: false });
-        dispatch(signout());
-        dispatch(setLoading(false));
-        router.push("/auth/signin");
-        // toast.success("Signed Out");
-        // signOut({ callbackUrl: "/auth/signin" });
-        return;
-      }
-      const response = await getData("v3/auth/signout");
-      logResponse(response);
-      dispatch(signout());
-      dispatch(setLoading(false));
-      router.push("/auth/signin");
-      // toast.success("Signed Out");
-    } catch (error: any) {
-      logError(error);
-      dispatch(setLoading(false));
-      toast.error(error.message);
-    }
+  const handleSignout = () => {
+    signout(dispatch, { session, token });
   };
 
-  if (session.status === "authenticated" || auth.accessToken) {
+  if (session || token) {
     return (
       <Box className="account-icon authenticated">
         <div className="avatar-outer" onClick={handleOpenSideMenu}>
           <div className="avatar">
-            {auth.user?.image ? (
-              <Image src={auth.user?.image} alt="alt" width={100} height={100} />
+            {user?.image ? (
+              <Image src={user?.image} alt="alt" width={100} height={100} />
             ) : (
               <FcGlobe size={30} />
             )}
@@ -74,8 +42,8 @@ export default function AccountIcon() {
           <Link href={"/my/account"}>
             <p>My Account</p>
           </Link>
-          {/* {auth.user.role === "admin" && <></>} */}
-          {auth.user?.role === "user" && (
+          {/* {user.role === "admin" && <></>} */}
+          {user?.role === "user" && (
             <Link href={"/my/orders"}>
               <p>Order List</p>
             </Link>

@@ -13,13 +13,13 @@ export default function NavSideProductMenu() {
 
   const handleClose = () => {
     dispatch(setBackground(false));
-    dispatch(setSideMenu(""));
+    dispatch(setSideMenu("hidden"));
   };
 
   return (
     <Box
       className={`nav-side-product-menu ${
-        sideMenu.value === "product-menu" ? "move-in-screen" : ""
+        sideMenu.value === "product-menu" ? "move-in-screen" : "hidden"
       }`}
       onClick={(e) => e.stopPropagation()}
     >

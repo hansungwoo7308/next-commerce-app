@@ -1,61 +1,34 @@
-import logError from "lib/client/log/logError";
-import logResponse from "lib/client/log/logResponse";
-import { signout } from "lib/client/store/authSlice";
 import { setBackground } from "lib/client/store/backgroundSlice";
-import { setLoading } from "lib/client/store/loadingSlice";
 import { setSideMenu } from "lib/client/store/sideMenuSlice";
-import { getData } from "lib/public/fetchData";
-import { signOut, useSession } from "next-auth/react";
+import { signout } from "lib/client/utils/authUtils";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { IoIosArrowForward } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import styled from "styled-components";
 
 export default function NavSideAccountMenu() {
   // external
-  const session = useSession();
-  const auth = useSelector((store: any) => store.auth);
+  const { data: session } = useSession();
+  const { accessToken: token } = useSelector((store: any) => store.auth);
   const sideMenu = useSelector((store: any) => store.sideMenu);
   const dispatch = useDispatch();
-  const router = useRouter();
 
-  const handleSignout = async (e: any) => {
-    e.preventDefault();
-    try {
-      dispatch(setLoading(true));
-      if (session.status === "authenticated") {
-        signOut({ redirect: false });
-        // signOut({ callbackUrl: "/auth/signin" });
-      } else {
-        const response = await getData("v3/auth/signout");
-        logResponse(response);
-      }
-      dispatch(signout());
-      dispatch(setLoading(false));
-      dispatch(setSideMenu(false));
-      router.push("/auth/signin");
-      // toast.success("Signed Out");
-    } catch (error: any) {
-      logError(error);
-      dispatch(setLoading(false));
-      dispatch(setSideMenu(false));
-      toast.error(error.message);
-    }
+  const handleSignout = () => {
+    signout(dispatch, { session, token });
     handleClose();
   };
 
   const handleClose = () => {
     dispatch(setBackground(false));
-    dispatch(setSideMenu(""));
+    dispatch(setSideMenu("hidden"));
   };
 
-  if (session.status === "authenticated" || auth.accessToken) {
+  if (session || token) {
     return (
       <Box
         className={`nav-side-account-menu ${
-          sideMenu.value === "account-menu" ? "move-in-screen" : ""
+          sideMenu.value === "account-menu" ? "move-in-screen" : "hidden"
         }`}
         onClick={(e) => e.stopPropagation()}
       >

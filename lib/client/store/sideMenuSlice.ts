@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface InitialState {
-  value: "account-menu" | "product-menu" | "";
+  value: "account-menu" | "product-menu" | "hidden";
 }
 
 const initialState: InitialState = {
-  value: "",
+  value: "hidden",
 };
 
 export const sideMenuSlice = createSlice({
