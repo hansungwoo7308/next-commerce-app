@@ -1,7 +1,6 @@
 import Orders from "@/components/order/Orders";
 import logError from "lib/client/log/logError";
 import logResponse from "lib/client/log/logResponse";
-import { setOrders } from "lib/client/store/ordersSlice";
 import { getData } from "lib/public/fetchData";
 import Head from "next/head";
 import Image from "next/image";
@@ -19,7 +18,6 @@ export default function Page() {
       const response = await getData("order", auth.accessToken);
       logResponse(response);
       const { orders } = response.data;
-      dispatch(setOrders(orders));
     } catch (error) {
       logError(error);
     }

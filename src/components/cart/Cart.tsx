@@ -7,14 +7,16 @@ import { setModal } from "lib/client/store/modalSlice";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { setOrder } from "lib/client/store/orderSlice";
+import { useSession } from "next-auth/react";
+import { setOrderSheet } from "lib/client/store/orderSheetSlice";
 
 export default function Cart({ product }: any) {
   // exteranl
   const dispatch = useDispatch();
   const router = useRouter();
+  const { data: session } = useSession();
+  const { user } = useSelector((store: any) => store.auth);
   const { _id, name, price, images, seller, stock, quantity, options } = product;
-  const auth = useSelector((store: any) => store.auth);
 
   const handleDeleteItemFromCart = () => {
     const modalAction = () => dispatch(deleteItemFromCart({ _id }));
@@ -28,15 +30,15 @@ export default function Cart({ product }: any) {
   };
   const handleIncreaseQuantity = (item: any) => dispatch(increaseQuantity({ _id, item }));
   const handleDecreaseQuantity = (item: any) => dispatch(decreaseQuantity({ _id, item }));
-  const handlePay = (e: any) => {
-    e.preventDefault();
-    // if (!auth.accessToken) {
-    //   toast.error("You have to log in");
-    //   return router.push("/auth/signin");
-    // }
+  const handlePay = () => {
+    if (!session && !user) {
+      return router.push("/auth/signin");
+    }
+
     const order = { product, payInfo: { total } };
-    dispatch(setOrder(order));
-    router.push("/order");
+    console.log({ order });
+    dispatch(setOrderSheet(order));
+    router.push("/order-sheet");
   };
 
   // internal

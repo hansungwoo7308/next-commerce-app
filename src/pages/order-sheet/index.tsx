@@ -12,7 +12,7 @@ import { postData } from "lib/public/fetchData";
 export default function Page() {
   // external
   const auth = useSelector((store: any) => store.auth);
-  const order = useSelector((store: any) => store.order);
+  const { product, payInfo } = useSelector((store: any) => store.orderSheet);
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -27,27 +27,29 @@ export default function Page() {
 
   const handlePayment = async (data: any) => {
     console.log({ data });
-    const payload = {
-      ordererInfo: {
-        User: auth.user._id,
-      },
-      productInfo: {
-        product: order.product,
-      },
-      deliveryInfo: {
-        name: data.name,
-        email: data.email,
-        address: data.address,
-        mobile: data.mobile,
-      },
-      payInfo: {
-        total: order.payInfo.total,
-        method: payMethod,
-      },
-    };
+    // const payload = {
+    //   ordererInfo: {
+    //     User: auth.user._id,
+    //   },
+    //   productInfo: {
+    //     product: order.product,
+    //   },
+    //   deliveryInfo: {
+    //     name: data.name,
+    //     email: data.email,
+    //     address: data.address,
+    //     mobile: data.mobile,
+    //   },
+    //   payInfo: {
+    //     total: order.payInfo.total,
+    //     method: payMethod,
+    //   },
+    // };
+    return;
+
     switch (data.paymentMethod) {
       case "prepay":
-        pay(payload);
+        // pay(payload);
         break;
       case "postpay":
         break;
@@ -55,6 +57,7 @@ export default function Page() {
         break;
     }
   };
+
   const pay = async (payload: any) => {
     try {
       dispatch(setLoading(true));
@@ -111,7 +114,7 @@ export default function Page() {
             <div className="pay-for-order">
               <div className="pay-info">
                 <h3>Payment Information</h3>
-                <p>Total : ${order.payInfo?.total}</p>
+                <p>Total : ${payInfo?.total}</p>
                 <p>Payment Method (결제방식)</p>
                 <label>
                   <input

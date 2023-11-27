@@ -38,19 +38,23 @@ export default function Layout({ children }: any) {
   }, [auth.accessToken, dispatch]);
 
   // cart
+
+  // storage > store
   useEffect(() => {
-    // upload cart data from local storage to redux store
-    // 로컬스토리지로부터 리덕스스토어에 카트정보를 채운다.
+    // get the storage data
     const serializedCart: any = localStorage.getItem("cart");
-    if (!serializedCart) return;
     const parsedCart = JSON.parse(serializedCart);
-    if (!parsedCart.products.length) return console.log("8382912");
-    // console.log({ parsedCart });
+    if (!serializedCart || !parsedCart.products.length) return console.log("No cached cart data");
+
+    // set the store
     dispatch(reloadCart(parsedCart));
   }, [dispatch]);
+
+  // store > storage
   useEffect(() => {
-    // upload cart data from redux store to local storage
-    if (!cart.products?.length) return;
+    if (!cart.products?.length) return localStorage.removeItem("cart");
+
+    // set the storage
     const serializedCart: any = JSON.stringify(cart);
     localStorage.setItem("cart", serializedCart);
   }, [cart]);

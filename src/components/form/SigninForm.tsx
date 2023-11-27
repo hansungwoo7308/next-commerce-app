@@ -46,6 +46,7 @@ export default function SigninForm() {
       setLoading(true);
       const { email, password } = data;
       const { callbackUrl }: any = router.query;
+      console.log({ callbackUrl });
       const response: any = await signIn("credentials", {
         email,
         password,

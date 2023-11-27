@@ -1,6 +1,5 @@
 import Orders from "@/components/order/Orders";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { setOrders } from "lib/client/store/ordersSlice";
 import { getData } from "lib/public/fetchData";
 import connectDB from "lib/server/config/connectDB";
 import Order from "lib/server/models/Order";
@@ -59,7 +58,6 @@ export default function Page({ orders }: any) {
   //       const response = await getData("v2/orders", null, auth.accessToken);
   //       const { orders } = response.data;
   //       console.log({ orders });
-  //       dispatch(setOrders(orders));
   //     } catch (error: any) {
   //       toast.error(error.message);
   //       console.log({ error });
