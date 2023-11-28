@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { signIn } from "next-auth/react";
 import logError from "lib/client/log/logError";
 import { SiNaver } from "react-icons/si";
+import { signin } from "lib/client/utils/authUtils";
 
 export default function SigninForm() {
   // external
@@ -25,47 +26,45 @@ export default function SigninForm() {
     formState: { errors },
   } = useForm();
 
-  const handleSignin = async (data: any) => {
-    try {
-      dispatch(setLoading(true));
-      const response = await postData("v2/auth/signin", data);
-      const { user, accessToken } = response.data;
-      dispatch(setCredentials({ user, accessToken }));
-      dispatch(setLoading(false));
-      toast.success("Signed in");
-      router.push("/my/account");
-    } catch (error: any) {
-      logError(error);
-      dispatch(setLoading(false));
-      toast.error(error.message);
-    }
-  };
-  const handleSigninWithCredentials = async (data: any) => {
-    // console.log("data: ", data);
-    try {
-      setLoading(true);
-      const { email, password } = data;
-      const { callbackUrl }: any = router.query;
-      console.log({ callbackUrl });
-      const response: any = await signIn("credentials", {
-        email,
-        password,
-        redirect: true,
-        callbackUrl: callbackUrl || "/",
-      });
-      console.log({ response });
-      setLoading(false);
-      toast.success("Signed in by next-auth library");
-    } catch (error: any) {
-      console.log({ error });
-      setLoading(false);
-      toast.error(error.message);
-    }
-  };
-  const handleSigninWithNaver = async (e: any) => {
-    e.preventDefault();
-    await signIn("naver", { redirect: true, callbackUrl: "/" });
-  };
+  // const handleSignin = async (method: any, data: any) => {
+  //   // try {
+  //   //   dispatch(setLoading(true));
+  //   //   const response = await postData("v2/auth/signin", data);
+  //   //   const { user, accessToken } = response.data;
+  //   //   dispatch(setCredentials({ user, accessToken }));
+  //   //   dispatch(setLoading(false));
+  //   //   toast.success("Signed in");
+  //   //   router.push("/my/account");
+  //   // } catch (error: any) {
+  //   //   logError(error);
+  //   //   dispatch(setLoading(false));
+  //   //   toast.error(error.message);
+  //   // }
+  // };
+
+  // const handleSigninWithCredentials = async (data: any) => {
+  //   // console.log("data: ", data);
+  //   try {
+  //     const { email, password } = data;
+  //     // const { callbackUrl }: any = router.query;
+  //     // console.log({ callbackUrl });
+  //     const response: any = await signIn("credentials", {
+  //       email,
+  //       password,
+  //       // redirect: true,
+  //       // callbackUrl: callbackUrl || "/",
+  //     });
+  //     console.log({ response });
+  //     toast.success("Signed in by next-auth library");
+  //   } catch (error: any) {
+  //     console.log({ error });
+  //     toast.error(error.message);
+  //   }
+  // };
+
+  // const handleSigninWithNaver = async (e: any) => {
+  //   await signIn("naver", { redirect: true, callbackUrl: "/" });
+  // };
 
   useEffect(() => setFocus("email"), [setFocus]);
 
@@ -74,16 +73,22 @@ export default function SigninForm() {
       <h1>Sign In</h1>
       <input {...register("email", { required: true })} type="text" placeholder="email" />
       <input {...register("password", { required: true })} type="password" placeholder="password" />
-      <button className="signin" onClick={handleSubmit(handleSignin)}>
+      <button
+        className="signin"
+        onClick={handleSubmit((data) => signin(dispatch, "general-jwt", data))}
+      >
         Sign in without Library
       </button>
       <button
         className="signin-with-credentials"
-        onClick={handleSubmit(handleSigninWithCredentials)}
+        onClick={handleSubmit((data) => signin(dispatch, "nextauth-credentials", data))}
       >
         Sign in with Credentials
       </button>
-      <button className="signin-with-naver" onClick={handleSigninWithNaver}>
+      <button
+        className="signin-with-naver"
+        onClick={handleSubmit(() => signin(dispatch, "nextauth-oauth", null))}
+      >
         <SiNaver size={14} />
         Sign in with Naver
       </button>
