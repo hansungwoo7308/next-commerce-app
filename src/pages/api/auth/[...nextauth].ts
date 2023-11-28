@@ -70,10 +70,11 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account, trigger, session }: any) {
       console.log("\x1b[34m\n<api/auth/[...nextauth]/jwt>\x1b[30m");
 
-      // client token 에 user 데이터를 저장한다.
-      // user : returned value from authorize function
-      if (user) token.user = user;
-      if (account) token.account = account;
+      // client token 에 사용자 데이터를 저장한다.
+      // user : returned by authorize function
+      // account : returned by oauth provider?
+      if (user) token.user = user; // credentials
+      if (account) token.account = account; // oauth
 
       // client에서 session update를 trigger한 경우, 토큰을 업데이트한다.
       // console.log({ trigger, session });
@@ -93,10 +94,10 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }: any) {
       console.log("\x1b[34m\n<api/auth/[...nextauth]/session>\x1b[30m");
 
-      // server session 에 user 데이터를 저장한다.
-      // token : returned value from jwt function
-      if (token.user) session.user = token.user;
-      if (token.account) session.account = token.account;
+      // server session 에 user token 을 저장한다.
+      // token : returned by jwt function
+      if (token.user) session.user = token.user; // credentials
+      if (token.account) session.account = token.account; // oauth
 
       // console.log({ user: session.user });
       // console.log({ account: session.account });

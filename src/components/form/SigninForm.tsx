@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { postData } from "lib/public/fetchData";
+import { postData } from "lib/client/utils/fetchData";
 import { styled } from "styled-components";
 import { setCredentials } from "lib/client/store/authSlice";
 import { setLoading } from "lib/client/store/loadingSlice";

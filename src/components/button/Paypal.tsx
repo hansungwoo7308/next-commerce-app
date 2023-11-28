@@ -3,7 +3,7 @@ import logError from "lib/client/log/logError";
 import logResponse from "lib/client/log/logResponse";
 import { clearCart } from "lib/client/store/cartSlice";
 import { setNotify } from "lib/client/store/notifySlice";
-import { postData } from "lib/public/fetchData";
+import { postData } from "lib/client/utils/fetchData";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";

@@ -2,7 +2,7 @@ import logError from "lib/client/log/logError";
 import logResponse from "lib/client/log/logResponse";
 import { setCredentials } from "lib/client/store/authSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
-import { getData, postData } from "lib/public/fetchData";
+import { getData, postData } from "lib/client/utils/fetchData";
 import { signIn, signOut } from "next-auth/react";
 
 const signinWithJWT = async (dispatch: any, data: any) => {

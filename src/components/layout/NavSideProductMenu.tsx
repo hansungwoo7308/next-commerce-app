@@ -1,6 +1,6 @@
 import { setBackground } from "lib/client/store/backgroundSlice";
 import { setSideMenu } from "lib/client/store/sideMenuSlice";
-import { getData } from "lib/public/fetchData";
+import { getData } from "lib/client/utils/fetchData";
 import Link from "next/link";
 import { IoIosArrowForward } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";

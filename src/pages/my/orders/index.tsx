@@ -1,6 +1,6 @@
 import Orders from "@/components/order/Orders";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { getData } from "lib/public/fetchData";
+import { getData } from "lib/client/utils/fetchData";
 import connectDB from "lib/server/config/connectDB";
 import Order from "lib/server/models/Order";
 import User from "lib/server/models/User";

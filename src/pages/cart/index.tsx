@@ -2,12 +2,31 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { reloadCart } from "lib/client/store/cartSlice";
-import { getData } from "lib/public/fetchData";
+import { getData } from "lib/client/utils/fetchData";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import Cart from "@/components/cart/Cart";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-export default function Page() {
+export async function getServerSideProps({ req, res, query }: any) {
+  console.log(`\x1b[33m\n[serverside]:::[${req.url}]:::[${req.method}]\x1b[30m`);
+
+  // get the User id from session
+  const session = await getServerSession(req, res, authOptions);
+  // if (!session) {
+  //   return {
+  //     redirect: {
+  //       destination: "/auth/signin",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
+
+  return { props: { session } };
+}
+
+export default function Page({ session }: any) {
   // external
   const dispatch = useDispatch();
   const auth = useSelector((store: any) => store.auth);
@@ -82,6 +101,11 @@ export default function Page() {
   useEffect(() => {
     if (cart.products?.length) console.log({ "cart.products": cart.products });
   }, [cart.products]);
+
+  useEffect(() => {
+    console.log({ session });
+    // console.log({ isSession: session ? true : false });
+  }, [session]);
 
   if (!cart.products?.length) {
     return (

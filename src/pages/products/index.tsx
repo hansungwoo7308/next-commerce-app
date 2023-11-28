@@ -6,7 +6,7 @@ import { styled } from "styled-components";
 import connectDB from "lib/server/config/connectDB";
 import Product from "lib/server/models/Product";
 import ProductsWidgets from "@/components/product/ProductsWidgets";
-import { getData } from "lib/public/fetchData";
+import { getData } from "lib/client/utils/fetchData";
 import { useDispatch } from "react-redux";
 import { setLoading } from "lib/client/store/loadingSlice";
 import useSWR, { useSWRConfig } from "swr";

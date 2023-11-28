@@ -1,7 +1,7 @@
 import Orders from "@/components/order/Orders";
 import logError from "lib/client/log/logError";
 import logResponse from "lib/client/log/logResponse";
-import { getData } from "lib/public/fetchData";
+import { getData } from "lib/client/utils/fetchData";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";

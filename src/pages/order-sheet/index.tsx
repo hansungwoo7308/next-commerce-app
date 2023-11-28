@@ -7,7 +7,7 @@ import { setLoading } from "lib/client/store/loadingSlice";
 import { addOrder } from "lib/client/store/ordersSlice";
 import { clearCart } from "lib/client/store/cartSlice";
 import { toast } from "react-toastify";
-import { postData } from "lib/public/fetchData";
+import { postData } from "lib/client/utils/fetchData";
 
 export default function Page() {
   // external

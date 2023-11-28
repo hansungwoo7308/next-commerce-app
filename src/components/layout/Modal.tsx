@@ -2,7 +2,7 @@ import logResponse from "lib/client/log/logResponse";
 import { deleteItemFromCart } from "lib/client/store/cartSlice";
 import { setLoading } from "lib/client/store/loadingSlice";
 import { setModal } from "lib/client/store/modalSlice";
-import { deleteData, postData } from "lib/public/fetchData";
+import { deleteData, postData } from "lib/client/utils/fetchData";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

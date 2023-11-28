@@ -1,5 +1,5 @@
 import Products from "@/components/product/Products";
-import { getData } from "lib/public/fetchData";
+import { getData } from "lib/client/utils/fetchData";
 import { styled } from "styled-components";
 export async function getServerSideProps({ query }: any) {
   // console.log({ query });

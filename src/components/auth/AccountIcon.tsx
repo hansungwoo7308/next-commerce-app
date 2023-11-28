@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { styled } from "styled-components";
 import { FcGlobe } from "react-icons/fc";
 import { signout } from "lib/client/utils/authUtils";
+import { useEffect } from "react";
 
 export default function AccountIcon() {
   // external
@@ -24,6 +25,11 @@ export default function AccountIcon() {
   const handleSignout = () => {
     signout(dispatch, { session, token });
   };
+
+  useEffect(() => {
+    console.log({ session });
+    // console.log({ isSession: session ? true : false });
+  }, [session]);
 
   if (session || token) {
     return (

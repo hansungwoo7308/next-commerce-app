@@ -1,6 +1,6 @@
 import { setModal } from "lib/client/store/modalSlice";
 import { deleteOrder } from "lib/client/store/ordersSlice";
-import { deleteData } from "lib/public/fetchData";
+import { deleteData } from "lib/client/utils/fetchData";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";

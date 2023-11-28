@@ -1,7 +1,7 @@
 import axios from "axios";
 import logError from "lib/client/log/logError";
 import { setModal } from "lib/client/store/modalSlice";
-import { postData } from "lib/public/fetchData";
+import { postData } from "lib/client/utils/fetchData";
 import { loadGetInitialProps } from "next/dist/shared/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/router";

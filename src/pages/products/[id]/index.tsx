@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { getData } from "lib/public/fetchData";
+import { getData } from "lib/client/utils/fetchData";
 import ProductDetail from "@/components/product/detail/ProductDetail";
 import Product from "lib/server/models/Product";
 import connectDB from "lib/server/config/connectDB";
