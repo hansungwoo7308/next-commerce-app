@@ -36,29 +36,6 @@ export default function Page({ session }: any) {
   const router = useRouter();
   const [total, setTotal]: any = useState(0);
 
-  const updateLatestProducts = async (products: any) => {
-    // console.log("updateLatestProducts");
-    let latestProducts: any = [];
-    for (const product of products) {
-      try {
-        const response = await getData(`products/${product._id}`);
-        const latestProduct = response.data.product;
-        if (!latestProduct) return toast.error("No product");
-
-        // in stock
-        if (latestProduct.stock)
-          latestProducts.push({ ...latestProduct, options: product.options });
-        // out stock
-        else toast.error(`${latestProduct.name} product is out stock.`);
-      } catch (error: any) {
-        toast.error(error.message);
-      }
-    }
-
-    // 서버로부터 최신화된 데이터를 클라이언트 리덕스스토어에 저장한다.
-    dispatch(reloadCart({ products: latestProducts }));
-  };
-
   // const handleOrder = (e: any) => {
   //   e.preventDefault();
   //   if (!auth.accessToken) {
@@ -76,36 +53,68 @@ export default function Page({ session }: any) {
   //   router.push("/order");
   // };
 
-  // get and set latest products from local storage
   useEffect(() => {
-    const serializedCart: any = localStorage.getItem("cart");
-    const parsedCart = JSON.parse(serializedCart);
-    if (!parsedCart?.products?.length) return console.log("No cached items");
+    const getCartFromStorage = () => {
+      const serializedCart: any = localStorage.getItem("cart");
+      const parsedCart = JSON.parse(serializedCart);
+      return parsedCart;
+    };
+    const fetchLatestData = async (products: any) => {
+      let latestProducts: any = [];
 
-    // 캐싱된 카트 프러덕츠를 통해서 최신화된 데이터로 갱신한다.
-    updateLatestProducts(parsedCart.products);
+      for (const product of products) {
+        try {
+          const response = await getData(`products/${product._id}`);
+          const latestProduct = response.data.product;
+          if (!latestProduct) return toast.error("No product");
+
+          // in stock
+          if (latestProduct.stock)
+            latestProducts.push({ ...latestProduct, options: product.options });
+          // out stock
+          else toast.error(`${latestProduct.name} product is out stock.`);
+        } catch (error: any) {
+          toast.error(error.message);
+        }
+      }
+
+      return latestProducts;
+    };
+
+    // 로컬스토리지에서 리덕스스토어로 데이터를 채운다.
+    const cart = getCartFromStorage();
+    if (!cart || !cart.products.length) return;
+
+    // 최신화된 데이터를 서버에서 가져온다.
+    fetchLatestData(cart.products)
+      // 서버로부터 최신화된 데이터를 클라이언트 리덕스스토어에 저장한다.
+      .then((latestProducts: any) => {
+        dispatch(reloadCart({ products: latestProducts }));
+      });
   }, []);
 
-  // set the tatal
   useEffect(() => {
-    if (cart.products?.length)
-      setTotal(
-        cart.products.reduce((a: any, v: any) => {
-          const optionsTotal = v.options.reduce((a: any, v: any) => a + v.price * v.quantity, 0);
-          return a + optionsTotal;
-        }, 0)
-      );
+    const handleSetTotal = () => {
+      if (cart.products?.length)
+        setTotal(
+          cart.products.reduce((a: any, v: any) => {
+            const optionsTotal = v.options.reduce((a: any, v: any) => a + v.price * v.quantity, 0);
+            return a + optionsTotal;
+          }, 0)
+        );
+    };
+    handleSetTotal();
   }, [cart]);
 
-  // log
-  useEffect(() => {
+  const handleLog = () => {
     if (cart.products?.length) console.log({ "cart.products": cart.products });
-  }, [cart.products]);
+  };
+  useEffect(handleLog, [cart.products]);
 
-  useEffect(() => {
-    console.log({ session });
-    // console.log({ isSession: session ? true : false });
-  }, [session]);
+  // useEffect(() => {
+  //   // console.log({ session });
+  //   // console.log({ isSession: session ? true : false });
+  // }, [session]);
 
   if (!cart.products?.length) {
     return (

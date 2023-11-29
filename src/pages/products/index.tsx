@@ -75,7 +75,7 @@ export default function Page() {
   useEffect(() => {
     mutate("/api/v2/products");
   }, [router.query]);
-  useEffect(() => console.log({ router }), [router.asPath]);
+  // useEffect(() => console.log({ router }), [router.asPath]);
 
   const handlePaginate = (page: any) => {
     setPage(page);

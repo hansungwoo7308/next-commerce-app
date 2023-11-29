@@ -50,13 +50,20 @@ export default function Layout({ children }: any) {
   useEffect(
     // storage > store
     () => {
-      // get the storage data
-      const serializedCart: any = localStorage.getItem("cart");
-      const parsedCart = JSON.parse(serializedCart);
-      if (!serializedCart || !parsedCart.products.length) return console.log("No cached cart data");
+      const getCartFromStorage = () => {
+        const serializedCart: any = localStorage.getItem("cart");
+        const parsedCart = JSON.parse(serializedCart);
+        // if (!serializedCart || !parsedCart.products.length)
+        //   return console.log("No cached cart data");
+        return parsedCart;
+      };
+
+      // get the cart data from storage
+      const cart = getCartFromStorage();
+      if (!cart || !cart.products.length) return;
 
       // set the store
-      dispatch(reloadCart(parsedCart));
+      dispatch(reloadCart(cart));
     },
     [dispatch]
   );
