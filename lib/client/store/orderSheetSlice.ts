@@ -13,7 +13,7 @@ interface InitialState {
     mobile: string | null;
   };
   payInfo: {
-    total: number;
+    paymentAmount: number;
   };
 }
 
@@ -30,7 +30,7 @@ const initialState: InitialState = {
     mobile: null,
   },
   payInfo: {
-    total: 0,
+    paymentAmount: 0,
   },
 };
 

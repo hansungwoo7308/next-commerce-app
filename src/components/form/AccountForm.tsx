@@ -54,10 +54,14 @@ export default function AccountForm() {
       console.log({ response });
 
       if (session)
-        await session.update({
-          ...session.data,
-          user: { ...session.data?.user, role: response.data.savedUser.role },
-        });
+        await session.update(
+          // [...nextauth] jwt callback function session parameter 로 전달한다.
+          {
+            ...session.data,
+            // newData
+            user: { ...session.data?.user, role: response.data.savedUser.role },
+          }
+        );
       else refreshAuth(dispatch);
 
       dispatch(setLoading(false));
@@ -144,22 +148,6 @@ export default function AccountForm() {
             </li>
           </ul>
         )}
-        {/* <table>
-          <tbody>
-            <tr>
-              <th>Name</th>
-              <td>{auth.user.name}</td>
-            </tr>
-            <tr>
-              <th>Email</th>
-              <td>{auth.user.email}</td>
-            </tr>
-            <tr>
-              <th>Role</th>
-              <td>{auth.user.role}</td>
-            </tr>
-          </tbody>
-        </table> */}
 
         <div className="controller">
           {isEditMode ? (
@@ -174,7 +162,7 @@ export default function AccountForm() {
                 Cancel
               </button>
               <button className="update-button" onClick={handleSubmit(handleUpdateAccountInfo)}>
-                Submit
+                Save
               </button>
             </>
           ) : (

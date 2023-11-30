@@ -18,40 +18,43 @@ export default function Cart({ product }: any) {
   const { user } = useSelector((store: any) => store.auth);
   const { _id, name, price, images, seller, stock, quantity, options } = product;
 
+  // internal
+  const [paymentAmount, setPaymentAmount]: any = useState(0);
+
   const handleDeleteItemFromCart = () => {
-    const modalAction = () => dispatch(deleteItemFromCart({ _id }));
-    dispatch(
-      setModal({
-        active: true,
-        type: "DELETE_ITEM",
-        modalAction,
-      })
-    );
+    dispatch(setModal({ type: "DELETE_CART_ITEM", id: _id }));
   };
+  // const handleDeleteItemFromCart = () => {
+  //   const modalAction = () => dispatch(deleteItemFromCart({ _id }));
+  //   dispatch(
+  //     setModal({
+  //       active: true,
+  //       type: "DELETE_ITEM",
+  //       modalAction,
+  //     })
+  //   );
+  // };
   const handleIncreaseQuantity = (item: any) => dispatch(increaseQuantity({ _id, item }));
   const handleDecreaseQuantity = (item: any) => dispatch(decreaseQuantity({ _id, item }));
-  const handlePay = () => {
+  const handleMoveToNextStep = () => {
     if (!session && !user) {
       return router.push("/auth/signin");
     }
 
-    const order = { product, payInfo: { total } };
+    const order = { product, payInfo: { paymentAmount } };
     console.log({ order });
     dispatch(setOrderSheet(order));
     router.push("/order-sheet");
   };
 
-  // internal
-  const [total, setTotal]: any = useState(0);
-
   useEffect(() => {
     // options.map((option: any) => {
     //   console.log({ option });
-    //   const total = option.price * option.quantity;
-    //   setTotal((state: any) => state + total);
+    //   const paymentAmount = option.price * option.quantity;
+    //   setPaymentAmount((state: any) => state + paymentAmount);
     // });
-    const total = options.reduce((a: any, v: any) => a + v.price * v.quantity, 0);
-    setTotal(total);
+    const paymentAmount = options.reduce((a: any, v: any) => a + v.price * v.quantity, 0);
+    setPaymentAmount(paymentAmount);
   }, [options]);
 
   return (
@@ -111,9 +114,9 @@ export default function Cart({ product }: any) {
       <Partition className="partition" />
 
       <div className="cart-content-footer">
-        <h3>Total (주문금액) : ${total}</h3>
-        <button className="pay-button" onClick={handlePay}>
-          Pay (결제)
+        <h3>paymentAmount (주문금액) : ${paymentAmount}</h3>
+        <button className="pay-button" onClick={handleMoveToNextStep}>
+          Order Now (주문)
         </button>
       </div>
     </Box>
