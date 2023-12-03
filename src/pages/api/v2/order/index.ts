@@ -10,7 +10,7 @@ const router = createRouter()
     console.log(`\x1b[33m\n[api/v2/order]:::[${req.method}]`);
     await next();
   })
-  // .use(checkAuth, checkRoles(["admin", "user"]))
+  .use(checkAuth, checkRoles(["admin", "user"]))
   .post(createOrder);
 
 export default router.handler();

@@ -4,47 +4,76 @@ import User from "lib/server/models/User";
 
 // single
 export const createOrder = async (req: any, res: any) => {
-  console.log(`\x1b[32m\n<createOrder>`);
+  console.log(`\x1b[32m\n<createOrder>\x1b[30m`);
+
   try {
-    // get the order information
+    // get the order
     console.log({ "req.body": req.body });
-    const { ordererInfo, productInfo, deliveryInfo, payInfo } = req.body.order;
+    const { ordererInfo, productInfo, deliveryInfo, payInfo } = req.body;
+    const { payType } = payInfo;
 
-    // check the stock
-    console.log("checking stock...");
-    const { _id }: any = productInfo.product;
-    const { quantity } = productInfo.product.options[0];
-    // console.log({ product: productInfo.product });
-    console.log({ quantity });
-    const foundProduct: any = await Product.findOne({ _id }).exec();
-    if (!foundProduct) throw new Error("No found product");
-    if (foundProduct.stock < quantity)
-      throw new Error("The quantity in stock is less than what was ordered.");
-    if (!foundProduct.stock) throw new Error("Out stock");
-    // if(!foundProduct) return res.status(404).json({message:'No found product'})
+    const handleOrderWithPrepay = async () => {
+      // get the id and quantity of product
+      console.log("checking stock...");
+      const { productId, options }: any = productInfo;
+      const { quantity } = options[0];
 
-    // update
-    foundProduct.stock -= quantity;
-    foundProduct.sold += quantity;
-    const savedProduct = await foundProduct.save();
-    console.log({ savedProduct });
+      // fint the product
+      const foundProduct: any = await Product.findById(productId).exec();
+      if (!foundProduct) throw new Error("No found product");
+      if (foundProduct.stock < quantity)
+        throw new Error("The quantity in stock is less than what was ordered.");
+      if (!foundProduct.stock) throw new Error("Out stock");
 
-    // create an order
-    const order = await Order.create(req.body.order);
-    // paid: true,
-    // dateOfPayment: details.create_time,
-    // paymentId: details.paymentId,
-    // method: "paypal",
+      // update the product properties
+      foundProduct.stock -= quantity;
+      foundProduct.sold += quantity;
+      const savedProduct = await foundProduct.save();
+      console.log({ savedProduct });
 
-    // out
-    console.log({ order });
-    return res.status(200).json({ order });
-    // return res.status(200).json({ order });
+      // create an order
+      const orderSheet = { ordererInfo, productInfo, deliveryInfo, payInfo };
+      console.log({ orderSheet });
+      const order = await Order.create(orderSheet);
+      console.log({ order });
+      // paid: true,
+      // dateOfPayment: details.create_time,
+      // paymentId: details.paymentId,
+      // method: "paypal",
+
+      // out
+      return res.status(200).json({ order });
+    };
+
+    const handleOrderWithPostpay = async () => {
+      // create an order
+      const orderSheet = { ordererInfo, productInfo, deliveryInfo, payInfo };
+      console.log({ orderSheet });
+      const order = await Order.create(orderSheet);
+      console.log({ order });
+
+      // out
+      return res.status(200).json({ order });
+    };
+
+    // payInfo에서 선결제인지 후결제인지 확인하여 분기한다.
+    switch (payType) {
+      case "prepay":
+        handleOrderWithPrepay();
+        break;
+      case "postpay":
+        handleOrderWithPostpay();
+        break;
+
+      default:
+        break;
+    }
   } catch (error: any) {
     console.log({ error });
     return res.status(500).json({ error: error.message });
   }
 };
+
 export const deleteOrder = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<deleteOrder>`);
   const { id } = req.query;

@@ -10,7 +10,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 export async function getServerSideProps({ req, res, query }: any) {
-  console.log(`\x1b[33m\n[serverside]:::[${req.url}]:::[${req.method}]\x1b[30m`);
+  console.log(`\x1b[32m\n[serverside]:::[${req.url}]:::[${req.method}]\x1b[30m`);
 
   // get the User id from session
   const session = await getServerSession(req, res, authOptions);

@@ -16,6 +16,7 @@ export default async function handler(req: any, res: any) {
       break;
   }
 }
+
 const payForOrder = async (req: any, res: any) => {
   try {
     // verify

@@ -3,14 +3,13 @@ import mongoose from "mongoose";
 const orderSchema = new mongoose.Schema(
   {
     ordererInfo: {
-      User: {
-        // type: mongoose.Types.ObjectId,
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      // type: mongoose.Types.ObjectId,
     },
     productInfo: {
-      product: {},
+      productId: String,
+      options: Array,
     },
     delieveryInfo: {
       name: String,
@@ -23,10 +22,11 @@ const orderSchema = new mongoose.Schema(
       },
     },
     payInfo: {
-      paymentId: String,
+      payerId: String,
       total: Number,
       method: String,
-      paid: {
+      payType: String,
+      isPaid: {
         type: Boolean,
         default: false,
       },

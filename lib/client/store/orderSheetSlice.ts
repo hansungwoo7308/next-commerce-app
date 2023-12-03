@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface InitialState {
-  product: {
+  productInfo: {
     options: [];
   };
   ordererInfo: {
@@ -18,7 +18,7 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  product: {
+  productInfo: {
     options: [],
   },
   ordererInfo: {
@@ -39,8 +39,8 @@ export const orderSheetSlice = createSlice({
   initialState,
   reducers: {
     setOrderSheet: (state, action) => {
-      const { product, ordererInfo, deliveryInfo, payInfo } = action.payload;
-      if (product) state.product = product;
+      const { productInfo, ordererInfo, deliveryInfo, payInfo } = action.payload;
+      if (productInfo) state.productInfo = productInfo;
       if (ordererInfo) state.ordererInfo = ordererInfo;
       if (deliveryInfo) state.deliveryInfo = deliveryInfo;
       if (payInfo) state.payInfo = payInfo;

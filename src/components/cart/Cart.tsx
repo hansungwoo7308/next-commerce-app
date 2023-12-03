@@ -12,28 +12,17 @@ import { setOrderSheet } from "lib/client/store/orderSheetSlice";
 
 export default function Cart({ product }: any) {
   // exteranl
-  const dispatch = useDispatch();
-  const router = useRouter();
+  const { _id, name, price, images, seller, stock, quantity, options } = product;
   const { data: session } = useSession();
   const { user } = useSelector((store: any) => store.auth);
-  const { _id, name, price, images, seller, stock, quantity, options } = product;
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   // internal
   const [paymentAmount, setPaymentAmount]: any = useState(0);
 
-  const handleDeleteItemFromCart = () => {
-    dispatch(setModal({ type: "DELETE_CART_ITEM", id: _id }));
-  };
-  // const handleDeleteItemFromCart = () => {
-  //   const modalAction = () => dispatch(deleteItemFromCart({ _id }));
-  //   dispatch(
-  //     setModal({
-  //       active: true,
-  //       type: "DELETE_ITEM",
-  //       modalAction,
-  //     })
-  //   );
-  // };
+  // handle
+  const handleOpenModal = () => dispatch(setModal({ type: "DELETE_CART_ITEM", id: _id }));
   const handleIncreaseQuantity = (item: any) => dispatch(increaseQuantity({ _id, item }));
   const handleDecreaseQuantity = (item: any) => dispatch(decreaseQuantity({ _id, item }));
   const handleMoveToNextStep = () => {
@@ -41,18 +30,17 @@ export default function Cart({ product }: any) {
       return router.push("/auth/signin");
     }
 
-    const order = { product, payInfo: { paymentAmount } };
+    const order = {
+      productInfo: { productId: product._id, options: product.options },
+      payInfo: { paymentAmount },
+    };
     console.log({ order });
     dispatch(setOrderSheet(order));
     router.push("/order-sheet");
   };
 
+  // caculate the total payment amount
   useEffect(() => {
-    // options.map((option: any) => {
-    //   console.log({ option });
-    //   const paymentAmount = option.price * option.quantity;
-    //   setPaymentAmount((state: any) => state + paymentAmount);
-    // });
     const paymentAmount = options.reduce((a: any, v: any) => a + v.price * v.quantity, 0);
     setPaymentAmount(paymentAmount);
   }, [options]);
@@ -61,7 +49,7 @@ export default function Cart({ product }: any) {
     <Box className="cart">
       <div className="cart-content-header">
         <h1>Seller : {seller}</h1>
-        <button className="delete-button" onClick={handleDeleteItemFromCart}>
+        <button className="delete-button" onClick={handleOpenModal}>
           Delete
         </button>
       </div>

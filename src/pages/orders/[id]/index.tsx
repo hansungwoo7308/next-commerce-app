@@ -1,4 +1,8 @@
 import Paypal from "@/components/button/Paypal";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import Order from "lib/server/models/Order";
+import User from "lib/server/models/User";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -6,25 +10,59 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-export default function Page() {
-  const order = useSelector((store: any) => store.order);
+export async function getServerSideProps({ req, res, query }: any) {
+  console.log(`\x1b[33m\n[serverside]:::[${req.url}]:::[${req.method}]\x1b[30m`);
+  console.log({ query });
+
+  // get the User id from session
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/auth/signin",
+        permanent: false,
+      },
+    };
+  }
+  const { _id }: any = session.user;
+
+  // find the Order
+  const order = await Order.findById(query.id);
+  const orders = await Order.find({ ordererInfo: _id })
+    .populate({
+      path: "ordererInfo",
+      // populate: {
+      //   path: "User",
+      //   // model: "User",
+      // },
+    })
+    .exec();
+  console.log({ order, orders });
+
+  return { props: { orders: JSON.parse(JSON.stringify(orders)) } };
+}
+
+export default function Page({ orders }: any) {
+  console.log({ orders });
+
+  // const order = useSelector((store: any) => store.order);
   const auth = useSelector((store: any) => store.auth);
   const router = useRouter();
   const { id } = router.query;
-  const { product } = order;
+  // const { product } = order;
   // console.log({ order });
   // console.log({ id });
   // find the order
   // const order = orders.find((order: any) => order._id === id);
   // console.log("order : ", order);
 
-  if (!auth.accessToken || !order) return null;
+  // if (!auth.accessToken || !order) return null;
   return (
     <Main className="order-[id]-page">
       <section>
         <div>
           <button onClick={() => router.back()}>Go Back</button>
-          <div className="order">
+          {/* <div className="order">
             <h3 className="title">Order Number : {order.product._id}</h3>
             <div className="delivery-info">
               <h3>Delivery Information</h3>
@@ -50,7 +88,9 @@ export default function Page() {
             <div className="payment">
               <h3>Payment</h3>
               <p>Payment Status : {order.paid ? "Paid" : "Not paid"}</p>
-              {/* {!order.paid && auth.user.role === "user" && (
+            </div>
+          </div> */}
+          {/* {!order.paid && auth.user.role === "user" && (
                 <>
                   <p>Total : ${order.total}</p>
                   <Paypal order={order} />
@@ -62,8 +102,6 @@ export default function Page() {
                   <p>Payment ID : {order.paymentId}</p>
                 </>
               )} */}
-            </div>
-          </div>
         </div>
       </section>
     </Main>
