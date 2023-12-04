@@ -74,6 +74,17 @@ export const createOrder = async (req: any, res: any) => {
   }
 };
 
+export const getOrder = async (req: any, res: any) => {
+  console.log(`\x1b[32m\n<getOrder>`);
+
+  // 개별주문건은 쿼리파라미터로부터 쿼리를 조회한다.
+  const { id } = req.query;
+
+  const order = await Order.findById(id).exec();
+
+  return res.status(200).json({ order });
+};
+
 export const deleteOrder = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<deleteOrder>`);
   const { id } = req.query;
@@ -85,13 +96,14 @@ export const deleteOrder = async (req: any, res: any) => {
 // multiple
 export const getOrders = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<getOrders>`);
-  // find the User
-  const id = req.user.id || req.user._id;
 
-  // find the Orders by User ID
-  const orders = await Order.find({ User: id }).populate({ path: "User" }).exec();
+  // 전체주문건은 사용자아이디로부터 쿼리를 조회한다.
+  // (모든 주문을 조회하기 위한 유일한 식별자가 사용자아이디이기 때문에)
+  const userId = req.user.id || req.user._id;
+
+  const orders = await Order.find({ User: userId }).exec();
+  // .populate({ path: "User" });
   console.log({ orders });
 
-  // out
   return res.status(200).json({ orders });
 };

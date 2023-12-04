@@ -12,7 +12,7 @@ import CreateProductReviewForm from "@/components/form/CreateProductReviewForm";
 import Stars from "@/components/product/Stars";
 import { useSession } from "next-auth/react";
 
-const Reviewer = (data: any) => {
+const Reviewer = ({ data }: any) => {
   return (
     <div className="review">
       <div className="review-content">
@@ -32,9 +32,9 @@ const Reviewer = (data: any) => {
           </div>
         </div>
       </div>
-      {data.images.length > 0 && (
+      {data.images?.length > 0 && (
         <div className="review-image">
-          <Image src={data.images[0]?.url} alt="alt" width={500} height={500} />
+          <Image src={data.images[0].url} alt="alt" width={500} height={500} />
         </div>
       )}
     </div>
@@ -119,9 +119,10 @@ export default function Modal() {
   }
   // render the viewer or reviewer
   if (type === "VIEW" || type === "REVIEW") {
+    console.log({ data });
     return (
       <Background onClick={handleClose}>
-        <Box style={{ borderColor: "#00fbff" }} onClick={(e) => e.stopPropagation()}>
+        <Box style={{ borderColor: "#222" }} onClick={(e) => e.stopPropagation()}>
           {type === "VIEW" && <Image src={data} alt="alt" width={500} height={500} />}
           {type === "REVIEW" && <Reviewer data={data} />}
         </Box>

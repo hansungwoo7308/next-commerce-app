@@ -9,11 +9,11 @@ import { styled } from "styled-components";
 
 export default function Order({ order }: any) {
   // external
-  const { User, productInfo, deliveryInfo, payInfo } = order;
+  const { productInfo, deliveryInfo, payInfo } = order;
   const { productId, imageUrl, options } = productInfo;
-  const { isDelivered } = deliveryInfo;
-  const { method, paid, total } = payInfo;
-  const auth = useSelector((store: any) => store.auth);
+  // const { isDelivered } = deliveryInfo;
+  const { method, isPaid, total } = payInfo;
+  const { accessToken: token } = useSelector((store: any) => store.auth);
   const dispatch = useDispatch();
 
   // internal
@@ -22,7 +22,7 @@ export default function Order({ order }: any) {
   const handleDeleteOrder = () => {
     const modalAction = async () => {
       try {
-        const response = await deleteData(`v2/orders/${order._id}`, null, auth.accessToken);
+        const response = await deleteData(`v2/orders/${order._id}`, null, token);
         console.log({ data: response.data });
         dispatch(deleteOrder({ _id: response.data.deletedOrder._id }));
       } catch (error) {
@@ -38,11 +38,13 @@ export default function Order({ order }: any) {
         <h3>
           Order Number : {order._id} ({order.createdAt.slice(0, 10)})
         </h3>
-        <button className="delete-button" onClick={handleDeleteOrder}>
-          Delete
-        </button>
+        {!isPaid && (
+          <button className="delete-button" onClick={handleDeleteOrder}>
+            Delete
+          </button>
+        )}
       </div>
-      <HorizonLine />
+      <div className="partition" />
       <div className="order">
         <div className="order-image">
           <Link href={`/products/${productId}`}>
@@ -50,7 +52,7 @@ export default function Order({ order }: any) {
           </Link>
         </div>
         <div className="order-info">
-          <VerticalLine />
+          <div className="partition" />
           <div className="product-info">
             <p>Product Information</p>
             {options.map((option: any) => {
@@ -62,19 +64,17 @@ export default function Order({ order }: any) {
               );
             })}
           </div>
-          <VerticalLine />
+          <div className="partition" />
           <div className="delivery-info">
             <p>Delivery Information</p>
-            <p>State : {isDelivered ? "delivered" : "not delivered"}</p>
+            <p>State : {deliveryInfo?.isDelivered ? "delivered" : "not delivered"}</p>
           </div>
-          <VerticalLine />
+          <div className="partition" />
           <div className="pay-info">
             <p>Payment Information</p>
             <p>Method : {method}</p>
-            <p>State : {paid ? "paid" : "not paid"}</p>
+            <p>State : {isPaid ? "paid" : "not paid"}</p>
             <p>Total : ${total}</p>
-            {/* <small>Payment Date : {order.dateOfPayment}</small>
-      <p>Payment Amount : ${order.total}</p> */}
           </div>
         </div>
       </div>
@@ -137,6 +137,16 @@ const Box = styled.li`
     justify-content: space-between;
     align-items: center;
   }
+  .partition {
+    border-top: 1px solid;
+    margin: 1rem 0;
+  }
+  .order-info {
+    .partition {
+      border-left: 1px solid;
+      margin: 0 1rem;
+    }
+  }
   .order {
     display: flex;
     /* gap: 1rem; */
@@ -148,7 +158,9 @@ const Box = styled.li`
     .order-info {
       flex: 1;
       display: flex;
-      > div {
+      .product-info,
+      .delivery-info,
+      .pay-info {
         flex: 1;
       }
       .product-info {
@@ -167,9 +179,7 @@ const Box = styled.li`
     height: 10rem;
   }
 `;
-const HorizonLine = styled.hr`
-  margin: 0.5rem 0 1rem 0;
-`;
+
 const VerticalLine = styled.hr`
   margin: 0 1rem;
   width: 1px;

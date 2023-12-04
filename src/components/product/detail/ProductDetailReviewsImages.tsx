@@ -60,7 +60,7 @@ export default function ProductDetailReviewsImages({ product }: any) {
               }
             : {}
         }
-        actionType="VIEW_IMAGE"
+        actionType="VIEW"
       />
     </Box>
   );

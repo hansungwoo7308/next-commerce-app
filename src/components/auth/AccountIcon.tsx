@@ -17,7 +17,7 @@ export default function AccountIcon() {
 
   // MOBILE only
   const handleOpenSideMenu = () => {
-    if (window.innerWidth > 1000) return console.log("innerWidth is over 1000px.");
+    // if (window.innerWidth > 1000) return console.log("innerWidth is over 1000px.");
     dispatch(setBackground(true));
     dispatch(setSideMenu("account-menu"));
   };

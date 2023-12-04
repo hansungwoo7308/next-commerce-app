@@ -1,5 +1,6 @@
 import Paypal from "@/components/button/Paypal";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import axios from "axios";
 import Order from "lib/server/models/Order";
 import User from "lib/server/models/User";
 import { getServerSession } from "next-auth";
@@ -9,53 +10,45 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import useSWR from "swr";
 
-export async function getServerSideProps({ req, res, query }: any) {
-  console.log(`\x1b[33m\n[serverside]:::[${req.url}]:::[${req.method}]\x1b[30m`);
-  console.log({ query });
+// export async function getServerSideProps({ req, res, query }: any) {
+//   console.log(`\x1b[33m\n[serverside]:::[${req.url}]:::[${req.method}]\x1b[30m`);
+//   console.log({ query });
 
-  // get the User id from session
-  const session = await getServerSession(req, res, authOptions);
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/auth/signin",
-        permanent: false,
-      },
-    };
-  }
-  const { _id }: any = session.user;
+//   // get the User id from session
+//   const session = await getServerSession(req, res, authOptions);
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: "/auth/signin",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   const { _id }: any = session.user;
 
-  // find the Order
-  const order = await Order.findById(query.id);
-  const orders = await Order.find({ ordererInfo: _id })
-    .populate({
-      path: "ordererInfo",
-      // populate: {
-      //   path: "User",
-      //   // model: "User",
-      // },
-    })
-    .exec();
-  console.log({ order, orders });
+//   // find the Order
+//   const order = await Order.findById(query.id);
 
-  return { props: { orders: JSON.parse(JSON.stringify(orders)) } };
-}
+//   return { props: { order: JSON.parse(JSON.stringify(order)) } };
+// }
 
-export default function Page({ orders }: any) {
-  console.log({ orders });
-
+export default function Page() {
   // const order = useSelector((store: any) => store.order);
   const auth = useSelector((store: any) => store.auth);
   const router = useRouter();
   const { id } = router.query;
   // const { product } = order;
-  // console.log({ order });
-  // console.log({ id });
   // find the order
   // const order = orders.find((order: any) => order._id === id);
   // console.log("order : ", order);
 
+  const fetcher = (url: any) =>
+    axios.get(url, { params: router.query }).then((res: any) => res.data);
+  const { data, error, isLoading } = useSWR("/api/v2/orders", fetcher);
+
+  if (isLoading) return null;
   // if (!auth.accessToken || !order) return null;
   return (
     <Main className="order-[id]-page">

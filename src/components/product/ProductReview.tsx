@@ -23,7 +23,7 @@ export default function ProductReview({ product, review }: Props) {
   const [isSelected, setIsSelected]: any = useState(false);
 
   const handleOpenProductReview = () => {
-    if (user?.role !== "admin") dispatch(setModal({ active: true, type: "VIEW_REVIEW", review }));
+    if (user?.role !== "admin") dispatch(setModal({ type: "REVIEW", data: review }));
   };
 
   const handleSelectReview = () => setIsSelected(!isSelected);

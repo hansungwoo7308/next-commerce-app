@@ -1,7 +1,7 @@
 import connectDB from "lib/server/config/connectDB";
 import { createRouter } from "next-connect";
 import { checkRoles, checkAuth } from "lib/server/middlewares/authMiddlewares";
-import { deleteOrder } from "lib/server/controllers/orderControllers";
+import { deleteOrder, getOrder } from "lib/server/controllers/orderControllers";
 
 connectDB();
 
@@ -10,8 +10,8 @@ const router = createRouter()
     console.log(`\x1b[33m\n[api/v2/orders/${req.query.id}]:::[${req.method}]`);
     await next();
   })
-  // .get(getOrder)
   .use(checkAuth, checkRoles(["user", "admin"]))
+  .get(getOrder)
   .delete(deleteOrder);
 
 export default router.handler();

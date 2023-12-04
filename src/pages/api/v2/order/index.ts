@@ -1,7 +1,7 @@
 import connectDB from "lib/server/config/connectDB";
 import { createRouter } from "next-connect";
 import { checkAuth, checkRoles } from "lib/server/middlewares/authMiddlewares";
-import { createOrder } from "lib/server/controllers/orderControllers";
+import { createOrder, getOrder } from "lib/server/controllers/orderControllers";
 
 connectDB();
 
@@ -11,6 +11,7 @@ const router = createRouter()
     await next();
   })
   .use(checkAuth, checkRoles(["admin", "user"]))
+  .get(getOrder)
   .post(createOrder);
 
 export default router.handler();

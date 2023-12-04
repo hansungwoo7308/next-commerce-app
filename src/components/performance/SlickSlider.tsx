@@ -22,9 +22,9 @@ export default function SlickSlider({ items, itemSize, sliderSize, actionType, s
   const dispatch = useDispatch();
 
   const handleClickImage = (imageUrl: string) => {
+    console.log({ imageUrl, actionType });
     if (!actionType) return;
-    if (actionType === "VIEW_IMAGE")
-      dispatch(setModal({ active: true, type: "VIEW_IMAGE", src: imageUrl }));
+    if (actionType === "VIEW") dispatch(setModal({ type: "VIEW", data: imageUrl }));
   };
 
   // if (multipleItemNumber) {
