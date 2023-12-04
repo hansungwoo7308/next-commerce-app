@@ -11,6 +11,7 @@ export const checkAuth = async (req: any, res: any, next: any) => {
   const session = await getServerSession(req, res, authOptions);
   // const token = await getToken({ req });
   if (session) {
+    // console.log({ session });
     req.user = session.user;
     return await next();
   }
@@ -49,6 +50,7 @@ export const checkRoles = (roles: any) => {
   return async (req: any, res: any, next: any) => {
     // console.log("\x1b[32m\n<middleware/checkRoles>\x1b[30m");
     // console.log({ "req.user.role": req.user.role });
+    // console.log({ "req.user": req.user });
 
     if (!roles.includes(req.user.role)) {
       throw new Error(`Role (${req.user.role}) is not allowed to access this resource.`);

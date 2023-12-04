@@ -38,29 +38,20 @@ export default function Paypal({ orderSheet }: any) {
             payerId: details.payer.payer_id,
             isPaid: true,
             method: "paypal",
+            dateOfPayment: new Date(),
             // dateOfPayment: new Intl.DateTimeFormat("ko-KR", {
             //   timeZone: "Asia/Seoul",
             //   dateStyle: "full",
             //   timeStyle: "full",
             // }).format(new Date()),
-            dateOfPayment: new Date(),
           };
-          // .payerId = details.payer.payer_id;
-          // copiedOrderSheet.payInfo.isPaid = true;
-          // copiedOrderSheet.payInfo.method = "paypal";
-          // copiedOrderSheet.payInfo.dateOfPayment=new Date()
-          // copiedOrderSheet.payInfo.dateOfPayment = new Intl.DateTimeFormat("ko-KR", {
-          //   timeZone: "Asia/Seoul",
-          //   dateStyle: "full",
-          //   timeStyle: "full",
-          // }).format(new Date());
           console.log({ payInfo: copiedOrderSheet.payInfo });
 
           // const payload = { _id: orderSheet._id, paymentId: details.payer.payer_id };
           const response = await postData("v2/order", copiedOrderSheet, token);
-          // const { paidOrder } = response.data;
           console.log({ response });
-          router.push(`/orders/${response.data.order._id}`);
+          // router.push(`/my/orders/${response.data.order._id}`);
+          router.push("/my/orders");
         } catch (error) {
           console.log({ error });
         }

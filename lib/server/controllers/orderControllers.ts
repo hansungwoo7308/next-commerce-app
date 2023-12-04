@@ -9,7 +9,7 @@ export const createOrder = async (req: any, res: any) => {
   try {
     // get the order
     console.log({ "req.body": req.body });
-    const { ordererInfo, productInfo, deliveryInfo, payInfo } = req.body;
+    const { User, productInfo, deliveryInfo, payInfo } = req.body;
     const { payType } = payInfo;
 
     const handleOrderWithPrepay = async () => {
@@ -18,7 +18,7 @@ export const createOrder = async (req: any, res: any) => {
       const { productId, options }: any = productInfo;
       const { quantity } = options[0];
 
-      // fint the product
+      // find the product
       const foundProduct: any = await Product.findById(productId).exec();
       if (!foundProduct) throw new Error("No found product");
       if (foundProduct.stock < quantity)
@@ -32,7 +32,7 @@ export const createOrder = async (req: any, res: any) => {
       console.log({ savedProduct });
 
       // create an order
-      const orderSheet = { ordererInfo, productInfo, deliveryInfo, payInfo };
+      const orderSheet = { User, productInfo, deliveryInfo, payInfo };
       console.log({ orderSheet });
       const order = await Order.create(orderSheet);
       console.log({ order });
@@ -47,7 +47,7 @@ export const createOrder = async (req: any, res: any) => {
 
     const handleOrderWithPostpay = async () => {
       // create an order
-      const orderSheet = { ordererInfo, productInfo, deliveryInfo, payInfo };
+      const orderSheet = { User, productInfo, deliveryInfo, payInfo };
       console.log({ orderSheet });
       const order = await Order.create(orderSheet);
       console.log({ order });
@@ -85,31 +85,13 @@ export const deleteOrder = async (req: any, res: any) => {
 // multiple
 export const getOrders = async (req: any, res: any) => {
   console.log(`\x1b[32m\n<getOrders>`);
-  try {
-    // find the User
-    const { id }: any = req.user;
-    const foundUser = await User.findOne({ _id: id }).exec();
-    console.log({ foundUser });
-    if (foundUser.role !== "user") return res.status(403).json({ message: "Forbidden" });
+  // find the User
+  const id = req.user.id || req.user._id;
 
-    // find the Orders by User ID
-    // const foundOrders = await Order.findOne({ user: foundUser._id });
-    const foundOrders = await Order.find({ ordererInfo: { User: foundUser._id } })
-      .populate({
-        path: "ordererInfo",
-        populate: {
-          path: "User",
-          // model: "User",
-        },
-      })
-      // .populate("ordererInfo")
-      .exec();
+  // find the Orders by User ID
+  const orders = await Order.find({ User: id }).populate({ path: "User" }).exec();
+  console.log({ orders });
 
-    // out
-    console.log({ foundOrders });
-    return res.status(200).json({ orders: foundOrders });
-  } catch (error: any) {
-    console.log("error : ", error);
-    return res.status(500).json({ error: error.message });
-  }
+  // out
+  return res.status(200).json({ orders });
 };

@@ -35,10 +35,11 @@ export default function OrderSheetForm() {
     // integrate the order data
     const { name, email, address, mobile } = data;
     const order = {
-      ordererInfo: user._id,
-      productInfo: orderSheet.productInfo,
+      ...orderSheet,
+      // User: user._id,
+      // productInfo: orderSheet.productInfo,
       deliveryInfo: { name, email, address, mobile },
-      payInfo: { total: orderSheet.payInfo.paymentAmount, payType },
+      payInfo: { ...orderSheet.payInfo, payType },
     };
     console.log({ order });
     // console.log({ payType });

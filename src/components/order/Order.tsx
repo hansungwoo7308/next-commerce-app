@@ -9,10 +9,9 @@ import { styled } from "styled-components";
 
 export default function Order({ order }: any) {
   // external
-  const { ordererInfo, productInfo, deliveryInfo, payInfo } = order;
-  const { product } = productInfo;
-  const { options } = product;
-  // const { isDelivered } = deliveryInfo;
+  const { User, productInfo, deliveryInfo, payInfo } = order;
+  const { productId, imageUrl, options } = productInfo;
+  const { isDelivered } = deliveryInfo;
   const { method, paid, total } = payInfo;
   const auth = useSelector((store: any) => store.auth);
   const dispatch = useDispatch();
@@ -46,33 +45,27 @@ export default function Order({ order }: any) {
       <HorizonLine />
       <div className="order">
         <div className="order-image">
-          <Link href={`/products/${product._id}`}>
-            <Image
-              src={product.images[0].url || product.images[0].secure_url}
-              alt={product.images[0].url || product.images[0].secure_url}
-              width={1000}
-              height={1000}
-            />
+          <Link href={`/products/${productId}`}>
+            <Image src={imageUrl} alt={imageUrl} width={1000} height={1000} />
           </Link>
         </div>
         <div className="order-info">
           <VerticalLine />
           <div className="product-info">
             <p>Product Information</p>
-            {options.map((option: any) => (
-              <pre key={option.item}>
-                {option.item} : ${option.price} X {option.quantity} = $
-                {option.price * option.quantity}
-                {/* <span>
-                </span> */}
-              </pre>
-            ))}
+            {options.map((option: any) => {
+              const { item, price, quantity } = option;
+              return (
+                <pre key={item}>
+                  {item} : ${price} X {quantity} = ${price * quantity}
+                </pre>
+              );
+            })}
           </div>
           <VerticalLine />
           <div className="delivery-info">
             <p>Delivery Information</p>
-            <p>State : </p>
-            {/* <p>State : {isDelivered ? "delivered" : "not delivered"}</p> */}
+            <p>State : {isDelivered ? "delivered" : "not delivered"}</p>
           </div>
           <VerticalLine />
           <div className="pay-info">

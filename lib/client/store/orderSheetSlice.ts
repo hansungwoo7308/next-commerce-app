@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface InitialState {
-  productInfo: {
-    options: [];
-  };
-  ordererInfo: {
+  User: {
     name: string | null;
     email: string | null;
+  };
+  productInfo: {
+    options: [];
   };
   deliveryInfo: {
     address: string | null;
@@ -18,12 +18,12 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  productInfo: {
-    options: [],
-  },
-  ordererInfo: {
+  User: {
     name: null,
     email: null,
+  },
+  productInfo: {
+    options: [],
   },
   deliveryInfo: {
     address: null,
@@ -39,9 +39,9 @@ export const orderSheetSlice = createSlice({
   initialState,
   reducers: {
     setOrderSheet: (state, action) => {
-      const { productInfo, ordererInfo, deliveryInfo, payInfo } = action.payload;
+      const { User, productInfo, deliveryInfo, payInfo } = action.payload;
+      if (User) state.User = User;
       if (productInfo) state.productInfo = productInfo;
-      if (ordererInfo) state.ordererInfo = ordererInfo;
       if (deliveryInfo) state.deliveryInfo = deliveryInfo;
       if (payInfo) state.payInfo = payInfo;
       // return action.payload;

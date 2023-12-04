@@ -30,12 +30,13 @@ export default function Cart({ product }: any) {
       return router.push("/auth/signin");
     }
 
-    const order = {
-      productInfo: { productId: product._id, options: product.options },
-      payInfo: { paymentAmount },
+    const orderSheet = {
+      User: user._id,
+      productInfo: { productId: _id, imageUrl: images[0].url, options: options },
+      payInfo: { total: paymentAmount },
     };
-    console.log({ order });
-    dispatch(setOrderSheet(order));
+    console.log({ orderSheet });
+    dispatch(setOrderSheet(orderSheet));
     router.push("/order-sheet");
   };
 

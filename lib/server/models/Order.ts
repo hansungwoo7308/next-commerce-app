@@ -2,13 +2,14 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
-    ordererInfo: {
+    User: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       // type: mongoose.Types.ObjectId,
     },
     productInfo: {
       productId: String,
+      imageUrl: String,
       options: Array,
     },
     delieveryInfo: {

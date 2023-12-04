@@ -1,3 +1,4 @@
+import axios from "axios";
 import { setBackground } from "lib/client/store/backgroundSlice";
 import { setSideMenu } from "lib/client/store/sideMenuSlice";
 import { signout } from "lib/client/utils/authUtils";
@@ -48,6 +49,24 @@ export default function NavSideAccountMenu() {
           <li>
             <button className="general-button" onClick={handleSignout}>
               Sign out
+            </button>
+          </li>
+          <li>
+            <button
+              className="general-button"
+              onClick={async (e) => {
+                e.preventDefault();
+                try {
+                  const response = await axios({
+                    url: "http://localhost:3000/api/disconnect",
+                  });
+                  console.log({ response });
+                } catch (error) {
+                  console.log({ error });
+                }
+              }}
+            >
+              DisconnectDB
             </button>
           </li>
         </ul>
@@ -101,10 +120,13 @@ const Box = styled.div`
     transform: translateX(0%);
   }
 
+  li {
+    padding: 1rem;
+  }
   a {
     display: flex;
     justify-content: space-between;
-    padding: 1rem;
+    /* padding: 1rem; */
     color: #777;
     &:hover {
       background-color: rgba(0, 0, 0, 0.1);
