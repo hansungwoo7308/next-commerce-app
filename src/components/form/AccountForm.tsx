@@ -12,7 +12,7 @@ import styled from "styled-components";
 
 export default function AccountForm() {
   // external
-  const session = useSession();
+  const { data: session, update } = useSession();
   const auth = useSelector((store: any) => store.auth);
   const dispatch: any = useDispatch();
 
@@ -32,11 +32,12 @@ export default function AccountForm() {
     try {
       dispatch(setLoading(true));
       // set the formData
+      const { image, name, email, role } = data;
       const formData: any = new FormData();
-      formData.append("images", data.image);
-      formData.append("name", data.name);
-      formData.append("email", data.email);
-      formData.append("role", data.role);
+      formData.append("images", image);
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("role", role);
 
       // request
       const response = await axios({
@@ -49,20 +50,26 @@ export default function AccountForm() {
         data: formData,
         // data,
       });
+      const { savedUser } = response.data;
 
       // out
       console.log({ response });
 
-      if (session)
-        await session.update(
+      if (session) {
+        console.log({ session });
+        const newSession: any = { ...session, user: { ...session.user } };
+        console.log({ newSession });
+        const { image, name, email, role } = savedUser;
+        if (image) newSession.user.image = image;
+        if (name) newSession.user.name = name;
+        if (email) newSession.user.email = email;
+        if (role) newSession.user.role = role;
+
+        await update(
           // [...nextauth] jwt callback function session parameter 로 전달한다.
-          {
-            ...session.data,
-            // newData
-            user: { ...session.data?.user, role: response.data.savedUser.role },
-          }
+          newSession
         );
-      else refreshAuth(dispatch);
+      } else refreshAuth(dispatch);
 
       dispatch(setLoading(false));
       setIsEditMode(false);

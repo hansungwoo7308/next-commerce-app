@@ -8,6 +8,7 @@ import Slider from "react-slick";
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useRouter } from "next/router";
 
 interface Props {
   items?: any[];
@@ -20,10 +21,12 @@ interface Props {
 export default function SlickSlider({ items, itemSize, sliderSize, actionType, settings }: Props) {
   const sliderRef: any = useRef();
   const dispatch = useDispatch();
+  const router = useRouter();
 
-  const handleClickImage = (imageUrl: string) => {
-    console.log({ imageUrl, actionType });
+  const handleClickImage = (itemId: string, imageUrl: string) => {
+    console.log({ actionType });
     if (!actionType) return;
+    if (actionType === "Link") router.push(`/products/${itemId}`);
     if (actionType === "VIEW") dispatch(setModal({ type: "VIEW", data: imageUrl }));
   };
 
@@ -85,7 +88,7 @@ export default function SlickSlider({ items, itemSize, sliderSize, actionType, s
               width={itemSize.width}
               height={itemSize.height}
               style={{ height: sliderSize?.height }}
-              onClick={(e) => handleClickImage(item.url)}
+              onClick={() => handleClickImage(item.id, item.url)}
             />
             {item.text && (
               <div className="text">

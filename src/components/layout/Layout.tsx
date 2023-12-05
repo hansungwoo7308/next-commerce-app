@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 export default function Layout({ children }: any) {
   // external
   const { data: session } = useSession();
-  const { accessToken } = useSelector((store: any) => store.auth);
+  const { user, accessToken } = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
   const dispatch = useDispatch();
 

@@ -6,6 +6,7 @@ import Product from "lib/server/models/Product";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export async function getStaticProps({ req }: any) {
   // console.log(`\x1b[33m\n[${req.url}]:::[${req.method}]\x1b[30m`);
@@ -53,6 +54,7 @@ const data = [
 //       process.env.NEXT_PUBLIC_ENV;
 
 export default function Home({ products }: any) {
+  const router = useRouter();
   const { randomProducts, recentProducts } = products;
   const [deviceEnv, setDeviceEnv] = useState("web");
 
@@ -68,7 +70,7 @@ export default function Home({ products }: any) {
   }));
 
   // useEffect(() => console.log({ domain: DOMAIN }), []);
-  // useEffect(() => console.log({ products }), []);
+  useEffect(() => console.log({ products }), []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -148,7 +150,7 @@ export default function Home({ products }: any) {
               <SlickSlider
                 items={randomItems}
                 itemSize={{ width: 300, height: 200 }}
-                actionType="VIEW_IMAGE"
+                actionType="Link"
                 settings={
                   deviceEnv === "mobile"
                     ? {
@@ -176,7 +178,7 @@ export default function Home({ products }: any) {
               <SlickSlider
                 items={recentItems}
                 itemSize={{ width: 300, height: 200 }}
-                actionType="VIEW_IMAGE"
+                actionType="Link"
                 settings={
                   deviceEnv === "mobile"
                     ? {
