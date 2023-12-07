@@ -60,15 +60,13 @@ export default function ProductManager({ products }: any) {
 }
 
 const Box = styled.div`
-  /* min-width: 12rem; */
   padding: 1rem;
+  border-radius: 10px;
+
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  border: 1px solid;
-  border-radius: 10px;
-  padding: 1rem;
-  background-color: #333;
+
   > h4 {
     text-align: center;
   }

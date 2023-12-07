@@ -194,11 +194,10 @@ const Partition = styled.div``;
 
 const Box = styled.li`
   height: 10rem;
-  border: 1px solid;
   border-radius: 10px;
+
   display: flex;
   overflow: hidden;
-  background-color: #333;
 
   .image {
     width: 10rem;

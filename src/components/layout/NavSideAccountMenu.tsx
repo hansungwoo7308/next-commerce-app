@@ -1,4 +1,5 @@
 import axios from "axios";
+import { MdLightMode, MdNightlightRound } from "react-icons/md";
 import { setBackground } from "lib/client/store/backgroundSlice";
 import { setSideMenu } from "lib/client/store/sideMenuSlice";
 import { signout } from "lib/client/utils/authUtils";
@@ -8,7 +9,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-export default function NavSideAccountMenu() {
+export default function NavSideAccountMenu({ theme, toggleTheme }: any) {
   // external
   const { data: session } = useSession();
   const { accessToken: token } = useSelector((store: any) => store.auth);
@@ -70,6 +71,7 @@ export default function NavSideAccountMenu() {
             </button>
           </li>
         </ul>
+        <button>test</button>
       </Box>
     );
   }
@@ -95,6 +97,34 @@ export default function NavSideAccountMenu() {
           </Link>
         </li>
       </ul>
+      <div
+        className="theme"
+        onClick={() => {
+          toggleTheme();
+          handleClose();
+        }}
+      >
+        <div className="theme-icon" style={{ color: theme === "dark" ? "#ff9800" : "gray" }}>
+          <MdNightlightRound />
+          Dark
+        </div>
+        <div className="theme-icon" style={{ color: theme === "light" ? "#ff9800" : "gray" }}>
+          <MdLightMode />
+          Light
+        </div>
+      </div>
+      {/* <input
+        type="checkbox"
+        id="toggle-input"
+        className="toggle-input"
+        onClick={() => {
+          toggleTheme();
+          // handleClose();
+        }}
+      />
+      <label htmlFor="toggle-input" className="toggle-button">
+        <div className="circle" />
+      </label> */}
     </Box>
   );
 }
@@ -135,6 +165,66 @@ const Box = styled.div`
   }
   button {
     width: 100%;
+  }
+
+  .theme {
+    cursor: pointer;
+    /* border: 1px solid; */
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 1rem;
+    background-color: #ddd;
+    border-radius: 5px;
+
+    .theme-icon {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    svg {
+      font-size: 24px;
+    }
+  }
+
+  .toggle-input {
+    display: none;
+  }
+  .toggle-button {
+    width: 70px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    /* width: 100%; */
+    border: 1px solid;
+    border-radius: 20px;
+    /* background-color: #777; */
+    position: relative;
+
+    cursor: pointer;
+
+    .circle {
+      width: 30px;
+      height: 20px;
+      background-color: black;
+      border-radius: 20px;
+
+      position: absolute;
+      margin: 5px;
+
+      transition: all 0.2s;
+    }
+  }
+
+  .toggle-input:checked + .toggle-button {
+    background-color: green;
+
+    .circle {
+      transform: translateX(30px);
+    }
   }
 
   @media (max-width: 500px) {

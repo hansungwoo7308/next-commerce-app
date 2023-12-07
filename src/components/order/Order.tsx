@@ -81,7 +81,7 @@ export default function Order({ order }: any) {
       {/* {expanded ? (
         <ul className="order-list">
           {order.cart.map((item: any) => (
-            <li key={item._id} className="product">
+            <li key={item._id} className="product-something">
               <div className="product-info-image">
                 <Link href={`/products/${item._id}`}>
                   <Image
@@ -100,7 +100,7 @@ export default function Order({ order }: any) {
         </ul>
       ) : (
         <ul className="order-list">
-          <li key={product._id} className="product">
+          <li key={product._id} className="product-something">
             <div className="product-info-image">
               <Link href={`/products/${product._id}`}>
                 <Image

@@ -6,6 +6,7 @@ export const GlobalStyled = styled.createGlobalStyle`
   /* Root Varaibles */
   :root {
     /* COLOR */
+    --color-theme-primary: ${({ theme }) => theme.primary};
 
     /* according to importance */
     --color-primary: green;
@@ -23,13 +24,6 @@ export const GlobalStyled = styled.createGlobalStyle`
     --color-form-background: #111;
     --color-background-hover: black;
     --color-foreground-hover: coral;
-
-    /* component colors */
-    --color-navigation-background: #000;
-    --color-page-background: #222;
-
-    /* element sizes */
-    --nav-height: 50px;
   }
   * {
     margin: 0;
@@ -38,68 +32,89 @@ export const GlobalStyled = styled.createGlobalStyle`
     scroll-behavior: smooth;
   }
 
+  /* theme */
+  body {
+    background-color: ${({ theme }) => theme.body.backgroundColor};
+    color: ${({ theme }) => theme.font.color};
+
+    header {
+      color: ${({ theme }) => theme.header.color};
+    }
+
+    main {
+      .product,
+      .filters,
+      .product-manager {
+        border: 1px solid ${({ theme }) => theme.border.color};
+        background-color: ${({ theme }) => theme.component.backgroundColor};
+        color: ${({ theme }) => theme.font.color};
+      }
+    }
+
+    button {
+      background-color: ${({ theme }) => theme.button.backgroundColor};
+      color: ${({ theme }) => theme.font.color};
+    }
+  }
+
   /* layout */
   html,
   body {
     width: 100vw;
     overflow-x: hidden;
-  }
-  body {
-    background-color: var(--color-layout-background);
-    color: var(--color-layout-color);
-  }
-  header {
-    width: 100vw;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(3px);
-    /* font-size: 1rem; */
-    /* background-color: rgba(0,0,0,0.5); */
-    .section-outer {
-      /* border: 1px solid yellow; */
-      section {
-        max-width: 1000px;
-        margin: auto;
-        /* outline: 2px dashed green; */
-      }
-    }
 
-    @media (max-width: 1000px), (width <= 1000px) {
-      nav .nav-belt .nav-belt-right {
-        .account-icon .avatar-outer {
-          cursor: pointer;
-          &:hover + .hover-menu {
-            display: none;
+    header {
+      width: 100vw;
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(3px);
+      /* font-size: 1rem; */
+      /* background-color: rgba(0,0,0,0.5); */
+      .section-outer {
+        /* border: 1px solid yellow; */
+        section {
+          max-width: 1000px;
+          margin: auto;
+          /* outline: 2px dashed green; */
+        }
+      }
+
+      @media (max-width: 1000px), (width <= 1000px) {
+        nav .nav-belt .nav-belt-right {
+          .account-icon .avatar-outer {
+            cursor: pointer;
+            &:hover + .hover-menu {
+              display: none;
+            }
           }
         }
       }
     }
-  }
-  main {
-    width: 100vw;
-    overflow-x: hidden;
-    padding-top: 100px;
-    padding-bottom: 5rem;
-    /* border: 2px solid; */
+    main {
+      width: 100vw;
+      overflow-x: hidden;
+      padding-top: 100px;
+      padding-bottom: 5rem;
+      /* border: 2px solid; */
 
-    section {
-      /* width: 80%; */
-      width: 100%;
-      max-width: 1000px;
-      min-height: 100vh;
-      /* min-height: calc(100vh - var(--nav-height)); */
-      margin: auto;
-      /* outline: 2px dashed; */
+      section {
+        /* width: 80%; */
+        width: 100%;
+        max-width: 1000px;
+        min-height: 100vh;
+        margin: auto;
+        /* outline: 2px dashed; */
+      }
     }
-  }
-  footer {
-    @media (max-width: 500px), (width <= 500px) {
-      background-attachment: initial !important;
-      .footer-content {
-        flex-direction: column;
+    footer {
+      @media (max-width: 500px), (width <= 500px) {
+        background-attachment: initial !important;
+        .footer-content {
+          flex-direction: column;
+        }
       }
     }
   }
@@ -120,8 +135,6 @@ export const GlobalStyled = styled.createGlobalStyle`
     padding: 0.5rem;
     cursor: pointer;
 
-    background-color: inherit;
-    color: #fff;
     &:disabled {
       opacity: 0.5;
       cursor: default;

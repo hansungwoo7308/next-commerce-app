@@ -66,7 +66,7 @@ export default function Page() {
             </div>
             <div className="product-info">
               <h3>Product Information</h3>
-              <div className="product" key={product?._id}>
+              <div className="product-something" key={product?._id}>
                 <Link href={`/commerce/product/${product?._id}`}>
                   <Image src={product?.images[0]?.url} alt="alt" width={300} height={300} />
                 </Link>

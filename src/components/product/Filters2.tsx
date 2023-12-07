@@ -122,13 +122,12 @@ export default function Filters2() {
 
 const Box = styled.div`
   padding: 1rem;
+  border-radius: 10px;
+
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  border: 1px solid;
-  border-radius: 10px;
-  padding: 1rem;
-  background-color: #333;
+
   > div {
     /* border: 2px solid; */
     > ul {

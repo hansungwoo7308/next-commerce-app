@@ -5,25 +5,50 @@ import Loading from "@/components/layout/Loading";
 import Modal from "@/components/layout/Modal";
 import NavSideAccountMenu from "@/components/layout/NavSideAccountMenu";
 import NavSideProductMenu from "@/components/layout/NavSideProductMenu";
+import { GlobalStyled } from "@/styles/global.styled";
 import { setCredentials } from "lib/client/store/authSlice";
 import { reloadCart } from "lib/client/store/cartSlice";
 import { refreshAuth } from "lib/client/utils/authUtils";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import Head from "next/head";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ThemeProvider } from "styled-components";
 
 export default function Layout({ children }: any) {
   // external
   const { data: session } = useSession();
-  const { user, accessToken } = useSelector((store: any) => store.auth);
+  const { user, accessToken: token } = useSelector((store: any) => store.auth);
   const cart = useSelector((store: any) => store.cart);
   const dispatch = useDispatch();
 
+  // internal
+  const [theme, setTheme] = useState("dark");
+  const darkTheme = {
+    header: { color: "rgb(250 250 250)" },
+    body: { backgroundColor: "rgb(33 33 33)" },
+
+    component: { backgroundColor: "rgb(66 66 66)" },
+    button: { backgroundColor: "rgb(97 97 97)" },
+    font: { color: "rgb(250 250 250)" },
+    border: { color: "rgb(250 250 250)" },
+  };
+  const lightTheme = {
+    header: { color: "rgb(66 66 66)" },
+    body: { backgroundColor: "rgb(224 224 224)" },
+
+    component: { backgroundColor: "rgb(250 250 250)" },
+    button: { backgroundColor: "rgb(66 66 66)" },
+    font: { color: "rgb(66 66 66)" },
+    border: { color: "rgb(158 158 158)" },
+  };
+  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
+
   // auth
   // nextauth library를 사용한 인증(jwt, oauth)
-  // general authentication & authorization (jwt)
+  // general authentication & authorization (jwt)ㅔ
   useEffect(
     // set the credentials from session (nextauth)
     () => {
@@ -38,12 +63,10 @@ export default function Layout({ children }: any) {
   useEffect(
     // if no token, refresh the token (general)
     () => {
-      // if (session) return;
-      if (!session && !accessToken) {
-        refreshAuth(dispatch);
-      }
+      if (session) return;
+      if (!token) refreshAuth(dispatch);
     },
-    [accessToken, dispatch]
+    [token, dispatch]
   );
 
   // cart
@@ -80,7 +103,12 @@ export default function Layout({ children }: any) {
   );
 
   return (
-    <>
+    <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
+      <GlobalStyled />
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+      </Head>
+
       {/* {router.pathname === "/auth/signin" ? null : <Header />} */}
       <ToastContainer
         position="top-center"
@@ -97,13 +125,14 @@ export default function Layout({ children }: any) {
       <Loading />
       <Background />
       <NavSideProductMenu />
-      <NavSideAccountMenu />
+      <NavSideAccountMenu theme={theme} toggleTheme={toggleTheme} />
 
       <Modal />
 
+      {/* Body */}
       <Header />
       {children}
       <Footer />
-    </>
+    </ThemeProvider>
   );
 }
