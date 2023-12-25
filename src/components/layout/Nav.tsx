@@ -49,8 +49,8 @@ export default function Nav() {
           </div>
         </section>
       </div>
-      <div id="nav-main-outer">
-        <div id="nav-main">
+      <div className="nav-main-outer">
+        <section className="nav-main">
           <div id="nav-main-left">
             <button id="nav-hamburger" onClick={handleClickHamburgerButton}>
               <IoIosMenu />
@@ -59,7 +59,7 @@ export default function Nav() {
           </div>
           <div id="nav-main-center"></div>
           <div id="nav-main-right"></div>
-        </div>
+        </section>
       </div>
     </Box>
   );
@@ -68,7 +68,8 @@ export default function Nav() {
 const Box = styled.nav`
   /* search, cart, order... */
   .nav-belt-outer {
-    background-color: rgba(19, 25, 33, 0.7);
+    /* background-color: rgba(19, 25, 33, 0.7); */
+
     .nav-belt {
       height: 60px;
       display: flex;
@@ -98,30 +99,31 @@ const Box = styled.nav`
   }
 
   /* main navigation */
-  #nav-main-outer {
-    background-color: rgb(35, 47, 62, 0.7);
-  }
-  #nav-main {
-    width: 80%;
-    max-width: 1000px;
-    height: 40px;
-    margin: auto;
-    /* border: 2px solid coral; */
-    #nav-main-left {
-      height: 100%;
-      display: flex;
-      gap: 1rem;
-      #nav-hamburger {
+  .nav-main-outer {
+    /* background-color: rgb(35, 47, 62, 0.7); */
+
+    .nav-main {
+      width: 80%;
+      max-width: 1000px;
+      height: 40px;
+      margin: auto;
+      /* border: 2px solid coral; */
+      #nav-main-left {
         height: 100%;
-        /* outline: 2px solid red; */
         display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0 1rem;
+        gap: 1rem;
+        #nav-hamburger {
+          height: 100%;
+          /* outline: 2px solid red; */
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0 1rem;
+        }
       }
-    }
-    a {
-      padding: 0.5rem;
+      a {
+        padding: 0.5rem;
+      }
     }
   }
 

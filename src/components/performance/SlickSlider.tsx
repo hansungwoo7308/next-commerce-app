@@ -140,15 +140,20 @@ const Box = styled.div`
   .slick-slider {
     height: 100%;
     position: relative;
+    color: #fff;
     /* overflow: hidden; */
+
     .slick-list {
       height: 100%;
+
       .slick-track {
         height: 100%;
+
         .slick-slide {
           height: 100%;
           overflow: hidden;
           /* border: 1px solid red; */
+
           div {
             height: 100%;
           }
@@ -168,10 +173,10 @@ const Box = styled.div`
   .controller {
     .arrow {
       height: 100%;
-      &:hover {
+      /* &:hover {
         color: #000;
         background-color: rgba(0, 0, 0, 0.5);
-      }
+      } */
     }
     .prev {
       width: 5rem;

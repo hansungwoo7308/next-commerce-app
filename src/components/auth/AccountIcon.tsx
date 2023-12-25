@@ -27,7 +27,7 @@ export default function AccountIcon() {
   };
 
   useEffect(() => {
-    console.log({ session });
+    // console.log({ session });
     // console.log({ isSession: session ? true : false });
   }, [session]);
 

@@ -1,20 +1,10 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, css } from "styled-components";
 
 const styled = { createGlobalStyle };
 
 export const GlobalStyled = styled.createGlobalStyle`
-  /* Root Varaibles */
   :root {
-    /* COLOR */
-    --color-theme-primary: ${({ theme }) => theme.primary};
-
-    /* according to importance */
-    --color-primary: green;
-
     /* according to features */
-    --color-layout-background: #000;
-    --color-layout-color: #fff;
-
     --color-hover: #fff;
     --color-layout: coral;
     --color-button-background: #000;
@@ -25,6 +15,7 @@ export const GlobalStyled = styled.createGlobalStyle`
     --color-background-hover: black;
     --color-foreground-hover: coral;
   }
+
   * {
     margin: 0;
     padding: 0;
@@ -33,33 +24,59 @@ export const GlobalStyled = styled.createGlobalStyle`
   }
 
   /* theme */
-  body {
-    background-color: ${({ theme }) => theme.body.backgroundColor};
-    color: ${({ theme }) => theme.font.color};
+  ${({ theme }: any) => {
+    // console.log({ theme });
 
-    header {
-      color: ${({ theme }) => theme.header.color};
+    if (theme === "dark") {
+      return css`
+        html body {
+          header {
+            color: #fff;
+
+            .nav-belt-outer {
+              background-color: #111;
+            }
+
+            .nav-main-outer {
+              background-color: #222;
+
+              button {
+                color: #fff;
+              }
+            }
+          }
+
+          main {
+            background-color: #000;
+            color: white;
+          }
+        }
+      `;
     }
 
-    main {
-      .product,
-      .filters,
-      .product-manager {
-        border: 1px solid ${({ theme }) => theme.border.color};
-        background-color: ${({ theme }) => theme.component.backgroundColor};
-        color: ${({ theme }) => theme.font.color};
-      }
-    }
+    if (theme === "light") {
+      return css`
+        html body {
+          header {
+            .nav-belt-outer {
+              background-color: #33691e;
+            }
+            .nav-main-outer {
+              background-color: #cddc39;
+            }
+          }
 
-    button {
-      background-color: ${({ theme }) => theme.button.backgroundColor};
-      color: ${({ theme }) => theme.font.color};
+          main {
+            background-color: #eee;
+            color: black;
+          }
+        }
+      `;
     }
-  }
+  }}
 
   /* layout */
-  html,
-  body {
+  html body {
     width: 100vw;
     overflow-x: hidden;
 
@@ -73,12 +90,21 @@ export const GlobalStyled = styled.createGlobalStyle`
       backdrop-filter: blur(3px);
       /* font-size: 1rem; */
       /* background-color: rgba(0,0,0,0.5); */
-      .section-outer {
+      color: #fff;
+
+      .nav-belt-outer {
         /* border: 1px solid yellow; */
+
         section {
           max-width: 1000px;
           margin: auto;
           /* outline: 2px dashed green; */
+        }
+      }
+
+      .nav-main-outer {
+        button {
+          background-color: transparent;
         }
       }
 
@@ -93,6 +119,7 @@ export const GlobalStyled = styled.createGlobalStyle`
         }
       }
     }
+
     main {
       width: 100vw;
       overflow-x: hidden;
@@ -108,8 +135,21 @@ export const GlobalStyled = styled.createGlobalStyle`
         margin: auto;
         /* outline: 2px dashed; */
       }
+
+      /* slick-slider controller (left and right arrows) */
+      .controller {
+        button {
+          background-color: transparent;
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+          }
+        }
+      }
     }
+
     footer {
+      color: #fff;
+
       @media (max-width: 500px), (width <= 500px) {
         background-attachment: initial !important;
         .footer-content {
@@ -134,6 +174,7 @@ export const GlobalStyled = styled.createGlobalStyle`
     border: none;
     padding: 0.5rem;
     cursor: pointer;
+    /* background-color: transparent; */
 
     &:disabled {
       opacity: 0.5;

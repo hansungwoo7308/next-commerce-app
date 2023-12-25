@@ -25,25 +25,8 @@ export default function Layout({ children }: any) {
   const dispatch = useDispatch();
 
   // internal
-  const [theme, setTheme] = useState("dark");
-  const darkTheme = {
-    header: { color: "rgb(250 250 250)" },
-    body: { backgroundColor: "rgb(33 33 33)" },
+  const [theme, setTheme]: any = useState("dark");
 
-    component: { backgroundColor: "rgb(66 66 66)" },
-    button: { backgroundColor: "rgb(97 97 97)" },
-    font: { color: "rgb(250 250 250)" },
-    border: { color: "rgb(250 250 250)" },
-  };
-  const lightTheme = {
-    header: { color: "rgb(66 66 66)" },
-    body: { backgroundColor: "rgb(224 224 224)" },
-
-    component: { backgroundColor: "rgb(250 250 250)" },
-    button: { backgroundColor: "rgb(66 66 66)" },
-    font: { color: "rgb(66 66 66)" },
-    border: { color: "rgb(158 158 158)" },
-  };
   const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
 
   // auth
@@ -103,8 +86,8 @@ export default function Layout({ children }: any) {
   );
 
   return (
-    <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
-      <GlobalStyled />
+    <>
+      <GlobalStyled theme={theme} />
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </Head>
@@ -133,6 +116,6 @@ export default function Layout({ children }: any) {
       <Header />
       {children}
       <Footer />
-    </ThemeProvider>
+    </>
   );
 }

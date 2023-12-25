@@ -288,6 +288,7 @@ const Main = styled.main`
       }
 
       a {
+        height: 100%;
         overflow: hidden;
       }
     }
@@ -307,9 +308,7 @@ const Main = styled.main`
 
     .best-sellers,
     .new-arrivals {
-      /* background-color: #333; */
-      /* background-color: #222; */
-      background-color: rgba(23, 47, 62, 0.5);
+      background-color: #212121;
       border-radius: 10px;
       /* padding: 3rem 1rem; */
       padding: 1rem;
@@ -322,6 +321,7 @@ const Main = styled.main`
         padding-bottom: 1rem;
       }
     }
+
     .best-sellers,
     .new-arrivals {
       .slick-slide {
