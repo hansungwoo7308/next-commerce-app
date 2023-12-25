@@ -98,7 +98,7 @@ const Box = styled.div`
   top: 0;
   left: 0;
   width: 365px;
-  max-width: 50%;
+  max-width: 80%;
   height: 100vh;
 
   background-color: #fff;
