@@ -75,15 +75,19 @@ const Box = styled.nav`
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       .nav-belt-left {
         .nav-logo {
           height: 100%;
         }
       }
+
       .nav-belt-center {
-        background-color: black;
         flex: 0.5;
+        background-color: transparent;
+        /* border: 1px solid red; */
       }
+
       .nav-belt-right {
         height: 100%;
         display: flex;

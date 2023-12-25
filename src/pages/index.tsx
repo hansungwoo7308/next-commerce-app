@@ -275,16 +275,14 @@ const Main = styled.main`
 
     .card {
       height: 200px;
-      background-color: rgba(0, 0, 0, 0.5);
       border-radius: 10px;
-      color: #eee;
       overflow: hidden;
       padding: 1rem;
       display: flex;
       flex-direction: column;
       transition: background-color 0.5s;
       &:hover {
-        background-color: rgba(255, 127, 80, 0.5);
+        background-color: #ff9800;
       }
 
       a {
@@ -308,7 +306,6 @@ const Main = styled.main`
 
     .best-sellers,
     .new-arrivals {
-      background-color: #212121;
       border-radius: 10px;
       /* padding: 3rem 1rem; */
       padding: 1rem;

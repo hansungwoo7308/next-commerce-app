@@ -49,6 +49,15 @@ export const GlobalStyled = styled.createGlobalStyle`
           main {
             background-color: #000;
             color: white;
+
+            .category .card {
+              background-color: #424242;
+            }
+
+            .best-sellers,
+            .new-arrivals {
+              background-color: #212121;
+            }
           }
         }
       `;
@@ -67,8 +76,17 @@ export const GlobalStyled = styled.createGlobalStyle`
           }
 
           main {
-            background-color: #eee;
+            background-color: #c5e1a5;
             color: black;
+
+            .category .card {
+              background-color: #aed581;
+            }
+
+            .best-sellers,
+            .new-arrivals {
+              background-color: #dcedc8;
+            }
           }
         }
       `;

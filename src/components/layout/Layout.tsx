@@ -11,7 +11,7 @@ import { reloadCart } from "lib/client/store/cartSlice";
 import { refreshAuth } from "lib/client/utils/authUtils";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -27,7 +27,19 @@ export default function Layout({ children }: any) {
   // internal
   const [theme, setTheme]: any = useState("dark");
 
-  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
+  // const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
+  const toggleTheme = () => {
+    const newState = theme === "dark" ? "light" : "dark";
+    setTheme(newState);
+    localStorage.setItem("theme", newState);
+  };
+
+  // theme
+  useLayoutEffect(() => {
+    const theme = localStorage.getItem("theme");
+    if (theme === "dark") setTheme("dark");
+    if (theme === "light") setTheme("light");
+  }, []);
 
   // auth
   // nextauth library를 사용한 인증(jwt, oauth)
