@@ -94,7 +94,7 @@ export default function Product({ product }: any) {
 
   if (auth.user?.role === "admin") {
     return (
-      <Box className="product">
+      <Box className="product box">
         <div className="image">
           <input
             ref={checkRef}
@@ -146,7 +146,7 @@ export default function Product({ product }: any) {
   }
 
   return (
-    <Box className="product">
+    <Box className="product box">
       <div className="image">
         <Link href={`/products/${_id}`}>
           <Image

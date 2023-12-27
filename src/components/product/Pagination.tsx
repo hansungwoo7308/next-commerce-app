@@ -27,9 +27,10 @@ export default function Pagination({ pageCount, page, onPaginate }: any) {
     onPaginate(pageCount);
   };
 
+  console.log({ page });
   if (!pageCount) return null;
   return (
-    <Box>
+    <Box className="pagination box">
       <ul className="left">
         <li>
           <button onClick={handleClickLeftEnd} disabled={page === 1}>
@@ -73,7 +74,7 @@ const Box = styled.div`
   justify-content: center;
   border: 1px solid;
   border-radius: 10px;
-  background-color: #333;
+  /* background-color: #333; */
   overflow: hidden;
 
   ul {
@@ -102,7 +103,12 @@ const Box = styled.div`
     border-right: 1px solid;
 
     .current-page {
-      background-color: rgba(0, 0, 0, 0.3);
+      /* background-color: rgba(0, 0, 0, 0.3); */
+      background-color: coral;
     }
+  }
+
+  button {
+    background-color: transparent;
   }
 `;

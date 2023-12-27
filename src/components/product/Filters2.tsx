@@ -60,7 +60,7 @@ export default function Filters2() {
   }, [ratings]);
 
   return (
-    <Box className="filters">
+    <Box className="filters box">
       <div className="category">
         <h4>Category</h4>
         <ul>

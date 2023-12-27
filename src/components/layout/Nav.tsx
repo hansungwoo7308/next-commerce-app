@@ -105,35 +105,37 @@ const Box = styled.nav`
   /* main navigation */
   .nav-main-outer {
     /* background-color: rgb(35, 47, 62, 0.7); */
+    color: #fff;
 
     .nav-main {
       width: 80%;
       max-width: 1000px;
       height: 40px;
       margin: auto;
-      /* border: 2px solid coral; */
+
       #nav-main-left {
         height: 100%;
         display: flex;
         gap: 1rem;
+
         #nav-hamburger {
           height: 100%;
-          /* outline: 2px solid red; */
           display: flex;
           align-items: center;
           gap: 0.5rem;
           padding: 0 1rem;
         }
       }
-      a {
-        padding: 0.5rem;
-      }
     }
   }
 
-  /* public */
   a {
     display: flex;
     align-items: center;
+    padding: 0.5rem;
+  }
+
+  button {
+    color: inherit;
   }
 `;

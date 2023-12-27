@@ -31,8 +31,6 @@ export const GlobalStyled = styled.createGlobalStyle`
       return css`
         html body {
           header {
-            color: #fff;
-
             .nav-belt-outer {
               background-color: #111;
             }
@@ -50,6 +48,7 @@ export const GlobalStyled = styled.createGlobalStyle`
             background-color: #000;
             color: white;
 
+            /* home */
             .category .card {
               background-color: #424242;
             }
@@ -58,6 +57,14 @@ export const GlobalStyled = styled.createGlobalStyle`
             .new-arrivals {
               background-color: #212121;
             }
+
+            /* all products */
+            .box {
+              background-color: #212121;
+              border: 1px solid #424242;
+            }
+
+            /* product detail */
           }
         }
       `;
@@ -71,7 +78,7 @@ export const GlobalStyled = styled.createGlobalStyle`
               background-color: #33691e;
             }
             .nav-main-outer {
-              background-color: #cddc39;
+              background-color: #7cb342;
             }
           }
 
@@ -79,6 +86,7 @@ export const GlobalStyled = styled.createGlobalStyle`
             background-color: #c5e1a5;
             color: black;
 
+            /* home */
             .category .card {
               background-color: #aed581;
             }
@@ -87,6 +95,15 @@ export const GlobalStyled = styled.createGlobalStyle`
             .new-arrivals {
               background-color: #dcedc8;
             }
+
+            /* all products */
+            /* all products */
+            .box {
+              background-color: #8bc34a;
+              border: 1px solid #689f38;
+            }
+
+            /* product detail */
           }
         }
       `;

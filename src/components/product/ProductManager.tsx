@@ -24,7 +24,7 @@ export default function ProductManager({ products }: any) {
   };
 
   return (
-    <Box className="product-manager">
+    <Box className="product-manager box">
       <h4>Product Manager</h4>
       <hr />
       <button

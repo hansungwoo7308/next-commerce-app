@@ -42,10 +42,8 @@ const Box = styled.div`
   .product-detail-widget,
   .middle,
   .product-detail-reviews {
-    border: 1px solid;
     border-radius: 10px;
     padding: 1rem;
-    background-color: #333;
     pre {
       white-space: pre-wrap;
     }

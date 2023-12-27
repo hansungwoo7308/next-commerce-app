@@ -35,7 +35,7 @@ export default function Layout({ children }: any) {
   };
 
   // theme
-  useLayoutEffect(() => {
+  useEffect(() => {
     const theme = localStorage.getItem("theme");
     if (theme === "dark") setTheme("dark");
     if (theme === "light") setTheme("light");
