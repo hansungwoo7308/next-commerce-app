@@ -60,7 +60,7 @@ export default function SlickSlider({ items, itemSize, sliderSize, actionType, s
   //           </div>
   //         ))}
   //       </Slider>
-  //       <div className="controller">
+  //       <div className="slick-slider-controller">
   //         <button className="prev arrow" onClick={() => sliderRef.current.slickPrev()}>
   //           <IoIosArrowBack size={20} color="#fff" />
   //         </button>
@@ -98,7 +98,7 @@ export default function SlickSlider({ items, itemSize, sliderSize, actionType, s
           </div>
         ))}
       </Slider>
-      <div className="controller">
+      <div className="slick-slider-controller">
         <button className="prev arrow" onClick={() => sliderRef.current.slickPrev()}>
           <IoIosArrowBack size={20} color="#fff" />
         </button>
@@ -170,7 +170,7 @@ const Box = styled.div`
     }
   }
 
-  .controller {
+  .slick-slider-controller {
     .arrow {
       height: 100%;
       /* &:hover {

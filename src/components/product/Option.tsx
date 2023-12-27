@@ -13,7 +13,7 @@ interface Props {
 export default function Option({ product, selectedOptions, setSelectedOptions, options }: Props) {
   const optionListRef: any = useRef(null);
 
-  const handleOpenOption = (e: any) => {
+  const handleUnfoldOptions = (e: any) => {
     e.stopPropagation();
     optionListRef.current.classList.add("option-list-open");
   };
@@ -77,11 +77,12 @@ export default function Option({ product, selectedOptions, setSelectedOptions, o
   // };
 
   return (
-    <Box>
-      <div className="option">
-        <a className="option-guide" onClick={handleOpenOption}>
+    <Box className="option">
+      <div className="folded-option">
+        <a className="option-guide" onClick={handleUnfoldOptions}>
           Select the item
         </a>
+
         <ul className="option-list" ref={optionListRef}>
           <li
             className="option-item"
@@ -96,83 +97,89 @@ export default function Option({ product, selectedOptions, setSelectedOptions, o
           ))}
         </ul>
       </div>
-      {selectedOptions?.map((selectedOption: any, index: number) => {
-        return (
-          <div key={index} className="selected-option">
-            <div>item : {selectedOption.item}</div>
-            <div className="option-controller">
-              <div className="option-moderator">
-                <button
-                  onClick={() =>
-                    setSelectedOptions((state: any) => {
-                      const newState = [...state];
-                      newState.find((v: any) => v.item === selectedOption.item).quantity -= 1;
-                      return newState;
-                    })
-                  }
-                  disabled={selectedOption.quantity === 1}
-                >
-                  -
-                </button>
-                <input
-                  type="number"
-                  // defaultValue={1}
-                  value={selectedOption.quantity}
-                  onChange={(e) =>
-                    setSelectedOptions((state: any) => {
-                      const newState = [...state];
-                      newState.find((v: any) => v.item === selectedOption.item).quantity =
-                        e.target.value;
-                      return newState;
-                    })
-                  }
-                />
-                <button
-                  onClick={() =>
-                    setSelectedOptions((state: any) => {
-                      const newState = [...state];
-                      newState.find((v: any) => v.item === selectedOption.item).quantity += 1;
-                      return newState;
-                    })
-                  }
-                >
-                  +
-                </button>
-                {/* <button onClick={() => handleIncrease(selectedOption)}>+</button> */}
-              </div>
-              <div className="option-remove">
-                <button onClick={() => handleRemoveOption(selectedOption)}>
-                  <IoIosClose />
-                </button>
-              </div>
+
+      {selectedOptions?.map((selectedOption: any, index: number) => (
+        <div key={index} className="selected-option">
+          <div>item : {selectedOption.item}</div>
+          <div className="option-controller">
+            <div className="option-moderator">
+              <button
+                onClick={() =>
+                  setSelectedOptions((state: any) => {
+                    const newState = [...state];
+                    newState.find((v: any) => v.item === selectedOption.item).quantity -= 1;
+                    return newState;
+                  })
+                }
+                disabled={selectedOption.quantity === 1}
+              >
+                -
+              </button>
+              <input
+                type="number"
+                // defaultValue={1}
+                value={selectedOption.quantity}
+                onChange={(e) =>
+                  setSelectedOptions((state: any) => {
+                    const newState = [...state];
+                    newState.find((v: any) => v.item === selectedOption.item).quantity =
+                      e.target.value;
+                    return newState;
+                  })
+                }
+              />
+              <button
+                onClick={() =>
+                  setSelectedOptions((state: any) => {
+                    const newState = [...state];
+                    newState.find((v: any) => v.item === selectedOption.item).quantity += 1;
+                    return newState;
+                  })
+                }
+              >
+                +
+              </button>
+              {/* <button onClick={() => handleIncrease(selectedOption)}>+</button> */}
+            </div>
+            <div className="option-remove">
+              <button onClick={() => handleRemoveOption(selectedOption)}>
+                <IoIosClose />
+              </button>
             </div>
           </div>
-        );
-      })}
+        </div>
+      ))}
     </Box>
   );
 }
 
 const Box = styled.div`
-  .option {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .folded-option {
     position: relative;
-    background-color: gray;
+    background-color: #9e9e9e;
+
     .option-guide {
       width: 100%;
       display: block;
       border: 1px solid #ededed;
       padding: 0.5rem;
     }
+
     .option-list {
       width: 100%;
       transition: all 1s;
       position: absolute;
       top: 100%;
-      background-color: #aaa;
+      background-color: #9e9e9e;
       color: #000;
       border: 1px solid #ededed;
       border-top: none;
       display: none;
+
       .option-item {
         a {
           width: 100%;
@@ -182,22 +189,29 @@ const Box = styled.div`
         }
       }
     }
+
     .option-list-open {
       display: block;
     }
   }
+
   .selected-option {
-    border: 1px solid;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1rem;
     padding: 0.5rem;
+    background-color: #424242;
+    border-radius: 5px;
+
     .option-controller {
       display: flex;
       gap: 1rem;
     }
+
     .option-moderator {
+      height: 2rem;
+      display: flex;
+
       input {
         width: 5rem;
         padding: 0.5rem;
@@ -213,7 +227,10 @@ const Box = styled.div`
         opacity: 0.5;
       }
     }
+
     .option-remove {
+      height: 2rem;
+
       display: flex;
       justify-content: center;
       align-items: center;

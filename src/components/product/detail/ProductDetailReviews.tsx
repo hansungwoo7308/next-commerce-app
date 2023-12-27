@@ -28,7 +28,7 @@ export default function ProductDetailReviews({ product }: any) {
   }, [reviews]);
 
   return (
-    <Box className="product-detail-reviews">
+    <Box className="product-detail-reviews box">
       <div className="reviews-info">
         <h1>Customer Reviews</h1>
         <div className="reviews-ratings">

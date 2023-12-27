@@ -56,7 +56,7 @@ export default function ProductDetailWidget({ product }: Props) {
   // }, [cart]);
 
   return (
-    <Box className="product-detail-widget">
+    <Box className="product-detail-widget box">
       <ImageViewer images={images} />
 
       <div className="product-detail-info">
@@ -80,7 +80,7 @@ export default function ProductDetailWidget({ product }: Props) {
             </div>
           </div>
         </div>
-        <Partition className="partition" />
+        <hr className="partition" />
 
         <div className="description">
           <p>category : {category}</p>
@@ -88,13 +88,13 @@ export default function ProductDetailWidget({ product }: Props) {
           <p>stock : {stock ? stock : "out stock"}</p>
           {/* <p>stock : {stock ? "in stock" : "out stock"}</p> */}
         </div>
-        <Partition className="partition" />
+        <hr className="partition" />
 
         <div className="delivery">
           <p>Delivery : Free Shipping (CJ 대한통운)</p>
           <small>제주,도서지역 추가 3,000원 / 도서산간지역 추가배송비 발생됩니다</small>
         </div>
-        <Partition className="partition" />
+        <hr className="partition" />
 
         <Option
           product={product}
@@ -102,13 +102,13 @@ export default function ProductDetailWidget({ product }: Props) {
           setSelectedOptions={setSelectedOptions}
           options={options}
         />
-        <hr />
         {selectedOptions.length ? (
-          <>
+          <div className="total">
             <strong>총 상품금액 : ${total}</strong>
-            <hr />
-          </>
+            <hr className="partition" />
+          </div>
         ) : null}
+
         <div className="controller">
           <button
             className="add-button"
@@ -144,8 +144,6 @@ export default function ProductDetailWidget({ product }: Props) {
   );
 }
 
-const Partition = styled.div``;
-
 const Box = styled.div`
   display: flex;
   gap: 1rem;
@@ -160,7 +158,7 @@ const Box = styled.div`
     flex-direction: column;
 
     .partition {
-      border-top: 1px solid;
+      /* border-top: 1px solid; */
       margin: 1rem 0;
     }
 
@@ -201,6 +199,10 @@ const Box = styled.div`
         }
       }
     }
+  }
+
+  .total {
+    margin-top: 1rem;
   }
 
   @media (max-width: 800px), (width <= 800px) {

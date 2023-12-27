@@ -77,6 +77,10 @@ export default function Page() {
   }, [router.query]);
   // useEffect(() => console.log({ router }), [router.asPath]);
 
+  useEffect(() => {
+    setPage(Number(router.query.page));
+  }, [router.query.page]);
+
   const handlePaginate = (page: any) => {
     setPage(page);
     router.query.page = page;

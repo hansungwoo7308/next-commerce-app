@@ -63,8 +63,13 @@ export const GlobalStyled = styled.createGlobalStyle`
               background-color: #212121;
               border: 1px solid #424242;
             }
+            .pagination.box {
+              color: #424242;
 
-            /* product detail */
+              button {
+                color: #fff;
+              }
+            }
           }
         }
       `;
@@ -97,13 +102,13 @@ export const GlobalStyled = styled.createGlobalStyle`
             }
 
             /* all products */
-            /* all products */
             .box {
               background-color: #8bc34a;
               border: 1px solid #689f38;
             }
-
-            /* product detail */
+            .pagination.box {
+              color: #689f38;
+            }
           }
         }
       `;
@@ -172,7 +177,7 @@ export const GlobalStyled = styled.createGlobalStyle`
       }
 
       /* slick-slider controller (left and right arrows) */
-      .controller {
+      .slick-slider-controller {
         button {
           background-color: transparent;
           &:hover {
@@ -213,6 +218,8 @@ export const GlobalStyled = styled.createGlobalStyle`
 
     &:disabled {
       opacity: 0.5;
+      /* background-color: #333;
+      color: #fff; */
       cursor: default;
     }
     &:hover {
@@ -241,9 +248,8 @@ export const GlobalStyled = styled.createGlobalStyle`
   html body .add-button {
     padding: 0.5rem;
     border-radius: 5px;
-    /* background-color: #c15151; */
-    /* background-color: #fff; */
-    background-color: #67b34bec;
+    /* background-color: #67b34bec; */
+    background-color: #1b5e20;
     color: #fff;
     &:hover {
       background-color: #000;

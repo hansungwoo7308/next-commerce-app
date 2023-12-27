@@ -27,7 +27,6 @@ export default function Pagination({ pageCount, page, onPaginate }: any) {
     onPaginate(pageCount);
   };
 
-  console.log({ page });
   if (!pageCount) return null;
   return (
     <Box className="pagination box">
@@ -74,11 +73,11 @@ const Box = styled.div`
   justify-content: center;
   border: 1px solid;
   border-radius: 10px;
-  /* background-color: #333; */
   overflow: hidden;
 
   ul {
     display: flex;
+
     li {
       button {
         width: 2.5rem;
@@ -92,7 +91,8 @@ const Box = styled.div`
         &:disabled {
           /* cursor: not-allowed; */
           cursor: initial;
-          opacity: 0.5;
+          background-color: #000;
+          color: #fff;
         }
       }
     }
@@ -103,8 +103,9 @@ const Box = styled.div`
     border-right: 1px solid;
 
     .current-page {
-      /* background-color: rgba(0, 0, 0, 0.3); */
-      background-color: coral;
+      button {
+        background-color: #ff9800;
+      }
     }
   }
 

@@ -47,7 +47,7 @@ export default function Cart({ product }: any) {
   }, [options]);
 
   return (
-    <Box className="cart">
+    <Box className="cart box">
       <div className="cart-content-header">
         <h1>Seller : {seller}</h1>
         <button className="delete-button" onClick={handleOpenModal}>
