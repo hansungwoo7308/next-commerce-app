@@ -98,6 +98,7 @@ const Box = styled.div`
       border: 2px solid coral;
       border-radius: 50%;
       overflow: hidden;
+      cursor: pointer;
 
       display: flex;
 

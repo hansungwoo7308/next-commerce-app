@@ -39,7 +39,7 @@ export default function ProductsWidgets({ products }: any) {
         <ProductManager products={products} />
       </div>
 
-      <div className="product-widgets-outer MOBILE">
+      <div className="product-widgets-background MOBILE">
         <div
           className="product-widgets"
           onClick={(e) => e.stopPropagation()}
@@ -51,7 +51,7 @@ export default function ProductsWidgets({ products }: any) {
             <ProductManager products={products} />
           ) : null}
         </div>
-        <div className="product-widgets-opener">
+        <div className="product-widgets-opener box">
           <button onClick={handleClickFilter}>Filter</button>
           <button onClick={handleClickManager}>Manager</button>
         </div>
@@ -67,7 +67,7 @@ const Box = styled.div`
     gap: 1rem;
   }
 
-  .product-widgets-outer.MOBILE {
+  .product-widgets-background.MOBILE {
     display: none;
 
     .product-widgets {
@@ -81,8 +81,8 @@ const Box = styled.div`
     .product-widgets-opener {
       text-align: end;
       padding: 0 1rem;
-      background-color: #333;
-      border: 1px solid;
+      border-width: 1px;
+      border-style: solid;
       border-radius: 10px;
     }
   }

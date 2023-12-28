@@ -54,7 +54,8 @@ export default function Cart({ product }: any) {
           Delete
         </button>
       </div>
-      <Partition className="partition" />
+
+      <div className="partition" />
 
       <div className="cart-content-main">
         <div className="cart-content-info">
@@ -73,7 +74,9 @@ export default function Cart({ product }: any) {
             </div>
           </Link>
         </div>
-        <Partition className="partition" />
+
+        <div className="partition" />
+
         <ul className="options">
           {options.map((option: any, index: number) => (
             <li className="option" key={option.item}>
@@ -100,7 +103,8 @@ export default function Cart({ product }: any) {
           ))}
         </ul>
       </div>
-      <Partition className="partition" />
+
+      <div className="partition" />
 
       <div className="cart-content-footer">
         <h3>paymentAmount (주문금액) : ${paymentAmount}</h3>
@@ -111,8 +115,6 @@ export default function Cart({ product }: any) {
     </Box>
   );
 }
-
-const Partition = styled.div``;
 
 const Box = styled.li`
   border: 1px solid;
@@ -132,9 +134,10 @@ const Box = styled.li`
       }
     }
   }
+
   .cart-content-main {
-    /* border: 2px solid yellow; */
     display: flex;
+
     .cart-content-info {
       flex: 1;
 
@@ -148,25 +151,33 @@ const Box = styled.li`
         }
       }
     }
+
     .partition {
-      border-left: 1px solid;
+      border-right-width: 1px;
+      border-right-style: solid;
       margin: 0 1rem;
     }
+
     .options {
       flex: 1;
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
+
       .option {
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 1rem;
-        border: 1px solid;
+        /* border: 1px solid; */
+        border-width: 1px;
+        border-style: solid;
         padding: 0.3rem;
+
         .buttons {
           display: flex;
           gap: 0.5rem;
+
           > button {
             width: 1.2rem;
             height: 1.2rem;
@@ -185,6 +196,7 @@ const Box = styled.li`
       }
     }
   }
+
   .cart-content-footer {
     /* text-align: end; */
     display: flex;
@@ -192,21 +204,16 @@ const Box = styled.li`
     align-items: center;
     gap: 1rem;
   }
+
   .partition {
-    border-top: 1px solid;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
     margin: 1rem 0;
   }
+
   a {
     height: 100%;
     display: flex;
     gap: 1rem;
   }
-`;
-const HorizonLine = styled.hr`
-  margin: 1rem 0;
-`;
-const VerticalLine = styled.hr`
-  margin: 0 1rem;
-  width: 1px;
-  background-color: #fff;
 `;

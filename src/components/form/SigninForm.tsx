@@ -69,22 +69,29 @@ export default function SigninForm() {
   useEffect(() => setFocus("email"), [setFocus]);
 
   return (
-    <Box className="signin-form">
+    <Box className="signin-form box">
       <h1>Sign In</h1>
+
+      <div className="partition" />
+
       <input {...register("email", { required: true })} type="text" placeholder="email" />
+
       <input {...register("password", { required: true })} type="password" placeholder="password" />
+
       <button
         className="signin"
         onClick={handleSubmit((data) => signin(dispatch, "general-jwt", data))}
       >
         Sign in without Library
       </button>
+
       <button
         className="signin-with-credentials"
         onClick={handleSubmit((data) => signin(dispatch, "nextauth-credentials", data))}
       >
         Sign in with Credentials
       </button>
+
       <button
         className="signin-with-naver"
         onClick={handleSubmit(() => signin(dispatch, "nextauth-oauth", null))}
@@ -107,10 +114,21 @@ const Box = styled.form`
   align-items: center;
   gap: 10px;
 
-  border: 2px solid green;
+  border: 1px solid green;
   border-radius: 10px;
   padding: 3rem 1rem;
   background-color: #222;
+
+  > div,
+  > button {
+    width: 200px;
+  }
+
+  .partition {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    margin: 1rem 0;
+  }
 
   > input {
     /* width: 50%; */

@@ -18,6 +18,8 @@ export default function Page() {
 }
 
 const Main = styled.main`
+  padding: initial;
+
   section {
     display: flex;
     justify-content: center;

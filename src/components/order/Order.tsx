@@ -33,7 +33,7 @@ export default function Order({ order }: any) {
   };
 
   return (
-    <Box>
+    <Box className="order box">
       <div className="order-header">
         <h3>
           Order Number : {order._id} ({order.createdAt.slice(0, 10)})
@@ -44,38 +44,38 @@ export default function Order({ order }: any) {
           </button>
         )}
       </div>
+
       <div className="partition" />
-      <div className="order">
+
+      <div className="order-main">
         <div className="order-image">
           <Link href={`/products/${productId}`}>
             <Image src={imageUrl} alt={imageUrl} width={1000} height={1000} />
           </Link>
         </div>
-        <div className="order-info">
-          <div className="partition" />
-          <div className="product-info">
-            <p>Product Information</p>
-            {options.map((option: any) => {
-              const { item, price, quantity } = option;
-              return (
-                <pre key={item}>
-                  {item} : ${price} X {quantity} = ${price * quantity}
-                </pre>
-              );
-            })}
-          </div>
-          <div className="partition" />
-          <div className="delivery-info">
-            <p>Delivery Information</p>
-            <p>State : {deliveryInfo?.isDelivered ? "delivered" : "not delivered"}</p>
-          </div>
-          <div className="partition" />
-          <div className="pay-info">
-            <p>Payment Information</p>
-            <p>Method : {method}</p>
-            <p>State : {isPaid ? "paid" : "not paid"}</p>
-            <p>Total : ${total}</p>
-          </div>
+        <div className="partition" />
+        <div className="product-info">
+          <p>Product Information</p>
+          {options.map((option: any) => {
+            const { item, price, quantity } = option;
+            return (
+              <pre key={item}>
+                {item} : ${price} X {quantity} = ${price * quantity}
+              </pre>
+            );
+          })}
+        </div>
+        <div className="partition" />
+        <div className="delivery-info">
+          <p>Delivery Information</p>
+          <p>State : {deliveryInfo?.isDelivered ? "delivered" : "not delivered"}</p>
+        </div>
+        <div className="partition" />
+        <div className="pay-info">
+          <p>Payment Information</p>
+          <p>Method : {method}</p>
+          <p>State : {isPaid ? "paid" : "not paid"}</p>
+          <p>Total : ${total}</p>
         </div>
       </div>
       {/* {expanded ? (
@@ -137,51 +137,42 @@ const Box = styled.li`
     justify-content: space-between;
     align-items: center;
   }
+
   .partition {
     border-top: 1px solid;
     margin: 1rem 0;
   }
-  .order-info {
-    .partition {
-      border-left: 1px solid;
-      margin: 0 1rem;
-    }
-  }
-  .order {
+
+  .order-main {
     display: flex;
-    /* gap: 1rem; */
-    /* padding: 1rem; */
     font-size: 14px;
+
+    img {
+      width: 10rem;
+      height: 10rem;
+    }
+
     pre {
       font-family: none !important;
     }
-    .order-info {
+
+    .partition {
+      border-right-width: 1px;
+      border-right-style: solid;
+      margin: 0 1rem;
+    }
+
+    .product-info,
+    .delivery-info,
+    .pay-info {
       flex: 1;
-      display: flex;
-      .product-info,
-      .delivery-info,
-      .pay-info {
-        flex: 1;
-      }
-      .product-info {
-      }
     }
   }
+
   /* > .expand-button {
     padding: 1rem;
     display: block;
     margin: auto;
     border-radius: 5px;
   } */
-  img {
-    /* width: 100px; */
-    width: 10rem;
-    height: 10rem;
-  }
-`;
-
-const VerticalLine = styled.hr`
-  margin: 0 1rem;
-  width: 1px;
-  background-color: #fff;
 `;

@@ -49,8 +49,11 @@ export default function SignupForm() {
   useEffect(() => setFocus("name"), [setFocus]);
 
   return (
-    <Box className="signup-form">
+    <Box className="signup-form box">
       <h1>Sign Up</h1>
+
+      <div className="partition" />
+
       <div className="name">
         <input
           {...register("name", {
@@ -69,6 +72,7 @@ export default function SignupForm() {
         />
         <small>{errors.name?.message as string}</small>
       </div>
+
       <div className="email">
         <input
           {...register("email", {
@@ -84,6 +88,7 @@ export default function SignupForm() {
         />
         <small>{errors.email?.message as string}</small>
       </div>
+
       <div className="password">
         <input
           {...register("password", {
@@ -106,6 +111,7 @@ export default function SignupForm() {
         />
         <small>{errors.password?.message as string}</small>
       </div>
+
       <div className="passwordConfirm">
         <input
           {...register("passwordConfirm", {
@@ -123,7 +129,10 @@ export default function SignupForm() {
         />
         <small>{errors.passwordConfirm?.message as string}</small>
       </div>
-      <button onClick={handleSubmit(handleSignup)}>Sign Up</button>
+
+      <button className="signup-button" onClick={handleSubmit(handleSignup)}>
+        Sign Up
+      </button>
     </Box>
   );
 }
@@ -139,15 +148,22 @@ const Box = styled.div`
   align-items: center;
   gap: 10px;
 
-  border: 2px solid green;
+  border: 1px solid green;
   border-radius: 10px;
   padding: 3rem 1rem;
   background-color: #222;
+
+  .partition {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    margin: 1rem 0;
+  }
 
   > div,
   > button {
     width: 200px;
   }
+
   input {
     width: 100%;
     padding: 8px;
@@ -161,19 +177,20 @@ const Box = styled.div`
       border: 3px solid var(--color-focus);
     }
   }
+
   small {
     color: red;
   }
-  button {
+
+  .signup-button {
     /* all: unset; */
-    background-color: #444;
-    border: none;
+    background-color: #2196f3;
     border-radius: 5px;
     padding: 10px;
     margin-top: 30px;
     cursor: pointer;
     &:hover {
-      background-color: var(--color-primary);
+      background-color: #000;
     }
   }
 `;

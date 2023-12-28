@@ -48,6 +48,10 @@ export const GlobalStyled = styled.createGlobalStyle`
             background-color: #000;
             color: white;
 
+            button {
+              color: #fff;
+            }
+
             /* home */
             .category .card {
               background-color: #424242;
@@ -62,6 +66,14 @@ export const GlobalStyled = styled.createGlobalStyle`
             .box {
               background-color: #212121;
               border: 1px solid #424242;
+
+              .partition {
+                border-color: #424242;
+              }
+
+              .options .option {
+                border-color: #424242;
+              }
             }
             .pagination.box {
               color: #424242;
@@ -91,7 +103,11 @@ export const GlobalStyled = styled.createGlobalStyle`
             background-color: #c5e1a5;
             color: black;
 
-            /* home */
+            button {
+              color: #000;
+            }
+
+            /* homepage */
             .category .card {
               background-color: #aed581;
             }
@@ -101,10 +117,18 @@ export const GlobalStyled = styled.createGlobalStyle`
               background-color: #dcedc8;
             }
 
-            /* all products */
+            /* box model */
             .box {
               background-color: #8bc34a;
-              border: 1px solid #689f38;
+              border-color: #689f38;
+
+              .partition {
+                border-color: #689f38;
+              }
+
+              .option {
+                border-color: #689f38;
+              }
             }
             .pagination.box {
               color: #689f38;
@@ -213,8 +237,8 @@ export const GlobalStyled = styled.createGlobalStyle`
   button {
     border: none;
     padding: 0.5rem;
+    background-color: transparent;
     cursor: pointer;
-    /* background-color: transparent; */
 
     &:disabled {
       opacity: 0.5;
@@ -227,6 +251,7 @@ export const GlobalStyled = styled.createGlobalStyle`
       color: #fff;
     }
   }
+
   html body .general-button {
     padding: 0.5rem;
     border-radius: 5px;

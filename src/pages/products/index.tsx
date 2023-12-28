@@ -78,7 +78,7 @@ export default function Page() {
   // useEffect(() => console.log({ router }), [router.asPath]);
 
   useEffect(() => {
-    setPage(Number(router.query.page));
+    setPage(Number(router.query.page) || 1);
   }, [router.query.page]);
 
   const handlePaginate = (page: any) => {
@@ -110,8 +110,16 @@ export default function Page() {
   //   fetchProducts();
   // }, [router.query]);
 
-  if (isLoading) return null;
+  if (isLoading) {
+    dispatch(setLoading(true));
+    return (
+      <Main className="products-page">
+        <section></section>
+      </Main>
+    );
+  }
   const { products, pageCount } = data;
+  dispatch(setLoading(false));
   return (
     <Main className="products-page">
       <section>
@@ -151,10 +159,6 @@ const Main = styled.main`
     gap: 1rem;
     padding: 1rem;
 
-    > * {
-      /* border: 1px solid red; */
-    }
-
     .products-outer {
       min-height: calc(100vh - 100px);
       display: flex;
@@ -172,7 +176,7 @@ const Main = styled.main`
         display: none;
       }
 
-      .product-widgets-outer.MOBILE {
+      .product-widgets-background.MOBILE {
         display: block;
       }
     }
@@ -180,16 +184,19 @@ const Main = styled.main`
     .product {
       height: initial;
       flex-direction: column;
+
       .image {
         width: 100%;
         img {
           height: 10rem;
         }
       }
+
       .partition {
-        border-top: 1px solid;
+        border-bottom: 1px solid;
         margin: 1rem 0;
       }
+
       .description {
         flex-direction: column;
         .right {
@@ -198,22 +205,4 @@ const Main = styled.main`
       }
     }
   }
-
-  @media (max-width: 500px), (width <= 500px) {
-  }
-  /* .product-manager-by-admin {
-    max-width: 100%;
-    min-height: 100vh;
-    width: 100%;
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    pointer-events: none;
-    > div {
-      width: 80%;
-      height: 100vh;
-      max-width: 1000px;
-      position: relative;
-    }
-  } */
 `;

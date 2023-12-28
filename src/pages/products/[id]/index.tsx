@@ -6,6 +6,7 @@ import connectDB from "lib/server/config/connectDB";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { setProductId, setReviewIds } from "lib/client/store/productManagerSlice";
+import { setLoading } from "lib/client/store/loadingSlice";
 
 export async function getStaticPaths(context: any) {
   console.log(`\x1b[33m\n[pages/products/[id]]:::[getStaticPaths]\x1b[30m`);
@@ -62,7 +63,7 @@ export default function Page({ product }: any) {
     };
   }, []);
 
-  if (!product) return null;
+  // if (!product) return null
 
   return (
     <Main className="products-[id]-page">

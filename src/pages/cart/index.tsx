@@ -127,6 +127,7 @@ export default function Page({ session }: any) {
       </Main>
     );
   }
+
   return (
     <Main className="cart-page">
       <section>
@@ -171,8 +172,9 @@ const Main = styled.main`
   @media (max-width: 800px), (width <= 800px) {
     .cart-content-main {
       flex-direction: column;
+
       .partition {
-        border-top: 1px solid;
+        border-bottom: 1px solid #689f38;
         margin: 1rem 0;
       }
     }

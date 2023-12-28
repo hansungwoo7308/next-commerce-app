@@ -83,7 +83,7 @@ export default function AccountForm() {
   if (!auth.user) return null;
 
   return (
-    <Box className="account-form">
+    <Box className="account-form box">
       <div className="avatar-outer">
         <div className="avatar">
           {auth.user?.image ? (

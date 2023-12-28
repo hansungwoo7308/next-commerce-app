@@ -26,7 +26,9 @@ export default function ProductManager({ products }: any) {
   return (
     <Box className="product-manager box">
       <h4>Product Manager</h4>
-      <hr />
+
+      <hr className="partition" />
+
       <button
         className="clear-button"
         onClick={() => {
@@ -41,10 +43,14 @@ export default function ProductManager({ products }: any) {
         <br />
         (localState:component)
       </button>
-      <hr />
+
+      <hr className="partition" />
+
       <button onClick={handleSelectAll}>Select All</button>
       <button onClick={handleUnselectAll}>Unselect All</button>
-      <hr />
+
+      <hr className="partition" />
+
       <button className="create-button" onClick={handleCreateProduct}>
         Create a product
       </button>
