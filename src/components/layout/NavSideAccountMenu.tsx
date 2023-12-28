@@ -97,6 +97,7 @@ export default function NavSideAccountMenu({ theme, toggleTheme }: any) {
           </Link>
         </li>
       </ul>
+      <br />
       <div
         className="theme"
         onClick={() => {
@@ -150,10 +151,8 @@ const Box = styled.div`
     transform: translateX(0%);
   }
 
-  li {
-    padding: 1rem;
-  }
   a {
+    padding: 1rem;
     display: flex;
     justify-content: space-between;
     /* padding: 1rem; */
@@ -163,6 +162,7 @@ const Box = styled.div`
       color: #000;
     }
   }
+
   button {
     width: 100%;
   }
