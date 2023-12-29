@@ -10,18 +10,21 @@ const signinWithJWT = async (dispatch: any, data: any) => {
   const { user, accessToken } = response.data;
   dispatch(setCredentials({ user, accessToken }));
 };
+
 const signinWithNextauthCredentials = async (data: any) => {
   const { email, password } = data;
   const response: any = await signIn("credentials", {
     email,
     password,
-    // redirect: true,
+    redirect: false,
     // callbackUrl: callbackUrl || "/",
   });
   console.log({ response });
 };
+
 const signinWithNextauthOauth = async () => {
-  await signIn("naver", { redirect: true, callbackUrl: "/" });
+  await signIn("naver", { redirect: false });
+  // await signIn("naver", { redirect: true, callbackUrl: "/" });
 };
 
 export const signin = async (dispatch: any, method: any, data: any) => {

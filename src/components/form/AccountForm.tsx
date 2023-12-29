@@ -190,6 +190,8 @@ export default function AccountForm() {
 }
 
 const Box = styled.form`
+  width: 100%;
+
   display: grid;
   grid-template-areas: "area1 area2";
   gap: 3rem;

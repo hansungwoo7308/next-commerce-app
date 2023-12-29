@@ -6,7 +6,7 @@ export default function Page() {
     <Main className="my-account-page">
       <section>
         <div className="account-form-outer">
-          <h1>Account</h1>
+          <h1 className="my-account-title box">My Account</h1>
           <AccountForm />
         </div>
       </section>
@@ -22,6 +22,16 @@ const Main = styled.main`
     align-items: center;
     gap: 1rem;
     padding: 1rem;
+
+    .my-account-title {
+      width: 100%;
+      height: 3rem;
+
+      padding: 1rem;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+    }
   }
 
   @media (max-width: 500px) {

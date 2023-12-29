@@ -9,6 +9,9 @@ export default function Page() {
   const { data, error, isLoading } = useSWR("/api/v2/orders", fetcher);
 
   if (isLoading) return null;
+
+  console.log({ data });
+
   const { orders } = data;
   console.log({ orders });
 
@@ -28,7 +31,7 @@ export default function Page() {
     <Main>
       <section>
         <div className="orders-outer">
-          <h1>Order List</h1>
+          <h1 className="my-orders-title box">Order List</h1>
           <Orders orders={orders} />
         </div>
       </section>
@@ -43,14 +46,21 @@ const Main = styled.main`
     gap: 1rem;
     padding: 1rem;
     /* border: 1px solid; */
+
+    .my-orders-title {
+      height: 3rem;
+      border-radius: 5px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+    }
   }
 
-  @media (max-width: 1000px) {
-    .order,
-    .order-info {
+  @media (max-width: 800px) {
+    .order-main {
       flex-direction: column;
+
       .partition {
-        border-top: 1px solid;
         margin: 1rem 0;
       }
     }

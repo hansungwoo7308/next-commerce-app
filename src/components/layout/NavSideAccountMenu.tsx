@@ -47,31 +47,42 @@ export default function NavSideAccountMenu({ theme, toggleTheme }: any) {
               <IoIosArrowForward />
             </Link>
           </li>
-          <li>
-            <button className="general-button" onClick={handleSignout}>
-              Sign out
-            </button>
-          </li>
-          <li>
-            <button
-              className="general-button"
-              onClick={async (e) => {
-                e.preventDefault();
-                try {
-                  const response = await axios({
-                    url: "http://localhost:3000/api/disconnect",
-                  });
-                  console.log({ response });
-                } catch (error) {
-                  console.log({ error });
-                }
-              }}
-            >
-              DisconnectDB
-            </button>
-          </li>
+          <button className="general-button" onClick={handleSignout}>
+            Sign out
+          </button>
+          {/* <button
+            className="general-button"
+            onClick={async (e) => {
+              e.preventDefault();
+              try {
+                const response = await axios({
+                  url: "http://localhost:3000/api/disconnect",
+                });
+                console.log({ response });
+              } catch (error) {
+                console.log({ error });
+              }
+            }}
+          >
+            DisconnectDB
+          </button> */}
+          <div
+            className="theme"
+            onClick={() => {
+              toggleTheme();
+              handleClose();
+            }}
+          >
+            <div className="theme-icon" style={{ color: theme === "dark" ? "#ff9800" : "gray" }}>
+              <MdNightlightRound />
+              Dark
+            </div>
+            <div className="theme-icon" style={{ color: theme === "light" ? "#ff9800" : "gray" }}>
+              <MdLightMode />
+              Light
+            </div>
+          </div>
         </ul>
-        <button>test</button>
       </Box>
     );
   }
@@ -165,6 +176,7 @@ const Box = styled.div`
 
   button {
     width: 100%;
+    margin-top: 1rem;
   }
 
   .theme {
@@ -177,6 +189,7 @@ const Box = styled.div`
     gap: 1rem;
     background-color: #ddd;
     border-radius: 5px;
+    margin-top: 1rem;
 
     .theme-icon {
       display: flex;

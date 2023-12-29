@@ -80,21 +80,30 @@ export default function SigninForm() {
 
       <button
         className="signin"
-        onClick={handleSubmit((data) => signin(dispatch, "general-jwt", data))}
+        onClick={handleSubmit((data) => {
+          signin(dispatch, "general-jwt", data);
+          router.push("/");
+        })}
       >
         Sign in without Library
       </button>
 
       <button
         className="signin-with-credentials"
-        onClick={handleSubmit((data) => signin(dispatch, "nextauth-credentials", data))}
+        onClick={handleSubmit((data) => {
+          signin(dispatch, "nextauth-credentials", data);
+          router.push("/");
+        })}
       >
         Sign in with Credentials
       </button>
 
       <button
         className="signin-with-naver"
-        onClick={handleSubmit(() => signin(dispatch, "nextauth-oauth", null))}
+        onClick={handleSubmit(() => {
+          signin(dispatch, "nextauth-oauth", null);
+          router.push("/");
+        })}
       >
         <SiNaver size={14} />
         Sign in with Naver

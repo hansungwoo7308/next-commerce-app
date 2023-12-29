@@ -53,7 +53,9 @@ export default function Order({ order }: any) {
             <Image src={imageUrl} alt={imageUrl} width={1000} height={1000} />
           </Link>
         </div>
+
         <div className="partition" />
+
         <div className="product-info">
           <p>Product Information</p>
           {options.map((option: any) => {
@@ -65,12 +67,16 @@ export default function Order({ order }: any) {
             );
           })}
         </div>
+
         <div className="partition" />
+
         <div className="delivery-info">
           <p>Delivery Information</p>
           <p>State : {deliveryInfo?.isDelivered ? "delivered" : "not delivered"}</p>
         </div>
+
         <div className="partition" />
+
         <div className="pay-info">
           <p>Payment Information</p>
           <p>Method : {method}</p>

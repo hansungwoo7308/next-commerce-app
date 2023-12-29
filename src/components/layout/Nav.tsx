@@ -109,7 +109,7 @@ const Box = styled.nav`
     color: #fff;
 
     .nav-main {
-      width: 80%;
+      /* width: 80%; */
       max-width: 1000px;
       height: 40px;
       margin: auto;
