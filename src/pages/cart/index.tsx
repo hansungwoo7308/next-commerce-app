@@ -132,13 +132,13 @@ export default function Page({ session }: any) {
     <Main className="cart-page">
       <section>
         <div className="cart-list-outer">
-          <h1>Shopping Cart</h1>
+          <h1 className="cart-title box">Shopping Cart</h1>
           <ul className="cart-list">
             {cart.products.map((product: any, index: number) => (
               <Cart key={index} product={product} />
             ))}
           </ul>
-          <h3>Total (총합) : ${total}</h3>
+          <h3 className="cart-total box">Total (총합) : ${total}</h3>
         </div>
       </section>
     </Main>
@@ -158,14 +158,22 @@ const Main = styled.main`
       gap: 1rem;
     }
 
-    > h3 {
+    .cart-title,
+    .cart-total {
       height: 3rem;
+
       display: flex;
-      justify-content: flex-end;
       align-items: center;
-      border: 1px solid;
+
+      border-width: 1px;
+      border-style: solid;
       border-radius: 5px;
+
       padding: 1rem;
+    }
+
+    .cart-total {
+      justify-content: flex-end;
     }
   }
 

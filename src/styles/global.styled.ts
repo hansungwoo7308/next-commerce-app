@@ -42,6 +42,13 @@ export const GlobalStyled = styled.createGlobalStyle`
                 color: #fff;
               }
             }
+
+            .hover-menu {
+              background-color: #424242;
+              .arrow {
+                background-color: #424242;
+              }
+            }
           }
 
           main {
@@ -94,8 +101,16 @@ export const GlobalStyled = styled.createGlobalStyle`
             .nav-belt-outer {
               background-color: #33691e;
             }
+
             .nav-main-outer {
               background-color: #7cb342;
+            }
+
+            .hover-menu {
+              background-color: #689f38;
+              .arrow {
+                background-color: #689f38;
+              }
             }
           }
 
@@ -118,9 +133,10 @@ export const GlobalStyled = styled.createGlobalStyle`
             }
 
             /* box model */
-            .box {
+            .box,
+            .box-in-box {
               background-color: #8bc34a;
-              border-color: #689f38;
+              border: 1px solid #689f38;
 
               .partition {
                 border-color: #689f38;
@@ -130,6 +146,11 @@ export const GlobalStyled = styled.createGlobalStyle`
                 border-color: #689f38;
               }
             }
+
+            .box-in-box {
+              background-color: #aed581;
+            }
+
             .pagination.box {
               color: #689f38;
             }

@@ -42,7 +42,7 @@ export default function ProductDetailReviews({ product }: any) {
             <p>No reviews</p>
           )}
         </div>
-        <Partition />
+        <div className="partition" />
         {user?.role === "user" && (
           <div className="write-a-review">
             <p>You can write this product&apos;s review</p>
@@ -54,7 +54,7 @@ export default function ProductDetailReviews({ product }: any) {
       </div>
       <div className="reviews-outer">
         <ProductDetailReviewsImages product={product} />
-        <Partition />
+        <div className="partition" />
         <h1>Reviews</h1>
         <ProductReviews product={product} reviews={reviews} />
       </div>
@@ -62,20 +62,15 @@ export default function ProductDetailReviews({ product }: any) {
   );
 }
 
-const Partition = styled.div`
-  border-top: 1px solid;
-  margin: 1rem 0;
-`;
-
 const Box = styled.div`
   display: flex;
   gap: 1rem;
   padding: 1rem;
-  /* border: 1px solid red; */
 
-  > * {
-    /* border: 1px solid green; */
-    /* padding: 1rem; */
+  .partition {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    margin: 1rem 0;
   }
 
   .reviews-info {

@@ -50,7 +50,7 @@ export default function ProductReview({ product, review }: Props) {
   }, [reviewIds.length]);
 
   return (
-    <Box className="product-review" onClick={handleOpenProductReview}>
+    <Box className="product-review box-in-box" onClick={handleOpenProductReview}>
       <div className="review-content">
         <div className="review-user">
           <FaCircleUser />

@@ -81,6 +81,14 @@ export default function Page() {
     setPage(Number(router.query.page) || 1);
   }, [router.query.page]);
 
+  useEffect(() => {
+    if (isLoading) {
+      dispatch(setLoading(true));
+    } else {
+      dispatch(setLoading(false));
+    }
+  }, [isLoading]);
+
   const handlePaginate = (page: any) => {
     setPage(page);
     router.query.page = page;
@@ -111,7 +119,6 @@ export default function Page() {
   // }, [router.query]);
 
   if (isLoading) {
-    dispatch(setLoading(true));
     return (
       <Main className="products-page">
         <section></section>
@@ -119,7 +126,6 @@ export default function Page() {
     );
   }
   const { products, pageCount } = data;
-  dispatch(setLoading(false));
   return (
     <Main className="products-page">
       <section>

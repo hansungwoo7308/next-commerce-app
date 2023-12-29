@@ -34,9 +34,6 @@ export default function Nav() {
             <Search />
           </div>
           <div className="nav-belt-right">
-            <Link href={"/cart"}>
-              <FaCartShopping /> <pre> ({cart.products?.length})</pre>
-            </Link>
             <AccountIcon />
             {/* <div id="nav-tools">
             <div id="nav-account"></div>
@@ -57,8 +54,12 @@ export default function Nav() {
               <div>All</div>
             </button>
           </div>
-          <div id="nav-main-center"></div>
-          <div id="nav-main-right"></div>
+          {/* <div id="nav-main-center"></div> */}
+          <div id="nav-main-right">
+            <Link href={"/cart"}>
+              <FaCartShopping /> <pre> ({cart.products?.length})</pre>
+            </Link>
+          </div>
         </section>
       </div>
     </Box>
@@ -112,6 +113,10 @@ const Box = styled.nav`
       max-width: 1000px;
       height: 40px;
       margin: auto;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
       #nav-main-left {
         height: 100%;

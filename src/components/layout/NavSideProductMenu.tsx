@@ -26,7 +26,7 @@ export default function NavSideProductMenu() {
       <ul>
         <li>
           <Link href={"/products"} onClick={handleClose}>
-            <div>All Products</div>
+            <div>All</div>
             <IoIosArrowForward />
           </Link>
         </li>

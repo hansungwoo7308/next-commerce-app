@@ -43,6 +43,7 @@ export default function AccountIcon() {
             )}
           </div>
         </div>
+
         <div className="hover-menu">
           <div className="arrow" />
           <Link href={"/my/account"}>
@@ -67,6 +68,7 @@ export default function AccountIcon() {
           <FcGlobe size={30} />
         </div>
       </div>
+
       <div className="hover-menu">
         <div className="arrow" />
         <Link href={"/auth/signin"}>Sign in</Link>
@@ -112,7 +114,6 @@ const Box = styled.div`
   .hover-menu {
     position: absolute;
     top: 100%;
-    background-color: gray;
     white-space: nowrap;
     padding: 1rem;
     display: none;
@@ -127,7 +128,6 @@ const Box = styled.div`
       top: 0;
       left: 50%;
       transform: translateX(-50%) translateY(-50%) rotate(45deg);
-      background-color: gray;
       pointer-events: none;
     }
 
