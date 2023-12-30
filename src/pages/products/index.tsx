@@ -125,7 +125,9 @@ export default function Page() {
       </Main>
     );
   }
+
   const { products, pageCount } = data;
+
   return (
     <Main className="products-page">
       <section>

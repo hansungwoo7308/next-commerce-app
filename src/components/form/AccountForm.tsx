@@ -4,7 +4,7 @@ import { refreshAuth } from "lib/client/utils/authUtils";
 import { getSession, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FcGlobe } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,21 +23,21 @@ export default function AccountForm() {
 
   const { register, handleSubmit, watch, setValue } = useForm();
   const registeredImageProperties = register("image");
-  const registeredRoleProperties = register("role", { value: "" });
+  // const registeredRoleProperties = register("role", { value: "" });
 
   const handleUpdateAccountInfo = async (data: any) => {
     console.log({ data });
     // return;
+    dispatch(setLoading(true));
 
     try {
-      dispatch(setLoading(true));
       // set the formData
       const { image, name, email, role } = data;
       const formData: any = new FormData();
       formData.append("images", image);
       formData.append("name", name);
       formData.append("email", email);
-      formData.append("role", role);
+      // formData.append("role", role);
 
       // request
       const response = await axios({
@@ -71,14 +71,23 @@ export default function AccountForm() {
         );
       } else refreshAuth(dispatch);
 
-      dispatch(setLoading(false));
-      setIsEditMode(false);
       // router.push({ pathname: router.asPath });
     } catch (error) {
-      dispatch(setLoading(false));
       console.log({ error });
     }
+
+    setIsEditMode(false);
+    dispatch(setLoading(false));
   };
+
+  const name = watch("name");
+  const email = watch("email");
+  const [isDisabled, setIsDisabled]: any = useState(false);
+
+  useEffect(() => {
+    if (name === auth.user?.name && email === auth.user?.email) setIsDisabled(true);
+    else setIsDisabled(false);
+  }, [name, email]);
 
   if (!auth.user) return null;
 
@@ -123,20 +132,21 @@ export default function AccountForm() {
           <ul className="user-info-list-edit-mode">
             <li>
               <strong>Name</strong>
-              <input {...register("name")} type="text" />
+              <input {...register("name")} type="text" defaultValue={auth.user.name} />
             </li>
             <li>
               <strong>Email</strong>
-              <input {...register("email")} type="email" />
+              <input {...register("email")} type="email" defaultValue={auth.user.email} />
             </li>
             <li>
-              <strong>Role</strong>
-              <div className="role-option">
+              <strong>Permission</strong>
+              <input type="text" value={auth.user.role} disabled />
+              {/* <div className="role-option">
                 <input {...registeredRoleProperties} type="radio" value="admin" id="admin" />
                 <label htmlFor="admin">Admin</label>
                 <input {...registeredRoleProperties} type="radio" value="user" id="user" />
                 <label htmlFor="user">User</label>
-              </div>
+              </div> */}
             </li>
           </ul>
         ) : (
@@ -150,7 +160,7 @@ export default function AccountForm() {
               <p>{auth.user.email}</p>
             </li>
             <li>
-              <strong>Role</strong>
+              <strong>Permission</strong>
               <p>{auth.user.role}</p>
             </li>
           </ul>
@@ -168,7 +178,11 @@ export default function AccountForm() {
               >
                 Cancel
               </button>
-              <button className="update-button" onClick={handleSubmit(handleUpdateAccountInfo)}>
+              <button
+                className="update-button"
+                onClick={handleSubmit(handleUpdateAccountInfo)}
+                disabled={isDisabled}
+              >
                 Save
               </button>
             </>
@@ -261,7 +275,7 @@ const Box = styled.form`
       /* gap: 0.5rem; */
 
       li {
-        width: 15rem;
+        width: 18rem;
         display: flex;
         justify-content: space-between;
         align-items: center;

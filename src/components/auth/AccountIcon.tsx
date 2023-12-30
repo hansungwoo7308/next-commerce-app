@@ -33,7 +33,7 @@ export default function AccountIcon() {
 
   if (session || token) {
     return (
-      <Box className="account-icon authenticated">
+      <Box className="account-icon authenticated ">
         <div className="avatar-outer" onClick={handleOpenSideMenu}>
           <div className="avatar">
             {user?.image ? (
@@ -55,6 +55,7 @@ export default function AccountIcon() {
               <p>Order List</p>
             </Link>
           )}
+          <div className="partition"></div>
           <button onClick={handleSignout}>Sign out</button>
         </div>
       </Box>
@@ -62,7 +63,7 @@ export default function AccountIcon() {
   }
 
   return (
-    <Box className="account-icon">
+    <Box className="account-icon ">
       <div className="avatar-outer">
         <div className="avatar" onClick={handleOpenSideMenu}>
           <FcGlobe size={30} />
@@ -142,6 +143,17 @@ const Box = styled.div`
       padding: 1rem;
       background-color: inherit;
       text-align: start;
+      &:hover {
+        /* background-color: #558b2f; */
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    .partition {
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      /* border-bottom: 1px solid; */
+      margin: 1rem 0;
     }
   }
 `;

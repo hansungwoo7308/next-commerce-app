@@ -65,7 +65,7 @@ export default function OrderSheetForm() {
 
   if (!session && !token) return null;
   return (
-    <Box className="order-sheet-form">
+    <Box className="order-sheet-form box">
       <div className="order-info">
         <div className="delivery-info">
           <h3>Delivery Information</h3>
@@ -87,13 +87,15 @@ export default function OrderSheetForm() {
             <input {...register("mobile")} type="text" />
           </label>
         </div>
+
         <div className="partition" />
+
         <div className="payment-info">
           <h3>Payment Information</h3>
           <p>Total : ${orderSheet.payInfo?.total}</p>
           <p>Payment Method (결제방식)</p>
-          <div>
-            <label>
+          <div className="payment-method">
+            <label className="box">
               <input
                 {...register("payType")}
                 type="radio"
@@ -103,7 +105,7 @@ export default function OrderSheetForm() {
               />
               선불결제(prepay)
             </label>
-            <label>
+            <label className="box">
               <input
                 {...register("payType")}
                 type="radio"
@@ -115,7 +117,9 @@ export default function OrderSheetForm() {
           </div>
         </div>
       </div>
+
       <div className="partition" />
+
       <div className="pay-for-order">
         {payType === "prepay" && (
           <div>
@@ -144,25 +148,40 @@ const Box = styled.form`
   .order-info {
     display: flex;
 
-    .delivery-info,
-    .payment-info {
-      flex: 1;
-    }
-
     .delivery-info {
+      flex: 1;
+
       input {
         width: 70%;
       }
     }
 
     .partition {
-      border-left: 1px solid;
+      border-right-width: 1px;
+      border-right-style: solid;
       margin: 0 1rem;
+    }
+
+    .payment-info {
+      flex: 1;
+
+      .payment-method {
+        display: flex;
+        gap: 1rem;
+
+        label {
+          padding: 1rem;
+          border-width: 1px;
+          border-style: solid;
+          cursor: pointer;
+        }
+      }
     }
   }
 
   .partition {
-    border-top: 1px solid;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
     margin: 1rem 0;
   }
 
@@ -171,8 +190,6 @@ const Box = styled.form`
   }
 
   .paypal {
-    border: 1px solid green;
-
     display: flex;
     justify-content: end;
   }

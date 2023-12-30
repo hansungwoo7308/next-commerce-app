@@ -3,19 +3,6 @@ import { createGlobalStyle, css } from "styled-components";
 const styled = { createGlobalStyle };
 
 export const GlobalStyled = styled.createGlobalStyle`
-  :root {
-    /* according to features */
-    --color-hover: #fff;
-    --color-layout: coral;
-    --color-button-background: #000;
-    --color-button-foreground: #ccc;
-    --color-button-background-hover: black;
-    --color-button-foreground-hover: coral;
-    --color-form-background: #111;
-    --color-background-hover: black;
-    --color-foreground-hover: coral;
-  }
-
   * {
     margin: 0;
     padding: 0;
@@ -45,8 +32,13 @@ export const GlobalStyled = styled.createGlobalStyle`
 
             .hover-menu {
               background-color: #424242;
+
               .arrow {
                 background-color: #424242;
+              }
+
+              .partition {
+                border-color: #757575;
               }
             }
           }
@@ -55,11 +47,7 @@ export const GlobalStyled = styled.createGlobalStyle`
             background-color: #000;
             color: white;
 
-            button {
-              color: #fff;
-            }
-
-            /* home */
+            /* homepage */
             .category .card {
               background-color: #424242;
             }
@@ -69,7 +57,7 @@ export const GlobalStyled = styled.createGlobalStyle`
               background-color: #212121;
             }
 
-            /* all products */
+            /* box model */
             .box {
               background-color: #212121;
               border: 1px solid #424242;
@@ -82,6 +70,7 @@ export const GlobalStyled = styled.createGlobalStyle`
                 border-color: #424242;
               }
             }
+
             .pagination.box {
               color: #424242;
 
@@ -108,8 +97,13 @@ export const GlobalStyled = styled.createGlobalStyle`
 
             .hover-menu {
               background-color: #689f38;
+
               .arrow {
                 background-color: #689f38;
+              }
+
+              .partition {
+                border-color: #fff;
               }
             }
           }
@@ -117,10 +111,6 @@ export const GlobalStyled = styled.createGlobalStyle`
           main {
             background-color: #c5e1a5;
             color: black;
-
-            button {
-              color: #000;
-            }
 
             /* homepage */
             .category .card {
@@ -245,127 +235,124 @@ export const GlobalStyled = styled.createGlobalStyle`
   }
 
   /* elements */
-  a {
-    /* height:100%; */
-    text-decoration: none;
-    color: inherit;
-    &:hover {
+  html body {
+    a {
+      /* height:100%; */
+      text-decoration: none;
+      color: inherit;
+      &:hover {
+        cursor: pointer;
+        color: #fff;
+      }
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    ul {
+      li {
+        list-style: none;
+      }
+    }
+
+    p,
+    span,
+    label {
+      font-size: 14px;
+    }
+
+    hr {
+      border-top-width: 0px;
+      border-left-width: 0px;
+      border-right-width: 0px;
+      /* border-bottom-width: 1px; */
+      border-bottom: 1px solid;
+      border-color: #fff;
+    }
+
+    input,
+    textarea {
+      /* padding: .5rem; */
+      padding: 3px;
+    }
+
+    /* button */
+    button {
+      border: none;
+      padding: 0.5rem;
+      background-color: transparent;
+      color: inherit;
       cursor: pointer;
-      color: var(--color-hover);
+      &:hover {
+        background-color: #000;
+        color: #fff;
+      }
+      &:disabled {
+        opacity: 0.5;
+        /* cursor: default; */
+        cursor: not-allowed;
+      }
     }
-  }
 
-  button {
-    border: none;
-    padding: 0.5rem;
-    background-color: transparent;
-    cursor: pointer;
+    .general-button,
+    .create-button,
+    .buy-button,
+    .pay-button,
+    .add-button,
+    .edit-button,
+    .update-button,
+    .delete-button,
+    .cancel-button,
+    .close-button {
+      padding: 0.5rem;
+      border-radius: 5px;
+      color: #fff;
+      &:hover {
+        background-color: #000;
+      }
+    }
 
-    &:disabled {
-      opacity: 0.5;
-      /* background-color: #333;
-      color: #fff; */
-      cursor: default;
+    .general-button {
+      background-color: #333;
+      &:disabled {
+        background-color: #333;
+      }
     }
-    &:hover {
-      background-color: #000;
-      color: #fff;
-    }
-  }
 
-  html body .general-button {
-    padding: 0.5rem;
-    border-radius: 5px;
-    background-color: #333;
-    color: #ddd;
-  }
-  html body .create-button {
-    padding: 0.5rem;
-    border-radius: 5px;
-    background-color: #00aaff;
-    color: #fff;
-    &:hover {
-      background-color: #000;
-      color: #fff;
+    .create-button {
+      background-color: #00aaff;
+      &:disabled {
+        background-color: #00aaff;
+      }
     }
-  }
-  html body .buy-button,
-  html body .pay-button,
-  html body .add-button {
-    padding: 0.5rem;
-    border-radius: 5px;
-    /* background-color: #67b34bec; */
-    background-color: #1b5e20;
-    color: #fff;
-    &:hover {
-      background-color: #000;
-      color: #fff;
+
+    .buy-button,
+    .pay-button,
+    .add-button {
+      background-color: #1b5e20;
     }
-  }
-  html body .edit-button,
-  html body .update-button {
-    padding: 0.5rem;
-    border-radius: 5px;
-    /* background-color: #c15151; */
-    /* background-color: #fff; */
-    background-color: #ff9800;
-    color: #fff;
-    &:hover {
-      background-color: #000;
-      color: #fff;
+
+    .edit-button,
+    .update-button {
+      background-color: #ff9800;
+      &:disabled {
+        background-color: #ff9800;
+      }
     }
-  }
-  html body .delete-button {
-    padding: 0.5rem;
-    border-radius: 5px;
-    background-color: #c15151;
-    color: #fff;
-    &:hover {
-      background-color: #000;
-      color: #fff;
-    }
-    &:disabled {
+
+    .delete-button {
       background-color: #c15151;
+      &:disabled {
+        background-color: #c15151;
+      }
     }
-  }
-  html body .cancel-button,
-  html body .close-button {
-    padding: 0.5rem;
-    border-radius: 5px;
-    background-color: #333;
-    color: #ddd;
-    &:hover {
-      background-color: #000;
-      color: #fff;
-    }
-  }
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  ul {
-  }
-  li {
-    list-style: none;
-  }
-  p,
-  span,
-  label {
-    font-size: 14px;
-  }
-  hr {
-    border-top-width: 0px;
-    border-left-width: 0px;
-    border-right-width: 0px;
-    /* border-bottom-width: 1px; */
-    border-bottom: 1px solid;
-    border-color: #fff;
-  }
-  input,
-  textarea {
-    /* padding: .5rem; */
-    padding: 3px;
+    .cancel-button,
+    .close-button {
+      background-color: #333;
+    }
   }
 `;

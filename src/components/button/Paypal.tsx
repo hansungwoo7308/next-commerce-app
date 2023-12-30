@@ -69,7 +69,7 @@ export default function Paypal({ orderSheet }: any) {
   };
 
   return (
-    <Box className="paypal">
+    <Box className="paypal box">
       <PayPalButtons createOrder={createOrder} onApprove={onApprove} />
     </Box>
   );
