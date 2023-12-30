@@ -59,7 +59,7 @@ export default function Layout({ children }: any) {
     // if no token, refresh the token (general)
     () => {
       if (session) return;
-      if (!token) refreshAuth(dispatch);
+      // if (!token) refreshAuth(dispatch);
     },
     [token, dispatch]
   );
