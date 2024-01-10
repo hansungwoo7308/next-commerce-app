@@ -1,14 +1,7 @@
-## comment description
+## NEXT-COMMERCE-APP
 
-### external state
+This project is an e-commerce web application.
 
-    global state : redux library
-    parent state : props
+### Deployment URL
 
-### internal state
-
-    local state
-
-### server state
-
-    swr fetching library
+Vercel : https://youserstack-ecommerce-next-app.vercel.app/
