@@ -25,10 +25,7 @@ const signinWithNextauthCredentials = async (data: any) => {
 
 const signinWithNextauthOauth = async () => {
   // await signIn("naver", { redirect: false });
-  await signIn("naver", {
-    redirect: true,
-    callbackUrl: "https://youserstack-ecommerce-next-app.vercel.app/api/auth/callback/naver",
-  });
+  await signIn("naver", { redirect: true, callbackUrl: "/my/account" });
 };
 
 export const signin = async (dispatch: any, method: any, data: any) => {
