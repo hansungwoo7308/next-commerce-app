@@ -8,12 +8,15 @@ import { styled } from "styled-components";
 import { FcGlobe } from "react-icons/fc";
 import { signout } from "lib/client/utils/authUtils";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function AccountIcon() {
   // external
   const dispatch = useDispatch();
   const { data: session } = useSession();
   const { user, accessToken: token } = useSelector((store: any) => store.auth);
+  // internal
+  const router = useRouter();
 
   // MOBILE only
   const handleOpenSideMenu = () => {
@@ -24,6 +27,7 @@ export default function AccountIcon() {
 
   const handleSignout = () => {
     signout(dispatch, { session, token });
+    router.push("/");
   };
 
   useEffect(() => {

@@ -2,13 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
-import { postData } from "lib/client/utils/fetchData";
 import { styled } from "styled-components";
-import { setCredentials } from "lib/client/store/authSlice";
-import { setLoading } from "lib/client/store/loadingSlice";
-import { toast } from "react-toastify";
-import { signIn } from "next-auth/react";
-import logError from "lib/client/log/logError";
 import { SiNaver } from "react-icons/si";
 import { signin } from "lib/client/utils/authUtils";
 
@@ -26,84 +20,48 @@ export default function SigninForm() {
     formState: { errors },
   } = useForm();
 
-  // const handleSignin = async (method: any, data: any) => {
-  //   // try {
-  //   //   dispatch(setLoading(true));
-  //   //   const response = await postData("v2/auth/signin", data);
-  //   //   const { user, accessToken } = response.data;
-  //   //   dispatch(setCredentials({ user, accessToken }));
-  //   //   dispatch(setLoading(false));
-  //   //   toast.success("Signed in");
-  //   //   router.push("/my/account");
-  //   // } catch (error: any) {
-  //   //   logError(error);
-  //   //   dispatch(setLoading(false));
-  //   //   toast.error(error.message);
-  //   // }
-  // };
-
-  // const handleSigninWithCredentials = async (data: any) => {
-  //   // console.log("data: ", data);
-  //   try {
-  //     const { email, password } = data;
-  //     // const { callbackUrl }: any = router.query;
-  //     // console.log({ callbackUrl });
-  //     const response: any = await signIn("credentials", {
-  //       email,
-  //       password,
-  //       // redirect: true,
-  //       // callbackUrl: callbackUrl || "/",
-  //     });
-  //     console.log({ response });
-  //     toast.success("Signed in by next-auth library");
-  //   } catch (error: any) {
-  //     console.log({ error });
-  //     toast.error(error.message);
-  //   }
-  // };
-
-  // const handleSigninWithNaver = async (e: any) => {
-  //   await signIn("naver", { redirect: true, callbackUrl: "/" });
-  // };
-
   useEffect(() => setFocus("email"), [setFocus]);
 
   return (
     <Box className="signin-form box">
       <h1>Sign In</h1>
-
       <div className="partition" />
 
-      <input {...register("email", { required: true })} type="text" placeholder="email" />
-
-      <input {...register("password", { required: true })} type="password" placeholder="password" />
-
-      <button
-        className="signin"
-        onClick={handleSubmit((data) => {
-          signin(dispatch, "general-jwt", data);
-          router.push("/");
-        })}
-      >
-        Sign in without Library
-      </button>
-
-      <button
-        className="signin-with-credentials"
-        onClick={handleSubmit((data) => {
-          signin(dispatch, "nextauth-credentials", data);
-          router.push("/");
-        })}
-      >
-        Sign in with Credentials
-      </button>
+      <form className="traditional-signin">
+        <input {...register("email", { required: true })} type="text" placeholder="email" />
+        <input
+          {...register("password", { required: true })}
+          type="password"
+          placeholder="password"
+        />
+        <button
+          className="signin"
+          onClick={handleSubmit((data) => {
+            signin(dispatch, "general-jwt", data);
+            router.push("/my/account");
+          })}
+        >
+          Sign in without Library
+        </button>
+        <button
+          className="signin-with-credentials"
+          onClick={handleSubmit((data) => {
+            signin(dispatch, "nextauth-credentials", data);
+            router.push("/my/account");
+          })}
+        >
+          Sign in with Credentials
+        </button>
+      </form>
+      <div className="partition" />
 
       <button
         className="signin-with-naver"
-        onClick={handleSubmit(() => {
+        onClick={(e) => {
+          e.preventDefault();
           signin(dispatch, "nextauth-oauth", null);
-          router.push("/");
-        })}
+          router.push("/my/account");
+        }}
       >
         <SiNaver size={14} />
         Sign in with Naver
@@ -112,7 +70,7 @@ export default function SigninForm() {
   );
 }
 
-const Box = styled.form`
+const Box = styled.div`
   width: 50%;
   max-width: 500px;
   min-width: 300px;
@@ -128,34 +86,10 @@ const Box = styled.form`
   padding: 3rem 1rem;
   background-color: #222;
 
-  > div,
-  > button {
-    width: 200px;
-  }
-
-  .partition {
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    margin: 1rem 0;
-  }
-
-  > input {
-    /* width: 50%; */
-    width: 200px;
-    padding: 8px;
-    outline: none;
-    border: 3px solid royalblue;
-    border-radius: 5px;
-    :hover,
-    :focus {
-      border: 3px solid var(--color-focus);
-    }
-  }
-
   button {
     width: 200px;
     border-radius: 5px;
-    padding: 0.7rem !important;
+    padding: 0.7rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -168,12 +102,42 @@ const Box = styled.form`
     }
   }
 
-  .signin {
-    background-color: gray;
+  > div,
+  > button,
+  > .traditional-signin {
+    width: 200px;
   }
 
-  .signin-with-credentials {
-    background-color: #007aff;
+  .partition {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    margin: 1rem 0;
+  }
+
+  .traditional-signin {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    > input {
+      width: 200px;
+      padding: 8px;
+      outline: none;
+      border: 3px solid royalblue;
+      border-radius: 5px;
+      :hover,
+      :focus {
+        border: 3px solid var(--color-focus);
+      }
+    }
+
+    .signin {
+      background-color: gray;
+    }
+
+    .signin-with-credentials {
+      background-color: #007aff;
+    }
   }
 
   .signin-with-naver {
