@@ -3,8 +3,9 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
-import { SiNaver } from "react-icons/si";
+import { SiKakaotalk, SiNaver } from "react-icons/si";
 import { signin } from "lib/client/utils/authUtils";
+import Image from "next/image";
 
 export default function SigninForm() {
   // external
@@ -65,6 +66,17 @@ export default function SigninForm() {
       >
         <SiNaver size={14} />
         Sign in with Naver
+      </button>
+      <button
+        className="signin-with-kakao"
+        onClick={(e) => {
+          e.preventDefault();
+          signin(dispatch, "kakao", null);
+          router.push("/my/account");
+        }}
+      >
+        {/* <SiKakaotalk size={14} /> */}
+        Sign in with Kakao
       </button>
     </Box>
   );
@@ -142,5 +154,8 @@ const Box = styled.div`
 
   .signin-with-naver {
     background-color: #03c75a;
+  }
+  .signin-with-kakao {
+    background-color: #d6bd00;
   }
 `;

@@ -27,6 +27,9 @@ const signinWithNextauthOauth = async () => {
   // await signIn("naver", { redirect: false });
   await signIn("naver", { redirect: true, callbackUrl: "/my/account" });
 };
+const signinWithKakao = async () => {
+  await signIn("kakao", { redirect: true, callbackUrl: "/my/account" });
+};
 
 export const signin = async (dispatch: any, method: any, data: any) => {
   dispatch(setLoading(true));
@@ -40,6 +43,9 @@ export const signin = async (dispatch: any, method: any, data: any) => {
         break;
       case "nextauth-oauth":
         signinWithNextauthOauth();
+        break;
+      case "kakao":
+        signinWithKakao();
         break;
 
       default:

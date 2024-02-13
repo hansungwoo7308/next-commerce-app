@@ -3,6 +3,7 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import NaverProvider from "next-auth/providers/naver";
+import KakaoProvider from "next-auth/providers/kakao";
 
 import connectDB from "lib/server/config/connectDB";
 import User from "lib/server/models/User";
@@ -55,12 +56,16 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.NAVER_CLIENT_ID as string,
       clientSecret: process.env.NAVER_CLIENT_SECRET as string,
     }),
+    KakaoProvider({
+      clientId: process.env.KAKAO_CLIENT_ID as string,
+      clientSecret: process.env.KAKAO_CLIENT_SECRET as string,
+    }),
   ],
   callbacks: {
     // authorize(인가) 후에 서버에서 유저와 계정 정보를 로깅하자.
     signIn({ user, account, profile }) {
-      // console.log("\x1b[34m\n<api/auth/[...nextauth]/signIn>\x1b[30m");
-      // console.log({ user, account });
+      console.log("\x1b[34m\n<api/auth/[...nextauth]/signIn>\x1b[30m");
+      console.log({ user, account });
 
       // if (account?.provider === "naver") return true;
       return true;
@@ -79,11 +84,9 @@ export const authOptions: NextAuthOptions = {
       // client에서 session update를 trigger한 경우, 토큰을 업데이트한다.
       // console.log({ trigger, session });
       if (trigger === "update") {
-        // console.log({ token });
         token.user = session.user;
-        // console.log({ token });
+        console.log({ token });
         return token;
-        // return {...token,...session.user}
       }
 
       // console.log({ token });
@@ -99,9 +102,7 @@ export const authOptions: NextAuthOptions = {
       if (token.user) session.user = token.user; // credentials
       if (token.account) session.account = token.account; // oauth
 
-      // console.log({ user: session.user });
-      // console.log({ account: session.account });
-      // console.log({ session });
+      console.log({ session });
       return session;
     },
   },

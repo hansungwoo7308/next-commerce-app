@@ -7,35 +7,20 @@ const nextConfig = {
     BASE_URL: "https://youserstack-ecommerce-next-app.vercel.app/",
     NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
 
-    // [Database]
-    // <mongodb>
+    // mongodb
     MONGODB_URI: process.env.MONGODB_URI,
-    // <cloudinary> (image upload)
+
+    // cloudinary
     CLOUD_NAME: "dzktdrw7o",
     CLOUD_API_KEY: process.env.CLOUD_API_KEY,
     CLOUD_API_SECRET: process.env.CLOUD_API_SECRET,
     CLOUDINARY_PRESET: "next_commerce_app_upload_preset",
     CLOUDINARY_API_BASE_URL: "https://api.cloudinary.com/v1_1/dzktdrw7o/upload",
 
-    // [Auth]
-    // <next-auth>
+    // auth
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   },
   images: {
-    // remotePatterns: [
-    //   {
-    //     protocol: "https",
-    //     hostname: "upload.wikimedia.org",
-    //     port: "",
-    //     pathname: "/**",
-    //   },
-    //   {
-    //     protocol: "https",
-    //     hostname: "res.cloudinary.com",
-    //     port: "",
-    //     pathname: "/**",
-    //   },
-    // ],
     domains: [
       "res.cloudinary.com",
       "www.usashop.co.kr",
@@ -44,6 +29,7 @@ const nextConfig = {
       "shopping-phinf.pstatic.net",
       "www.thecookierookie.com",
       "imagesvc.meredithcorp.io",
+      "k.kakaocdn.net",
     ],
   },
   // async headers() {
